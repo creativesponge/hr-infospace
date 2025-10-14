@@ -1,0 +1,46 @@
+/**
+ * #.# Editor Styles
+ *
+ * CSS for just Backend enqueued after style.scss
+ * which makes it higher in priority.
+ */
+
+
+ .wp-block-theme-posts-list-filters {
+    padding:20px;
+    position:relative;
+    text-align: left;
+    border: 6px solid #eee;
+    background-image: url('../images/blocks/posts-list.jpg');
+    background-color: #fff;
+    background-position: center top;
+    background-repeat: no-repeat;
+
+    background-size: 100%;
+    height: 900px;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+
+    &:before {
+      content:'';
+      display:block;
+      background: rgba(256, 256, 256, 0.5);
+      position:absolute;
+      top:0;
+      left:0;
+      width:100%;
+      height: 100%;
+    }
+    * {
+      position:relative;
+      z-index: 1;
+    }
+  
+    .posts-list-filters-container {
+      background: rgba(256, 256, 256, 0.8);
+      padding: rem-calc(40);
+      text-align: center;
+      margin:0 auto rem-calc(50) 0;
+    }
+  }

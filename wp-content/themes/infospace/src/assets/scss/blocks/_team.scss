@@ -1,0 +1,91 @@
+body {
+  .teams {
+    position: relative;
+    margin-bottom: rem-calc(20);
+    
+    @include breakpoint(medium) {
+      margin-bottom: rem-calc(40);
+    }
+    @include breakpoint(large) {
+      margin-bottom: rem-calc(60);
+    }
+    .team {
+      text-align: center;
+      max-width: $global-width;
+      margin: auto;
+      padding-left: rem-calc(40);
+      padding-right: rem-calc(40);
+      .person {
+        text-align: left;
+        @include breakpoint(large) {
+          padding: rem-calc(0 10);
+        }
+        .person__container {
+          display: flex;
+          width: 100%;
+          padding: rem-calc(20 0);
+          @include breakpoint(large) {
+            padding: rem-calc(0 10);
+        
+          }
+        }
+        .person__image {
+          flex-shrink: 0;
+          width: rem-calc(150);
+          @include breakpoint(large) {
+            width: rem-calc(220);
+          }
+          img {
+            width: rem-calc(120);
+            @include breakpoint(large) {
+              width: rem-calc(200);
+            }
+          }
+        }
+
+        .person__popup {
+          display: none;
+          z-index: 5;
+          padding: rem-calc(50 30);
+          position: fixed;
+          top: rem-calc(70);
+          background: #fff;
+          height: calc(100vh - 70px);
+          overflow: scroll;
+          box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.1);
+          @include breakpoint(medium) {
+            top: 0;
+            height: auto;
+            padding: rem-calc(50 30);
+            position: absolute;
+          }
+          &.active {
+            display: block;
+          }
+          .person__popup-container {
+            max-width: rem-calc(840);
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            @include breakpoint(medium) {
+              flex-direction: row;
+            }
+          }
+
+          .person__popup-content {
+            text-align: center;
+            @include breakpoint(medium) {
+              text-align: left;
+              padding-right: 10%;
+            }
+          }
+          .person__popup-image {
+            flex-shrink: 0;
+            max-width: rem-calc(268);
+            margin: auto;
+          }
+        }
+      }
+    }
+  }
+}

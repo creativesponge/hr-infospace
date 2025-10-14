@@ -1,0 +1,29 @@
+select {
+  margin: rem-calc(0 0 20 0);
+  padding: rem-calc(10);
+  appearance: none;
+  @include background-triangle($dark-grey);
+  background-origin: content-box;
+  background-position: right -20px center;
+  background-repeat: no-repeat;
+  background-size: 9px 6px;
+  padding-right: (20px * 1.5);
+  border: 1px solid $medium-grey;
+  // Focus state
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
+ 
+
+  // Hide the dropdown arrow shown in newer IE versions
+  &::-ms-expand {
+    display: none;
+  }
+
+  &[multiple] {
+    height: auto;
+    background-image: none;
+  }
+ 
+}

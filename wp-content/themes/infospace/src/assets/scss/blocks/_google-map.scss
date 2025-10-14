@@ -1,0 +1,16 @@
+/*!
+ * Styles for map block
+ */
+
+.google-map {
+  margin-bottom: rem-calc(20);
+  @include breakpoint(medium) {
+    margin-bottom: rem-calc(40);
+  }
+  @include breakpoint(large) {
+    margin-bottom: rem-calc(60);
+  }
+  .map {
+    height:rem-calc(450);
+  }
+}

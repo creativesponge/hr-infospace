@@ -1,0 +1,76 @@
+.dropdown.menu {
+
+  button {
+    &:focus {
+      border-right: $black solid 2px !important;
+      border-bottom: $black solid 2px !important;
+      width: rem-calc(10) !important;
+      height: rem-calc(10) !important;          
+      top: 50%;
+      right: 0;
+      margin-top: rem-calc(-7);
+      transform: rotate(45deg);
+      position: absolute !important;
+    }
+  }
+
+  > li.opens-left {
+    > .is-dropdown-submenu {
+      top: 100%;
+      left: 0;
+      right: auto;
+    }
+  }
+
+  a {
+    @include disable-mouse-outline;
+  }
+
+  // Top-level item
+  > li > a {
+    padding: rem-calc(10);
+  }
+
+  // Top-level item active state
+  > li.is-active > a {
+    //color: $black;
+    background: $dark-gray;
+  }
+
+  & ul {
+    display: none;
+  }
+  .is-dropdown-submenu {
+    position: absolute;
+    top: 0;
+    left: 100%;
+    z-index: 1;
+    display: none;
+    min-width: rem-calc(200);
+    border: 1px solid $medium-gray;
+    background: $white;
+    .dropdown & a {
+      padding: rem-calc(10);
+    }
+    > li {
+      width: 100%;
+    }
+     &.js-dropdown-active {
+      display: block;
+    }
+  }
+}
+/* third level
+.is-dropdown-submenu-parent {
+  position: relative;
+  &.opens-left > .is-dropdown-submenu {
+    right: 100%;
+    left: auto;
+  }
+
+  &.opens-right > .is-dropdown-submenu {
+    right: auto;
+    left: 100%;
+  }
+}
+*/

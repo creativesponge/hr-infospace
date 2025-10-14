@@ -1,0 +1,30 @@
+{
+    "version": 2,
+    "settings": {
+        
+        "typography": {
+            "fontSizes": [],
+            "dropCap": false,
+            "customFontSize": false,
+            "fontWeight": false,
+            "fontStyle": false,
+            "textTransform": false,
+            "letterSpacing": false
+        },
+       
+        "color": {
+            "background": false,
+            "text": false
+        },
+        
+        "blocks": {
+           
+            "core/button": {
+                "border": {
+                    "radius": false
+                }
+            }
+        }
+    }
+    
+}

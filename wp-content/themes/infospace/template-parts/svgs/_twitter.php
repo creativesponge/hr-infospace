@@ -1,0 +1,3 @@
+<svg class="uuid-6a49e00d-21e7-4479-bde5-94c40cf49633" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="20.2" height="20.7" viewBox="0 0 20.2 20.7">
+  <path class="uuid-68941401-0909-4b01-9db1-c2fba65c8402" data-name="logo-black" d="m12,8.7L19.5,0h-1.8l-6.5,7.6L6,0H0l7.9,11.5L0,20.7h1.8l6.9-8,5.5,8h6l-8.2-11.9Zm-2.4,2.8l-.8-1.1L2.4,1.3h2.7l5.1,7.3.8,1.1,6.7,9.5h-2.7l-5.4-7.8Z" stroke-width="0"/>
+</svg>

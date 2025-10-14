@@ -1,0 +1,57 @@
+/**
+ * #.# Editor Styles
+ *
+ * CSS for just Backend enqueued after style.scss
+ * which makes it higher in priority.
+ */
+
+  .editor-styles-wrapper {
+     .wp-block-theme-google-map  {
+       margin-top: 5px;
+       background-image: url('../images/blocks/dev-map.jpg');
+       background-position: center;
+       background-size: contain;
+       background-repeat: no-repeat;
+       padding: 2rem;
+       text-align: center;
+       min-height: 480px;
+       position:relative;
+       display:flex;
+       flex-direction: column;
+       align-items: center;
+       justify-content: center;
+       &:before {
+         content:"";
+         display: block;
+         position: absolute;
+         left:0;
+         top:0;
+         width:100%;
+         height:100%;
+         z-index: 1;
+         background: #000;
+         opacity: 0.3;
+       }
+       h3 {
+         color: #fff;
+         margin-top: 0;
+       }
+       a {
+          color: #fff;
+       }
+       * {
+         position:relative;
+         z-index: 2;
+       }
+       p {
+        width: 50%;
+        padding-bottom: 0;
+        margin-bottom: 0;
+       }
+       textarea {
+        padding: 10px;
+       }
+
+     }
+
+   }

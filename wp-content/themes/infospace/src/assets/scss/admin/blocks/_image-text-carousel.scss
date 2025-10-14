@@ -1,0 +1,28 @@
+/**
+ * #.# Editor Styles
+ *
+ * CSS for just Backend enqueued after style.scss
+ * which makes it higher in priority.
+ */
+
+
+  .wp-block-theme-image-text-carousel-list {
+    padding:20px;
+    position:relative;
+    text-align: left;
+    border: 6px solid #eee;
+
+    .button-container {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      margin: auto;
+      text-align: left;
+      width:100%;
+    }
+    .size-square {
+      font-size: 12px;
+      color:#FFF;
+      margin: 10px 0;
+    }
+  }

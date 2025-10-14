@@ -1,0 +1,59 @@
+/// Settings
+@import 'settings';
+
+// Blocks
+@import 'admin/blocks/page-banner-titles';
+@import 'admin/blocks/stats';
+@import 'admin/blocks/image-text';
+@import 'admin/blocks/image-text-carousel';
+@import 'admin/blocks/image-text-slide';
+@import 'admin/blocks/accordion';
+@import 'admin/blocks/contact-form';
+@import 'admin/blocks/video';
+@import 'admin/blocks/google-map';
+@import 'admin/blocks/tabs';
+@import 'admin/blocks/testimonials';
+@import 'admin/blocks/team';
+@import 'admin/blocks/grey-background';
+@import 'admin/blocks/posts-list';
+@import 'admin/blocks/posts-list-filters';
+@import 'admin/blocks/posts-list-filters-ajax';
+@import 'admin/blocks/latest-posts';
+@import 'admin/blocks/small-blocks-container';
+@import 'admin/blocks/small-block';
+@import 'admin/blocks/share-block';
+@import 'admin/blocks/breadcrumbs';
+@import 'admin/blocks/logo-list';
+@import "admin/blocks/narrow-content";
+
+// Foundation
+@import 'foundation';
+
+// Include custom styling
+.interface-interface-skeleton__content {
+  @import 'global/content';
+  
+  padding:rem-calc(20);
+}
+
+// Styles for Block editor 
+.edit-post-visual-editor {
+  p {
+    font-size: rem-calc(16);
+    line-height: 1.4em;
+    
+    color: $body-font-color;
+  }
+  .wp-block {
+    max-width: $global-width;
+    font-family: $body-font-family;
+    margin-left: auto;
+    margin-right: auto;
+
+  }
+  .wp-block-post-title.editor-post-title__input {
+    color: $light-grey;
+  }
+  @import 'global/typography';
+
+}

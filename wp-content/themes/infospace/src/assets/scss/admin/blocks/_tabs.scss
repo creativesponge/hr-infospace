@@ -1,0 +1,43 @@
+/**
+ * #.# Editor Styles
+ *
+ * CSS for just Backend enqueued after style.scss
+ * which makes it higher in priority.
+ */
+
+.wp-block-theme-tabs-blocks-item {
+  padding: 20px;
+  position: relative;
+  border: 6px solid #eee;
+
+  .tabs-blocks-container {
+    margin-top: 50px;
+    position: relative;
+  }
+}
+
+.wp-block-theme-tab-blocks-item {
+  padding: 20px;
+  position: relative;
+  text-align: left;
+  border: 6px solid #eee;
+  margin-top: 100px;
+  .block-editor-inner-blocks {
+    //padding: 20px;
+  }
+  .tab-heading {
+    position: absolute;
+    background: #fff;
+    top: -70px;
+    left: -6px;
+    margin-top: 0;
+    border-top: 6px solid #eee;
+    border-right: 6px solid #eee;
+    border-left: 6px solid #eee;
+    padding: 12px 15px 0 15px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    display: inline-block;
+    height: 52px;
+  }
+}

@@ -1,0 +1,140 @@
+.wp-caption > figcaption {
+  max-width: 100%;
+  font-size: 0.8rem;
+  color: #999;
+  padding: 0.25rem 0;
+}
+
+p.wp-caption-text{
+  font-size:90%;
+  color: #666;
+  padding:rem-calc(10) 0;
+}
+
+.alignleft {
+  float: left;
+  padding-right: 1rem;
+  margin: 0;
+}
+
+.alignright {
+  float: right;
+  padding-left: 1rem;
+  margin: 0;
+}
+
+.aligncenter {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.wp-block-embed {
+  &.is-type-video,
+  &.wp-embed-aspect-16-9 {
+    margin-bottom: rem-calc(30);
+    @include breakpoint(medium) {
+      margin-bottom: rem-calc(40);
+    }
+    @include breakpoint(large) {
+      margin-bottom: rem-calc(100);
+      margin-left: -18%;
+      margin-right: -18%;
+    }
+    .wp-block-embed__wrapper {
+      position: relative;
+      overflow: hidden;
+      height: 0;
+      padding-top: 56.25%;
+     
+      iframe {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+}
+
+.wp-block-quote {
+  margin: 0 0 1rem;
+    padding: 0.5625rem 1.25rem 0 0;
+    border-left: none;
+    p {
+      font-weight: bold;
+      color:$body-font-color;
+    }
+    cite {
+      font-style: normal;
+      color:$body-font-color;
+      &:before {
+        content:"";
+      }
+    }
+}
+
+// from global styles
+
+
+:where(.is-layout-flex) {
+  gap: 1em;
+}
+
+
+
+body .is-layout-flex {
+  display: flex;
+}
+body .is-layout-flex {
+  flex-wrap: wrap;
+  align-items: center;
+}
+body .is-layout-flex > * {
+  margin: 0;
+}
+
+.wp-block-gallery {
+  @include xy-grid;
+  @include xy-gutters($negative: true);
+  padding-left: rem-calc(10);
+  padding-right: rem-calc(10);
+  margin-bottom: rem-calc(30);
+  @include breakpoint(medium) {
+    margin-bottom: rem-calc(40);
+  }
+  @include breakpoint(large) {
+    margin-bottom: rem-calc(60);
+    //padding-left: rem-calc(40);
+    //padding-right: rem-calc(40);
+  }
+  @for $i from 1 through 9 {
+    &.gallery-columns-#{$i} {
+      @include xy-grid-layout(2, ".gallery-item");
+    }
+    @include breakpoint(medium) {
+      &.gallery-columns-#{$i} {
+        @include xy-grid-layout(4, ".gallery-item");
+      }
+    }
+    @include breakpoint(large) {
+      &.gallery-columns-#{$i} {
+        @include xy-grid-layout($i, ".gallery-item");
+      }
+    }
+  }
+  .gallery-icon > a {
+    @include thumbnail;
+    @include thumbnail-link;
+  }
+  .gallery-icon > img {
+    @include thumbnail;
+  }
+}
+
+figure.wp-block-table {
+  margin-bottom: 1em;
+}
+

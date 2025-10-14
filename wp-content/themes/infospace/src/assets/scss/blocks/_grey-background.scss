@@ -1,0 +1,23 @@
+body {
+  .grey-background {
+    position: relative;
+    background: $light-grey;
+    text-align: center;
+    margin-bottom: rem-calc(20);
+    padding: rem-calc(20 0 20 0);
+    @include breakpoint(medium) {
+      margin-bottom: rem-calc(30);
+      padding: rem-calc(40 0 40 0);
+    }
+    @include breakpoint(large) {
+      margin-bottom: rem-calc(60);
+      padding: rem-calc(40 0 40 0);
+    }
+    .grey-background__content {
+      max-width: $global-width;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  
+  }
+}

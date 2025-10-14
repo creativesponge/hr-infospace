@@ -1,0 +1,37 @@
+/**
+ * #.# Editor Styles
+ *
+ * CSS for just Backend enqueued after style.scss
+ * which makes it higher in priority.
+ */
+
+.wp-block-theme-small-block {
+  padding: 10px;
+  position: relative;
+  border: 6px solid #eee;
+  .small-block {
+    text-align: center;
+    
+  }
+  .small-block__image {
+    .small-block__image-container {
+      max-width: rem-calc(194);
+      height:0;
+      padding-bottom: 100%;
+      background: #eee;
+      background-size: cover;
+      background-position: center;
+     
+      margin: auto;
+    }
+  }
+  .button-container {
+    text-align: center;
+    padding-top: rem-calc(10);
+    .size-square {
+      font-size: 12px;
+      margin: 10px 0;
+      color: #999;
+    }
+  }
+}

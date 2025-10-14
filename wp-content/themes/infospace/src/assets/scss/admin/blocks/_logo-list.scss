@@ -1,0 +1,33 @@
+/**
+ * #.# Editor Styles
+ *
+ * CSS for just Backend enqueued after style.scss
+ * which makes it higher in priority.
+ */
+ body .editor-styles-wrapper {
+    .wp-block-theme-logo-list {
+      padding: 20px;
+      position: relative;
+      border: 6px solid #eee;
+      text-align: center;
+      
+  
+      h2.logo-list-heading {
+        font-size: rem-calc(40);
+        margin: 0;
+      }
+      
+      p.logo-list-strapline {
+        margin-top: 0;
+   
+      }
+      .block-editor-block-list__layout {
+          display: flex;
+          flex-wrap: wrap;
+          figure, p {
+              flex-basis: 25%;
+          }
+      }
+    }
+  }
+  

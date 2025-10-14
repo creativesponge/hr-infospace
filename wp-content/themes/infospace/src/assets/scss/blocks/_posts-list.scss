@@ -1,0 +1,29 @@
+body {
+  .posts-list {
+    text-align: center;
+    position: relative;
+    margin-bottom: rem-calc(20);
+    padding-bottom: rem-calc(60);
+    @include breakpoint(medium) {
+      margin-bottom: rem-calc(40);
+    }
+    @include breakpoint(large) {
+      margin-bottom: rem-calc(60);
+    }
+
+    .posts-list__container {
+      justify-content: center;
+      max-width: rem-calc(1020);
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    nav {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      margin: auto;
+    }
+  }
+}

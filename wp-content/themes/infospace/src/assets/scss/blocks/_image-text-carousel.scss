@@ -1,0 +1,22 @@
+body {
+  .image-text-carousel-list {
+    text-align: center;
+    padding: rem-calc(0 0 60 0);
+    margin-bottom: rem-calc(20);
+    @include breakpoint(medium) {
+      margin-bottom: rem-calc(40);
+    }
+    @include breakpoint(large) {
+      margin-bottom: rem-calc(60);
+    }
+    .image-text-carousel__carousel {
+      padding: rem-calc(20 0 20 0);
+      margin: 0;
+      .image-text {
+        width: 100%;
+        text-align: left;
+        margin-bottom: 0;
+      }
+    }
+  }
+}

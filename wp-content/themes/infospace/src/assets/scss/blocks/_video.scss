@@ -1,0 +1,31 @@
+body {
+
+  .video-block {
+    text-align: center;
+    padding:rem-calc(30);
+      margin-bottom: rem-calc(20);
+      @include breakpoint(medium) {
+        margin-bottom: rem-calc(40);
+      }
+      @include breakpoint(large) {
+        margin-bottom: rem-calc(60);
+      }
+
+      .video-wrapper {
+        position:relative;
+      	overflow: hidden;
+        height:0;
+        padding-top: 56.25%;
+      	iframe {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+      		width: calc(100%);
+          min-height: 100%;
+      	}
+      }
+
+    }
+
+}

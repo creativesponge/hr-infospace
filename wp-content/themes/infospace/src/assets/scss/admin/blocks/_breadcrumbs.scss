@@ -1,0 +1,22 @@
+/**
+ * #.# Editor Styles
+ *
+ * CSS for just Backend enqueued after style.scss
+ * which makes it higher in priority.
+ */
+
+ .editor-styles-wrapper {
+    .wp-block-theme-breadcrumbs {
+      padding: 0px;
+      position: relative;
+      text-align: center;
+      font-size: rem-calc(10);
+      font-weight: 300;
+      letter-spacing: 0.25em;
+      .breadcrumbs {
+        text-transform: uppercase;
+        padding: rem-calc(10 10 30 10);
+      }
+    }
+  }
+  

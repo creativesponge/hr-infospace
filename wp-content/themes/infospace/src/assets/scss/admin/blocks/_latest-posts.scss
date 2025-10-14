@@ -1,0 +1,64 @@
+/**
+ * #.# Editor Styles
+ *
+ * CSS for just Backend enqueued after style.scss
+ * which makes it higher in priority.
+ */
+
+.wp-block-theme-latest-posts {
+  padding: 20px;
+  position: relative;
+  text-align: left;
+  border: 6px solid #eee;
+  background-image: url("../images/blocks/latest-posts.jpg");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-size: 100%;
+  height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &.show-2,
+  &.show-4 {
+    background-image: url("../images/blocks/latest-posts.jpg");
+  }
+  &.show-3,
+  &.show-6 {
+    background-image: url("../images/blocks/latest-posts.jpg");
+  }
+  &:before {
+    content: "";
+    display: block;
+    background: rgba(256, 256, 256, 0.5);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .latest-posts-container {
+    background: rgba(256, 256, 256, 0.8);
+    padding: rem-calc(40);
+    text-align: center;
+    margin: 0 auto rem-calc(50) 0;
+  }
+  input {
+    width: auto;
+  }
+  textarea {
+    text-align: center;
+    margin-top: rem-calc(40);
+    margin-bottom: rem-calc(40);
+  }
+  &.grey-back {
+    &:before {
+      background: rgba(0, 0, 0, 0.25);
+    }
+  }
+}

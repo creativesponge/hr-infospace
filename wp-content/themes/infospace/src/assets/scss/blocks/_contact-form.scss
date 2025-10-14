@@ -1,0 +1,112 @@
+body {
+  .contact-form {
+    margin-bottom: rem-calc(40);
+    @include breakpoint(medium) {
+      margin-bottom: rem-calc(60);
+    }
+    @include breakpoint(large) {
+      margin-bottom: rem-calc(140);
+    }
+    .contact-form__form {
+     
+
+      input {
+        display: block;
+      }
+
+      label {
+        font-size: rem-calc(16);
+      }
+
+      .contact__confirm {
+        margin-bottom: 1em;
+      }
+
+      .contact__thanks {
+        display: none;
+        margin: 1rem 0;
+        font-size: rem-calc(24);
+      }
+
+      &.submitting {
+        > * {
+          opacity: 0.5;
+        }
+      }
+
+      &.submitted {
+        .form__content {
+          opacity: 0;
+          max-height: rem-calc(1);
+        }
+        .contact__thanks {
+          display: block;
+        }
+      }
+
+      &.error {
+        form {
+          opacity: 0.5;
+        }
+
+        &:after {
+          content: "Unknown error";
+          display: none;
+          background-color: $warning-color;
+        }
+      }
+    }
+
+    label.checkmark-container {
+      display: block;
+      font-size: rem-calc(14);
+      position: relative;
+      cursor: pointer;
+      user-select: none;
+      padding-left: 2rem;
+      transition: all 0.25s;
+      &:hover {
+        input ~ .checkmark {
+          background-color: $dark-grey;
+        }
+      }
+      input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+        &:hover {
+          opacity: 0;
+        }
+      }
+      .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: rem-calc(23);
+        width: rem-calc(23);
+        background-color: $light-grey;
+        border-radius: rem-calc(2);
+        &:after {
+          content: "";
+          position: absolute;
+          display: none;
+          top: rem-calc(2);
+          left: rem-calc(7);
+          width: rem-calc(7.5);
+          height: rem-calc(15);
+          border: solid $dark-grey;
+          border-width: 0 3px 3px 0;
+          transform: rotate(45deg);
+        }
+      }
+    }
+    label.checkmark-container input:checked ~ .checkmark {
+      background-color: $light-grey;
+      &:after {
+        display: block;
+      }
+    }
+  }
+}

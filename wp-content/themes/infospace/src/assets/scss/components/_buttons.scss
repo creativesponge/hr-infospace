@@ -1,0 +1,8 @@
+.wp-block-buttons {
+  display:flex;
+  .wp-block-button {
+    .wp-block-button__link {
+      background-color: $body-font-color;
+    }
+  }
+}

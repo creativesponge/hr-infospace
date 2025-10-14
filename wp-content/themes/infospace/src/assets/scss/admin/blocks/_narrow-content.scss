@@ -1,0 +1,52 @@
+/**
+ * #.# Editor Styles
+ *
+ * CSS for just Backend enqueued after style.scss
+ * which makes it higher in priority.
+ */
+ body .editor-styles-wrapper {
+    .wp-block-theme-narrow-content {
+      padding: 0 20px 20px 20px;
+      position: relative;
+      border: 6px solid #eee;
+      background: $white;
+      text-align: center;
+      overflow: hidden;
+      margin-top: 3em;
+      max-width: rem-calc(800);
+      margin-left: auto;
+      margin-right: auto;
+      &:before {
+        content:"";
+        display:block;
+        background: $white;
+        position:absolute;
+        left:0;
+        top:-15px;
+        width:100%;
+        height:30px;
+        transform: skewY(-1deg);
+      }
+      &:after {
+        content:"";
+        display:block;
+        background: $white;
+        position:absolute;
+        left:0;
+        bottom:-15px;
+        width:100%;
+        height:30px;
+        transform: skewY(1deg);
+      }
+      textarea {
+        background: transparent;
+        text-align: center;
+      }
+      
+     
+      &.narrow {
+        max-width: rem-calc(600);
+      }
+    }
+  }
+  

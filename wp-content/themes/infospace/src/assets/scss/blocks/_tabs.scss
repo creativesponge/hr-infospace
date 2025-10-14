@@ -1,0 +1,44 @@
+.tabs-container {
+  ul.tabs__list {
+    list-style-type: none;
+    display: none;
+    padding: 0;
+    margin: 0;
+    @include breakpoint(medium) {
+      display: flex;
+    }
+    li {
+      background: #eee;
+      margin-right: 0;
+      text-align: center;
+      a {
+        padding: rem-calc(10 20);
+        display: block;
+      }
+    }
+  }
+  .tabs-container__content {
+    .tabs__tab {
+      border: 6px solid #eee;
+      padding: rem-calc(20);
+      margin-bottom: rem-calc(20);
+      width: 100%;
+      @include breakpoint(medium) {
+        display: none;
+        &.active {
+          display: block;
+        }
+      }
+    }
+    &::after {
+      content: "flickity";
+      display: none; /* hide :after */
+    }
+    @media screen and (min-width: 768px) {
+      /* disable Flickity for large devices */
+      &::after {
+        content: "";
+      }
+    }
+  }
+}

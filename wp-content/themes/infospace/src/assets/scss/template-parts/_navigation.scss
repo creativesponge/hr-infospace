@@ -1,0 +1,224 @@
+html {
+  height: 100%;
+  margin-top: 0px !important;
+  &.menu-expanded {
+    overflow-y: hidden;
+  }
+  body {
+    overflow-x: hidden;
+    overflow-y: auto;
+    &.menu-expanded {
+      overflow-y: hidden;
+      //height: 100%;
+    }
+  }
+}
+// Navigation breakpoints
+.mobile-menu {
+  @include hide-for(medium);
+}
+//
+.desktop-menu,
+.site-navigation {
+  @include show-for(medium);
+}
+
+// Site title
+.site-desktop-title a {
+  font-weight: bold;
+}
+
+// WP post navigation
+.post-navigation {
+  @include clearfix;
+}
+
+.nav-previous {
+  float: left;
+}
+
+.nav-next {
+  float: right;
+}
+
+.js-off-canvas-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 11;
+  width: 100%;
+  height: 100%;
+  transition: opacity 0.5s ease,
+  visibility 0.5s ease;
+  background: rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  visibility: hidden;
+  overflow: hidden;
+  @include hide-for(medium);
+  &.is-visible {
+    opacity: 1;
+    visibility: visible;
+  }
+  &.is-overlay-fixed {
+    position: fixed;
+  }
+ 
+}
+.off-canvas-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+.off-canvas {
+  background: $dark-grey;
+  transform: translateX(100%);
+  @include hide-for(medium);
+  position: fixed;
+  z-index: 100;
+  transition: transform 0.5s;
+  backface-visibility: hidden;
+  width: 100%;
+  max-width: rem-calc(475);
+  top: 0;
+  right: 0;
+  height: 100%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  // Hide inactive off-canvas within the content that have the same position
+  &.is-closed {
+    visibility: hidden;
+  }
+  // Sets transform to 0 to show an off-canvas panel.
+  &.is-open {
+    transform: translate(0, 0);
+  }
+}
+
+
+.mobile-menu {
+  .menu li > a {
+    background: transparent;
+    color: $white;
+  }
+  .menu .is-active > a {
+    background: transparent;
+    color: $black;
+  }
+  ul {
+    li {
+      > button {
+        transition: transform 0.25s;
+      }
+      &.is-open {
+        > button {
+          transform: rotate(180deg);
+        }
+      }
+    }
+
+    ul {
+      transition: max-height 0.25s;
+      overflow: hidden;
+      max-height: 0;
+      &.active {
+        max-height: 1000px;
+      }
+      //display:none;
+    }
+  }
+}
+
+button.mobile-menu-toggle {
+  display: block;
+  position: absolute;
+  min-width: 0;
+  z-index: 20;
+  //transform: rotate(0deg);
+  transition: all 0.25s;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  padding: 0 0 0 rem-calc(38);
+  color: $dark-grey;
+  text-transform: uppercase;
+  overflow: hidden;
+  height: rem-calc(32);
+  right: rem-calc(16);
+  top: rem-calc(18);
+  i {
+    font-style: normal;
+    margin-right: rem-calc(50);
+    color: $dark-grey;
+  }
+  span {
+    display: block;
+    position: absolute;
+    height: rem-calc(3);
+    width: rem-calc(30);
+    opacity: 1;
+    right: rem-calc(2);
+    transform: rotate(0deg);
+    transition: all 0.25s;
+    background: $dark-grey;
+
+    &:nth-child(2) {
+      top: 0;
+    }
+
+    &:nth-child(3) {
+      top: rem-calc(11);
+      @include breakpoint(medium) {
+        right: rem-calc(10);
+        top: rem-calc(14);
+      }
+    }
+
+    &:nth-child(4) {
+      top: rem-calc(22);
+      @include breakpoint(medium) {
+        top: rem-calc(28);
+      }
+    }
+  }
+
+  &:hover,
+  &:focus {
+    background: transparent;
+    color: $dark-grey;
+  }
+  &:hover {
+  }
+
+  &[aria-expanded="true"] {
+    width: auto;
+    //color: #fff;
+    :hover,
+    &:focus {
+      //color: #fff;
+    }
+    &:hover {
+      opacity: 0.8;
+    }
+
+    span {
+      //background: #fff;
+      &:nth-child(2) {
+        top: rem-calc(12);
+        right: rem-calc(6);
+        transform: rotate(45deg);
+        width: rem-calc(32);
+      }
+
+      &:nth-child(3) {
+        opacity: 0;
+        right: rem-calc(-20);
+      }
+
+      &:nth-child(4) {
+        top: rem-calc(12);
+        right: rem-calc(6);
+        transform: rotate(-45deg);
+        width: rem-calc(32);
+      }
+    }
+  }
+}

@@ -1,0 +1,85 @@
+// Menus
+
+/// Base styles for a Menu.
+@mixin menu-base {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  li {
+    @include disable-mouse-outline;
+  }
+
+  a,
+  .button {
+    line-height: 1;
+    text-decoration: none;
+    display: block;
+    padding: rem-calc(10);
+  }
+
+  // Reset styles of inner elements
+  input,
+  select,
+  a,
+  button {
+    margin-bottom: 0;
+  }
+
+  input {
+    display: inline-block;
+  }
+}
+
+/// Sets the direction of a Menu.
+/// @param {Keyword} $dir [horizontal] - Direction of the Menu. Can be `horizontal` or `vertical`.
+@mixin menu-direction($dir: horizontal) {
+  @if $dir == horizontal {
+    flex-wrap: wrap;
+    flex-direction: row;
+  } @else if $dir == vertical {
+    flex-wrap: nowrap;
+    flex-direction: column;
+  } @else {
+    @warn 'The direction used for menu-direction() must be horizontal or vertical.';
+  }
+}
+
+@mixin menu-state-active {
+  background: $light-grey;
+  color: $white;
+}
+
+.menu {
+  @include menu-base;
+
+  // Default orientation: horizontal
+  &,
+  &.horizontal {
+    @include menu-direction(horizontal);
+  }
+
+  // Vertical orientation modifier
+  &.vertical {
+    @include menu-direction(vertical);
+    @include menu-icon-alignment(left);
+  }
+
+  // Nesting
+  &.nested {
+    margin-right: 0;
+    margin-left: rem-calc(10);
+  }
+
+  // Active state
+  .is-active > a {
+    @include menu-state-active;
+  }
+}
+
+// Prevent FOUC when using the Responsive Menu plugin
+.no-js [data-responsive-menu] ul {
+  display: none;
+}

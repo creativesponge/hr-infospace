@@ -1,0 +1,104 @@
+body {
+  .image-text {
+    padding: 0;
+    margin-bottom: rem-calc(40);
+    @include breakpoint(medium) {
+      margin-bottom: rem-calc(60);
+    }
+    @include breakpoint(large) {
+      margin-bottom: rem-calc(100);
+    }
+    .image-text__container {
+      padding: 0;
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+      @include breakpoint(medium) {
+        flex-direction: row;
+      }
+
+      .image-text__content {
+        order: 2;
+        padding: rem-calc(60 40 0 40);
+        text-align: center;
+        @include breakpoint(medium) {
+          text-align: right;
+          padding-top: 0;
+          width: 50%;
+          display: flex;
+          flex-direction: row;
+          justify-content: flex-end;
+          padding-right: rem-calc(30);
+        }
+        @include breakpoint(large) {
+          padding-right: rem-calc(40);
+        }
+        @include breakpoint(xlarge) {
+          padding-right: rem-calc(60);
+        }
+      }
+
+      .image-text__text {
+        max-width: rem-calc(510);
+      }
+
+      .image-text__image {
+        order: 1;
+        width: 100%;
+        text-align: center;
+        @include breakpoint(medium) {
+          width: 50%;
+          order: 3;
+          margin: auto;
+        }
+        .img {
+          margin: 0 auto;
+          @include breakpoint(medium) {
+            margin: rem-calc(0 0 0 30);
+          }
+          @include breakpoint(large) {
+            margin: rem-calc(0 0 0 40);
+          }
+        }
+      }
+    }
+    &.image-text--reversed {
+      .image-text__image {
+        @include breakpoint(medium) {
+          order: 1;
+        }
+      }
+      .image-text__container {
+        .image-text__content {
+          @include breakpoint(medium) {
+            text-align: left;
+            padding-right: rem-calc(30);
+            padding-left: rem-calc(30);
+            justify-content: flex-start;
+          }
+          @include breakpoint(large) {
+            padding-right: 0;
+            padding-left: rem-calc(20);
+          }
+          @include breakpoint(xlarge) {
+            padding-right: 0;
+            padding-left: rem-calc(60);
+          }
+        }
+        .image-text__image {
+          .img {
+            @include breakpoint(medium) {
+              margin: rem-calc(0 30 0 0);
+            }
+            @include breakpoint(large) {
+              margin: rem-calc(0 40 0 0);
+            }
+            @include breakpoint(xlarge) {
+              margin: rem-calc(0 80 0 0);
+            }
+          }
+        }
+      }
+    }
+  }
+}

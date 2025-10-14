@@ -1,0 +1,37 @@
+body {
+  .testimonials {
+    margin-bottom: rem-calc(20);
+    @include breakpoint(medium) {
+      margin-bottom: rem-calc(40);
+    }
+    @include breakpoint(large) {
+      margin-bottom: rem-calc(60);
+    }
+    .testimonials__carousel {
+      .testimonial {
+        width: 100%;
+        text-align: center;
+        .testimonial__container {
+          position: relative;
+          width: 80%;
+          margin: rem-calc(20) 10%;
+          &:before,
+          &:after {
+            position: absolute;
+            font-size: rem-calc(30);
+          }
+          &:before {
+            content: "“";
+            left: rem-calc(-20);
+            top: 0;
+          }
+          &:after {
+            content: "”";
+            right: rem-calc(-20);
+            bottom: 0;
+          }
+        }
+      }
+    }
+  }
+}

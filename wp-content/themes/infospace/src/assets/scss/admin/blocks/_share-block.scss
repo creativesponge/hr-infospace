@@ -1,0 +1,28 @@
+/**
+ * #.# Editor Styles
+ *
+ * CSS for just Backend enqueued after style.scss
+ * which makes it higher in priority.
+ */
+
+ .wp-block-theme-share-block {
+  padding: 20px;
+  position: relative;
+  text-align: left;
+  border: 6px solid #eee;
+
+  .share-block-container {
+    background: rgba(256, 256, 256, 0.8);
+    padding: rem-calc(10);
+    text-align: center;
+    margin: 0;
+  }
+  input {
+    width: auto;
+  }
+  textarea {
+    text-align: center;
+  
+  }
+ 
+}

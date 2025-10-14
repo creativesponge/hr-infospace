@@ -1,0 +1,54 @@
+body {
+    .stats-list {
+      width:100%;
+      margin-bottom: rem-calc(20);
+      text-align: center;
+      @include breakpoint(medium) {
+        margin-bottom: rem-calc(40);
+      }
+      @include breakpoint(large) {
+        margin-bottom: rem-calc(60);
+      }
+      .flickity-viewport {
+        overflow: visible;
+      }
+      .mobile-only-carousel {
+        margin:0;
+        padding: 0;
+      
+        @include breakpoint(medium) {
+          display: flex;
+          flex-wrap: wrap;
+        }
+        .flickity-page-dots {
+          bottom: -46px;
+        }
+      }
+      .stat-item {
+       
+        @include breakpoint(medium) {
+          padding: 0;
+          margin: 0;
+          flex-basis: 33.33%;
+        }
+        h3 {
+          font-size: rem-calc(22);
+          margin-bottom: 0em;
+          line-height: 1em;
+        }
+        p {
+          margin: 0;
+          font-weight: bold;
+          font-size: rem-calc(80);
+          @include breakpoint(medium) {
+            font-size: rem-calc(60);
+          }
+          @include breakpoint(large) {
+            font-size: rem-calc(80);
+          }
+        }
+
+      }
+    }
+
+}

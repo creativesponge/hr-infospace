@@ -1,0 +1,54 @@
+// Text inputs
+#{text-inputs()},
+textarea {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  margin: rem-calc(0 0 20 0);
+  padding: rem-calc(10);
+  border: 1px solid $medium-grey;
+  appearance: none;
+  // Focus state
+  &:focus {
+    outline: none;
+    border: 1px solid $medium-grey;
+    background-color: $white;
+    box-shadow: 0 0 5px $medium-grey;
+  }
+
+}
+
+// Text areas
+textarea {
+  max-width: 100%;
+  &[rows] {
+    height: auto;
+  }
+}
+
+// Reset styles on button-like inputs
+[type="submit"],
+[type="button"] {
+  appearance: none;
+}
+
+// Reset Normalize setting content-box to search elements
+input[type="search"] {
+  // sass-lint:disable-line no-qualifying-elements
+  box-sizing: border-box;
+}
+
+// Number input styles
+[type="number"] {
+    -moz-appearance: textfield; // sass-lint:disable-line no-vendor-prefixes
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+      -webkit-appearance: none; // sass-lint:disable-line no-vendor-prefixes
+      margin: 0;
+    }
+}
+
+// Placeholder text
+::placeholder {
+  color: $medium-gray;
+}

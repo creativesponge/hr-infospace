@@ -1,0 +1,22 @@
+/**
+ * #.# Editor Styles
+ *
+ * CSS for just Backend enqueued after style.scss
+ * which makes it higher in priority.
+ */
+
+.wp-block-theme-video {
+  padding: 20px;
+  position: relative;
+  text-align: left;
+  border: 6px solid #eee;
+  text-align: center;
+  p.responsive-video {
+    padding: 20px;
+    background: #eee;
+    textarea {
+      text-align: center;
+      background: #eee;
+    }
+  }
+}
