@@ -20,12 +20,19 @@
 @import "global/visibility";
 @import "global/print";
 
+// Templates
+@import "templates/resource";
+@import "templates/resource-module";
+
 // Template parts
 @import "template-parts/navigation";
 @import "template-parts/header";
 @import "template-parts/footer";
 @import "template-parts/editor-style";
 @import "template-parts/large-teaser";
+@import "template-parts/x-large-teaser";
+@import "template-parts/module-teaser";
+@import "template-parts/search";
 
 // Components
 @import "components/buttons";
@@ -35,21 +42,28 @@
 @import "components/menu";
 @import "components/dropdown-menu";
 @import "components/accordion-menu";
+@import "components/breadcrumbs";
+@import "components/tab-list";
+@import "components/module-panel";
+@import "components/quick-links";
+@import "components/module-menu";
+@import "components/standard-header";
 
 // Forms
 @import "components/forms/checkbox";
 @import "components/forms/label";
 @import "components/forms/select";
 @import "components/forms/text";
+@import "components/forms/form-pop-up";
 
 // Vendor
 @import '../../../node_modules/flickity/css/flickity';
+@import "vendor/flickity";
 
 // Blocks
 @import 'blocks/page-banner-titles';
 @import 'blocks/stats-list';
 @import 'blocks/image-text';
-@import 'blocks/image-text-carousel';
 @import 'blocks/accordion';
 @import 'blocks/contact-form';
 @import 'blocks/video';
@@ -60,9 +74,22 @@
 @import 'blocks/grey-background';
 @import 'blocks/posts-list';
 @import 'blocks/posts-list-filters';
-@import 'blocks/posts-list-filters-ajax';
+//@import 'blocks/posts-list-filters-ajax';
 @import 'blocks/latest-posts';
 @import 'blocks/share-block';
 @import 'blocks/small-blocks-container';
 @import 'blocks/logo-list';
 @import 'blocks/narrow-content';
+
+@import 'blocks/image-text-banner';
+@import 'blocks/image-text-carousel';
+@import 'blocks/image-text-slide';
+@import 'blocks/services-carousel';
+@import 'blocks/services-slide';
+@import 'blocks/login-register';
+@import 'blocks/video-tour';
+@import 'blocks/modules-list';
+@import 'blocks/search-results';
+@import 'blocks/all-favourites';
+@import 'blocks/all-newsletters';
+@import 'blocks/account-settings';

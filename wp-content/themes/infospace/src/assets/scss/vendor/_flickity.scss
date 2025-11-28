@@ -1,0 +1,49 @@
+.flickity-prev-next-button {
+  top: 50%;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  transform: translateY(-50%);
+  
+}
+.flickity-button {
+  position: absolute;
+  background: transparent;
+  border: none;
+  color: #333;
+  transition: color 0.25s ease;
+  &:hover {
+    //background: transparent;
+    color: $infospace-orange;
+  }
+  &:focus {
+    outline: none;
+    box-shadow: none;
+    svg {
+      path {
+        fill: $infospace-orange;
+      }
+  
+    }
+  }
+}
+
+.flickity-page-dot {
+  width: 10px;
+  height: 10px;
+margin-left: rem-calc(5);
+margin-right: rem-calc(5);
+  background: $infospace-mauve;
+  @include breakpoint(large) {
+    width: 14px;
+  height: 14px;
+  }
+  &.is-selected {
+    background: $infospace-purple;
+  }
+  &:focus {
+    outline: none;
+    box-shadow: none;
+
+  }
+}

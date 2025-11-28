@@ -1,139 +1,128 @@
-body {
-  .posts-list {
-    margin-bottom: rem-calc(20);
-    @include breakpoint(medium) {
-      margin-bottom: rem-calc(40);
-    }
+.posts-list {
+  margin-bottom: rem-calc(20);
+background-color: $light-grey;
+  @include breakpoint(medium) {
+    margin-bottom: rem-calc(40);
+  }
+
+  @include breakpoint(large) {
+    margin-bottom: rem-calc(60);
+  }
+
+  &__filter {
     @include breakpoint(large) {
-      margin-bottom: rem-calc(60);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
 
-    .posts-list-filter {
-      @include breakpoint(large) {
-        display: flex;
+    &__reveal-content {
+      display: flex;
+      flex-direction: column;
+
+      @include breakpoint(medium) {
+        flex-direction: row;
         align-items: center;
-        justify-content: space-between;
-      }
-
-      .nav-filter {
-        list-style-type: none;
-        margin: 0;
-        margin-right: rem-calc(10);
-        @include breakpoint(medium) {
-          margin-right: rem-calc(40);
-        }
-      }
-      .filter__reveal-content {
-        display: flex;
-        flex-direction: column;
-
-        @include breakpoint(medium) {
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          justify-content: center;
-        }
+        justify-content: center;
       }
     }
+  }
 
-    form.searchform input.input-group-field {
-      color: $dark-grey;
-    }
+  .searchform .input-group-field {
+    color: $dark-grey;
+  }
 
-    .filter__list {
-      position: relative;
+  .filter__list {
+    position: relative;
+    display: inline-block;
+    z-index: 12;
+  }
+  .filter__heading {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: rem-calc(10 40 10 20);
+    border: 1px solid $dark-grey;
+    font-weight: bold;
+    text-align: left;
+    cursor: pointer;
+
+    @include breakpoint(medium) {
+      width: auto;
       display: inline-block;
-      z-index: 12;
+      margin-right: rem-calc(10);
+    }
 
-      .filter__heading {
-        text-align: left;
-        position: relative;
-        display: block;
-        border: $dark-grey solid 1px;
+    @include breakpoint(large) {
+      padding: rem-calc(14 160 14 20);
+      margin-right: rem-calc(20);
+    }
 
-        cursor: pointer;
-        padding: rem-calc(10 40 10 20);
+    &::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      right: rem-calc(10);
+      width: rem-calc(8);
+      height: rem-calc(8);
+      margin-top: rem-calc(-4);
+      border-right: 2px solid $dark-grey;
+      border-bottom: 2px solid $dark-grey;
+      transform: rotate(45deg);
+      transition: transform 0.25s;
 
-        width: 100%;
-        font-weight: bold;
-        @include breakpoint(medium) {
-          width: auto;
-          padding: rem-calc(10 40 10 20);
-          display: inline-block;
-          margin-right: rem-calc(10);
-        }
-        @include breakpoint(large) {
-          padding: rem-calc(14 160 14 20);
-          margin-right: rem-calc(20);
-        }
-
-        &:after {
-          content: "";
-          width: rem-calc(8);
-          height: rem-calc(8);
-
-          border-right: 2px solid $dark-grey;
-          border-bottom: 2px solid $dark-grey;
-          transform: rotate(45deg);
-          position: absolute;
-          transition: all 0.25s;
-          margin-right: 0;
-          bottom: auto;
-          top: 50%;
-          margin-top: rem-calc(-4);
-          right: rem-calc(10);
-
-          @include breakpoint(large) {
-            right: rem-calc(20);
-          }
-        }
-
-        &.open {
-          &:after {
-            transform: rotate(225deg);
-          }
-          + ul {
-            display: block;
-          }
-        }
+      @include breakpoint(large) {
+        right: rem-calc(20);
       }
-      ul.nav-filter {
+    }
+
+    &.open {
+      &::after {
+        transform: rotate(225deg);
+      }
+
+      + .nav-filter {
+        display: block;
+      }
+    }
+  }
+
+  .nav-filter {
+    display: none;
+    position: relative;
+    width: 100%;
+    margin: -1px 0 0;
+    padding: rem-calc(0 20 10 20);
+    list-style: none;
+    background: $white;
+    border: 1px solid $dark-grey;
+    border-top: none;
+
+    @include breakpoint(medium) {
+      position: absolute;
+      top: calc(100% - 1px);
+      left: 0;
+      width: calc(100% - 10px);
+    }
+
+    @include breakpoint(large) {
+      width: calc(100% - 20px);
+    }
+
+    li {
+      &.active {
         display: none;
+      }
+
+      a {
+        display: block;
+        padding: 0;
         margin: 0;
-        padding: rem-calc(0 20 10 20);
-        list-style-type: none;
-        background: $white;
-        border: $dark-grey solid 1px;
-        border-top: none;
-        width: 100%;
-        margin-top: -1px;
-        position: relative;
-        @include breakpoint(medium) {
-          width: calc(100% - 10px);
-          position: absolute;
-          top: calc(100% - 1px);
-          left: 0;
-        }
-        @include breakpoint(large) {
-          width: calc(100% - 20px);
-        }
-        li {
-          &.active {
-            display: none;
-          }
-          a {
-            padding: rem-calc(0);
-            display: block;
-            margin: 0;
-            font-size: rem-calc(14);
-            line-height: 1.2em;
-            @include breakpoint(medium) {
-              padding: rem-calc(0);
-            }
-            &:hover {
-              color: $dark-grey;
-            }
-          }
+        font-size: rem-calc(14);
+        line-height: 1.2;
+
+        &:hover {
+          color: $dark-grey;
         }
       }
     }

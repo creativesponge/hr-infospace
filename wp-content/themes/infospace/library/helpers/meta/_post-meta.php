@@ -18,7 +18,15 @@ function cmb2_post_metabox()
         'id'        => $prefix . 'post_summary',
         'name'      => 'Summary',
         'desc'      => 'Short summary of the document',
-        'type'      => 'textarea'
+        'type'      => 'wysiwyg'
+    ]);
+    $post->add_field([
+        'id'     => $prefix . 'post_featured',
+        'name'   => 'Featured',
+        'desc'   => 'Mark this post as featured',
+        'type'   => 'checkbox',
+        
+        
     ]);
     $post->add_field(array(
         'name'    => __('Available to users attached to', 'hrinfospace'),
@@ -81,4 +89,16 @@ function cmb2_post_metabox()
         ]
 
     ]);
+
+    add_filter('manage_post_posts_columns', function($columns) use ($prefix) {
+        $columns[$prefix . 'post_featured'] = __('Featured', 'hrinfospace');
+        return $columns;
+    });
+
+    add_action('manage_post_posts_custom_column', function($column, $post_id) use ($prefix) {
+        if ($column === $prefix . 'post_featured') {
+            $value = get_post_meta($post_id, $prefix . 'post_featured', true);
+            echo (!empty($value) && ($value === 'on' || $value === '1' || $value === 1)) ? '✔' : '';
+        }
+    }, 10, 2);
 }

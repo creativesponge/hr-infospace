@@ -1,0 +1,77 @@
+.x-large-teaser {
+  text-align: left;
+  padding: rem-calc(10);
+
+  &__image {
+    position: relative;
+    margin-bottom: 1em;
+    margin-top: rem-calc(-20);
+    margin-left: rem-calc(-20);
+    margin-right: rem-calc(-20);
+    @include breakpoint(large) {
+      flex-basis: 50%;
+      padding-right: rem-calc(10);
+      margin-bottom: 0;
+    }
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    div {
+      position: absolute;
+      right: 0;
+
+      top: 0;
+      color: $white;
+      padding: rem-calc(8 15);
+      font-size: rem-calc(18);
+      font-weight: 600;
+      border-top-right-radius: rem-calc(20);
+      border-bottom-left-radius: rem-calc(15);
+      @include breakpoint(large) {
+        right: rem-calc(10);
+      }
+    }
+
+    a {
+      display: block;
+
+      width: 100%;
+      height: 100%;
+
+      border-radius: rem-calc(20);
+      overflow: hidden;
+    }
+  }
+  &__content {
+    @include breakpoint(large) {
+      flex-basis: 50%;
+      padding-left: rem-calc(50);
+    }
+  }
+  &__target {
+    background: $white;
+    border-radius: rem-calc(20);
+    padding: rem-calc(20);
+    height: 100%;
+    @include breakpoint(large) {
+      padding: rem-calc(40);
+    }
+    @include breakpoint(large) {
+      display: flex;
+    }
+  }
+
+  a {
+    text-decoration: none;
+    &.arrow-link {
+      margin-top: 1em;
+      font-size: rem-calc(18);
+      text-transform: none;
+    }
+  }
+  p {
+    color: $black;
+  }
+}

@@ -1,0 +1,213 @@
+.quick-links {
+  // padding: 0 1.5rem;
+  border-radius: rem-calc(20);
+  margin-bottom: rem-calc(40);
+  text-align: center;
+
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  z-index: 2;
+  transition: width 0.25s ease;
+  transform-origin: center;
+  @include breakpoint(medium) {
+    width: rem-calc(277);
+  }
+  @include breakpoint(large) {
+    width: rem-calc(448);
+     margin-top: rem-calc(-10);
+  }
+  &__toggle {
+    padding: rem-calc(11 60 11 15);
+    margin-left: rem-calc(20);
+    margin-right: rem-calc(20);
+    width: calc(100% - 40px);
+    text-align: left;
+    color: $white;
+    background: $infospace-purple;
+    border-radius: rem-calc(18);
+    font-size: rem-calc(14);
+    text-transform: uppercase;
+    font-weight: bold;
+    position: relative;
+    cursor: pointer;
+    transition: width 0.25s ease;
+    @include breakpoint(medium) {
+      font-size: rem-calc(16);
+      padding: rem-calc(15 60 15 24);
+      width: rem-calc(277);
+      border-radius: rem-calc(20);
+    }
+    @include breakpoint(large) {
+      width: rem-calc(448);
+      padding: rem-calc(20 60 20 30);
+      font-size: rem-calc(20);
+      border-radius: rem-calc(30);
+    }
+    &:after {
+      content: "";
+      display: inline-block;
+      margin-left: rem-calc(10);
+      border: solid $white;
+      border-width: rem-calc(0 2 2 0);
+      padding: rem-calc(4);
+      transform: rotate(45deg);
+      transition: all 0.25s ease;
+      position: absolute;
+      right: rem-calc(20);
+      top: 50%;
+      margin-top: rem-calc(-7);
+      @include breakpoint(medium) {
+        border-width: rem-calc(0 3 3 0);
+        right: rem-calc(24);
+        margin-top: rem-calc(-9);
+        padding: rem-calc(5);
+      }
+      @include breakpoint(large) {
+        padding: rem-calc(6);
+        right: rem-calc(30);
+        margin-top: rem-calc(-11);
+      }
+    }
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 rem-calc(20);
+    background: $infospace-purple;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    border-bottom-left-radius: rem-calc(20);
+    border-bottom-right-radius: rem-calc(20);
+    transition: width 0.25s ease;
+    height: 0;
+    overflow: hidden;
+    width: calc(100% - 40px);
+    @include breakpoint(medium) {
+      width: rem-calc(277);
+    }
+    @include breakpoint(large) {
+      width: rem-calc(448);
+      columns: 2;
+      column-fill: balance;
+      column-gap: rem-calc(80);
+    }
+    & > li {
+      break-inside: avoid;
+    }
+    li {
+      margin-bottom: 0rem;
+      border-bottom: $white 1px solid;
+      &:last-child {
+        border-bottom: none;
+        @include breakpoint(large) {
+          border-bottom: $white 1px solid;
+        }
+      }
+      a {
+        color: $white;
+        padding: rem-calc(11 30 11 0);
+        display: block;
+        text-decoration: none;
+        font-size: rem-calc(14);
+        font-weight: 500;
+        position: relative;
+        line-height: 1.2em;
+        @include breakpoint(medium) {
+          font-size: rem-calc(16);
+          padding: rem-calc(12 30 12 0);
+
+          &::before {
+            width: rem-calc(18);
+          }
+
+          &::after {
+            width: rem-calc(12);
+            height: rem-calc(12);
+            top: calc(50% - 6px);
+          }
+        }
+        @include breakpoint(large) {
+          font-size: rem-calc(20);
+          padding: rem-calc(12 50 12 0);
+        }
+        &:hover {
+          color: $infospace-orange;
+        }
+        &::before,
+        &::after {
+          content: "";
+          position: absolute;
+          right: 0;
+          top: calc(50% - 1px);
+          //transform: translateY(-50%);
+        }
+
+        &::before {
+          width: rem-calc(14);
+          height: rem-calc(2);
+          background: $infospace-orange;
+          transition: background 0.25s ease;
+        }
+
+        &::after {
+          width: rem-calc(10);
+          height: rem-calc(10);
+          border-right: rem-calc(2) solid $infospace-orange;
+          border-top: rem-calc(2) solid $infospace-orange;
+          transform: rotate(45deg);
+          transition: border-color 0.25s ease;
+          top: calc(50% - 5px);
+        }
+      }
+    }
+  }
+
+  &--expanded {
+    @include breakpoint(large) {
+      width: rem-calc(900);
+    }
+    @include breakpoint(xlarge) {
+      width: rem-calc(1094);
+    }
+
+    .quick-links__toggle {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+      padding: rem-calc(11 15 11 15);
+      @include breakpoint(medium) {
+        padding: rem-calc(15 24 15 24);
+      }
+      @include breakpoint(large) {
+        width: rem-calc(900);
+        padding: rem-calc(25 40 20 40);
+      }
+       @include breakpoint(xlarge) {
+        width: rem-calc(1094);
+        
+      }
+      &:after {
+        top: calc(50%  + 4px);
+        transform: rotate(-135deg);
+      }
+    }
+    ul {
+      //display: block;
+      padding: rem-calc(5 15 15 15);
+      height: auto;
+      overflow: visible;
+      @include breakpoint(medium) {
+        padding: rem-calc(5 24 15 24);
+      }
+      @include breakpoint(large) {
+        width: rem-calc(900);
+        padding: rem-calc(30 40 50 40);
+      }
+      @include breakpoint(xlarge) {
+         width: rem-calc(1094);
+      }
+    }
+  }
+}

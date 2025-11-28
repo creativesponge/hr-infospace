@@ -5,8 +5,6 @@
 @import 'admin/blocks/page-banner-titles';
 @import 'admin/blocks/stats';
 @import 'admin/blocks/image-text';
-@import 'admin/blocks/image-text-carousel';
-@import 'admin/blocks/image-text-slide';
 @import 'admin/blocks/accordion';
 @import 'admin/blocks/contact-form';
 @import 'admin/blocks/video';
@@ -25,6 +23,18 @@
 @import 'admin/blocks/breadcrumbs';
 @import 'admin/blocks/logo-list';
 @import "admin/blocks/narrow-content";
+@import "admin/blocks/image-text-banner";
+@import "admin/blocks/image-text-carousel";
+@import "admin/blocks/image-text-slide";
+@import "admin/blocks/services-carousel";
+@import "admin/blocks/services-slide";
+@import "admin/blocks/login-register";
+@import "admin/blocks/video-tour";
+@import "admin/blocks/modules-list";
+@import "admin/blocks/search-results";
+@import "admin/blocks/all-favourites";
+@import "admin/blocks/all-newsletters";
+@import "admin/blocks/account-settings";
 
 // Foundation
 @import 'foundation';
@@ -38,12 +48,9 @@
 
 // Styles for Block editor 
 .edit-post-visual-editor {
-  p {
-    font-size: rem-calc(16);
-    line-height: 1.4em;
-    
-    color: $body-font-color;
-  }
+    p,h1,h2,h4 {
+      color: $infospace-purple!important;
+    }
   .wp-block {
     max-width: $global-width;
     font-family: $body-font-family;
@@ -54,6 +61,8 @@
   .wp-block-post-title.editor-post-title__input {
     color: $light-grey;
   }
+
   @import 'global/typography';
+  @import 'components/buttons';
 
 }

@@ -1,0 +1,279 @@
+.module-menu {
+  position: relative;
+  ul {
+    list-style-type: none;
+    margin: rem-calc(0 0 40 0);
+    padding: 0;
+    position: relative;
+    max-width: rem-calc(1100);
+    margin-left: auto;
+    margin-right: auto;
+    @include breakpoint(large) {
+      columns: 2;
+      column-fill: balance;
+    }
+    & > li {
+      break-inside: avoid;
+    }
+    li {
+      margin: 0;
+      padding: 0;
+      border-left: none;
+      border-bottom: $white solid 1px;
+      @include breakpoint(large) {
+        border-left: $light-pink 1px solid;
+        border-bottom: none;
+      }
+      a {
+        text-decoration: none;
+        display: inline-block;
+        font-size: rem-calc(16);
+        font-weight: bold;
+        line-height: 1.4em;
+        color: $white;
+        padding: rem-calc(8 0 8 0);
+        
+        @include breakpoint(large) {
+          padding: rem-calc(8 0 8 20);
+          font-size: rem-calc(20);
+        }
+        &:hover {
+          color: $infospace-orange;
+          text-decoration: none;
+        }
+      }
+    }
+    &.module-menu__submenu {
+      columns: 4;
+      max-width: none;
+      li a {
+        font-size: rem-calc(18);
+        font-weight: normal;
+      }
+    }
+    li.is-dropdown-submenu-parent {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      > button {
+        content: "";
+        display: inline-block;
+        width: rem-calc(25);
+        height: rem-calc(30);
+        cursor: pointer;
+        margin-left: rem-calc(10);
+        position: relative;
+        &:before {
+          content: "";
+          display: inline-block;
+          width: rem-calc(18);
+          height: rem-calc(2);
+          background: $white;
+
+          position: absolute;
+          top: 50%;
+          left: calc(50% - 2px);
+          transform: translate(-50%, -50%);
+        }
+        &:after {
+          content: "";
+          display: inline-block;
+          width: rem-calc(12.9);
+          height: rem-calc(12.9);
+          border-right: rem-calc(2) solid $white;
+          border-top: rem-calc(2) solid $white;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%) rotate(45deg);
+        }
+      }
+      button.drop-down__more {
+        width: auto;
+        background: $white;
+        transition: all 0.25s;
+        color: $infospace-red;
+        padding: rem-calc(5 36 5 15);
+        border-radius: rem-calc(20);
+        font-size: rem-calc(18);
+        &:before {
+          background: $infospace-red;
+          left: auto;
+          right: rem-calc(6);
+          width: rem-calc(14);
+          height: rem-calc(2);
+          transition: background 0.25s;
+        }
+        &:after {
+          border: rem-calc(2) solid $infospace-red;
+          border-left: none;
+          border-bottom: none;
+          left: auto;
+          right: rem-calc(8);
+          width: rem-calc(11);
+          height: rem-calc(11);
+          transition: border 0.25s;
+        }
+        &:hover {
+          background: $infospace-orange;
+          color: $white;
+          &:before {
+            background: $white;
+          }
+          &:after {
+            border-color: $white;
+          }
+        }
+      }
+    }
+    // third level {
+    ul.module-menu__submenu {
+      display: none;
+      margin-bottom: 0;
+
+      position: relative;
+      // left: 0;
+      // top: 0;
+      width: 100%;
+      height: 100%;
+      columns: 1;
+      &.js-dropdown-active {
+        display: block;
+        top: 100%;
+      }
+      li {
+        a {
+          font-size: rem-calc(16);
+        }
+      }
+    }
+  }
+
+  &__toplevel--hidden {
+    display: none;
+  }
+
+  .submenu--active {
+    margin-bottom: 0;
+
+    //position: absolute;
+    //left: 0;
+    //top: 0;
+    width: 100%;
+    height: 100%;
+  }
+  &__submenu {
+    li.is-dropdown-submenu-parent {
+      display: block;
+      position: relative;
+      display: block !important;
+      // display:flex;
+      // justify-content:space-between;
+      // align-items:center;
+      button.third-level-button {
+        height: rem-calc(16);
+        &:before {
+          display: none;
+        }
+        &:after {
+          width: rem-calc(9);
+          height: rem-calc(9);
+          transform: translate(-50%, -50%) rotate(135deg);
+          transition: all 0.25s;
+        }
+        &:hover {
+          &:after {
+            border-color: $infospace-orange;
+          }
+        }
+      }
+      &.is-active {
+        a {
+          font-weight: bold;
+        }
+        li {
+          border-left-color: $white;
+          margin-left: rem-calc(20);
+        }
+        ul {
+          li {
+            a {
+              font-weight: normal;
+
+              padding: rem-calc(5 0 5 10);
+            }
+          }
+        }
+        button.third-level-button {
+          &:after {
+            transform: translate(-50%, 0%) rotate(-45deg);
+          }
+        }
+      }
+    }
+  }
+  &__back {
+    background: $white;
+    margin-right: rem-calc(20);
+    padding: rem-calc(7 12 7 36);
+    line-height: 1em;
+    display: block;
+    border-radius: 1em;
+    color: $infospace-red;
+    font-size: rem-calc(18);
+    position: relative;
+    transition: background 0.25s;
+    &:before {
+      content: "";
+      display: inline-block;
+      width: rem-calc(14);
+      height: rem-calc(2);
+      background: $infospace-red;
+      transition: background 0.25s;
+      position: absolute;
+      top: 50%;
+      left: rem-calc(15px);
+      transform: translate(0, -50%);
+    }
+    &:after {
+      content: "";
+      display: inline-block;
+      width: rem-calc(11);
+      height: rem-calc(11);
+      border-left: rem-calc(2) solid $infospace-red;
+      border-bottom: rem-calc(2) solid $infospace-red;
+      position: absolute;
+      top: 50%;
+      left: rem-calc(15px);
+      transform: translate(0, -50%) rotate(45deg);
+      transition: border 0.25s;
+    }
+    &:hover {
+      background: $infospace-orange;
+      color: $white;
+      &:before {
+        background: $white;
+      }
+      &:after {
+        border-left: rem-calc(2) solid $white;
+        border-bottom: rem-calc(2) solid $white;
+      }
+    }
+  }
+  &__header {
+    margin-bottom: rem-calc(40);
+    display: flex;
+    align-items: center;
+    a {
+      color: $white;
+      display: block;
+      font-size: rem-calc(30);
+      font-weight: bold;
+      text-decoration: none;
+      &:hover {
+        color: $infospace-orange;
+        text-decoration: none;
+      }
+    }
+  }
+}

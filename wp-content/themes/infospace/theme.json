@@ -9,7 +9,24 @@
             "fontWeight": false,
             "fontStyle": false,
             "textTransform": false,
-            "letterSpacing": false
+            "letterSpacing": false,
+            "fontSizes": [
+                {
+                    "name": "Small",
+                    "slug": "small",
+                    "size": "16px"
+                },
+                {
+                    "name": "Medium",
+                    "slug": "medium",
+                    "size": "18px"
+                },
+                {
+                    "name": "Large",
+                    "slug": "large",
+                    "size": "26px"
+                }
+            ]
         },
        
         "color": {
@@ -20,11 +37,57 @@
         "blocks": {
            
             "core/button": {
+                "settings": false,
+
+                "color": {
+                    "background": true,
+                    "text": true,
+                    "defaultPalette": false,
+                    "palette": [
+                        {
+                            "slug": "infospace-green",
+                            "color": "#3BD593",
+                            "name": "Infospace Green"
+                        },
+                        {
+                            "slug": "infospace-purple",
+                            "color": "#4F2851",
+                            "name": "Infospace Purple"
+                        },
+                        {
+                            "slug": "infospace-orange",
+                            "color": "#FF9E16",
+                            "name": "Infospace Orange"
+                        },
+                        {
+                            "slug": "infospace-blue",
+                            "color": "#2A7AB0",
+                            "name": "Infospace Blue"
+                        },
+                        {
+                            "slug": "infospace-red",
+                            "color": "#DB0A5B",
+                            "name": "Infospace Red"
+                        },
+                        {
+                            "slug": "infospace-white",
+                            "color": "#FFFFFF",
+                            "name": "Infospace White"
+                        },
+                        {
+                            "slug": "infospace-black",
+                            "color": "#000000",
+                            "name": "Infospace Black"
+                        }
+                    ]
+                },
+                "typography": {
+                    "fontSizes": []
+                },
                 "border": {
                     "radius": false
                 }
             }
         }
     }
-    
 }

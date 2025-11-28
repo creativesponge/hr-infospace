@@ -1,49 +1,38 @@
-body {
-    .share-block {
-      position: relative;
-      text-align: center;
-      margin-bottom: rem-calc(20);
-      @include breakpoint(medium) {
-        margin-bottom: rem-calc(40);
-      }
-      @include breakpoint(large) {
-        margin-bottom: rem-calc(60);
-      }
-
-      .socials {
-        display: flex;
-        padding: rem-calc(0 0);
-        align-items: center;
-        justify-content: center;
-       
-        a {
-          width: rem-calc(26);
-          height: rem-calc(30);
-          display: flex;
-          flex-wrap: wrap;
-          align-items: center;
-          justify-content: center;
-         
-          svg {
-            path,
-            rect {
-              fill: $dark-grey;
-              transition: fill 0.25s;
-            }
-          }
-          &:hover {
-            svg {
-              path,
-              rect {
-                fill: $light-grey;
-              }
-            }
-          }
-        }
-        
-      }
-     
-    }
-    
+.share-block {
+  position: relative;
+  text-align: center;
+  margin-bottom: rem-calc(20);
+  
+  @include breakpoint(medium) {
+    margin-bottom: rem-calc(40);
   }
   
+  @include breakpoint(large) {
+    margin-bottom: rem-calc(60);
+  }
+
+  .socials {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+   
+    a {
+      width: rem-calc(26);
+      height: rem-calc(30);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+     
+      svg path,
+      svg rect {
+        fill: $dark-grey;
+        transition: fill 0.25s;
+      }
+      
+      &:hover svg path,
+      &:hover svg rect {
+        fill: $light-grey;
+      }
+    }
+  }
+}

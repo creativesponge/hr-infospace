@@ -1,0 +1,74 @@
+/**
+ * #.# Editor Styles
+ *
+ * CSS for just Backend enqueued after style.scss
+ * which makes it higher in priority.
+ */
+
+
+ .wp-block-theme-image-text-banner {
+  padding: 20px;
+  position: relative;
+  text-align: left;
+  border: 6px solid #eee;
+  margin-bottom: 10px!important;
+  .image-text-banner-image {
+    position: relative;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: #eee;
+    margin: auto;
+    span {
+        display: block;
+        width:100%;
+        padding-bottom: 100%;
+    }
+    
+  }
+  .button-container {
+    padding-top: 20px;
+    text-align: center;
+    width: 100%;
+  }
+  .size-square {
+    font-size: 12px;
+    margin: 10px 0;
+  }
+  .block-editor-inner-blocks {
+    padding: 20px;
+  }
+  .image-text-banner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    text-align: left;
+    padding: 20px;
+    text-area {
+      padding: 0 20px;
+    }
+    > div {
+      width: 50%;
+      //flex-basis: auto;
+      &.image-text-banner-image-container {
+        width: 50%;
+      }
+    }
+
+  }
+  &.reverse {
+    .image-text-banner {
+      > div {
+        
+        order: 2;
+
+        &.image-text-banner-image-container {
+          
+          order:1;
+        }
+      }
+    }
+  }
+
+}

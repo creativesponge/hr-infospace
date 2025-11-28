@@ -1,5 +1,4 @@
-body {
-    .stats-list {
+.stats-list {
       width:100%;
       margin-bottom: rem-calc(20);
       text-align: center;
@@ -24,7 +23,7 @@ body {
           bottom: -46px;
         }
       }
-      .stat-item {
+      &__item {
        
         @include breakpoint(medium) {
           padding: 0;
@@ -50,5 +49,3 @@ body {
 
       }
     }
-
-}

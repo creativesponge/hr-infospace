@@ -1,0 +1,44 @@
+.image-text-slide {
+  padding: 0;
+ 
+
+  &__container {
+    padding: 0;
+    align-items: center;
+    display: flex;
+    
+  }
+
+  &__content {
+    padding: rem-calc(0 0 0 20);
+
+    width: calc(100% - rem-calc(77));
+    @include breakpoint(medium) {
+      padding: rem-calc(20 0 20 20);
+      width: calc(100% - rem-calc(88));
+      
+    }
+
+    @include breakpoint(large) {
+      padding: rem-calc(20 0 20 40);
+      width: calc(100% - rem-calc(176));
+    }
+
+    @include breakpoint(xlarge) {
+      //padding-right: rem-calc(60);
+    }
+  }
+
+
+
+  &__image {
+    width: rem-calc(77);
+    @include breakpoint(medium) {
+      width: rem-calc(88);
+    }
+    @include breakpoint(large) {
+      width: rem-calc(176);
+    }
+    
+  }
+}

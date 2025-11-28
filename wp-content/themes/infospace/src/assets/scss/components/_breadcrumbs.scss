@@ -1,0 +1,92 @@
+.yoast-breadcrumbs {
+  //margin-bottom: 10px;
+  max-width: $global-width-inner;
+  margin-left: auto;
+  margin-right: auto;
+  padding: rem-calc(0 0 15 0);
+  font-size: rem-calc(12);
+
+  @include breakpoint(large) {
+    font-size: rem-calc(16);
+    padding: rem-calc(0 0 20 0);
+  }
+  &:first-child {
+    margin-top: 0;
+    @include breakpoint(medium) {
+      margin-top: -2.5em;
+    }
+    @include breakpoint(large) {
+      margin-top: 0;
+    }
+  }
+  > span {
+    //display: none;
+    position: relative;
+    &:before {
+      content: "";
+      position: absolute;
+      left: rem-calc(2);
+      top: rem-calc(10);
+      width: rem-calc(1);
+      height: calc(100% - rem-calc(20));
+      background-image: linear-gradient($infospace-red 33%, rgba(255, 255, 255, 0) 0%);
+      background-position: right;
+      background-size: 1px 4px;
+      background-repeat: repeat-y;
+      @include breakpoint(medium) {
+        display:none;
+      }
+    }
+    &:after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: rem-calc(7);
+      width: rem-calc(5);
+      height: rem-calc(5);
+      background: $infospace-red;
+      border-radius: 50%;
+      @include breakpoint(medium) {
+        display:none;
+      }
+    }
+    span {
+      font-size: rem-calc(12);
+      display: block;
+      padding: rem-calc(4 16);
+      @include breakpoint(medium) {
+        display: inline-block;
+        font-size: rem-calc(12);
+        padding: rem-calc(0);
+        &:after {
+          content: ">";
+          padding: rem-calc(0 0 0 4);
+        }
+      }
+      @include breakpoint(large) {
+        font-size: rem-calc(16);
+      }
+      &:last-child {
+        @include breakpoint(medium) {
+          &:after {
+            content: "";
+            padding: 0;
+          }
+        }
+      }
+    }
+  }
+  span {
+    //display: block;
+    @include breakpoint(medium) {
+      //display: inline-block;
+    }
+  }
+  a {
+    color: $infospace-red;
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

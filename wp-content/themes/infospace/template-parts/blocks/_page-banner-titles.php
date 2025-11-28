@@ -7,7 +7,7 @@
 $blockHeading = isset($block_attributes['mainHeading']) ? $block_attributes['mainHeading'] : "";
 $blockStapline = isset($block_attributes['strapLine']) ? $block_attributes['strapLine'] : "";
 $imageId = (array_key_exists('attachmentId', $block_attributes)) ? $block_attributes['attachmentId'] : '';
-$attachmentIdMob = (array_key_exists('attachmentIdMob', $block_attributes)) ? $block_attributes['attachmentIdMob'] : '';
+$attachmentIdMob = (array_key_exists('attachmentIdMob', $block_attributes)) ? $block_attributes['attachmentIdMob'] : $imageId;
 
 ?>
 <section class="page-banner-titles full-width">
@@ -15,7 +15,10 @@ $attachmentIdMob = (array_key_exists('attachmentIdMob', $block_attributes)) ? $b
 		<div class="page-banner-titles__inner" >
 			<div class="page-banner-titles__background">
 			<?php if ($imageId) { 
-				echo wp_get_attachment_image($imageId, 'fpxlarge', '', ["class" => "wp-image-$imageId"]);			
+				echo wp_get_attachment_image($imageId, 'fpxlarge', '', ["class" => "show-for-medium wp-image-$imageId"]);			
+			} ?>
+			<?php if ($attachmentIdMob) { 
+				echo wp_get_attachment_image($attachmentIdMob, 'fpxlarge', '', ["class" => "hide-for-medium wp-image-$attachmentIdMob"]);			
 			} ?>
 			</div>
 			 <div class="page-banner-titles__headings">

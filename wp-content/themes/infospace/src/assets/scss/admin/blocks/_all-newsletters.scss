@@ -1,0 +1,16 @@
+/**
+ * #.# Editor Styles
+ *
+ * CSS for just Backend enqueued after style.scss
+ * which makes it higher in priority.
+ */
+
+.editor-styles-wrapper {
+  .wp-block-theme-all-newsletters {
+    padding: 20px;
+    position: relative;
+    text-align: left;
+    border: 6px solid #eee;
+    margin-bottom: 10px !important;
+  }
+}

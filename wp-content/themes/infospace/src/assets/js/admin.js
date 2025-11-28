@@ -4,8 +4,6 @@ import pagebannertitles from "./lib/admin/blocks/page-banner-titles/index.js";
 import stats from "./lib/admin/blocks/stats/index.js";
 import stat from "./lib/admin/blocks/stat/index.js";
 import image_text from "./lib/admin/blocks/image-text/index.js";
-import image_text_carousel from "./lib/admin/blocks/image-text-carousel/index.js";
-import image_text_slide from "./lib/admin/blocks/image-text-slide/index.js";
 import accordion from "./lib/admin/blocks/accordion/index.js";
 import contact_form from "./lib/admin/blocks/contact-form/index.js";
 import video from "./lib/admin/blocks/video/index.js";
@@ -26,12 +24,26 @@ import breadcrumbs from "./lib/admin/blocks/breadcrumbs/index.js";
 import logo_list from "./lib/admin/blocks/logo-list/index.js";
 import narrow_content from "./lib/admin/blocks/narrow-content/index.js";
 
+import image_text_banner from "./lib/admin/blocks/image-text-banner/index.js";
+import image_text_carousel from "./lib/admin/blocks/image-text-carousel/index.js";
+import image_text_slide from "./lib/admin/blocks/image-text-slide/index.js";
+import services_carousel from "./lib/admin/blocks/services-carousel/index.js";
+import services_slide from "./lib/admin/blocks/services-slide/index.js";
+import login_register from "./lib/admin/blocks/login-register/index.js";
+import video_tour from "./lib/admin/blocks/video-tour/index.js";
+import modules_list from "./lib/admin/blocks/modules-list/index.js";
+import search_results from "./lib/admin/blocks/search-results/index.js";
+import all_favourites from "./lib/admin/blocks/all-favourites/index.js";
+import all_newsletters from "./lib/admin/blocks/all-newsletters/index.js";
+import account_settings from "./lib/admin/blocks/account-settings/index.js";
+
+
+
 pagebannertitles.init();
 stats.init();
 stat.init();
 image_text.init();
-image_text_carousel.init();
-image_text_slide.init();
+
 accordion.init();
 contact_form.init();
 video.init();
@@ -51,6 +63,19 @@ share_block.init();
 breadcrumbs.init();
 logo_list.init();
 narrow_content.init();
+
+image_text_carousel.init();
+image_text_slide.init();
+image_text_banner.init();
+services_carousel.init();
+services_slide.init();
+login_register.init();
+video_tour.init();
+modules_list.init();
+search_results.init();
+all_favourites.init();
+all_newsletters.init();
+account_settings.init();
 
 // Remove default block styles
 wp.domReady(() => {

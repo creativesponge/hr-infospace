@@ -1,0 +1,126 @@
+.image-text-banner {
+  padding: 0;
+  margin-bottom: rem-calc(20);
+  position: relative;
+  z-index: 1;
+  @include breakpoint(medium) {
+    margin-bottom: rem-calc(30);
+  }
+
+  @include breakpoint(large) {
+    margin-bottom: rem-calc(100);
+  }
+  &:first-child {
+    margin-top: calc(-1em - rem-calc(60));
+    @include breakpoint(large) {
+      margin-top: -3em;
+    }
+  }
+
+  &__container {
+    padding: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    @include breakpoint(medium) {
+      flex-direction: row;
+    }
+  }
+
+  &__content {
+    order: 2;
+    padding: rem-calc(30 20 0 20);
+    @include breakpoint(medium) {
+      padding: rem-calc(140 30 0 30);
+      width: 50%;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    @include breakpoint(large) {
+      padding: rem-calc(100 40 0 30);
+    }
+
+    @include breakpoint(xlarge) {
+      padding: rem-calc(90 60 0 30);
+    }
+  }
+
+  &__text {
+    @include breakpoint(medium) {
+      max-width: rem-calc(540);
+    }
+    
+  }
+
+  &__image {
+    order: 1;
+    width: 100%;
+    text-align: center;
+
+    @include breakpoint(medium) {
+      width: 50%;
+      order: 3;
+      margin: auto;
+      margin-top: rem-calc(-70);
+      margin-bottom: rem-calc(100);
+    }
+
+    @include breakpoint(large) {
+      margin-bottom: rem-calc(-40);
+      //margin-right: rem-calc(-160);
+      margin-top: rem-calc(-45);
+    }
+    @include breakpoint(xxlarge) {
+      margin-bottom: rem-calc(-100);
+      //margin-right: rem-calc(-160);
+      margin-top: rem-calc(-110);
+     
+    }
+    img {
+      margin: 0 auto;
+      
+      @include breakpoint(medium) {
+        margin-left: rem-calc(0);
+        border-radius: 50%;
+        //overflow: hidden;
+        transform-origin: 0 50%;
+        transform: scale(1.4);
+      }
+      @include breakpoint(medium-large) {
+        margin-left: rem-calc(0); 
+       
+      }
+
+      @include breakpoint(large) {
+       // margin-left: rem-calc(40);
+        transform: scale(1.2);
+        max-height: 86%;
+        width:auto;
+      
+      }
+      @include breakpoint(xxlarge) {
+      // margin-left: rem-calc(10);
+        transform: scale(1.35);
+       max-height: 86%;
+      }
+      @include breakpoint(xxxlarge) {
+       margin-left: rem-calc(-10);
+      
+      }
+    }
+  }
+
+  .wp-block-buttons {
+    @include breakpoint(medium) {
+      margin-right: rem-calc(-200);
+    }
+    .wp-block-button {
+      min-width: calc(50% - 4px);
+      @include breakpoint(medium) {
+        min-width: 0px;
+      }
+    }
+  }
+}

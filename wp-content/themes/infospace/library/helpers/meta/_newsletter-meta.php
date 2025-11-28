@@ -39,6 +39,12 @@ function cmb2_newsletter_metabox()
         'sortable'  => true,
     ]);
     $newsletter->add_field([
+        'id'        => $prefix . 'newsletter_link',
+        'name'      => 'Newsletter Link',
+        'desc'      => 'Link to the newsletter',
+        'type'      => 'text_url'
+    ]);
+    $newsletter->add_field([
         'id'        => $prefix . 'newsletter_file',
         'name'      => 'Newsletter File',
         'desc'      => 'Upload the newsletter file',
@@ -48,6 +54,9 @@ function cmb2_newsletter_metabox()
         ],
         'column'    => true,
     ]);
+
+    
+
     $newsletter->add_field([
         'id'        => $prefix . 'newsletter_summary',
         'name'      => 'Summary',

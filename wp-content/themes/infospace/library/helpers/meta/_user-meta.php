@@ -61,8 +61,8 @@ function cmb2_user_metabox()
     ]);
     $user->add_field([
         'id'        => $prefix . 'user_hr_alerts',
-        'name'      => 'Receive HR, H,S&W alerts',
-        'desc'      => 'Check to activate HR, H,S&W alerts for this user',
+        'name'      => 'Receive HR alerts',
+        'desc'      => 'Check to activate HR alerts for this user',
         'type'      => 'checkbox',
         'show_on_cb' => function () {
             return current_user_can('administrator') || current_user_can('main')|| current_user_can('individual');
@@ -72,6 +72,15 @@ function cmb2_user_metabox()
         'id'        => $prefix . 'user_finance_alerts',
         'name'      => 'Receive finance alerts',
         'desc'      => 'Check to activate finance alerts for this user',
+        'type'      => 'checkbox',
+        'show_on_cb' => function () {
+            return current_user_can('administrator') || current_user_can('main')|| current_user_can('individual');
+        }
+    ]);
+     $user->add_field([
+        'id'        => $prefix . 'user_hsw_alerts',
+        'name'      => 'Receive H,S&W alerts',
+        'desc'      => 'Check to activate H,S&W alerts for this user',
         'type'      => 'checkbox',
         'show_on_cb' => function () {
             return current_user_can('administrator') || current_user_can('main')|| current_user_can('individual');

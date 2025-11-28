@@ -4,17 +4,17 @@ var posts_list_filters = {
   },
 
   filter_dropdown_ftn: function () {
-    var filterList = document.getElementsByClassName("filter__list");
+    var filterList = document.getElementsByClassName("filter-list");
     //console.log(filterList);
     if (filterList.length > 0) {
       [].forEach.call(
-        document.getElementsByClassName("filter__list"),
+        document.getElementsByClassName("filter-list"),
         function (item, index) {
           //$.each(filterList, function (index, item) {
           // Open/close menu
 
-          var filterHeading = item.getElementsByClassName("filter__heading"),
-            filterLinks = item.getElementsByClassName("nav-filter");
+          var filterHeading = item.getElementsByClassName("filter-list__filter-heading"),
+            filterLinks = item.getElementsByClassName("filter-list__nav-filter");
 
           filterHeading[0].addEventListener(
             "click",
@@ -34,7 +34,7 @@ var posts_list_filters = {
       );
     }
 
-    // Scrioll to filters
+    // Scroll to filters
     if (window.location.href.indexOf("cat") > -1) {
       let $filterTop = document.getElementById("list-top");
 
@@ -53,6 +53,8 @@ var posts_list_filters = {
         }
       }
     }
+
+    
   },
 };
 

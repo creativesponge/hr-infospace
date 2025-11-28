@@ -1,22 +1,68 @@
-body {
-  .image-text-carousel-list {
-    text-align: center;
-    padding: rem-calc(0 0 60 0);
-    margin-bottom: rem-calc(20);
+.image-text-carousel-list {
+  padding-bottom: rem-calc(55);
+  //margin-bottom: rem-calc(20);
+
+  @include breakpoint(medium) {
+    margin-left: rem-calc(36);
+    margin-right: rem-calc(-40);
+    padding-bottom: rem-calc(40);
+    margin-top: rem-calc(26);
+  }
+  @include breakpoint(medium-large) {
+    
+    margin-right: rem-calc(-30);
+    
+  }
+
+  @include breakpoint(large) {
+    //margin-bottom: rem-calc(60);
+    margin-top: 0;
+   // margin-right: rem-calc(-50);
+  }
+  
+  @include breakpoint(xxxlarge) {
+    //margin-bottom: rem-calc(60);
+    margin-left: rem-calc(-50);
+      margin-right: rem-calc(-50);
+    padding-bottom: rem-calc(50);
+  }
+
+  .image-text-carousel__carousel {
+    padding: rem-calc(5 0);
+    margin: 0;
+  }
+  .flickity-page-dots {
     @include breakpoint(medium) {
-      margin-bottom: rem-calc(40);
+      justify-content: flex-start;
+      margin-left: rem-calc(104);
+      bottom:5px;
     }
+
     @include breakpoint(large) {
-      margin-bottom: rem-calc(60);
-    }
-    .image-text-carousel__carousel {
-      padding: rem-calc(20 0 20 0);
-      margin: 0;
-      .image-text {
-        width: 100%;
-        text-align: left;
-        margin-bottom: 0;
-      }
+      margin-left: rem-calc(212);
+     bottom:5px;
     }
   }
+  .flickity-prev-next-button.next {
+    right: rem-calc(-5);
+    @include breakpoint(medium) {
+      right: rem-calc(-40);
+    }
+  }
+  .flickity-prev-next-button.previous {
+    left: rem-calc(-5);
+    @include breakpoint(medium) {
+      left: rem-calc(-40);
+    }
+  }
+  .flickity-prev-next-button {
+    top: calc(100% + rem-calc(20));
+    @include breakpoint(medium) {
+      top: 50%;
+    }
+    @include breakpoint(large) {
+      top: 40%;
+    }
+  }
+  
 }

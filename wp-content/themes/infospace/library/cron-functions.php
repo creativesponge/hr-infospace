@@ -56,9 +56,28 @@ function cron_functions()
                 $start_date = isset($file[$prefix . 'start_date']) ? $file[$prefix . 'start_date'] : '';
                 $end_date = isset($file[$prefix . 'end_date']) ? $file[$prefix . 'end_date'] : date('Y-m-d', strtotime('+1 year'));
                 $today = strtotime(date('Y-m-d'));
-                if ($start_date && $end_date && $start_date <= $today && $end_date >= $today) {
-                    $hasActiveDocs = true;
-                    break;
+
+                if ($start_date && $end_date) { // has start and end date
+                    if ($start_date <= $today && $end_date >= $today) {
+                        $hasActiveDocs = true;
+                        break;
+                    }
+                } else {
+                    if ($start_date) { // just start date
+                        if ($start_date <= $today) {
+                            $hasActiveDocs = true;
+                            break;
+                        }
+                    } elseif ($end_date) { // just end date
+                        if ($end_date >= $today) {
+                            $hasActiveDocs = true;
+                            break;
+                        }
+                    } elseif (!$start_date && !$end_date) {
+                        // No dates set, consider active
+                        $hasActiveDocs = true;
+                        break;
+                    }
                 }
                 //echo "Start Date: " . $start_date . "<br>";
                 //echo "End Date: " . $end_date . "<br><br>";
@@ -66,7 +85,7 @@ function cron_functions()
         }
         if ($hasActiveDocs) {
             update_post_meta($document->ID, $prefix . 'document_is_active', 'on');
-            echo "Document ID: " . $document->ID . " (" . $document->post_title . ") is active.<br>"; 
+            echo "Document ID: " . $document->ID . " (" . $document->post_title . ") is active.<br>";
         } else {
             update_post_meta($document->ID, $prefix . 'document_is_active', '');
             echo "Document ID: " . $document->ID . " (" . $document->post_title . ") is not active.<br>";

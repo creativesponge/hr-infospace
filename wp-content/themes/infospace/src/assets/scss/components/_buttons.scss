@@ -1,8 +1,675 @@
 .wp-block-buttons {
-  display:flex;
+  display: flex;
+  margin-bottom: 1em;
+  gap: 4px;
+  @include breakpoint(medium) {
+    gap: 8px;
+  }
+  @include breakpoint(large) {
+    gap: 12px;
+  }
   .wp-block-button {
     .wp-block-button__link {
-      background-color: $body-font-color;
+      text-decoration: none;
+      background-color: $infospace-orange;
+      border-radius: 2em;
+      padding: rem-calc(12 50 10 20);
+      font-weight: bold;
+      text-transform: uppercase;
+      font-size: rem-calc(14);
+      text-align: left;
+      position: relative;
+      color: $white;
+      transition: background-color 0.25s ease;
+      &:hover {
+        background-color: $infospace-purple;
+        color: $white;
+      }
+      &::before,
+      &::after {
+        content: "";
+        position: absolute;
+        right: rem-calc(14);
+        top: calc(50% - 1px);
+        //transform: translateY(-50%);
+      }
+
+      &::before {
+        width: rem-calc(14);
+        height: rem-calc(2);
+        background: $white;
+        transition: background 0.25s ease;
+      }
+
+      &::after {
+        width: rem-calc(10);
+        height: rem-calc(10);
+        border-right: rem-calc(2) solid $white;
+        border-top: rem-calc(2) solid $white;
+        transform: rotate(45deg);
+        transition: border-color 0.25s ease;
+        top: calc(50% - 5px);
+      }
+      @include breakpoint(medium) {
+        padding: rem-calc(15 50 14 20);
+        font-size: rem-calc(16);
+        &::before,
+        &::after {
+          right: rem-calc(20);
+        }
+        &::before {
+          width: rem-calc(18);
+        }
+
+        &::after {
+          width: rem-calc(12);
+          height: rem-calc(12);
+          top: calc(50% - 6px);
+        }
+      }
+      @include breakpoint(large) {
+        padding: rem-calc(21 75 20 34);
+        font-size: rem-calc(20);
+        &::before,
+        &::after {
+          right: rem-calc(28);
+        }
+        &::before {
+          width: rem-calc(20);
+        }
+
+        &::after {
+          width: rem-calc(14);
+          height: rem-calc(14);
+          top: calc(50% - 7px);
+        }
+      }
     }
+  }
+}
+
+.button-link {
+  display: block;
+  text-decoration: none;
+  background-color: $infospace-orange;
+  border-radius: 2em;
+  padding: rem-calc(12 50 10 20);
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: rem-calc(14);
+  text-align: left;
+  position: relative;
+  color: $white;
+  transition: all 0.25s ease;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    right: rem-calc(14);
+    top: calc(50% - 1px);
+    transition: right 0.25s ease;
+    //transform: translateY(-50%);
+  }
+
+  &::before {
+    width: rem-calc(14);
+    height: rem-calc(2);
+    background: $white;
+    //transition: background 0.25s ease;
+  }
+
+  &::after {
+    width: rem-calc(10);
+    height: rem-calc(10);
+    border-right: rem-calc(2) solid $white;
+    border-top: rem-calc(2) solid $white;
+    transform: rotate(45deg);
+    //transition: border-color 0.25s ease;
+    top: calc(50% - 5px);
+  }
+  &:hover {
+    background: #ffb247;
+    &::before,
+    &::after {
+      right: rem-calc(10);
+      //transform: translateY(-50%);
+      @include breakpoint(medium) {
+        right: rem-calc(16);
+      }
+      @include breakpoint(large) {
+        right: rem-calc(20);
+      }
+    }
+  }
+  @include breakpoint(medium) {
+    padding: rem-calc(15 50 14 20);
+    font-size: rem-calc(16);
+    &::before,
+    &::after {
+      right: rem-calc(20);
+    }
+    &::before {
+      width: rem-calc(18);
+    }
+
+    &::after {
+      width: rem-calc(12);
+      height: rem-calc(12);
+      top: calc(50% - 6px);
+    }
+  }
+  @include breakpoint(large) {
+    padding: rem-calc(21 75 20 34);
+    font-size: rem-calc(20);
+    &::before,
+    &::after {
+      right: rem-calc(28);
+    }
+    &::before {
+      width: rem-calc(20);
+    }
+
+    &::after {
+      width: rem-calc(14);
+      height: rem-calc(14);
+      top: calc(50% - 7px);
+    }
+  }
+  &--rev {
+    background-color: $white;
+    color: $black;
+
+    &::before {
+      background: $black;
+    }
+
+    &::after {
+      border-right: rem-calc(2) solid $black;
+      border-top: rem-calc(2) solid $black;
+    }
+    &:hover {
+      background-color: $infospace-orange;
+      color: $white;
+      &::before {
+        background: $white;
+      }
+
+      &::after {
+        border-right: rem-calc(2) solid $white;
+        border-top: rem-calc(2) solid $white;
+      }
+    }
+  }
+}
+
+.button-back {
+  display: inline-block;
+  text-decoration: none;
+  background-color: $infospace-orange;
+  border-radius: 2em;
+  padding: rem-calc(12 20 10 44);
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: rem-calc(14);
+  text-align: left;
+  position: relative;
+  color: $white;
+  transition: all 0.25s ease;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    left: rem-calc(14);
+    top: calc(50% - 1px);
+    transition: left 0.25s ease;
+    //transform: translateY(-50%);
+  }
+
+  &::before {
+    width: rem-calc(14);
+    height: rem-calc(2);
+    background: $white;
+    //transition: background 0.25s ease;
+  }
+
+  &::after {
+    width: rem-calc(10);
+    height: rem-calc(10);
+    border-left: rem-calc(2) solid $white;
+    border-bottom: rem-calc(2) solid $white;
+    transform: rotate(45deg);
+    //transition: border-color 0.25s ease;
+    top: calc(50% - 5px);
+  }
+  &:hover {
+    background: #ffb247!important;
+    &::before,
+    &::after {
+      left: rem-calc(10);
+      //transform: translateY(-50%);
+      @include breakpoint(medium) {
+        left: rem-calc(16);
+      }
+      @include breakpoint(large) {
+        left: rem-calc(20);
+      }
+    }
+  }
+  @include breakpoint(medium) {
+    padding: rem-calc(12 20 12 50);
+    font-size: rem-calc(16);
+    &::before,
+    &::after {
+      left: rem-calc(20);
+    }
+    &::before {
+      width: rem-calc(18);
+    }
+
+    &::after {
+      width: rem-calc(12);
+      height: rem-calc(12);
+      top: calc(50% - 6px);
+    }
+  }
+  @include breakpoint(large) {
+    padding: rem-calc(12 30 12 80);
+    font-size: rem-calc(20);
+    &::before,
+    &::after {
+      left: rem-calc(28);
+    }
+    &::before {
+      width: rem-calc(20);
+    }
+
+    &::after {
+      width: rem-calc(14);
+      height: rem-calc(14);
+      top: calc(50% - 7px);
+    }
+  }
+ 
+}
+
+.download-link {
+  background-color: $infospace-orange;
+  padding: rem-calc(10 15 10 15);
+  color: $black;
+  font-weight: bold;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: rem-calc(14);
+  border-radius: rem-calc(30);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-grow: 1;
+  transition: background 0.25s ease;
+  @include breakpoint(medium) {
+    padding: rem-calc(14 22 14 22);
+    font-size: rem-calc(16);
+    flex-shrink: 1;
+  }
+  + .arrow-link {
+    padding-left: rem-calc(15);
+  }
+
+  svg {
+    margin-left: rem-calc(12);
+    transition: margin 0.25s ease;
+    max-width: rem-calc(14);
+    height:auto;
+  }
+  &:hover {
+    background: #ffb247;
+    svg {
+      margin-bottom: rem-calc(-5);
+    }
+  }
+  &--out {
+    svg {
+      path {
+        stroke-width: 1.4;
+        stroke: $black;
+      }
+    }
+    &:hover {
+      svg {
+        margin-top: rem-calc(-3);
+        
+        margin-bottom: auto;
+      }
+    };
+  }
+}
+
+.arrow-link {
+  text-decoration: none;
+  font-weight: bold;
+  text-transform: uppercase;
+  position: relative;
+  color: $dark-grey;
+  padding-right: rem-calc(23);
+  font-size: rem-calc(14);
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: calc(50% - 1px);
+  }
+
+  &::before {
+    width: rem-calc(14);
+    height: rem-calc(2);
+    background: $dark-grey;
+    transition: all 0.25s ease;
+  }
+
+  &::after {
+    width: rem-calc(10);
+    height: rem-calc(10);
+    border-right: rem-calc(2) solid $dark-grey;
+    border-top: rem-calc(2) solid $dark-grey;
+    transform: rotate(45deg);
+    transition: all 0.25s ease;
+    top: calc(50% - 5px);
+  }
+  @include breakpoint(medium) {
+    padding-right: rem-calc(26);
+    font-size: rem-calc(16);
+  }
+  @include breakpoint(large) {
+    padding-right: rem-calc(30);
+    font-size: rem-calc(20);
+    &::before,
+    &::after {
+      right: rem-calc(0);
+      transition: right 0.25s ease;
+    }
+    &::before {
+      width: rem-calc(18);
+    }
+
+    &::after {
+      width: rem-calc(12);
+      height: rem-calc(12);
+      top: calc(50% - 6px);
+    }
+  }
+  &:hover {
+    &::before,
+    &::after {
+      right: rem-calc(-6);
+    }
+
+    &::after {
+      border-color: $infospace-orange;
+    }
+    &::before {
+      background: $infospace-orange;
+    }
+  }
+}
+
+button[type="submit"].button--search {
+  background: $white;
+  padding: rem-calc(10 15 10 0);
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+
+  svg {
+    //width: rem-calc(20);
+    //height: rem-calc(20);
+    path {
+      transition: fill 0.25s ease;
+    }
+  }
+  //background-image:
+  &:hover {
+    background: $white;
+    svg {
+      path {
+        fill: $infospace-orange;
+      }
+    }
+  }
+}
+
+.side-link {
+  margin-bottom: 0;
+  list-style-type: none;
+  a {
+    text-decoration: none;
+
+    display: block;
+    background-color: $white;
+    border-radius: 2em;
+    padding: rem-calc(12 50 10 20);
+    font-size: rem-calc(14);
+    text-align: left;
+    position: relative;
+    color: $black;
+    transition: all 0.25s ease;
+    &:hover {
+      background-color: $infospace-orange;
+    }
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      right: rem-calc(14);
+      top: calc(50% - 1px);
+      //transform: translateY(-50%);
+    }
+
+    &::before {
+      width: rem-calc(14);
+      height: rem-calc(2);
+      background: $black;
+      transition: background 0.25s ease;
+    }
+
+    &::after {
+      width: rem-calc(10);
+      height: rem-calc(10);
+      border-right: rem-calc(2) solid $black;
+      border-top: rem-calc(2) solid $black;
+      transform: rotate(45deg);
+      transition: border-color 0.25s ease;
+      top: calc(50% - 5px);
+    }
+    @include breakpoint(medium) {
+      padding: rem-calc(12 60 12 20);
+      font-size: rem-calc(14);
+      margin-left: rem-calc(-10);
+      margin-right: rem-calc(-10);
+      &::before,
+      &::after {
+        right: rem-calc(20);
+      }
+      &::before {
+        width: rem-calc(16);
+      }
+
+      &::after {
+        width: rem-calc(12);
+        height: rem-calc(12);
+        top: calc(50% - 6px);
+      }
+    }
+    @include breakpoint(large) {
+      padding: rem-calc(15 60 14 20);
+      font-size: rem-calc(18);
+      &::before,
+      &::after {
+        right: rem-calc(24);
+      }
+      &::before {
+        //width: rem-calc(20);
+      }
+
+      &::after {
+        //width: rem-calc(14);
+        //height: rem-calc(14);
+        //top: calc(50% - 7px);
+      }
+    }
+  }
+
+  &:nth-child(even) {
+    a {
+      background: transparent;
+      &:hover {
+        background-color: $infospace-orange;
+      }
+    }
+  }
+}
+
+input[type="submit"],
+button[type="submit"] {
+  text-decoration: none;
+  background-color: $infospace-orange;
+  border-radius: 2em;
+  border: none;
+  padding: rem-calc(12 50 10 20);
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: rem-calc(14);
+  text-align: left;
+  position: relative;
+  width: 100%;
+  transition: all 0.25s ease;
+  background-image: url("../images/right-arrow.svg");
+  background-repeat: no-repeat;
+  background-position: right rem-calc(20) center;
+  background-size: rem-calc(15) auto;
+  margin-bottom: 0;
+  @include breakpoint(medium) {
+    background-size: auto;
+    width: auto;
+  }
+  &:hover {
+    background-color: $infospace-purple;
+    color: $white;
+    background-image: url("../images/right-arrow-white.svg");
+  }
+
+  @include breakpoint(medium) {
+    padding: rem-calc(15 60 14 20);
+    font-size: rem-calc(16);
+  }
+  @include breakpoint(large) {
+    padding: rem-calc(21 75 20 34);
+    font-size: rem-calc(20);
+  }
+}
+p,
+h1,
+h2,
+h3,
+h4,
+h5 {
+  + .wp-block-buttons,
+  .add-to-favourites {
+    margin-top: rem-calc(20);
+    @include breakpoint(medium) {
+      margin-top: rem-calc(22);
+    }
+    @include breakpoint(large) {
+      margin-top: rem-calc(40);
+    }
+  }
+}
+
+.add-to-favourites {
+  cursor: pointer;
+  text-decoration: none;
+  background-color: $infospace-red;
+  border-radius: 2em;
+  font-weight: bold;
+  padding: rem-calc(12 20 10 20);
+  display: flex;
+  align-items: center;
+  text-transform: uppercase;
+  font-size: rem-calc(14);
+  text-align: left;
+  position: relative;
+  color: $white;
+  transition: all 0.25s ease;
+  &:hover {
+    background-color: $infospace-purple;
+    color: $white;
+  }
+  @include breakpoint(medium) {
+    padding: rem-calc(14 24 12.9 24);
+    font-size: rem-calc(16);
+  }
+  @include breakpoint(large) {
+    padding: rem-calc(16 24 15 24);
+    font-size: rem-calc(16);
+  }
+  svg {
+    margin-right: rem-calc(10);
+    transition: all 0.5s ease-in-out;
+    path {
+      stroke: $white;
+      transition: all 0.5s ease-in-out;
+    }
+  }
+  &:hover {
+    background: $infospace-orange;
+  }
+  &--filled {
+  
+    svg {
+      path {
+        fill: $white;
+        stroke:$white;
+      }
+    }
+  }
+  &--small {
+    background: transparent!important;
+    padding:rem-calc(3 3);
+    svg{
+      width: rem-calc(22);
+      height:auto;
+      margin-right: 0;
+      path {
+        stroke: $dark-grey;
+        //fill: $infospace-red;
+      }
+    }
+    &.add-to-favourites--filled {
+  
+    svg {
+      path {
+        fill: $infospace-red;
+        stroke:$infospace-red;
+      }
+    }
+  }
+  }
+}
+
+p {
+  + .add-to-favourites {
+    margin-top: rem-calc(25);
+    @include breakpoint(large) {
+      margin-top: rem-calc(40);
+    }
+     &--filled {
+      svg {
+        path {
+          fill: $white!important;
+          stroke:$white!important;
+        }
+      }
+     }
   }
 }

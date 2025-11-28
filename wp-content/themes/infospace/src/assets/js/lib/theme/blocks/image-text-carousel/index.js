@@ -66,6 +66,8 @@ var image_text_carousel = {
               grabCursor: true,
               fade: true,
               autoPlay: 4000,
+              wrapAround: true,
+              prevNextButtons: true
 
             });
 

@@ -1,23 +1,43 @@
-body {
-  .grey-background {
-    position: relative;
-    background: $light-grey;
-    text-align: center;
-    margin-bottom: rem-calc(20);
-    padding: rem-calc(20 0 20 0);
+.grey-background {
+  position: relative;
+  background: $light-grey;
+  margin-bottom: rem-calc(20);
+  padding: rem-calc(33 20 20 20);
+  border-radius: rem-calc(20);
+  @include breakpoint(medium) {
+    margin-bottom: rem-calc(30);
+    padding: rem-calc(40 30);
+    border-radius: rem-calc(30);
+  }
+
+  @include breakpoint(large) {
+    padding: rem-calc(60 30);
+    margin-bottom: rem-calc(60);
+    border-radius: rem-calc(50);
+  }
+
+  &:last-child {
+     margin-bottom: rem-calc(-40);
     @include breakpoint(medium) {
-      margin-bottom: rem-calc(30);
-      padding: rem-calc(40 0 40 0);
+      margin-bottom: rem-calc(-30);
     }
     @include breakpoint(large) {
-      margin-bottom: rem-calc(60);
-      padding: rem-calc(40 0 40 0);
+      margin-bottom: rem-calc(-20);
     }
-    .grey-background__content {
-      max-width: $global-width;
-      margin-left: auto;
-      margin-right: auto;
+  }
+
+  &__content {
+    max-width: $global-width;
+    margin: 0 auto;
+    > .wp-block-heading {
+      text-align: center;
+      @include breakpoint(large) {
+        text-align: left;
+        //padding-left: rem-calc(25);
+      }
+      @include breakpoint(xlarge) {
+        padding-left: rem-calc(67);
+      }
     }
-  
   }
 }

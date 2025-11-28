@@ -13,7 +13,7 @@ var image_text_carousel = {
       // check if is a gutenberg page
       const { __ } = wp.i18n; // Import __() from wp.i18n
       const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
-      const { InnerBlocks, PlainText } = wp.blockEditor;
+      const { InnerBlocks } = wp.blockEditor;
 
       /**
        * Custom SVG path
@@ -71,12 +71,7 @@ var image_text_carousel = {
         icon: MyIcon, // Block icon from Dashicons → https://developer.wordpress.org/resource/dashicons/.
         category: "theme-specific", // Block category — Group blocks together based on common traits E.g. common, formatting, layout widgets, embed.
         attributes: {
-          mainHeading: {
-            type: "string",
-          },
-          strapLine: {
-            type: "string",
-          },
+          
         },
 
         /**
@@ -92,26 +87,7 @@ var image_text_carousel = {
           return (
             <div className={className}>
               <div className="image-text-carousel-container">
-                <h3 className="image-text-carousel-heading">
-                  <PlainText
-                    onChange={(content) =>
-                      setAttributes({ mainHeading: content })
-                    }
-                    value={attributes.mainHeading}
-                    placeholder="Enter heading here"
-                    className="image-text-carousel-heading-text"
-                  />
-                </h3>
-                <p className="image-text-carousel-strapline">
-                  <PlainText
-                    onChange={(content) =>
-                      setAttributes({ strapLine: content })
-                    }
-                    value={attributes.strapLine}
-                    placeholder="Enter sub heading here"
-                    className="image-text-carousel-strapline-text"
-                  />
-                </p>
+              
                 <InnerBlocks
                   template={TEMPLATE}
                   allowedBlocks={["theme/image-text-slide"]}

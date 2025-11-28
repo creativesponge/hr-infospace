@@ -1,54 +1,56 @@
-body {
-    .narrow-content {
-      margin-bottom: rem-calc(30);
-      max-width: rem-calc(700);
-      margin-left: auto;
-      margin-right: auto;
-      @include breakpoint(medium) {
-        margin-bottom: rem-calc(40);
-      }
-      @include breakpoint(large) {
-        margin-bottom: rem-calc(60);
-      }
-      &.very-narrow {
-        max-width: rem-calc(600);
-      }
-      + .narrow-content {
-        margin-top: rem-calc(-30);
-        @include breakpoint(medium) {
-          margin-top: rem-calc(-40);
-        }
-        @include breakpoint(large) {
-          margin-top: rem-calc(-60);
-        }
-      }
+
+  .narrow-content {
+    margin-bottom: rem-calc(30);
+    max-width: rem-calc(700);
+    margin-left: auto;
+    margin-right: auto;
+
+    @include breakpoint(medium) {
+      margin-bottom: rem-calc(40);
     }
-    p,
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-      + .narrow-content {
-        margin-top: rem-calc(30);
-  
-        @include breakpoint(medium) {
-          margin-top: rem-calc(40);
-        }
-        @include breakpoint(large) {
-          margin-top: rem-calc(60);
-        }
-      }
+
+    @include breakpoint(large) {
+      margin-bottom: rem-calc(60);
     }
-  
-    .coloured-background__content {
-      > .narrow-content {
-        &:first-child {
-          padding-top: rem-calc(30);
-        
-        }
-      }
+
+    &.very-narrow {
+      max-width: rem-calc(600);
     }
   }
-  
+
+  // Combined selectors for better efficiency
+  .narrow-content + .narrow-content,
+  p + .narrow-content,
+  h1 + .narrow-content,
+  h2 + .narrow-content,
+  h3 + .narrow-content,
+  h4 + .narrow-content,
+  h5 + .narrow-content,
+  h6 + .narrow-content {
+    margin-top: rem-calc(30);
+
+    @include breakpoint(medium) {
+      margin-top: rem-calc(40);
+    }
+
+    @include breakpoint(large) {
+      margin-top: rem-calc(60);
+    }
+  }
+
+  // Override for adjacent narrow-content elements
+  .narrow-content + .narrow-content {
+    margin-top: rem-calc(-30);
+
+    @include breakpoint(medium) {
+      margin-top: rem-calc(-40);
+    }
+
+    @include breakpoint(large) {
+      margin-top: rem-calc(-60);
+    }
+  }
+
+  .coloured-background__content > .narrow-content:first-child {
+    padding-top: rem-calc(30);
+  }

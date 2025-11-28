@@ -1,0 +1,160 @@
+.form-pop-up {
+  position: fixed;
+  display: none;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: rem-calc(20);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+
+  &--open {
+    display: flex;
+  }
+  &__overlay {
+    display: block;
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(0px);
+    transition: backdrop-filter 0.25s ease;
+  }
+  &--open-delay {
+    .form-pop-up__content {
+      filter: blur(0px);
+      opacity:1;
+    }
+    .form-pop-up__overlay {
+      backdrop-filter: blur(30px);
+    }
+  }
+  h2 {
+    font-weight: 700;
+    @include breakpoint(xlarge) {
+      font-size: rem-calc(40);
+    }
+  }
+
+  &__content {
+    background: $white;
+    padding: rem-calc(20);
+    border-radius: rem-calc(20);
+    width: 100%;
+    max-width: rem-calc(916);
+    position: relative;
+    z-index: 1;
+    filter: blur(30px);
+    opacity:0;
+     transition: all 0.25s ease;
+    @include breakpoint(medium) {
+      padding: rem-calc(30);
+      border-radius: rem-calc(30);
+    }
+    @include breakpoint(large) {
+      padding: rem-calc(50);
+      border-radius: rem-calc(50);
+    }
+  }
+  label {
+    color:$infospace-black;
+    font-weight: 500;
+  }
+  &--login {
+    .form-pop-up__content {
+      max-width: rem-calc(676);
+    }
+  }
+
+  &__close {
+    position: absolute;
+    top: rem-calc(20);
+    right: rem-calc(20);
+    padding-right: rem-calc(26);
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: rem-calc(18);
+    cursor: pointer;
+    @include breakpoint(medium) {
+      top: rem-calc(30);
+      right: rem-calc(25);
+    }
+    @include breakpoint(large) {
+      top: rem-calc(30);
+      right: rem-calc(25);
+    }
+    &:after,
+    &:before {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 50%;
+      right: 0;
+      width: rem-calc(20);
+      height: rem-calc(2);
+      background: $infospace-orange;
+      transform: translate(0, -50%);
+      transition: transform 0.25s ease;
+    }
+
+    &:after {
+      transform: translate(0, -50%) rotate(45deg);
+    }
+
+    &:before {
+      transform: translate(0, -50%) rotate(-45deg);
+    }
+    &:hover {
+      &:after {
+        transform: translate(0, -50%) rotate(0deg);
+      }
+
+      &:before {
+        transform: translate(0, -50%) rotate(0deg);
+      }
+    }
+  }
+
+  &--register {
+    form {
+      @include breakpoint(medium) {
+        display: flex;
+        flex-wrap: wrap;
+        > div {
+          padding-bottom: rem-calc(5);
+          @include breakpoint(medium) {
+            padding-bottom: rem-calc(10);
+            width: 50%;
+            &:nth-child(odd) {
+              padding-right: rem-calc(10);
+            }
+            &:nth-child(even) {
+              padding-left: rem-calc(10);
+            }
+            &:last-child {
+              text-align: right;
+            }
+          }
+        }
+      }
+    }
+    input[type="submit"] {
+      background-color: $infospace-green;
+      &:hover {
+        background-color: $infospace-purple;
+      }
+    }
+
+    .form-pop-up__close {
+      &:after,
+      &:before {
+        background: $infospace-green !important;
+      }
+    }
+  }
+}

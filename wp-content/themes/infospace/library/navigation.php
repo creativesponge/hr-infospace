@@ -10,6 +10,9 @@ register_nav_menus(
 	array(
 		'top-bar-r'  => esc_html__( 'Right Top Bar', $namespace ),
 		'mobile-nav' => esc_html__( 'Mobile', $namespace ),
+		'account-nav' => esc_html__( 'My Account Navigation', $namespace ),
+		'footer-nav'  => esc_html__( 'Footer Navigation', $namespace ),
+		'footer-nav' => esc_html__( 'Footer Navigation', $namespace ),
 	)
 );
 
@@ -24,7 +27,7 @@ if ( ! function_exists( 'startertheme_top_bar_r' ) ) {
 		wp_nav_menu(
 			array(
 				'container'      => false,
-				'menu_class'     => 'dropdown menu desktop-menu',
+				'menu_class'     => 'dropdown menu desktop-menu header__menu',
 				'items_wrap'     => '<ul id="%1$s" class="%2$s" data-dropdown-menu>%3$s</ul>',
 				'theme_location' => 'top-bar-r',
 				'depth'          => 3,
@@ -47,11 +50,53 @@ if ( ! function_exists( 'startertheme_mobile_nav' ) ) {
 			array(
 				'container'      => false,                         // Remove nav container
 				'menu'           => __( 'mobile-nav', $namespace ),
-				'menu_class'     => 'vertical menu',
+				'menu_class'     => 'menu',
 				'theme_location' => 'mobile-nav',
-				'items_wrap'     => '<ul id="%1$s" class="%2$s" data-accordion-menu data-submenu-toggle="true">%3$s</ul>',
+				'items_wrap'     => '<ul class="%2$s" data-accordion-menu data-submenu-toggle="true">%3$s</ul>',
 				'fallback_cb'    => false,
 				'walker'         => new Startertheme_Mobile_Walker(),
+			)
+		);
+	}
+}
+
+/**
+ * Account navigation - right top bar
+ *
+ * @link http://codex.wordpress.org/Function_Reference/wp_nav_menu
+ */
+if ( ! function_exists( 'startertheme_account_nav' ) ) {
+	function startertheme_account_nav() {
+		wp_nav_menu(
+			array(
+				'container'      => false,
+				'menu_class'     => 'dropdown menu desktop-menu header__account-menu',
+				'items_wrap'     => '<ul id="%1$s" class="%2$s" data-dropdown-menu>%3$s</ul>',
+				'theme_location' => 'account-nav',
+				'depth'          => 3,
+				'fallback_cb'    => false,
+				'walker'         => new Startertheme_Account_Walker(),
+			)
+		);
+	}
+}
+
+/**
+ * Account navigation - right top bar
+ *
+ * @link http://codex.wordpress.org/Function_Reference/wp_nav_menu
+ */
+if ( ! function_exists( 'startertheme_footer_nav' ) ) {
+	function startertheme_footer_nav() {
+		wp_nav_menu(
+			array(
+				'container'      => false,
+				'menu_class'     => 'menu footer-menu footer__menu',
+				'items_wrap'     => '<ul id="%1$s" class="%2$s" data-dropdown-menu>%3$s</ul>',
+				'theme_location' => 'footer-nav',
+				'depth'          => 3,
+				'fallback_cb'    => false,
+				'walker'         => new Startertheme_Top_Bar_Walker(),
 			)
 		);
 	}

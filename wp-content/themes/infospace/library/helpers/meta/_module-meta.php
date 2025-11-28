@@ -18,7 +18,7 @@ function cmb2_module_metabox() {
     $module->add_field( array(
         'name'    => __( 'Resource to start access from', 'hrinfospace' ),
         'desc'    => __( 'Select a single resource as a starting point for this module.', 'hrinfospace' ),
-        'id'      => $prefix .'module_attached_pages',
+        'id'      => $prefix .'module_attached_resources',
         'type'    => 'select',
         'column'  => true,
         'show_option_none' => __( 'Select a resource...', 'hrinfospace' ),
@@ -26,7 +26,9 @@ function cmb2_module_metabox() {
             $resources = get_posts(array(
                 'post_type' => 'resource_page',
                 'posts_per_page' => -1,
-                'post_status' => 'publish'
+                'post_status' => 'publish',
+                'orderby' => 'title',
+                'order'   => 'ASC',
             ));
             $options = array();
             foreach ($resources as $resource) {
@@ -35,7 +37,65 @@ function cmb2_module_metabox() {
             return $options;
         },
     ) );
+    $module->add_field( array(
+        'name' => __( 'Description', 'hrinfospace' ),
+        'desc' => __( 'Enter a description for this module.', 'hrinfospace' ),
+        'id'   => $prefix . 'module_description',
+        'type' => 'textarea_small',
+    ) );
 
+    
+
+    $module->add_field( array(
+        'name' => __( 'Module Color', 'hrinfospace' ),
+        'desc' => __( 'Choose a color for this module.', 'hrinfospace' ),
+        'id'   => $prefix . 'module_color',
+        'type' => 'colorpicker',
+    ) );
+    $module->add_field( array(
+        'name' => __( 'Banner Image', 'hrinfospace' ),
+        'desc' => __( 'Upload a banner image for this module.', 'hrinfospace' ),
+        'id'   => $prefix . 'banner_image',
+        'type' => 'file',
+        'options' => array(
+            'url' => false,
+        ),
+        'text'    => array(
+            'add_upload_file_text' => __( 'Add Banner Image', 'hrinfospace' )
+        ),
+        'query_args' => array(
+            'type' => array(
+                'image/jpeg',
+                'image/png',
+                'image/gif',
+                'image/webp',
+            ),
+        ),
+        'preview_size' => 'medium',
+    ) );
+
+    $module->add_field( array(
+        'name' => __( 'mobule listing Image', 'hrinfospace' ),
+        'desc' => __( 'Upload a banner image for this module.', 'hrinfospace' ),
+        'id'   => $prefix . 'listing_image_mobile',
+        'type' => 'file',
+        'options' => array(
+            'url' => false,
+        ),
+        'text'    => array(
+            'add_upload_file_text' => __( 'Add MobileListing Image', 'hrinfospace' )
+        ),
+        'query_args' => array(
+            'type' => array(
+                'image/jpeg',
+                'image/png',
+                'image/gif',
+                'image/webp',
+            ),
+        ),
+        'preview_size' => 'medium',
+    ) );
+/*
     $module->add_field( array(
         'name'    => __( 'Select Pages', 'hrinfospace' ),
         'desc'    => __( 'Choose pages from the dropdown list to attach to this module.', 'hrinfospace' ),
@@ -52,7 +112,7 @@ function cmb2_module_metabox() {
         },
         'column'  => true,
     ) );
-
+*/
     
 
 

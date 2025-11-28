@@ -13,7 +13,7 @@ global $namespace;
 		<h1 class="entry-title"><?php //the_title(); ?></h1>
 	</header>-->
 	<div class="entry-content">
-		<?php the_content(); echo "PAGE"; ?>
+		<?php the_content();  ?>
 		<?php edit_post_link( __( '(Edit)', $namespace ), '<span class="edit-link">', '</span>' ); ?>
 	</div>
 	<footer>

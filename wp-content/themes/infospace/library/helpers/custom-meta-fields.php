@@ -87,7 +87,7 @@ function theme_display_text_small_column($field_args, $field)
 }
 
 // Meta boxes
-require_once('meta/_page-meta.php');
+require_once('meta/_resource-meta.php');
 require_once('meta/_document-meta.php');
 require_once('meta/_document-file-meta.php');
 require_once('meta/_page-link-meta.php');
@@ -125,7 +125,7 @@ function theme_register_theme_options_metabox()
 		// 'menu_title'      => esc_html__( 'Options', 'cmb2' ), // Falls back to 'title' (above).
 		// 'parent_slug'     => 'themes.php', // Make options page a submenu item of the themes menu.
 		'capability'      => 'edit_pages', // Cap required to view options-page.
-		 'position'        => 2, // Menu position. Only applicable if 'parent_slug' is left empty.
+		'position'        => 2, // Menu position. Only applicable if 'parent_slug' is left empty.
 		// 'admin_menu_hook' => 'network_admin_menu', // 'network_admin_menu' to add network-level options page.
 		// 'display_cb'      => false, // Override the options-page form output (CMB2_Hookup::options_page_output()).
 		// 'save_button'     => esc_html__( 'Save Theme Options', 'cmb2' ), // The text for the options-page save button. Defaults to 'Save'.
@@ -166,45 +166,7 @@ function theme_register_theme_options_metabox()
 		'id'      => $prefix . 'email',
 		'type'    => 'text',
 	));
-	$theme_options->add_field(array(
-		'name' => 'Social',
-		'type' => 'title',
-		'id'   => $prefix . 'social'
-	));
-	$theme_options->add_field(array(
-		'name'    => esc_html__('X address', 'cmb2'),
-		'desc'    => esc_html__('The X address', 'cmb2'),
-		'id'      => $prefix . 'twitter',
-		'type'    => 'text',
-	));
-
-	$theme_options->add_field(array(
-		'name'    => esc_html__('Facebook address', 'cmb2'),
-		'desc'    => esc_html__('The facebook address', 'cmb2'),
-		'id'      => $prefix . 'facebook',
-		'type'    => 'text',
-	));
-
-	$theme_options->add_field(array(
-		'name'    => esc_html__('Instagram address', 'cmb2'),
-		'desc'    => esc_html__('The instagram address', 'cmb2'),
-		'id'      => $prefix . 'instagram',
-		'type'    => 'text',
-	));
-
-	$theme_options->add_field(array(
-		'name'    => esc_html__('YouTube address', 'cmb2'),
-		'desc'    => esc_html__('The YouTube address', 'cmb2'),
-		'id'      => $prefix . 'youtube',
-		'type'    => 'text',
-	));
-
-	$theme_options->add_field(array(
-		'name'    => esc_html__('Linkedin address', 'cmb2'),
-		'desc'    => esc_html__('The Linkedin address', 'cmb2'),
-		'id'      => $prefix . 'linkedin',
-		'type'    => 'text',
-	));
+	
 
 	$theme_options->add_field(array(
 		'name' => 'Footer',
@@ -229,11 +191,53 @@ function theme_register_theme_options_metabox()
 		'type'    => 'file',
 	));
 	$theme_options->add_field(array(
+		'name'    => esc_html__('Updates log date', 'cmb2'),
+		'desc'    => esc_html__('Enter the date of the updates log', 'cmb2'),
+		'id'      => $prefix . 'updates_log_date',
+		'type'    => 'text_date',
+	));
+
+	$theme_options->add_field(array(
 		'name'    => esc_html__('Instruction document', 'cmb2'),
 		'desc'    => esc_html__('Upload a file containing the instruction document', 'cmb2'),
 		'id'      => $prefix . 'instruction_document',
 		'type'    => 'file',
 	));
+
+	$theme_options->add_field(array(
+		'name' => 'Resources section',
+		'type' => 'title',
+		'id'   => $prefix . 'resources_section'
+	));
+	$theme_options->add_field(array(
+		'name'    => esc_html__('Get in touch text', 'cmb2'),
+		'id'      => $prefix . 'get_in_touch_text',
+		'type'    => 'text',
+	));
+	$theme_options->add_field(array(
+		'name'    => esc_html__('Get in touch url', 'cmb2'),
+		'id'      => $prefix . 'get_in_touch_url',
+		'type'    => 'text',
+	));
+
+	$theme_options->add_field(array(
+		'name' => 'Search page',
+		'type' => 'title',
+		'id'   => $prefix . 'search_page_section'
+	));
+	$theme_options->add_field(array(
+		'name'    => esc_html__('Heading image', 'cmb2'),
+		'desc'    => esc_html__('Upload an image for the search page heading', 'cmb2'),
+		'id'      => $prefix . 'search_heading_image',
+		'type'    => 'file',
+	));
+	$theme_options->add_field(array(
+		'name'    => esc_html__('Heading image mobile', 'cmb2'),
+		'desc'    => esc_html__('Upload an image for the search page heading for mobile', 'cmb2'),
+		'id'      => $prefix . 'search_heading_image_mobile',
+		'type'    => 'file',
+	));
+	
 }
 
 /**
@@ -345,21 +349,33 @@ function cmb2_theme_enquiry_metabox()
 }
 
 
-
-/**
- * Only show this box in the CMB2 REST API if the user is logged in.
- *
- * @param  bool                 $is_allowed     Whether this box and its fields are allowed to be viewed.
- * @param  CMB2_REST_Controller $cmb_controller The controller object.
- *                                              CMB2 object available via `$cmb_controller->rest_box->cmb`.
- *
- * @return bool                 Whether this box and its fields are allowed to be viewed.
- */
-function theme_limit_rest_view_to_logged_in_users($is_allowed, $cmb_controller)
+// Add custom fields to menu items
+add_action('wp_nav_menu_item_custom_fields', 'add_menu_item_custom_fields', 10, 4);
+function add_menu_item_custom_fields($item_id, $item, $depth, $args)
 {
-	if (!is_user_logged_in()) {
-		$is_allowed = false;
-	}
+	global $prefix;
 
-	return $is_allowed;
+	$nav_file = get_post_meta($item_id, $prefix . 'nav_file', true);
+?>
+	<p class="field-nav-file description description-wide">
+		<label for="edit-menu-item-nav-file-<?php echo $item_id; ?>">
+			File Attachment ID<br />
+			<input type="text" id="edit-menu-item-nav-file-<?php echo $item_id; ?>"
+				name="menu-item-nav-file[<?php echo $item_id; ?>]" value="<?php echo esc_attr($nav_file); ?>" />
+		</label>
+	</p>
+
+
+<?php
+}
+
+// Save the custom fields
+add_action('wp_update_nav_menu_item', 'save_menu_item_custom_fields', 10, 3);
+function save_menu_item_custom_fields($menu_id, $menu_item_db_id, $args)
+{
+	global $prefix;
+
+	if (isset($_POST['menu-item-nav-file'][$menu_item_db_id])) {
+		update_post_meta($menu_item_db_id, $prefix . 'nav_file', sanitize_text_field($_POST['menu-item-nav-file'][$menu_item_db_id]));
+	}
 }

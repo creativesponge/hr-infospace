@@ -1,0 +1,51 @@
+/**
+ * #.# Editor Styles
+ *
+ * CSS for just Backend enqueued after style.scss
+ * which makes it higher in priority.
+ */
+
+.wp-block-theme-video-tour {
+  padding: 20px !important;
+  position: relative;
+  text-align: left;
+  border: 6px solid #eee;
+  text-align: center;
+  .video-tour-heading {
+    text-align: center;
+    textarea {
+      text-align: center;
+      background: #eee;
+      padding: rem-calc(20);
+
+      font-size: rem-calc(30);
+    }
+  }
+  p.responsive-video {
+    padding: 120px;
+    background: #eee;
+    textarea {
+      text-align: center;
+      background: #eee;
+      padding: rem-calc(20);
+    }
+  }
+  .video-tour-footer {
+    text-align: center;
+    h2 {
+      font-weight: bold;
+      font-size: rem-calc(30);
+    }
+    textarea {
+      text-align: center;
+      background: #eee;
+      padding: rem-calc(20);
+    }
+    .block-editor-block-list__layout {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}

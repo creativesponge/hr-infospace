@@ -1,23 +1,5 @@
 .tabs-container {
-  ul.tabs__list {
-    list-style-type: none;
-    display: none;
-    padding: 0;
-    margin: 0;
-    @include breakpoint(medium) {
-      display: flex;
-    }
-    li {
-      background: #eee;
-      margin-right: 0;
-      text-align: center;
-      a {
-        padding: rem-calc(10 20);
-        display: block;
-      }
-    }
-  }
-  .tabs-container__content {
+  &__content {
     .tabs__tab {
       border: 6px solid #eee;
       padding: rem-calc(20);
@@ -39,6 +21,24 @@
       &::after {
         content: "";
       }
+    }
+  }
+}
+ul.tabs__list {
+  list-style-type: none;
+  display: none;
+  padding: 0;
+  margin: 0;
+  @include breakpoint(medium) {
+    display: flex;
+  }
+  li {
+    background: #eee;
+    margin-right: 0;
+    text-align: center;
+    a {
+      padding: rem-calc(10 20);
+      display: block;
     }
   }
 }

@@ -136,6 +136,9 @@ function posts_filter_posts()
     $cats = !empty($params['cats']) ? $params['cats'] : [];
     $tax_qry = [];
 
+    //$moduleId = $_SESSION['current_module_slug'] ?? '';
+
+
 
     if (!empty($cats)) {
         $tax_qry['relation'] = 'AND';
@@ -221,27 +224,25 @@ add_action('wp_ajax_nopriv_posts_do_filter_posts', 'posts_filter_posts');
 /**
  * Pagination
  */
-function vb_ajax_pager($query = null, $paged = 1, $searchTerm = '')
-{
-    if (!$query)
-        return;
+function vb_ajax_pager( $query = null, $paged = 1 ) {
+  if (!$query)
+      return;
 
-    if ($query->max_num_pages > 1) : ?>
-        <?php //$pagenum = $query->query_vars['paged'] < 1 ? 1 : $query->query_vars['paged']; 
-        ?>
-        <div class="pagination">
+  if ($query->max_num_pages > 1) : ?>
+    <?php $pagenum = $query->query_vars['paged'] < 1 ? 1 : $query->query_vars['paged']; ?>
+      <div class="pagination">
+          <?php if($paged > 1) { ?>
+            <a href="#page=<?php echo $paged-1 ?>"><</a>
+          <?php } ?>
 
-            <?php if ($paged < $query->max_num_pages) { ?>
-                <div class="wp-block-button">
-                    <button data-page="<?php echo $paged + 1 ?>" data-search="<?php echo $searchTerm ?>" class="button button--load-more">
-                        Load more
-                    </button>
-                </div>
+          <?php echo "P".$pagenum." <span>of</span> ".$query->max_num_pages;?>
 
-            <?php } ?>
+          <?php if($paged < $query->max_num_pages) { ?>
+            <a href="#page=<?php echo $paged+1 ?>">></a>
+          <?php } ?>
 
-        </div>
-<?php endif;
+      </div>
+  <?php endif;
 }
 
 // Log links
@@ -292,3 +293,14 @@ function log_download_click() {
     log_user_interaction($download_url, $download_id , 12, 'Downloaded file', $file_name);
     wp_die();
 }
+
+// Autocomplete assets
+function autocomplete_assets()
+{
+
+    wp_localize_script('foundation', 'autoComplete', array(
+        'data_fetch_nonce'    => wp_create_nonce('autoComplete'),
+        'autocomplete_ajax_url' => admin_url('admin-ajax.php')
+    ));
+}
+add_action('wp_enqueue_scripts', 'autocomplete_assets', 100);

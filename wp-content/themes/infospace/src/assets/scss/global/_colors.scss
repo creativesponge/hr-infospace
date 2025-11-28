@@ -1,0 +1,71 @@
+$infospace-purple: #4f2851;
+$infospace-light-purple: #6D335E;
+$infospace-vlight-purple: #804871;
+
+$infospace-orange: #ff9e16;
+$infospace-mauve: #d6b7ce;
+$infospace-green: #3bd593;
+$infospace-red: #db0a5b;
+$infospace-blue: #2a7ab0;
+$infospace-black: #3C3C3B;
+$infospace-white: #FFFFFF;
+
+$light-pink: #FA659F;
+$infospace-mag: #EA1D76;
+
+
+// Create a map of color classes and variables
+$infospace-colors: (
+  "infospace-purple": $infospace-purple,
+  "infospace-orange": $infospace-orange,
+  "infospace-mauve": $infospace-mauve,
+  "infospace-green": $infospace-green,
+  "infospace-red": $infospace-red,
+  "infospace-blue": $infospace-blue,
+  "infospace-black": $infospace-black,
+  "infospace-white": $infospace-white,
+);
+
+// Generate border, background color and text color classes
+@each $class, $color in $infospace-colors {
+  .has-#{$class}-background-color {
+    background-color: $color !important;
+    &:hover {
+        background-color: $infospace-purple !important;
+    }
+  }
+
+  .has-#{$class}-color {
+    color: $color !important;
+  }
+  .wp-block-buttons .wp-block-button .wp-block-button__link {
+    &.has-#{$class}-color {
+      &::before {
+        background: $color;
+      }
+      &::after {
+        border-right: rem-calc(2) solid $color;
+        border-top: rem-calc(2) solid $color;
+      }
+      &:hover {
+        background-color: $infospace-purple !important;
+        color: #fff !important;
+        &::before {
+          background: #fff;
+        }
+        &::after {
+          border-right: rem-calc(2) solid #fff;
+          border-top: rem-calc(2) solid #fff;
+        }
+      }
+    }
+  }
+}
+
+// Purple color (special case)
+.has-infospace-purple-background-color {
+  color: #fff !important;
+  &:hover {
+    background-color: $infospace-orange!important;
+  }
+}

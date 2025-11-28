@@ -1,107 +1,63 @@
 var posts_list_filters = {
   init: function () {
-    this.posts_list_filters_fnc();
+    this.postListFilters();
   },
-  posts_list_filters_fnc: function () {
+  postListFilters: function () {
     /**
-     * BLOCK: Posts list
+     * BLOCK: Posts list with filters
      *
      * Registering a basic block with Gutenberg.
      * Simple block, renders and saves the same content without any interactivity.
      */
 
     //  Import CSS.
+
     if (document.body.classList.contains("block-editor-page")) {
       // check if is a gutenberg page
       const { __ } = wp.i18n; // Import __() from wp.i18n
       const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
-      const { InspectorControls } = wp.blockEditor;
-      const { SelectControl, PanelBody, PanelRow } = wp.components;
-      const withSelect = wp.data.withSelect;
 
+      const { MediaUpload, InspectorControls, InnerBlocks } = wp.blockEditor;
+      const { Button, PanelBody, PanelRow } = wp.components;
+
+    
       /**
        * Custom SVG path
        */
 
       const MyIcon = () => (
         <svg
-          id="f205da02-07bc-4773-a7cd-1e9aa2df7fbc"
-          data-name="a0e25ff0-08dc-4c8d-bb19-3a4ec433f28c"
+          id="uuid-fb1c3213-d082-428f-bfea-89667c3a1e64"
           xmlns="http://www.w3.org/2000/svg"
-          width="22.1"
-          height="21.6"
-          viewBox="0 0 22.1 21.6"
+          width="22"
+          height="11.4"
+          viewBox="0 0 22 11.4"
         >
-          <rect x="0.1" y="8.2" width="6.3" height="1.93" fill="#555d65" />
+          <rect width="22" height="11.3" fill="#d3d3d3" />
           <rect
-            x="1"
-            y="1"
-            width="4.4"
-            height="5.06"
-            fill="none"
-            stroke="#555d65"
+            x="11"
+            y=".9"
+            width="10"
+            height="9.8"
+            fill="#fff"
+            stroke="#1e1e1e"
             stroke-miterlimit="10"
-            stroke-width="2"
+            stroke-width="1.5"
           />
-          <rect x="8" y="8.2" width="6.3" height="1.93" fill="#555d65" />
-          <rect
-            x="8.9"
-            y="1"
-            width="4.4"
-            height="5.06"
-            fill="none"
-            stroke="#555d65"
-            stroke-miterlimit="10"
-            stroke-width="2"
-          />
-          <rect x="15.8" y="8.2" width="6.3" height="1.93" fill="#555d65" />
-          <rect
-            x="16.7"
-            y="1"
-            width="4.4"
-            height="5.06"
-            fill="none"
-            stroke="#555d65"
-            stroke-miterlimit="10"
-            stroke-width="2"
-          />
-          <rect x="0.1" y="19.7" width="6.3" height="1.93" fill="#555d65" />
-          <rect
-            x="1"
-            y="12.5"
-            width="4.4"
-            height="5.06"
-            fill="none"
-            stroke="#555d65"
-            stroke-miterlimit="10"
-            stroke-width="2"
-          />
-          <rect x="8" y="19.7" width="6.3" height="1.93" fill="#555d65" />
-          <rect
-            x="8.9"
-            y="12.5"
-            width="4.4"
-            height="5.06"
-            fill="none"
-            stroke="#555d65"
-            stroke-miterlimit="10"
-            stroke-width="2"
-          />
-          <rect x="15.8" y="19.7" width="6.3" height="1.93" fill="#555d65" />
-          <rect
-            x="16.7"
-            y="12.5"
-            width="4.4"
-            height="5.06"
-            fill="none"
-            stroke="#555d65"
-            stroke-miterlimit="10"
-            stroke-width="2"
-          />
+          <rect x="1" y="2.1" width="7.9" height="2" fill="#1e1e1e" />
+          <rect x="1" y="5.6" width="7.9" height="1.4" fill="#1e1e1e" />
+          <rect x="1" y="8.5" width="7.9" height="1.4" fill="#1e1e1e" />
         </svg>
       );
-      /**
-       * Register: aa Gutenberg Block.
+
+      const TEMPLATE = [
+        ["core/heading", { level: 1, placeholder: "Enter heading" }, []],
+        ["core/paragraph", {}, []],
+       
+      ];
+
+      /*
+       * Register: a Gutenberg Block.
        *
        * Registers a new block provided a unique name and an object defining its
        * behavior. Once registered, the block is made editor as an option to any
@@ -113,122 +69,178 @@ var posts_list_filters = {
        * @return {?WPBlock}          The block, if it has been successfully
        *                             registered; otherwise `undefined`.
        */
+
       registerBlockType("theme/posts-list-filters", {
         // Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
-
+        title: __("News list"), // Block title.
         icon: MyIcon, // Block icon from Dashicons → https://developer.wordpress.org/resource/dashicons/.
-        title: __("Posts list (with filters)"), // Block title.
-
         category: "theme-specific", // Block category — Group blocks together based on common traits E.g. common, formatting, layout widgets, embed.
         attributes: {
-          selectedCategory: {
-            type: "string",
-            default: 0,
+          attachmentId: {
+            type: "number",
           },
-         
-          numberPosts: {
+          backgroundImage: {
             type: "string",
-            default: 9,
+            default: null,
+          },
+          attachmentIdMob: {
+            type: "number",
+          },
+          backgroundImageMob: {
+            type: "string",
+            default: null,
           },
         },
-        edit: withSelect(function (select) {
-          return {
-            posts: select("core").getEntityRecords("taxonomy", "category", {
-              per_page: -1,
-            }),
-          };
-        })(function (props) {
-          // Categories
-          const setStory = (state) => {
-            props.setAttributes({
-              selectedCategory: state,
+        edit: function ({ attributes, className, setAttributes }) {
+          // Mobile image
+          const onRemoveImageMob = () => {
+            setAttributes({
+              backgroundImageMob: undefined,
             });
           };
 
-          if (!props.posts) {
-            return "Loading...";
-          }
+          const getImageButtonMob = (openEvent) => {
+            if (attributes.backgroundImageMob) {
+              return (
+                <div className="button-container">
+                  <Button onClick={openEvent} className="button button-large">
+                    Change mobile background image
+                  </Button>
+                  <Button
+                    onClick={onRemoveImageMob}
+                    className="button button-large"
+                  >
+                    Remove mobile background image
+                  </Button>
+                  <p class="size-square">
+                    {" "}
+                    (Ideal size is 640 x 910 pixels at 72dpi)
+                  </p>
+                </div>
+              );
+            } else {
+              return (
+                <div className="button-container">
+                  <Button onClick={openEvent} className="button button-large">
+                    Pick a mobile background image
+                  </Button>
+                  <p class="size-square">
+                    {" "}
+                    (Ideal size is 640 x 910 pixels at 72dpi)
+                  </p>
+                </div>
+              );
+            }
+          };
 
-          if (props.posts.length === 0) {
-            return "No posts";
-          }
-
-          let options = [{ value: 0, label: __("Select a Category") }];
-
-          for (var i = 0; i < props.posts.length; i++) {
-            options.push({
-              value: props.posts[i].id,
-              label: props.posts[i].name,
+          function onImageSelectMob(imageObject) {
+            setAttributes({
+              backgroundImageMob: imageObject.sizes.full.url,
+              attachmentIdMob: imageObject.id,
             });
           }
 
-          let numberPostsOptions = [
-            {
-              value: 9,
-              label: __("Number to show"),
-            },
-            {
-              value: 6,
-              label: __("6"),
-            },
-            {
-              value: 9,
-              label: __("9"),
-            },
-            {
-              value: 12,
-              label: __("12"),
-            },
-          ];
-
-          const setNumberPosts = (state) => {
-            props.setAttributes({
-              numberPosts: state,
+          //Desktop image
+          const onRemoveImage = () => {
+            setAttributes({
+              backgroundImage: undefined,
+              attachmentId: undefined,
             });
           };
-          
+
+          const getImageButton = (openEvent) => {
+            if (attributes.backgroundImage) {
+              return (
+                <div className="button-container">
+                  <Button onClick={openEvent} className="button button-large">
+                    Change image
+                  </Button>
+                  <Button
+                    onClick={onRemoveImage}
+                    className="button button-large"
+                  >
+                    Remove image
+                  </Button>
+                  <p class="size-square">
+                    {" "}
+                    (Ideal size is 1873 x 1873 pixels at 72dpi)
+                  </p>
+                </div>
+              );
+            } else {
+              return (
+                <div className="button-container">
+                  <Button onClick={openEvent} className="button button-large">
+                    Pick an image
+                  </Button>
+                  <p class="size-square">
+                    {" "}
+                    (Ideal size is 1873 x 1873 pixels at 72dpi)
+                  </p>
+                </div>
+              );
+            }
+          };
+
+          function onImageSelect(imageObject) {
+            setAttributes({
+              backgroundImage: imageObject.sizes.full.url,
+              attachmentId: imageObject.id,
+            });
+          }
 
           return (
-            <div className={props.className}>
-              <div className="cell medium-6">
-                <InspectorControls>
-                  <PanelBody title={__("Choose style", "themename")}>
-                    <PanelRow>
-                      <SelectControl
-                        value={props.attributes.numberPosts}
-                        label={__("Number of posts to show", "themename")}
-                        options={numberPostsOptions}
-                        onChange={setNumberPosts}
-                      />
-                    </PanelRow>
-                  </PanelBody>
-                  
-                </InspectorControls>
-                <div className="posts-list-filters-container">
-                  <div class="posts-list-filters-message">
-                    <h2>Displays a grid of posts.</h2>
-                    <SelectControl
-                      value={props.attributes.selectedCategory}
-                      label={__(
-                        "Choose a category to show"
-                      )}
-                      options={options}
-                      onChange={setStory}
+            <div className={className }>
+            
+
+              <div className="posts-list-filters">
+                 <InspectorControls>
+                <PanelBody title={__("Mobile", "themename")}>
+                  <div
+                    class="wp-block-theme-banner-carousel__mobile-preview"
+                    style={{
+                      backgroundImage: `url(${attributes.backgroundImageMob})`,
+                    }}
+                  ></div>
+                  <PanelRow>
+                    <MediaUpload
+                      onSelect={onImageSelectMob}
+                      type="image"
+                      value={attributes.backgroundImageMob}
+                      render={({ open }) => getImageButtonMob(open)}
                     />
-                    
+                  </PanelRow>
+                </PanelBody>
+              </InspectorControls>
+                <InnerBlocks template={TEMPLATE} />
+                <div className="posts-list-filters-image-container">
+                  <div
+                    className="posts-list-filters-image"
+                    style={{
+                      backgroundImage: `url(${attributes.backgroundImage})`,
+                    }}
+                  >
+                    <span></span>
                   </div>
+
+                  <MediaUpload
+                    onSelect={onImageSelect}
+                    type="image"
+                    value={attributes.backgroundImage}
+                    render={({ open }) => getImageButton(open)}
+                  />
                 </div>
               </div>
             </div>
           );
-        }),
+        },
 
         save: function ({ attributes }) {
-          null;
+          return <InnerBlocks.Content />;
         },
       });
     }
-  },
+  }
 };
 
 export default posts_list_filters;

@@ -1,0 +1,34 @@
+.all-newsletters {
+  
+  position: relative;
+  margin-bottom: rem-calc(20);
+  padding-bottom: rem-calc(60);
+
+  @include breakpoint(medium) {
+    margin-bottom: rem-calc(40);
+  }
+
+  @include breakpoint(large) {
+    margin-bottom: rem-calc(60);
+  }
+  &__switcher {
+    text-align: center;
+    @include breakpoint(large) {
+      margin-bottom: rem-calc(40);
+    }
+  }
+  &__container {
+    max-width: $global-width-small;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .download-link {
+    max-width: rem-calc(200);
+  }
+  .module-panel__block {
+    margin-bottom: rem-calc(30);
+    @include breakpoint(large) {
+        margin-bottom: 0;
+    }
+  }
+}

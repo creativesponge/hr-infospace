@@ -38,11 +38,11 @@ function cmb2_page_metabox()
             'style' => 'width:100%'
         ],
     ]);*/
-    /** NOT USED */
+
     $resource->add_field(array(
         'name'    => __('Documents shown', 'hrinfospace'),
         'desc'    => __('Drag files from the left column to the right column to attach them to this resource.<br />You may rearrange the order of the files in the right column by dragging and dropping.', 'hrinfospace'),
-        'id'      => $prefix . 'resource_attached_documents',/** NOT USED */
+        'id'      => $prefix . 'resource_attached_documents',
         'type'    => 'custom_attached_posts',
         'column'  => true, // Output in the admin post-listing as a custom column. https://github.com/CMB2/CMB2/wiki/Field-Parameters#column
         'options' => array(
@@ -55,7 +55,9 @@ function cmb2_page_metabox()
                     array(
                         'key'     => $prefix . 'document_is_active',
                         'value'   => 'on',
-                        'compare' => 'LIKE'
+                        'compare' => 'LIKE',
+                        'orderby' => 'title',
+                        'order'   => 'ASC',
                     )
                 )
             ), // override the get_posts args
@@ -74,6 +76,8 @@ function cmb2_page_metabox()
             'query_args'      => array(
                 'posts_per_page' => 10,
                 'post_type'      => 'page_link',
+                'orderby' => 'title',
+                'order'   => 'ASC',
             ), // override the get_posts args
         ),
     ));
@@ -90,6 +94,8 @@ function cmb2_page_metabox()
             'query_args'      => array(
                 'posts_per_page' => 10,
                 'post_type'      => 'resource_page',
+                'orderby' => 'title',
+                'order'   => 'ASC',
             ), // override the get_posts args
         ),
     ));

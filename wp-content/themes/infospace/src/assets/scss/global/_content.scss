@@ -1,7 +1,15 @@
 body {
-  padding-top: rem-calc(72);
-}.main-container {
+  padding-top: rem-calc(59);
+  @include breakpoint(medium) {
+    padding-top: rem-calc(70);
+  }
+  @include breakpoint(large) {
+    padding-top: rem-calc(98);
+  }
+}
+.main-container {
   @include xy-grid-container;
+  max-width: $global-width-margins;
 }
 
 .main-grid {

@@ -1,0 +1,470 @@
+.resource-module {
+  &__header {
+    background: $infospace-red;
+    color: $white;
+    //padding: rem-calc(0 0 0 0);
+    border-top-left-radius: rem-calc(20);
+    border-top-right-radius: rem-calc(20);
+
+    @include breakpoint(medium) {
+      border-top-left-radius: rem-calc(30);
+      border-top-right-radius: rem-calc(30);
+    }
+
+    @include breakpoint(large) {
+      border-top-left-radius: rem-calc(50);
+      border-top-right-radius: rem-calc(50);
+    }
+
+    h1 {
+      margin-bottom: 1em;
+      font-weight: 400;
+      margin-bottom: 0.7em;
+      @include breakpoint(medium) {
+        margin-bottom: 1em;
+      }
+      @include breakpoint(large) {
+        margin-bottom: 0.6em;
+      }
+      span {
+        font-weight: bold;
+        display: block;
+      }
+    }
+    &:after {
+      content: "";
+      display: block;
+      position: absolute;
+      background: $light-grey;
+      height: rem-calc(20);
+      width: 100%;
+      bottom: 0;
+      left: 0;
+      border-top-left-radius: rem-calc(20);
+      border-top-right-radius: rem-calc(20);
+      z-index: 1;
+      @include breakpoint(medium) {
+        border-top-left-radius: rem-calc(30);
+        border-top-right-radius: rem-calc(30);
+        height: rem-calc(30);
+      }
+
+      @include breakpoint(large) {
+        border-top-left-radius: rem-calc(50);
+        border-top-right-radius: rem-calc(50);
+        height: rem-calc(50);
+      }
+
+      /*
+      &--rev {
+        background-color: $white;
+        color: $black;
+        svg {
+          path {
+            stroke: $black;
+          }
+        }
+        &:hover {
+          background-color: $infospace-orange;
+          color: $white;
+          svg {
+            path {
+              stroke: $white;
+            }
+          }
+        }
+      }
+        */
+    }
+
+    .searchform {
+      input {
+        font-size: rem-calc(14);
+        @include breakpoint(medium) {
+          font-size: rem-calc(16);
+        }
+        @include breakpoint(large) {
+          font-size: rem-calc(20);
+        }
+        &::placeholder {
+          color: $dark-grey;
+          font-weight: bold;
+          text-transform: uppercase;
+          font-size: rem-calc(14);
+          @include breakpoint(medium) {
+            font-size: rem-calc(16);
+          }
+          @include breakpoint(large) {
+            font-size: rem-calc(20);
+          }
+        }
+      }
+    }
+
+    /*.add-to-favourites {
+      background: $white;
+      color: $infospace-red;
+      svg {
+        path {
+          stroke: $infospace-red;
+        }
+      }
+    }*/
+  }
+  &__news-teaser {
+    padding: rem-calc(15 15 20 15);
+    background: $light-grey;
+    border-radius: rem-calc(10);
+    width: rem-calc(208);
+    margin-right: rem-calc(15);
+    @include breakpoint(medium) {
+      background: $white;
+      padding: rem-calc(0 0 10 0);
+      margin-bottom: rem-calc(30);
+      border-bottom: $dark-grey 1px solid;
+      width: auto;
+      margin-right: 0;
+      border-radius: 0;
+    }
+    @include breakpoint(large) {
+      margin-bottom: rem-calc(40);
+    }
+    &:last-child {
+      @include breakpoint(medium) {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+      }
+    }
+    p,
+    h3 {
+      margin-bottom: 0.7em;
+      @include breakpoint(large) {
+         margin-bottom: 0.6em;
+      }
+    }
+  }
+  &__banner {
+    position: relative;
+    overflow: hidden;
+    border-top-right-radius: rem-calc(20);
+    border-top-left-radius: rem-calc(20);
+    @include breakpoint(medium) {
+      position: absolute;
+      right: 0;
+      // left: 0;
+      height: 100%;
+      width: auto;
+      bottom: 0;
+      z-index: 0;
+      border-top-right-radius: rem-calc(30);
+      border-top-left-radius: rem-calc(30);
+      overflow: hidden;
+    }
+    @include breakpoint(large) {
+      border-top-right-radius: rem-calc(50);
+      border-top-left-radius: 0;
+    }
+    svg.module-banner-mask-mobile {
+      position: absolute;
+      right: 0;
+      width: 100%;
+      bottom: -1px;
+      left: 0;
+      height: auto;
+      @include breakpoint(medium) {
+        display: none;
+      }
+    }
+    svg.banner-mask {
+      display: none;
+      @include breakpoint(medium) {
+        display: block;
+        position: absolute;
+        left: -290px;
+        top: 0;
+        height: 100%;
+        width: auto;
+        bottom: 0;
+        z-index: 1;
+      }
+      @include breakpoint(large) {
+        //left: -290px;
+      }
+      @include breakpoint(xlarge) {
+        right: rem-calc(530);
+        left: auto;
+      }
+    }
+    img {
+      height: 100%;
+      width: auto;
+    }
+  }
+  &__header-inner {
+    max-width: $global-width-inner;
+    margin-left: auto;
+    margin-right: auto;
+    @include breakpoint(medium) {
+      min-height: rem-calc(292);
+    }
+    @include breakpoint(large) {
+      min-height: rem-calc(362);
+    }
+  }
+  &__header-content {
+    padding: rem-calc(20 20 60 20);
+    position: relative;
+
+    z-index: 3;
+    @include breakpoint(medium) {
+      
+      padding: rem-calc(65 30 60 30);
+    }
+    @include breakpoint(large) {
+      padding: rem-calc(65 50 60 50);
+    }
+  }
+  &__news {
+    background: $light-grey;
+  }
+  &__news-container {
+    max-width: $global-width-small;
+    margin-left: auto;
+    margin-right: auto;
+    padding: rem-calc(20 0 0 0);
+    @include breakpoint(medium) {
+      padding: rem-calc(0 0 0 0);
+    }
+    @include breakpoint(large) {
+      padding: rem-calc(0 0 100 0);
+    }
+    .module-panel {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+      margin-bottom: 0;
+      @include breakpoint(medium) {
+        margin-bottom: rem-calc(30);
+      }
+      @include breakpoint(large) {
+        border-bottom-left-radius: rem-calc(30);
+        border-bottom-right-radius: rem-calc(30);
+      }
+    }
+    .module-panel__content {
+      background: $white;
+      @include breakpoint(medium) {
+        padding-left: rem-calc(30);
+        padding-right: rem-calc(30);
+      }
+      @include breakpoint(large) {
+        padding-left: rem-calc(40);
+        padding-right: rem-calc(40);
+        padding-bottom: rem-calc(50);
+      }
+    }
+  }
+  &__white-background {
+    position: relative;
+    z-index: 2;
+    background: $white;
+
+    //margin-top: rem-calc(-50);
+    border-top-left-radius: rem-calc(20);
+    border-top-right-radius: rem-calc(20);
+    @include breakpoint(medium) {
+      padding-left: rem-calc(30);
+      padding-right: rem-calc(30);
+      border-radius: rem-calc(30);
+
+      //margin-top: rem-calc(-70);
+    }
+    @include breakpoint(large) {
+      border-radius: rem-calc(50);
+      padding-top: rem-calc(80);
+      margin-top: rem-calc(-90);
+    }
+    .module-panel {
+      max-width: $global-width-small;
+      margin-left: auto;
+      margin-right: auto;
+      background: $white;
+    }
+  }
+  &__container {
+    max-width: $global-width-small;
+    margin-left: auto;
+    margin-right: auto;
+    @include breakpoint(medium) {
+      display: flex;
+      flex-wrap: wrap;
+    }
+    > div {
+      background: $light-grey;
+      @include breakpoint(medium) {
+        flex-basis: calc(50% - 8px);
+      }
+      @include breakpoint(large) {
+        flex-basis: calc(50% - 20px);
+      }
+      &:first-child,
+      &:nth-child(3) {
+        @include breakpoint(medium) {
+          margin-right: rem-calc(8);
+        }
+        @include breakpoint(large) {
+          margin-right: rem-calc(20);
+        }
+      }
+      &:nth-child(2),
+      &:nth-child(4) {
+        @include breakpoint(medium) {
+          margin-left: rem-calc(8);
+        }
+        @include breakpoint(large) {
+          margin-left: rem-calc(20);
+        }
+      }
+    }
+  }
+  &__grid {
+    @include breakpoint(medium) {
+      padding-left: rem-calc(30);
+      padding-right: rem-calc(30);
+    }
+  }
+  /*
+  &__col1 {
+    flex-basis: calc(100% - 336px);
+    padding-right: rem-calc(100);
+  }
+  &__col2 {
+    position: relative;
+    flex-basis: rem-calc(336);
+    @include breakpoint(medium) {
+      margin-top: rem-calc(-110);
+    }
+  }
+  &__box {
+    background: $light-grey;
+    padding: rem-calc(34 20 20 20);
+    margin-bottom: rem-calc(20);
+    border-radius: rem-calc(20);
+    @include breakpoint(medium) {
+    }
+    @include breakpoint(large) {
+      padding: rem-calc(34 20 36 20);
+      margin-bottom: rem-calc(30);
+    }
+    ul {
+      margin: rem-calc(20) 0 0 0;
+    }
+    h3 {
+      color: $infospace-red;
+    }
+    &--green {
+      background: $infospace-green;
+      @include breakpoint(large) {
+        padding: rem-calc(40 40 40 40);
+      }
+      h3 {
+        color: $black;
+      }
+    }
+  }
+  &__attachments {
+    border-top: $infospace-red 1px solid;
+    margin-top: rem-calc(40);
+    padding-top: rem-calc(30);
+    @include breakpoint(large) {
+      margin-top: rem-calc(46);
+    }
+  }*/
+  .resource-module__tabs {
+  }
+  &__panel {
+    display: none;
+    &.active {
+      display: block;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+      li {
+        margin-bottom: rem-calc(10);
+        a {
+          display: block;
+          position: relative;
+          text-decoration: none;
+          background: $light-grey;
+          padding: rem-calc(12 20);
+
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          border-radius: rem-calc(30);
+          transition: all 0.25s ease;
+          span {
+            display: flex;
+            align-items: center;
+            padding-right: rem-calc(20);
+            svg {
+              margin-right: rem-calc(10);
+            }
+          }
+          &:hover {
+            background: $infospace-orange;
+            //color: $white;
+            svg {
+              path {
+                // stroke: $white;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  &__favourite-icon {
+    svg {
+      path {
+        stroke: $black;
+      }
+    }
+  }
+
+  .module-tabs {
+    margin-bottom: rem-calc(4);
+    //padding-top: rem-calc(20);
+    margin-top: rem-calc(-10);
+    text-align: center;
+    @include breakpoint(medium) {
+      margin-top: rem-calc(-20);
+    }
+    @include breakpoint(large) {
+      margin-top: rem-calc(0);
+      margin-bottom: rem-calc(0);
+    }
+  }
+}
+
+.single-post {
+  .resource-module__news {
+    border-bottom-left-radius: rem-calc(50);
+    border-bottom-right-radius: rem-calc(50);
+  }
+  .resource-module__header-inner {
+    min-height: rem-calc(200);
+    max-width: $global-width-small;
+    padding-right: 0;
+    padding-left: 0;
+    .resource-module__header-content {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+  .resource-module__news-container {
+    max-width: $global-width-small;
+  }
+}

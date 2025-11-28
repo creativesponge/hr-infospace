@@ -1,0 +1,148 @@
+.searchform {
+  position: relative;
+  display: flex;
+  input {
+    margin-bottom: 0;
+    background: $white;
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+    &:focus {
+      outline: none;
+      border: none;
+      box-shadow: 0 0 0 transparent;
+    }
+  }
+
+  //form {
+  display: flex;
+  max-width: rem-calc(814);
+  input {
+    margin-bottom: 0;
+    background: $white;
+    &[type="text"] {
+      padding: rem-calc(2 20);
+      @include breakpoint(medium) {
+        padding: rem-calc(14 20);
+      }
+      @include breakpoint(large) {
+        padding: rem-calc(22 30);
+      }
+    }
+  }
+
+  button[type="submit"].button--search {
+    width: auto;
+
+    padding: rem-calc(10 15 10 0);
+    @include breakpoint(large) {
+      padding: rem-calc(16 24 16 0);
+    }
+    svg {
+      height: rem-calc(15);
+      width: auto;
+      @include breakpoint(medium) {
+        height: rem-calc(20);
+      }
+      @include breakpoint(large) {
+        height: auto;
+      }
+    }
+  }
+  // }
+
+  &__datafetch {
+    position: absolute;
+    top: 100%;
+    left: rem-calc(25);
+    width: calc(100% - 50px);
+    background: $light-gray;
+
+    max-height: rem-calc(300);
+    overflow-y: auto;
+    z-index: 100;
+    padding: rem-calc(10 20);
+    display: none;
+    border-bottom-left-radius: rem-calc(20);
+    border-bottom-right-radius: rem-calc(20);
+    a {
+      text-decoration: none;
+      position: relative;
+      padding-left: rem-calc(24);
+      display: block;
+      svg {
+        position: absolute;
+        left: 0;
+        top: rem-calc(3);
+
+        width: rem-calc(12);
+        height: auto;
+      }
+    }
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      li {
+        margin-bottom: 0.5em;
+        font-size: rem-calc(16);
+      }
+    }
+  }
+
+  &.searchform--active {
+    .searchform__datafetch {
+      display: block;
+    }
+  }
+}
+
+.header {
+  .searchform {
+    display: none;
+    @include breakpoint(large) {
+      display: flex;
+    }
+
+    margin-right: rem-calc(20);
+    height: 100%;
+    input {
+      max-width: rem-calc(110);
+      font-weight: 600;
+      font-size: rem-calc(18);
+      line-height: 1em;
+      padding: rem-calc(0 0 0 15);
+      margin: 0;
+      &::placeholder {
+        color: $black;
+        text-transform: uppercase;
+      }
+    }
+    svg {
+      width: rem-calc(19);
+      height: auto;
+
+      path {
+        fill: $infospace-orange;
+      }
+    }
+    button[type="submit"].button--search {
+      width: auto;
+
+      padding: rem-calc(8 15 8 10);
+      @include breakpoint(large) {
+       // padding: rem-calc(16 24 16 0);
+      }
+      svg {
+        width: rem-calc(19);
+        height: auto;
+
+        path {
+          fill: $infospace-orange;
+        }
+      }
+    }
+  }
+  .searchform__datafetch {
+    display: none !important;
+  }
+}

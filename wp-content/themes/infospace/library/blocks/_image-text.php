@@ -7,12 +7,7 @@ function image_text_block_assets()
       'render_callback' => 'render_image_text',
     )
   );
-  register_block_type(
-    'theme/image-text-slide',
-    array(
-      'render_callback' => 'render_image_text',
-    )
-  );
+  
 }
 add_action('init', 'image_text_block_assets');
 

@@ -1,93 +1,107 @@
-body {
-  .page-banner-titles {
-    margin-bottom: rem-calc(40);
+.page-banner-titles {
+  margin-bottom: rem-calc(40);
+  
+  @include breakpoint(medium) {
+    margin-bottom: rem-calc(60);
+  }
+  
+  @include breakpoint(large) {
+    margin-bottom: rem-calc(90);
+  }
+
+  &:first-child {
+   // margin-top: -1rem;
+    
     @include breakpoint(medium) {
-      margin-bottom: rem-calc(60);
+      //margin-top: -3rem;
     }
+  }
+
+  &__inner {
+    max-width: rem-calc(1160);
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+    margin: auto;
+    
+    @include breakpoint(medium) {
+      flex-direction: row;
+      height: rem-calc(400);
+    }
+    
     @include breakpoint(large) {
-      margin-bottom: rem-calc(90);
+      height: rem-calc(480);
+    }
+  }
+
+  &__background {
+    height: rem-calc(230);
+    width: 100%;
+    
+    @include breakpoint(medium) {
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: rem-calc(400);
+    }
+    
+    @include breakpoint(large) {
+      height: rem-calc(480);
     }
 
-    .page-banner-titles__inner {
-      max-width: rem-calc(1160);
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      flex-direction: column;
-      margin: auto;
+    img {
+      //display: none;
+      
       @include breakpoint(medium) {
-        align-items: center;
-        flex-direction: row;
-        height: rem-calc(400);
-      }
-      @include breakpoint(large) {
-        height: rem-calc(480);
-      }
-    }
-    .page-banner-titles__background {
-      height: rem-calc(230);
-      width: 100%;
-      @include breakpoint(medium) {
-        height: rem-calc(400);
-        position: absolute;
-        left: 0;
-        top: 0;
+        display: block;
         height: 100%;
-      }
-      @include breakpoint(large) {
-        height: rem-calc(480);
-      }
-      img {
-        display: none;
-        @include breakpoint(medium) {
-          display: block;
-          height: 100%;
-          width: 100%;
-          object-fit: cover;
-        }
-      }
-    }
-    .page-banner-titles__headings {
-      background: $dark-grey;
-      position: relative;
-      display: block;
-      padding: rem-calc(30 30 80 30);
-      color: #fff;
-      @include breakpoint(medium) {
-        padding: rem-calc(30);
-        max-width: rem-calc(426);
-        margin-left: rem-calc(50);
-      }
-      @include breakpoint(large) {
-        padding: rem-calc(50);
-        max-width: rem-calc(526);
-      }
-      h3 {
-        color: #fff;
-        margin-bottom: 0.4em;
-        font-size: rem-calc(30);
-        @include breakpoint(medium) {
-          font-size: rem-calc(40);
-        }
-      }
-      p {
-        font-size: rem-calc(20);
-        line-height: 1.2em;
-        margin-bottom: 0;
-        font-weight: 500;
-      }
-    }
-    &:first-child {
-      margin-top: -1rem;
-      @include breakpoint(medium) {
-        margin-top: -3rem;
+        width: 100%;
+        object-fit: cover;
       }
     }
   }
-  .page-banner-titles__image-mob {
+
+  &__headings {
+    background: $dark-grey;
+    position: relative;
+    padding: rem-calc(30 30 80 30);
+    color: #fff;
+    
+    @include breakpoint(medium) {
+      padding: rem-calc(30);
+      max-width: rem-calc(426);
+      margin-left: rem-calc(50);
+    }
+    
+    @include breakpoint(large) {
+      padding: rem-calc(50);
+      max-width: rem-calc(526);
+    }
+
+    h3 {
+      color: inherit;
+      margin-bottom: 0.4em;
+      font-size: rem-calc(30);
+      
+      @include breakpoint(medium) {
+        font-size: rem-calc(40);
+      }
+    }
+
+    p {
+      font-size: rem-calc(20);
+      line-height: 1.2;
+      margin-bottom: 0;
+      font-weight: 500;
+    }
+  }
+
+  &__image-mob {
     height: 100%;
     background-size: cover;
     background-position: center;
+    
     @include breakpoint(medium) {
       display: none;
     }

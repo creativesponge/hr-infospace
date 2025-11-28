@@ -49,11 +49,7 @@ var image_text_slide = {
         </svg>
       );
 
-      const TEMPLATE = [
-        ["core/heading", { level: 3, placeholder: "Enter heading" }, []],
-        ["core/paragraph", {}, []],
-        ["core/buttons", { align: "left", textAlign: "left" }, []],
-      ];
+      const TEMPLATE = [["core/paragraph", {}, []]];
 
       /**
        * Register: aa Gutenberg Block.
@@ -108,17 +104,17 @@ var image_text_slide = {
               return (
                 <div className="button-container">
                   <Button onClick={openEvent} className="button button-large">
-                    Change background image
+                    Change
                   </Button>
                   <Button
                     onClick={onRemoveImage}
                     className="button button-large"
                   >
-                    Remove background image
+                    Remove
                   </Button>
                   <p class="size-square">
                     {" "}
-                    (Ideal size is 500 x 500 pixels at 72dpi)
+                    (Ideal size is 175 x 175 pixels at 72dpi)
                   </p>
                 </div>
               );
@@ -126,11 +122,11 @@ var image_text_slide = {
               return (
                 <div className="button-container">
                   <Button onClick={openEvent} className="button button-large">
-                    Pick a background image
+                    Pick image
                   </Button>
                   <p class="size-square">
                     {" "}
-                    (Ideal size is 500 x 500 pixels at 72dpi)
+                    (Ideal size is 175 x 175 pixels at 72dpi)
                   </p>
                 </div>
               );
@@ -180,22 +176,24 @@ var image_text_slide = {
 
           return (
             <div className={className}>
-              <div className="image-text">
-                <InnerBlocks template={TEMPLATE} />
-              </div>
-
               <div
                 className="image-container"
+                
+              ><div
+                className="image-container__image"
                 style={{
                   backgroundImage: `url(${attributes.backgroundImage})`,
                 }}
-              >
+              ></div>
                 <MediaUpload
                   onSelect={onImageSelect}
                   type="image"
                   value={attributes.backgroundImage}
                   render={({ open }) => getImageButton(open)}
                 />
+              </div>
+              <div className="image-text">
+                <InnerBlocks template={TEMPLATE} />
               </div>
             </div>
           );

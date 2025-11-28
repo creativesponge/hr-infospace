@@ -37,9 +37,9 @@ function cmb2_document_metabox() {
             'style' => 'width:100%'
         ],
     ]);*/
-
+// Not used as they are set in the resource page.
     $document->add_field( array(
-		'name'    => __( 'Resource to show on', 'hrinfospace' ),
+		'name'    => __( 'Resource to show on (Not used as they are set in the resource page)', 'hrinfospace' ),
 		'desc'    => __( 'Drag a resource from the left column to the right column to attach them to this document.<br />You may rearrange the order of the posts in the right column by dragging and dropping.', 'hrinfospace' ),
 		'id'      => $prefix .'document_attached_pages',
 		'type'    => 'custom_attached_posts',

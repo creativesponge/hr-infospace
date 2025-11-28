@@ -15,7 +15,9 @@ var contact_form = {
 
       const { __ } = wp.i18n; // Import __() from wp.i18n
       const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
-      const { InnerBlocks } = wp.blockEditor;
+
+      const { MediaUpload, InspectorControls, InnerBlocks } = wp.blockEditor;
+      const { Button, PanelBody, PanelRow } = wp.components;
 
       /**
        * Custom SVG path
@@ -63,7 +65,22 @@ var contact_form = {
         title: __("Contact form"), // Block title.
         icon: MyIcon, // Block icon from Dashicons → https://developer.wordpress.org/resource/dashicons/.
         category: "theme-specific", // Block category — Group blocks together based on common traits E.g. common, formatting, layout widgets, embed.
-
+        attributes: {
+          attachmentId: {
+            type: "number",
+          },
+          backgroundImage: {
+            type: "string",
+            default: null,
+          },
+          attachmentIdMob: {
+            type: "number",
+          },
+          backgroundImageMob: {
+            type: "string",
+            default: null,
+          },
+        },
         /**
          * The edit function describes the structure of your block in the context of the editor.
          * This represents what the editor will render when the block is used.
@@ -72,20 +89,150 @@ var contact_form = {
          *
          * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
          */
-        edit: function ({ className }) {
-          // Creates a <p class='wp-block-cgb-block-related-posts'></p>.
-          return (
-            <div className={className}>
-              <div className="contact-form-container">
+        edit: function ({ attributes, className, setAttributes }) {
+          // Mobile image
+          const onRemoveImageMob = () => {
+            setAttributes({
+              backgroundImageMob: undefined,
+            });
+          };
 
-              <InnerBlocks template={TEMPLATE} />
-
-                <div class="contact-form-message">
-                  <p>
-                    Displays a contact form.
+          const getImageButtonMob = (openEvent) => {
+            if (attributes.backgroundImageMob) {
+              return (
+                <div className="button-container">
+                  <Button onClick={openEvent} className="button button-large">
+                    Change mobile background image
+                  </Button>
+                  <Button
+                    onClick={onRemoveImageMob}
+                    className="button button-large"
+                  >
+                    Remove mobile background image
+                  </Button>
+                  <p class="size-square">
+                    {" "}
+                    (Ideal size is 640 x 910 pixels at 72dpi)
                   </p>
                 </div>
+              );
+            } else {
+              return (
+                <div className="button-container">
+                  <Button onClick={openEvent} className="button button-large">
+                    Pick a mobile background image
+                  </Button>
+                  <p class="size-square">
+                    {" "}
+                    (Ideal size is 640 x 910 pixels at 72dpi)
+                  </p>
+                </div>
+              );
+            }
+          };
 
+          function onImageSelectMob(imageObject) {
+            setAttributes({
+              backgroundImageMob: imageObject.sizes.full.url,
+              attachmentIdMob: imageObject.id,
+            });
+          }
+
+          //Desktop image
+          const onRemoveImage = () => {
+            setAttributes({
+              backgroundImage: undefined,
+              attachmentId: undefined,
+            });
+          };
+
+          const getImageButton = (openEvent) => {
+            if (attributes.backgroundImage) {
+              return (
+                <div className="button-container">
+                  <Button onClick={openEvent} className="button button-large">
+                    Change image
+                  </Button>
+                  <Button
+                    onClick={onRemoveImage}
+                    className="button button-large"
+                  >
+                    Remove image
+                  </Button>
+                  <p class="size-square">
+                    {" "}
+                    (Ideal size is 1136 x 1136 pixels at 72dpi)
+                  </p>
+                </div>
+              );
+            } else {
+              return (
+                <div className="button-container">
+                  <Button onClick={openEvent} className="button button-large">
+                    Pick an image
+                  </Button>
+                  <p class="size-square">
+                    {" "}
+                    (Ideal size is 1136 x 1136 pixels at 72dpi)
+                  </p>
+                </div>
+              );
+            }
+          };
+
+          function onImageSelect(imageObject) {
+            setAttributes({
+              backgroundImage: imageObject.sizes.full.url,
+              attachmentId: imageObject.id,
+            });
+          }
+
+          return (
+            <div className={className}>
+              <InspectorControls>
+                <PanelBody title={__("Mobile", "themename")}>
+                  <div
+                    class="wp-block-theme-banner-carousel__mobile-preview"
+                    style={{
+                      backgroundImage: `url(${attributes.backgroundImageMob})`,
+                    }}
+                  ></div>
+                  <PanelRow>
+                    <MediaUpload
+                      onSelect={onImageSelectMob}
+                      type="image"
+                      value={attributes.backgroundImageMob}
+                      render={({ open }) => getImageButtonMob(open)}
+                    />
+                  </PanelRow>
+                </PanelBody>
+              </InspectorControls>
+              <div className="contact-form-container">
+                <div className="contact-form-inner-container">
+                  <InnerBlocks template={TEMPLATE} />
+                  <div className="contact-form-image-container">
+                    <div
+                      className="contact-form-image"
+                      style={{
+                        backgroundImage: `url(${attributes.backgroundImage})`,
+                      }}
+                    >
+                      <span></span>
+                    </div>
+
+                    <MediaUpload
+                      onSelect={onImageSelect}
+                      type="image"
+                      value={attributes.backgroundImage}
+                      render={({ open }) => getImageButton(open)}
+                    />
+                  </div>
+                </div>
+                <div class="contact-form-form">
+                  <div class="contact-form-message">
+                    <p>Displays a contact form.</p>
+                  </div>
+                </div>
               </div>
             </div>
           );

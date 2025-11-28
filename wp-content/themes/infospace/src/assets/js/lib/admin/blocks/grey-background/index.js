@@ -75,12 +75,7 @@ var grey_background = {
               <div className="grey-background-container">
                 <InnerBlocks
                   template={TEMPLATE}
-                  allowedBlocks={[
-                    "core/heading",
-                    "core/paragraph",
-                    "core/buttons",
-                    "theme/image-text",
-                  ]}
+                  
                 />
               </div>
             </div>

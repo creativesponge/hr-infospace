@@ -1,0 +1,240 @@
+.module-teaser {
+  width: 100%;
+  max-width: rem-calc(446);
+  padding: rem-calc(5 0);
+  color: $white;
+  text-align: left;
+  margin-left: auto;
+  margin-right: auto;
+  @include breakpoint(medium) {
+    padding: rem-calc(30 8 0 8);
+  }
+  @include breakpoint(large) {
+    padding: rem-calc(12 8 0 8);
+  }
+
+  a {
+    color: $white;
+    text-decoration: none;
+  }
+
+  p {
+    @include breakpoint(large) {
+      max-width: rem-calc(220);
+    }
+  }
+  h2 {
+    font-weight: 500;
+    @include breakpoint(large) {
+      max-width: rem-calc(260);
+    }
+    a {
+      display: block;
+      @include breakpoint(medium) {
+        min-height: rem-calc(50);
+      }
+      @include breakpoint(large) {
+        min-height: rem-calc(150);
+      }
+    }
+  }
+  &__image {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    width: rem-calc(112);
+    opacity: 0.2;
+    mix-blend-mode: luminosity;
+    @include breakpoint(medium) {
+      width: 100%;
+    }
+    @include breakpoint(large) {
+      height: 100%;
+    }
+    a {
+      display: block;
+      position: relative;
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      @include breakpoint(medium) {
+        height: rem-calc(160);
+      }
+      @include breakpoint(large) {
+        height: 100%;
+      }
+    }
+    img {
+      object-fit: cover;
+      height: 100%;
+      width: 100%;
+      @include breakpoint(medium) {
+        height: unset;
+        width: unset;
+      }
+    }
+    svg {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 100%;
+      width: auto;
+      display: none;
+      @include breakpoint(medium) {
+        width: 100%;
+      }
+    }
+  }
+  .module-teaser-mask-tablet {
+    @include breakpoint(medium) {
+      display: block;
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 100%;
+      height:auto;
+    }
+    @include breakpoint(large) {
+      display: none;
+    }
+  }
+  .module-teaser-mask-mobile {
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -1px;
+    //width: 100%;
+    //
+    @include breakpoint(medium) {
+      display: none;
+    }
+  }
+
+  &:nth-child(3) {
+    .module-teaser {
+      &__image {
+        svg.module-teaser-mask {
+          @include breakpoint(large) {
+            display: block;
+            height: auto;
+            bottom: -1px;
+          }
+        }
+        @include breakpoint(large) {
+          max-height: rem-calc(230);
+          a {
+            overflow: hidden;
+          }
+        }
+      }
+    }
+  }
+  &:nth-child(1) {
+    .module-teaser {
+      &__image {
+        svg.module-teaser-mask-3 {
+          @include breakpoint(large) {
+            display: block;
+            height: 100%;
+            top: 0;
+            left: 0;
+            width: auto;
+          }
+        }
+      }
+    }
+  }
+
+  &:nth-child(2) {
+    .module-teaser {
+      &__image {
+        svg.module-teaser-mask-2 {
+          @include breakpoint(large) {
+            display: block;
+
+            bottom: auto;
+            left: 0;
+            top: 0;
+            width: auto;
+            height: 100%;
+          }
+        }
+        img {
+          @include breakpoint(large) {
+            width: 100%;
+            height: 100%;
+          }
+        }
+      }
+    }
+  }
+
+  &.module-teaser-mask-tablet {
+    @include breakpoint(large) {
+      display: none;
+    }
+  }
+
+  &__target {
+    padding: rem-calc(20);
+    border-radius: rem-calc(20);
+    min-height: rem-calc(224);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    @include breakpoint(medium) {
+      display: block;
+      padding: rem-calc(180 20 20 20);
+      border-radius: rem-calc(30);
+      min-height: rem-calc(432);
+    }
+    @include breakpoint(large) {
+      padding: rem-calc(50 50 40 50);
+      border-radius: rem-calc(50);
+      min-height: rem-calc(463);
+    }
+  }
+  &__content {
+    padding-right: rem-calc(110);
+    @include breakpoint(medium) {
+      padding-right: rem-calc(0);
+    }
+  }
+  .button-link {
+    margin-top: rem-calc(7);
+    background: $white;
+    display: inline-block;
+    padding-top: rem-calc(10);
+    padding-bottom: rem-calc(10);
+    padding-right: rem-calc(40);
+    @include breakpoint(medium) {
+      padding-top: rem-calc(15);
+      padding-bottom: rem-calc(15);
+      padding-right: rem-calc(60);
+    }
+    @include breakpoint(large) {
+      margin-top: rem-calc(15);
+      padding-top: rem-calc(18);
+      padding-bottom: rem-calc(18);
+    }
+    &:hover {
+      background: darken($white, 10%);
+    }
+    &:after {
+      border-color: #812bcd;
+    }
+    &:before {
+      background: #812bcd;
+    }
+  }
+}
+.modules-list {
+  .module-teaser {
+    &__image {
+      position: absolute;
+    }
+  }
+}

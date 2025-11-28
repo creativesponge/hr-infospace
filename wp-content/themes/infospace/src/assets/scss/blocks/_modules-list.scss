@@ -1,0 +1,169 @@
+.modules-list {
+  background: $white;
+  text-align: center;
+  padding: rem-calc(40 0 0 0);
+  margin-bottom: rem-calc(20);
+  overflow: hidden;
+  position: relative;
+  border-bottom-left-radius: rem-calc(20);
+  border-bottom-right-radius: rem-calc(20);
+  @include breakpoint(medium) {
+    margin-bottom: rem-calc(40);
+    padding: rem-calc(30 0 0 0);
+    border-bottom-left-radius: rem-calc(30);
+    border-bottom-right-radius: rem-calc(30);
+  }
+  @include breakpoint(large) {
+    margin-bottom: rem-calc(60);
+    border-bottom-left-radius: rem-calc(50);
+    border-bottom-right-radius: rem-calc(50);
+    //
+  }
+  &:first-child {
+    margin-top: calc(-1.4em - 98px);
+    @include breakpoint(medium) {
+      margin-top: calc(-4.6em - 98px);
+    }
+    .modules-list__container {
+      padding-top: calc(1em + 98px);
+      @include breakpoint(medium) {
+        padding-top: calc(3em + 98px);
+      }
+    }
+  }
+  &:last-child {
+    margin-bottom: rem-calc(-50);
+    @include breakpoint(medium) {
+      margin-bottom: rem-calc(-60);
+    }
+    @include breakpoint(large) {
+      margin-bottom: rem-calc(-80);
+    }
+  }
+
+  * {
+    position: relative;
+    z-index: 1;
+  }
+  &__container {
+    position: relative;
+    z-index: 2;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    background: $white;
+    overflow: hidden;
+    padding-bottom: rem-calc(0);
+    padding-left: rem-calc(20);
+    padding-right: rem-calc(20);
+    @include breakpoint(medium) {
+      border-bottom-left-radius: 30px;
+      border-bottom-right-radius: 30px;
+    }
+    @include breakpoint(large) {
+      border-bottom-left-radius: 50px;
+      border-bottom-right-radius: 50px;
+      padding-bottom: rem-calc(40);
+    }
+    > svg {
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%) scale(0.6);
+      transform-origin: 50% 100%;
+      z-index: 0;
+      @include breakpoint(medium) {
+        transform: translateX(-50%) scale(1);
+      }
+      @include breakpoint(large) {
+        left: 60%;
+        top: 90%;
+        bottom: auto;
+        transform: translateX(-50%) scale(2.5);
+      }
+      path {
+        stroke: $light-grey;
+      }
+    }
+  }
+
+  &__footer {
+    padding: rem-calc(60 25 30 25);
+    background: $infospace-green;
+    margin-top: rem-calc(-30);
+    @include breakpoint(medium) {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: rem-calc(-50);
+      padding: rem-calc(75 25 25 25);
+    }
+    @include breakpoint(large) {
+      //justify-content: flex-start;
+      padding: rem-calc(80 25 30 25);
+      //margin-top: rem-calc(60);
+    }
+    h2 {
+      font-size: rem-calc(16);
+      //margin-bottom: 0.8em;
+      font-weight: bold;
+
+      @include breakpoint(medium) {
+        font-size: rem-calc(20);
+        margin-right: rem-calc(20);
+        margin-bottom: 0;
+      }
+      @include breakpoint(large) {
+        font-size: rem-calc(30);
+      }
+    }
+    .wp-block-buttons {
+      margin: 0;
+      .wp-block-button {
+        .wp-block-button__link {
+          background: $white;
+          color: $black;
+          &::after {
+            border-color: $black;
+          }
+          &:before {
+            background: $black;
+          }
+          &:hover {
+            background: $infospace-orange;
+          }
+        }
+      }
+    }
+  }
+
+  &__modules-container {
+    //flex-wrap: wrap;
+    //align-items: stretch;
+
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: rem-calc(20);
+    max-width: $global-width;
+    @include breakpoint(medium) {
+      display: flex;
+      justify-content: center;
+      margin-bottom: rem-calc(50);
+    }
+    @include breakpoint(large) {
+      margin-bottom: rem-calc(60);
+    }
+  }
+
+  .module-teaser.module-1736 .button-link:before {
+    background: $infospace-red;
+  }
+  .module-teaser.module-1736 .button-link:after {
+    border-color: $infospace-red;
+  }
+  .module-teaser.module-1738 .button-link:before {
+    background: $infospace-blue;
+  }
+  .module-teaser.module-1738 .button-link:after {
+    border-color: $infospace-blue;
+  }
+}

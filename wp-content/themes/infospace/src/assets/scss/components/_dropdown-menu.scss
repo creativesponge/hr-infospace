@@ -1,11 +1,10 @@
 .dropdown.menu {
-
   button {
     &:focus {
       border-right: $black solid 2px !important;
       border-bottom: $black solid 2px !important;
       width: rem-calc(10) !important;
-      height: rem-calc(10) !important;          
+      height: rem-calc(10) !important;
       top: 50%;
       right: 0;
       margin-top: rem-calc(-7);
@@ -17,8 +16,11 @@
   > li.opens-left {
     > .is-dropdown-submenu {
       top: 100%;
-      left: 0;
-      right: auto;
+      right: 0;
+      left: auto;
+      border-bottom-left-radius: rem-calc(20);
+      border-bottom-right-radius: rem-calc(20);
+      padding: rem-calc(20);
     }
   }
 
@@ -28,13 +30,24 @@
 
   // Top-level item
   > li > a {
-    padding: rem-calc(10);
+    padding: rem-calc(8 5 11 5);
+    @include breakpoint(medium-large) {
+      padding: rem-calc(8 10 11 10);
+    }
+    @include breakpoint(large) {
+      padding: rem-calc(11 15 9 15);
+    }
   }
 
   // Top-level item active state
   > li.is-active > a {
-    //color: $black;
-    background: $dark-gray;
+    color: $infospace-orange;
+    //background: $dark-gray;
+  }
+  .user-greeting {
+    color: $white;
+    font-weight: bold;
+    font-size: rem-calc(18);
   }
 
   & ul {
@@ -46,20 +59,21 @@
     left: 100%;
     z-index: 1;
     display: none;
-    min-width: rem-calc(200);
-    border: 1px solid $medium-gray;
-    background: $white;
+    min-width: rem-calc(224);
+    //border: 1px solid $medium-gray;
+    //background: $white;
     .dropdown & a {
       padding: rem-calc(10);
     }
     > li {
       width: 100%;
     }
-     &.js-dropdown-active {
+    &.js-dropdown-active {
       display: block;
     }
   }
 }
+
 /* third level
 .is-dropdown-submenu-parent {
   position: relative;

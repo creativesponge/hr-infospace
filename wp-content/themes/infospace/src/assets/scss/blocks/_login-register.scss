@@ -1,0 +1,200 @@
+.login-register {
+  //padding: rem-calc(30 20);
+  margin-bottom: rem-calc(20);
+  background: $white;
+  border-radius: rem-calc(20);
+  overflow: hidden;
+  @include breakpoint(medium) {
+    // margin-bottom: rem-calc(60);
+    border-radius: rem-calc(30);
+  }
+
+  @include breakpoint(large) {
+    // margin-bottom: rem-calc(100);
+    border-radius: rem-calc(50);
+    padding: rem-calc(60);
+  }
+
+  &__container {
+    padding: 0;
+   
+    @include breakpoint(medium) {
+      //flex-direction: row;
+    }
+    @include breakpoint(large) {
+      display: flex;
+      // flex-direction: column;
+    }
+  }
+
+  &__content {
+    padding: rem-calc(30 20);
+    overflow: hidden;
+    position:relative;
+    @include breakpoint(medium) {
+      padding: rem-calc(30 30);
+      min-height: rem-calc(370);
+      //display: flex;
+      //justify-content: flex-end;
+    }
+
+    @include breakpoint(large) {
+      padding: 0;
+      width: 50%;
+      padding-right: rem-calc(40);
+      min-height: none;
+    }
+
+    @include breakpoint(xlarge) {
+      padding-right: rem-calc(60);
+    }
+    .login-submit {
+      margin-bottom: 0;
+    }
+    svg {
+      display: none;
+      @include breakpoint(medium) {
+        display: block;
+        position: absolute;
+        bottom: rem-calc(-160);
+        right: rem-calc(-30);
+        width: rem-calc(270);
+        height: rem-calc(270);
+      }
+      @include breakpoint(large) {
+        display: none;
+      }
+    }
+  }
+  &__panel {
+    display: none;
+    &.active {
+      display: block;
+    }
+    @include breakpoint(large) {
+      display: block;
+    }
+  }
+  &__register {
+    background: $infospace-light-purple;
+    position: relative;
+    overflow: hidden;
+    color: $white;
+    border-bottom-left-radius: rem-calc(20);
+    border-bottom-right-radius: rem-calc(20);
+    padding: rem-calc(30 20 180 20);
+
+    @include breakpoint(medium) {
+      border-bottom-left-radius: rem-calc(30);
+      border-bottom-right-radius: rem-calc(30);
+      padding: rem-calc(37 37 100 37);
+      min-height: rem-calc(370);
+    }
+
+    @include breakpoint(large) {
+      border-radius: rem-calc(50);
+      width: 50%;
+      padding: rem-calc(40);
+      //border-radius: rem-calc(20);
+      min-height: unset;
+    }
+
+    @include breakpoint(xlarge) {
+      padding: rem-calc(45 50 45 50);
+    }
+
+    svg {
+      position: absolute;
+      bottom: rem-calc(-130);
+      right: rem-calc(-20);
+      width: rem-calc(250);
+      @include breakpoint(medium) {
+        bottom: rem-calc(-80);
+        right: rem-calc(-40);
+        width: rem-calc(400);
+        height: rem-calc(400);
+      }
+      @include breakpoint(large) {
+        bottom: rem-calc(-60);
+        right: rem-calc(-180);
+        width: auto;
+        height: auto;
+      }
+      @include breakpoint(xlarge) {
+        bottom: rem-calc(-30);
+        right: rem-calc(-80);
+      }
+    }
+    p {
+      line-height: 1.2em;
+      position: relative;
+      z-index: 1;
+      margin-right: rem-calc(40);
+      @include breakpoint(medium) {
+        margin-right: rem-calc(350);
+        max-width: rem-calc(300);
+      }
+      @include breakpoint(large) {
+        margin-right: rem-calc(170);
+      }
+      @include breakpoint(xlarge) {
+        margin-right: rem-calc(270);
+      }
+    }
+    .wp-block-buttons {
+      position: absolute;
+      bottom: rem-calc(30);
+      left: rem-calc(20);
+      z-index: 1;
+      margin-bottom: 0;
+      @include breakpoint(medium) {
+        bottom: rem-calc(37);
+        left: rem-calc(37);
+      }
+      @include breakpoint(large) {
+        position: relative;
+        left: unset;
+        bottom: unset;
+      }
+      .wp-block-button {
+        width: 100%;
+        @include breakpoint(medium) {
+          width: auto;
+        }
+      }
+    }
+  }
+
+  &__nav {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    @include breakpoint(large) {
+      display: none;
+    }
+    button {
+      width: 50%;
+      cursor: pointer;
+      padding: rem-calc(14);
+      text-transform: uppercase;
+      font-weight: bold;
+      font-size: rem-calc(14);
+      background: $white;
+      transition: background 0.25s ease;
+      @include breakpoint(medium) {
+        font-size: rem-calc(16);
+      }
+      @include breakpoint(large) {
+        display: none;
+      }
+      &.login-register__nav-reg {
+        background: $infospace-light-purple;
+        color: $white;
+      }
+      &:hover {
+        background: $infospace-orange;
+        //color: $infospace-purple;
+      }
+    }
+  }
+}

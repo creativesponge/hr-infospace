@@ -48,8 +48,8 @@
 }
 
 @mixin menu-state-active {
-  background: $light-grey;
-  color: $white;
+  background: transparent;
+  color: $infospace-orange;
 }
 
 .menu {

@@ -11,8 +11,10 @@
 
  */
 /** Global variables */
+global $_SESSION;
 $prefix = 'theme_fields';
 $namespace = 'theme_name';
+$current_module_slug_global = '';
 
 /** Various clean up functions */
 require_once( 'library/cleanup.php' );
@@ -29,6 +31,7 @@ require_once( 'library/navigation.php' );
 /** Add menu walkers for top-bar and off-canvas */
 require_once( 'library/class-top-bar-walker.php' );
 require_once( 'library/class-mobile-walker.php' );
+require_once( 'library/class-account-walker.php' );
 
 /** Create widget areas in sidebar and footer */
 //require_once( 'library/widget-areas.php' );
@@ -68,7 +71,6 @@ require_once dirname(__FILE__) . '/library/_blocks.php';
 require_once dirname(__FILE__) . '/library/blocks/_accordion.php';
 require_once dirname(__FILE__) . '/library/blocks/_page-banner-titles.php';
 require_once dirname(__FILE__) . '/library/blocks/_image-text.php';
-require_once dirname(__FILE__) . '/library/blocks/_image-text-carousel.php';
 require_once dirname(__FILE__) . '/library/blocks/_contact-form.php';
 require_once dirname(__FILE__) . '/library/blocks/_video.php';
 require_once dirname(__FILE__) . '/library/blocks/_google-map.php';
@@ -78,7 +80,6 @@ require_once dirname(__FILE__) . '/library/blocks/_testimonials-carousel.php';
 require_once dirname(__FILE__) . '/library/blocks/_teams.php';
 require_once dirname(__FILE__) . '/library/blocks/_grey-background.php';
 require_once dirname(__FILE__) . '/library/blocks/_posts-list.php';
-require_once dirname(__FILE__) . '/library/blocks/_posts-list-filters.php';
 require_once dirname(__FILE__) . '/library/blocks/_posts-list-filters-ajax.php';
 require_once dirname(__FILE__) . '/library/blocks/_latest-posts.php';
 require_once dirname(__FILE__) . '/library/blocks/_share-block.php';
@@ -90,11 +91,29 @@ require_once dirname(__FILE__) . '/library/blocks/_breadcrumbs.php';
 require_once dirname(__FILE__) . '/library/blocks/_logo-list.php';
 require_once dirname(__FILE__) . '/library/blocks/_narrow-content.php';
 
+require_once dirname(__FILE__) . '/library/blocks/_image-text-carousel.php';
+require_once dirname(__FILE__) . '/library/blocks/_image-text-banner.php';
+require_once dirname(__FILE__) . '/library/blocks/_image-text-slide.php';
+require_once dirname(__FILE__) . '/library/blocks/_services-carousel.php';
+require_once dirname(__FILE__) . '/library/blocks/_services-slide.php';
+require_once dirname(__FILE__) . '/library/blocks/_login-register.php';
+require_once dirname(__FILE__) . '/library/blocks/_video-tour.php';
+require_once dirname(__FILE__) . '/library/blocks/_modules-list.php';
+require_once dirname(__FILE__) . '/library/blocks/_posts-list-filters.php';
+require_once dirname(__FILE__) . '/library/blocks/_search-results.php';
+require_once dirname(__FILE__) . '/library/blocks/_all-favourites.php';
+require_once dirname(__FILE__) . '/library/blocks/_all-newsletters.php';
+require_once dirname(__FILE__) . '/library/blocks/_account-settings.php';
+
 /** Infospace functions */
 require_once dirname(__FILE__) . '/library/import-existing-database.php';
 require_once dirname(__FILE__) . '/library/cron-functions.php';
 require_once dirname(__FILE__) . '/library/page-permissions.php';
 require_once dirname(__FILE__) . '/library/logging-functions.php';
+require_once dirname(__FILE__) . '/library/module-filters.php';
+require_once dirname(__FILE__) . '/library/autocomplete.php';
+require_once dirname(__FILE__) . '/library/favourite.php';
+
 
 /** Stats */
 require_once dirname(__FILE__) . '/library/stats/stats-pages.php';

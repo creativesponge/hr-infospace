@@ -62,9 +62,8 @@
     z-index: 1;
     text-align: left;
     padding-bottom: 100%;
-    background-size: cover;
+    background-size: contain!important;
     background-position: center;
-    background-repeat: no-repeat;
-    background: $light-grey;
+    background-repeat: no-repeat!important;
   }
   

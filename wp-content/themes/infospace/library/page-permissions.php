@@ -52,20 +52,41 @@ function user_has_page_access($userid, $page_id, $post_type): bool
     global $prefix;
 
     $attached_pages = get_user_meta($userid, $prefix . 'user_attached_resource_pages', true);
-    
+
     // resource pages
     if ($post_type == 'resource_page' && (empty($attached_pages) || !in_array($page_id, $attached_pages))) {
-        return false;
+        // Get parent pages recursively
+        $parent_pages = [];
+        $current_page = $page_id;
+        $parent_pages[] = $current_page;
+        while ($current_page) {
+            $parent_id = wp_get_post_parent_id($current_page);
+            if ($parent_id) {
+                $parent_pages[] = $parent_id;
+                $current_page = $parent_id;
+            } else {
+                break;
+            }
+        }
+
+        // Check if user has access to any parent pages
+        foreach ($parent_pages as $parent_id) {
+            if (!empty($attached_pages) && in_array($parent_id, $attached_pages)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
     }
 
-    if ($post_type == 'attachment' ) {
+    if ($post_type == 'attachment') {
         error_log('Relevant attachment: ' . print_r($page_id, true));
         // document files - find documents that contain this attachment
         $attached_documents = get_posts([
             'post_type' => 'document',
             'post_status' => 'publish',
             'meta_query' => [
-                
+
                 [
                     'key' => $prefix . 'document_is_active',
                     'value' => 'on',
@@ -75,12 +96,12 @@ function user_has_page_access($userid, $page_id, $post_type): bool
             'numberposts' => -1,
             'fields' => 'ids'
         ]);
-       
+
         // Filter documents that contain this attachment
         $relevant_documents = [];
         foreach ($attached_documents as $document_id) {
             $document_files = get_post_meta($document_id, $prefix . 'document_files', true);
-             //error_log('doc files: ' . print_r($document_files[0], true));
+            //error_log('doc files: ' . print_r($document_files[0], true));
             if (!empty($document_files) && in_array($page_id, $document_files[0])) {
                 $relevant_documents[] = $document_id;
                 error_log('Relevant document: ' . print_r($document_id, true));
@@ -99,9 +120,9 @@ function user_has_page_access($userid, $page_id, $post_type): bool
         $relevant_pages = [];
         foreach ($attached_document_pages as $attached_page_id) {
             $attached_docs = get_post_meta($attached_page_id, $prefix . 'resource_attached_documents', true);
-            
+
             if (!empty($attached_docs) && in_array($attached_docs[0], $attached_documents)) {
-                 $relevant_pages[] = $attached_page_id;
+                $relevant_pages[] = $attached_page_id;
                 error_log('Relevant page: ' . print_r($attached_page_id, true));
             }
         }
@@ -145,17 +166,17 @@ add_action('template_redirect', function () {
         //$file_url = get_post_meta($doc_id, $prefix . 'uploaded_file', true);
         // Get the attachment post
         $attachment = get_post($doc_id);
-        
-        
+
+
         if (!$attachment || $attachment->post_type !== 'attachment') {
             wp_die('Invalid document ID: ' . $doc_id);
         }
-        
+
         // Get the file path from the attachment
         $file_path = get_attached_file($doc_id);
-            error_log('File path: ' . print_r($file_path, true));
-            $filename = basename($file_path);
-        
+        error_log('File path: ' . print_r($file_path, true));
+        $filename = basename($file_path);
+
         if ($file_path && file_exists($file_path)) {
             // Serve the file (force download)
             header('Content-Type: application/octet-stream');
@@ -165,7 +186,6 @@ add_action('template_redirect', function () {
         } else {
             wp_die('File not found: ' . $doc_id);
         }
-        
     }
 });
 

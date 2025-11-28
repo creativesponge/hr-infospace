@@ -1,6 +1,43 @@
 .large-teaser {
-    padding:rem-calc(20);
-    img {
-        margin-bottom: 1em;
+  text-align: left;
+  padding: rem-calc(7 10);
+  @include breakpoint(large) {
+    padding: rem-calc(10);
+  }
+  /*img {
+    margin-bottom: 1em;
+  }*/
+  &__target {
+    background: $white;
+    border-radius: rem-calc(20);
+    padding: rem-calc(20);
+    height: 100%;
+    @include breakpoint(large) {
+      padding: rem-calc(40);
     }
+  }
+  a {
+    text-decoration: none;
+    &.arrow-link {
+      @include breakpoint(large) {
+        font-size: rem-calc(18);
+        text-transform: none;
+      }
+      &:hover {
+        //color: $infospace-orange !important;
+        &:after {
+          border-color: $infospace-orange;
+        }
+        &:before {
+          background: $infospace-orange;
+        }
+      }
+    }
+  }
+  p {
+    color: $black;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
 }

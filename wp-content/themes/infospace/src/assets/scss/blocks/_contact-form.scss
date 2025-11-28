@@ -1,111 +1,283 @@
-body {
-  .contact-form {
-    margin-bottom: rem-calc(40);
+.contact-form {
+  margin-bottom: rem-calc(40);
+  background: $light-grey;
+  border-bottom-left-radius: rem-calc(20);
+  border-bottom-right-radius: rem-calc(20);
+  @include breakpoint(medium) {
+    margin-bottom: rem-calc(60);
+    border-bottom-left-radius: rem-calc(30);
+    border-bottom-right-radius: rem-calc(30);
+  }
+
+  @include breakpoint(large) {
+    margin-bottom: rem-calc(140);
+    border-bottom-left-radius: rem-calc(50);
+    border-bottom-right-radius: rem-calc(50);
+  }
+  &:first-child {
+    margin-top: calc(-1em - rem-calc(60));
+    @include breakpoint(large) {
+      margin-top: calc(-3em - rem-calc(98));
+    }
+  }
+  &__container {
+    padding: 0;
+
+    display: flex;
+    flex-direction: column;
+
     @include breakpoint(medium) {
-      margin-bottom: rem-calc(60);
+      flex-direction: row;
     }
     @include breakpoint(large) {
-      margin-bottom: rem-calc(140);
+      max-width: $global-width;
+      margin-left: auto;
+      margin-right: auto;
     }
-    .contact-form__form {
-     
+  }
+  &__content {
+    order: 2;
+    //color:$black;
+    padding: rem-calc(30 20 0 20);
+    @include breakpoint(medium) {
+      padding: rem-calc(70 30 30 30);
+      width: 40%;
+      display: flex;
+      justify-content: flex-end;
+    }
 
-      input {
-        display: block;
+    @include breakpoint(large) {
+      padding: rem-calc(200 40 0 67);
+      width: 36%;
+    }
+
+    @include breakpoint(xlarge) {
+      padding: rem-calc(200 60 0 67);
+    }
+    a {
+      color: $infospace-black;
+     text-decoration: none;
+     &:hover {
+        color:$infospace-orange;
+     }
+    }
+    h2 {
+      font-size: rem-calc(12);
+      margin-bottom: 1.2em;
+      margin-top: 1.3em;
+      color:$infospace-black;
+      @include breakpoint(medium) {
+        font-size: rem-calc(14);
+        margin-bottom: 1.9em;
+        margin-top: 1.9em;
       }
 
-      label {
-        font-size: rem-calc(16);
+      @include breakpoint(large) {
+        font-size: rem-calc(18);
+
+        margin-bottom: 1.2em;
+      }
+    }
+    h1 {
+      margin-bottom: 1.6em;
+      @include breakpoint(medium) {
+        margin-bottom: 1.9em;
+      }
+      @include breakpoint(large) {
+        margin-bottom: 1.6em;
+      }
+    }
+  }
+  &__text {
+    width: 100%;
+  }
+  &__image {
+    order: 1;
+    width: 100%;
+    text-align: center;
+
+    @include breakpoint(medium) {
+      width: 60%;
+      order: 3;
+      margin: auto;
+      margin-top: rem-calc(-40);
+      margin-bottom: rem-calc(60);
+    }
+
+    @include breakpoint(large) {
+      width: 64%;
+      margin-bottom: rem-calc(-60);
+      //margin-right: rem-calc(-160);
+      margin-top: rem-calc(65);
+    }
+    @include breakpoint(xlarge) {
+      margin-bottom: rem-calc(-220);
+      margin-top: rem-calc(65);
+    }
+    img {
+      margin: 0 auto;
+
+      @include breakpoint(medium) {
+        //margin-left: rem-calc(30);
+        border-radius: 50%;
+        //overflow: hidden;
+        transform-origin: 0 50%;
+        transform: scale(1.2);
       }
 
-      .contact__confirm {
-        margin-bottom: 1em;
+      @include breakpoint(large) {
+        margin-left: rem-calc(50);
+        transform: scale(1.2);
+        max-height: 86%;
+        width: auto;
+      }
+      @include breakpoint(xlarge) {
+        transform: scale(1.54);
+        max-height: 88%;
+        width: auto;
+      }
+    }
+  }
+  &__form {
+    max-width: $global-width;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    padding: rem-calc(40 20 50 20);
+    @include breakpoint(medium) {
+      padding: rem-calc(10 30 60 30);
+    }
+    @include breakpoint(large) {
+      padding: rem-calc(40 30 60 67);
+    }
+    @include breakpoint(xlarge) {
+      padding: rem-calc(40 30 80 67);
+    }
+    input {
+      display: block;
+      background: $white;
+      margin-bottom: 0.9em;
+      @include breakpoint(medium) {
+        margin-bottom: 1.2em;
+      }
+      @include breakpoint(large) {
+        margin-bottom: 1.4em;
+      }
+    }
+    textarea {
+      display: block;
+      background: $white;
+      margin-bottom: 0.8em;
+    }
+
+    .contact__confirm {
+      margin-bottom: 1em;
+    }
+
+    .contact__thanks {
+      display: none;
+      margin: 1rem 0;
+      font-size: rem-calc(24);
+    }
+
+    &.submitting > * {
+      opacity: 0.5;
+    }
+
+    &.submitted {
+      .form__content {
+        opacity: 0;
+        max-height: rem-calc(1);
       }
 
       .contact__thanks {
+        display: block;
+      }
+    }
+
+    &.error {
+      form {
+        opacity: 0.5;
+      }
+
+      &::after {
+        content: "Unknown error";
         display: none;
-        margin: 1rem 0;
-        font-size: rem-calc(24);
+        background-color: $warning-color;
       }
+    }
+  }
 
-      &.submitting {
-        > * {
-          opacity: 0.5;
-        }
-      }
+  &__row {
+    @include breakpoint(medium) {
+      display: flex;
+      gap: rem-calc(16);
+    }
+  }
+  &__col {
+    @include breakpoint(medium) {
+      flex: 1;
+    }
+  }
 
-      &.submitted {
-        .form__content {
-          opacity: 0;
-          max-height: rem-calc(1);
-        }
-        .contact__thanks {
+  &__form-content {
+    max-width: rem-calc(788);
+    p,label {
+      color:$infospace-black;
+    }
+  }
+
+  .checkmark-container {
+    display: block;
+    font-size: rem-calc(12);
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+    padding-left: 2rem;
+    transition: all 0.25s;
+    @include breakpoint(medium) {
+      font-size: rem-calc(14);
+    }
+    &:hover input ~ .checkmark {
+      background-color: $dark-grey;
+    }
+
+    input {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+      height: 0;
+      width: 0;
+
+      &:checked ~ .checkmark {
+        background-color: $white;
+
+        &::after {
           display: block;
         }
       }
-
-      &.error {
-        form {
-          opacity: 0.5;
-        }
-
-        &:after {
-          content: "Unknown error";
-          display: none;
-          background-color: $warning-color;
-        }
-      }
     }
 
-    label.checkmark-container {
-      display: block;
-      font-size: rem-calc(14);
-      position: relative;
-      cursor: pointer;
-      user-select: none;
-      padding-left: 2rem;
-      transition: all 0.25s;
-      &:hover {
-        input ~ .checkmark {
-          background-color: $dark-grey;
-        }
-      }
-      input {
+    .checkmark {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: rem-calc(23);
+      width: rem-calc(23);
+      background-color: $white;
+      border-radius: rem-calc(2);
+
+      &::after {
+        content: "";
         position: absolute;
-        opacity: 0;
-        cursor: pointer;
-        height: 0;
-        width: 0;
-        &:hover {
-          opacity: 0;
-        }
-      }
-      .checkmark {
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: rem-calc(23);
-        width: rem-calc(23);
-        background-color: $light-grey;
-        border-radius: rem-calc(2);
-        &:after {
-          content: "";
-          position: absolute;
-          display: none;
-          top: rem-calc(2);
-          left: rem-calc(7);
-          width: rem-calc(7.5);
-          height: rem-calc(15);
-          border: solid $dark-grey;
-          border-width: 0 3px 3px 0;
-          transform: rotate(45deg);
-        }
-      }
-    }
-    label.checkmark-container input:checked ~ .checkmark {
-      background-color: $light-grey;
-      &:after {
-        display: block;
+        display: none;
+        top: rem-calc(2);
+        left: rem-calc(7);
+        width: rem-calc(7.5);
+        height: rem-calc(15);
+        border: solid $dark-grey;
+        border-width: 0 3px 3px 0;
+        transform: rotate(45deg);
       }
     }
   }

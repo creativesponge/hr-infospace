@@ -9,25 +9,25 @@
       padding: 20px;
       position: relative;
       border: 6px solid #eee;
-      text-align: center;
+
       
   
-      h2.logo-list-heading {
-        font-size: rem-calc(40);
-        margin: 0;
-      }
-      
-      p.logo-list-strapline {
-        margin-top: 0;
-   
-      }
       .block-editor-block-list__layout {
           display: flex;
           flex-wrap: wrap;
+          justify-content: flex-start;
           figure, p {
-              flex-basis: 25%;
+              flex-basis: 20%;
+              margin:rem-calc(10);
           }
       }
     }
+    .wp-block-theme-grey-background {
+     .wp-block-theme-logo-list {
+  
+      border: 6px solid #FFF;
+     }
+    }
+  
   }
   

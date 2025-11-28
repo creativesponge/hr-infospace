@@ -125,7 +125,7 @@ function post_type_module_page()
         'labels'                => $labels,
         'menu_icon'             => 'dashicons-networking',
         'show_in_rest'             => true,
-        'supports'              => array('title'),
+        'supports'              => array('title','page-attributes','thumbnail'),
         'hierarchical'          => true,
         'public'                => true,
         'show_ui'               => true,
@@ -136,7 +136,7 @@ function post_type_module_page()
         'can_export'            => true,
         'has_archive'           => false,
         'exclude_from_search'   => false,
-        'publicly_queryable'    => true,
+        'publicly_queryable'    => false,
         'capability_type'       => 'page',
         'rewrite'               => array('slug' => 'module', 'with_front' => false),
         'taxonomies'            => array(),
@@ -310,7 +310,7 @@ function post_type_document()
         'menu_position'         => 29,
         'can_export'            => true,
         'has_archive'           => false,
-        'exclude_from_search'   => true,
+        'exclude_from_search'   => false,
         'publicly_queryable'    => false,
         'capability_type'       => 'page',
         'rewrite'               => array('slug' => 'document', 'with_front' => false),
@@ -320,7 +320,7 @@ function post_type_document()
     register_post_type('document', $args);
 }
 
-// Document files
+// Document files // NOT USED?
 add_action('init', 'post_type_document_file', 0);
 function post_type_document_file()
 {
