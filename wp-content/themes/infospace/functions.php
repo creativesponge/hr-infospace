@@ -122,3 +122,17 @@ require_once dirname(__FILE__) . '/library/stats/stats-downloads.php';
 /** If your site requires protocol relative url's for theme assets, uncomment the line below */
 require_once( 'library/class-protocol-relative-theme-assets.php' );
 
+function my_login_logo() { ?>
+    <style type="text/css">
+        #login h1 a {
+            background-image: url('<?php echo get_stylesheet_directory_uri(); ?>/dist/assets/images/infospace-logo.svg');
+		height: 65px;
+		width: 320px;
+		background-size: 182px 56px;
+		background-repeat: no-repeat;
+        	padding-bottom: 10px;
+        }
+    </style>
+<?php }
+add_action( 'login_enqueue_scripts', 'my_login_logo' );
+
