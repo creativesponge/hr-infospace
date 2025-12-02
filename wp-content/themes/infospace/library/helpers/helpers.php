@@ -208,3 +208,48 @@ function remove_admin_bar() {
         show_admin_bar(false);
    // }
 }
+
+function my_login_logo() { ?>
+    <style type="text/css">
+        #login h1 a {
+            background-image: url('<?php echo get_stylesheet_directory_uri(); ?>/dist/assets/images/infospace-logo.svg');
+		height: 65px;
+		width: 320px;
+		background-size: 182px 56px;
+		background-repeat: no-repeat;
+        	padding-bottom: 10px;
+        }
+    </style>
+<?php }
+add_action( 'login_enqueue_scripts', 'my_login_logo' );
+
+
+function wpdocs_logout_redirect( $redirect_to, $requested_redirect_to, $user ) {
+
+    $user_roles = $user->roles;
+    $user_has_admin_role = in_array( 'administrator', $user_roles );
+
+	if ( $user_has_admin_role ) :
+		$redirect_to = home_url();
+	else:
+		$redirect_to = home_url();
+	endif;
+
+	return $redirect_to;
+} 
+add_filter( 'logout_redirect', 'wpdocs_logout_redirect', 9999, 3 );
+
+
+add_action('check_admin_referer', 'logout_without_confirm', 10, 2);
+function logout_without_confirm($action, $result)
+{
+    /**
+     * Allow logout without confirmation
+     */
+    if ($action == "log-out" && !isset($_GET['_wpnonce'])) {
+        $redirect_to = isset($_REQUEST['redirect_to']) ? $_REQUEST['redirect_to'] : 'url-you-want-to-redirect';
+        $location = str_replace('&amp;', '&', wp_logout_url($redirect_to));
+        header("Location: $location");
+        die;
+    }
+}
