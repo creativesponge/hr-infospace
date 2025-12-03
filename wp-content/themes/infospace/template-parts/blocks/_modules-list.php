@@ -17,7 +17,7 @@ $blockHeading = isset($block_attributes['mainHeading']) ? $block_attributes['mai
 <section class="modules-list full-width">
     <div class="modules-list__container">
         <?php if (isset($blockHeading)) {
-            echo "<h1>" . $blockHeading . "x</h1>";
+            echo "<h1>" . $blockHeading . "</h1>";
         } ?>
 
 
