@@ -112,13 +112,22 @@ $download_svg = ob_get_clean();
 
 		</header>
 		<?php
-		if (user_has_access($post_id)) { ?>
+		//var_dump($moduleMeta["attached_resources"]);
+		if (user_has_access($post_id) || user_has_module_access($moduleMeta["attached_resources"])) { ?>
 			<?php echo '<div class="resource-module__news full-width">'; ?>
 			<?php echo '<div class="resource-module__news-container">'; ?>
 			<?php
 			//the_content();
 			?>
 			<?php
+
+			$accessible_pages = return_users_pages_with_access();
+
+		// Filter children to only include accessible pages
+		if (!empty($accessible_pages)) {
+			$immediate_child_pages = array_intersect($immediate_child_pages, $accessible_pages);
+		}
+
 			//Show sub pages
 			if (!empty($immediate_child_pages)) {
 
@@ -485,10 +494,29 @@ $download_svg = ob_get_clean();
 							echo '</div>';
 						echo '</div>';
 					echo '</div>';
-				
 				}
 				wp_reset_postdata();
-			}
+			} else {
+
+				
+					// No favourites
+					echo '<div class="resource-module__favourites resource-module__favourites--empty">';
+						echo '<div class="module-panel module-panel--favourites">';
+							echo '<div class="module-panel__header" style="background-color: ' . esc_html($moduleMeta['module_color']) . ';">';
+								echo '<div>';
+								get_template_part(
+									'template-parts/svgs/_favourite'
+								);
+								echo '<h2>My favourites</h2>';
+								echo '</div>';
+							echo '</div>';
+							echo '<div class="module-panel__content tabbed-content">';
+							echo '<p>You have not added any favourites yet. To add a favourite, click the ' . $favourite_svg . ' icon next to a document, link, or resource page.</p>';
+							echo '</div>';
+						echo '</div>';
+					echo '</div>';
+				
+				}
 
 			echo '</div>';
 			?>
@@ -660,6 +688,11 @@ $download_svg = ob_get_clean();
 					$child_attached_doc_ids = array();
 
 					foreach ($child_pages as $child_page_id) {
+						if (user_has_access($child_page_id) === false) {
+							continue;
+						}
+						
+						
 						$child_meta = theme_get_meta($child_page_id);
 
 						$attached_docs = isset($child_meta->resource_attached_documents) ? $child_meta->resource_attached_documents : [];

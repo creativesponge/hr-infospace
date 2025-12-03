@@ -32,12 +32,12 @@
     }
   }
   &:last-child {
-    margin-bottom: rem-calc(-50);
+    margin-bottom: rem-calc(-20);
     @include breakpoint(medium) {
-      margin-bottom: rem-calc(-60);
+      //margin-bottom: rem-calc(-60);
     }
     @include breakpoint(large) {
-      margin-bottom: rem-calc(-80);
+     //margin-bottom: rem-calc(-80);
     }
   }
 

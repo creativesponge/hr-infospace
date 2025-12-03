@@ -11,23 +11,32 @@ $module_posts = get_posts(array(
     'order' => 'ASC'
 ));
 $module_url = get_permalink($module_attached_resource);
+$numberModules = 0; 
+$moduleHtml = '';
 
-?>
+//Check there is more than one module to show
 
-<?php if (is_user_logged_in() && $module_id) : ?>
-<ul class="tab-list" role="tablist" style="border-color: <?php echo esc_html($moduleColour); ?>">
-
-    <span class="tab-list__outline"></span>
-    <?php foreach ($module_posts as $module_post) : ?>
+foreach ($module_posts as $module_post) : ?>
 
         <?php $moduleMeta = theme_get_meta($module_post->ID); ?>
         <?php $module_attached_resources = $moduleMeta->module_attached_resources ?? null; ?>
         <?php $moduleClass = $module_attached_resources == $post_id ? "active" : ""; ?>
         <?php $highlightColour = $module_attached_resources == $post_id && $moduleColour ? $moduleColour : ''; ?>
-
-        <?php if (user_has_access($module_attached_resources) == true) { ?>
-            <li class="<?php echo esc_attr($moduleClass); ?>"><a href="<?php echo get_permalink($module_attached_resources); ?>" style="background-color: <?php echo esc_html($highlightColour); ?>; border-color: <?php echo esc_html($moduleColour); ?>"><?php echo esc_html($module_post->post_title); ?></a></li>
-        <?php  } ?>
+        
+        <?php if (user_has_access($module_attached_resources) == true || user_has_module_access($module_attached_resources) == true) { ?>
+            <?php $moduleHtml .= '<li class="' . esc_attr($moduleClass) . '"><a href="' . get_permalink($module_attached_resources) . '" style="background-color: ' . esc_html($highlightColour) . '; border-color: ' . esc_html($moduleColour) . '">' . esc_html($module_post->post_title) . '</a></li>'; ?>
+        <?php $numberModules++;   ?>
+        <?php } ?>
+        <?php   ?>
     <?php endforeach; ?>
+
+
+
+<?php if (is_user_logged_in() && $module_id && $numberModules > 1) : ?>
+<ul class="tab-list" role="tablist" style="border-color: <?php echo esc_html($moduleColour); ?>">
+
+    <span class="tab-list__outline"></span>
+    
+    <?php echo  $moduleHtml; ?>
 </ul>
 <?php endif; ?>

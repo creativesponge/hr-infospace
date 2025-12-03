@@ -73,7 +73,8 @@ $attachedResource = $moduleMeta["attached_resources"];
 
 if (!empty($attachedResource)) {
 	// Get all child resources recursively
-	function get_child_resources($parent_id, $attachedResource, $moduleMeta)
+	$accessible_pages = return_users_pages_with_access();
+	function get_child_resources($parent_id, $attachedResource, $moduleMeta, $accessible_pages)
 	{
 		$args = array(
 			'post_type'      => 'resource_page',
@@ -107,6 +108,14 @@ if (!empty($attachedResource)) {
 			$moduleMeta['module_color'] = $lighterColor;
 		}
 		$children = get_posts($args);
+		// Get accessible page IDs
+		
+		// Filter children to only include accessible pages
+		if (!empty($accessible_pages)) {
+			$children = array_filter($children, function($child) use ($accessible_pages) {
+				return in_array($child->ID, $accessible_pages);
+			});
+		}
 		$output = '';
 		if ($children) {
 
@@ -117,13 +126,16 @@ if (!empty($attachedResource)) {
 				$output .= '<ul class="module-menu__submenu">';
 			}
 			foreach ($children as $child) {
+				//if(!user_has_page_access(get_current_user_id(), $child->ID, 'resource_page')) {
+					//continue;
+				//}
 				$output .= '<li style="border-left-color: ' . esc_html($moduleMeta['module_color']) . ';">';
 
 				$output .= '<a href="' . get_permalink($child->ID) . '">' . esc_html(get_the_title($child->ID)) . '</a>';
 
 				// Recursive call for further children
 
-				$output .= get_child_resources($child->ID, $attachedResource, $moduleMeta);
+				$output .= get_child_resources($child->ID, $attachedResource, $moduleMeta, $accessible_pages);
 
 				$output .= '</li>';
 			}
@@ -134,7 +146,7 @@ if (!empty($attachedResource)) {
 
 	// Display the hierarchy starting from $attachedResource
 	echo '<nav class="module-menu">';
-	echo get_child_resources($attachedResource, $attachedResource, $moduleMeta);
+	echo get_child_resources($attachedResource, $attachedResource, $moduleMeta, $accessible_pages);
 	echo '</nav>';
 }
 ?>

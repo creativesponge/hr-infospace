@@ -189,7 +189,7 @@ if (check_if_is_module_landing($post_id, $moduleMeta["attached_resources"])) {
 				<h3><?php echo $siteGetInTouchText; ?></h3>
 				<a href="<?php echo esc_url($siteGetInTouchUrl); ?>" class="button-link button-link--rev">Contact us</a>
 			</div>
-			<?php
+			<?php //var_dump(user_has_page_access(get_current_user_id(), $post_id, 'resource_page')); 
 			if (user_has_access($post_id)) { ?>
 				<div class="resource-page__grid">
 					<div class="resource-page__col1">
@@ -243,6 +243,7 @@ if (check_if_is_module_landing($post_id, $moduleMeta["attached_resources"])) {
 					</div>
 					<div class="resource-page__col2">
 						<?php if (!empty($child_resources_list)) {
+							
 							echo '<div class="resource-page__box">';
 							echo '<h3 style="color: ' . esc_html($moduleColour) . ';">Also in this section</h3>';
 							echo '<ul class="child-resources">';

@@ -46,16 +46,40 @@ function user_has_access($post_id): bool
     return true;
 }
 
+function get_user_profile_resources($userid): array
+{
+    global $prefix;
+
+    $attached_profile = get_user_meta($userid,  $prefix . 'user_attached_user_profile', true);
+    //return $attached_profile;
+    $all_resources = [];
+    if ($attached_profile && is_array($attached_profile)) {
+        foreach ($attached_profile as $profile_id) {
+            $attached_resources = get_post_meta($profile_id, $prefix . 'profile_attached_resource_pages', true);
+            if (is_array($attached_resources)) {
+                $all_resources = array_merge($all_resources, $attached_resources);
+            }
+        }
+        return array_unique($all_resources);
+    }
+    return [];
+}
+
+
 // Check user has correct page permissions
 function user_has_page_access($userid, $page_id, $post_type): bool
 {
     global $prefix;
-
-    $attached_pages = get_user_meta($userid, $prefix . 'user_attached_resource_pages', true);
-
+    $profile_resources = get_user_profile_resources($userid);
+    if (!empty($profile_resources)) {
+        $attached_pages = $profile_resources;
+    } else {
+        $attached_pages = get_user_meta($userid, $prefix . 'user_attached_resource_pages', true);
+    }
     // resource pages
     if ($post_type == 'resource_page' && (empty($attached_pages) || !in_array($page_id, $attached_pages))) {
         // Get parent pages recursively
+
         $parent_pages = [];
         $current_page = $page_id;
         $parent_pages[] = $current_page;
@@ -69,18 +93,19 @@ function user_has_page_access($userid, $page_id, $post_type): bool
             }
         }
 
+
         // Check if user has access to any parent pages
         foreach ($parent_pages as $parent_id) {
-            if (!empty($attached_pages) && in_array($parent_id, $attached_pages)) {
+
+            if (!empty($attached_pages) && in_array((string)$parent_id, $attached_pages)) {
                 return true;
-            } else {
-                return false;
             }
         }
+        return false;
     }
 
     if ($post_type == 'attachment') {
-        error_log('Relevant attachment: ' . print_r($page_id, true));
+        //error_log('Relevant attachment: ' . print_r($page_id, true));
         // document files - find documents that contain this attachment
         $attached_documents = get_posts([
             'post_type' => 'document',
@@ -138,6 +163,136 @@ function user_has_page_access($userid, $page_id, $post_type): bool
     }
 
     return true;
+}
+
+function user_has_module_access($post_id): bool
+{
+    global $prefix;
+    $user = wp_get_current_user();
+    //$post_type = get_post_type($post_id);
+    if (! is_user_logged_in()) {
+        return false;
+    }
+    // Check if user is in an allowed role
+    $allowed_roles = ['main', 'individual', 'employee', 'administrator', 'editor'];
+    if (!array_intersect($allowed_roles, (array) $user->roles)) {
+        return false;
+    }
+
+    $profile_resources = get_user_profile_resources($user->ID);
+    if (!empty($profile_resources)) {
+        $user_attached_pages = $profile_resources;
+    } else {
+        $user_attached_pages = get_user_meta($user->ID, $prefix . 'user_attached_resource_pages', true);
+    }
+
+    //return $user_attached_pages;
+
+
+    if (in_array('main', (array) $user->roles)) {
+        // The user has the "main" role check they have page access
+        // Check if post_id is a parent of any pages in user_attached_pages
+        if (check_module_is_parent_of_attached_page($user_attached_pages, $post_id)) {
+            return true;
+        }
+        return false;
+    }
+
+    $allowed_child_roles = ['individual', 'employee'];
+    if (array_intersect($allowed_child_roles, (array) $user->roles)) {
+
+        $created_by = get_user_meta($user->ID, $prefix . 'user_created_by', true);
+
+        // Check if this user has access
+        if (check_module_is_parent_of_attached_page($user_attached_pages, $post_id)) {
+            return true;
+        }
+        // Check if the parent user has access
+        $parent_user_attached_pages = get_user_meta($created_by, $prefix . 'user_attached_resource_pages', true);
+        if (check_module_is_parent_of_attached_page($parent_user_attached_pages, $post_id)) {
+            return true;
+        }
+        return false;
+    }
+
+    // administrator or editor
+    return true;
+}
+
+// check module is parent of attached page
+function check_module_is_parent_of_attached_page($user_attached_pages, $post_id): bool
+{
+    if (!empty($user_attached_pages)) {
+        foreach ($user_attached_pages as $attached_page_id) {
+            $current_page = $attached_page_id;
+            while ($current_page) {
+                $parent_id = wp_get_post_parent_id($current_page);
+                if ($parent_id == $post_id) {
+                    return true;
+                }
+                $current_page = $parent_id;
+            }
+        }
+    }
+    return false;
+}
+
+function return_users_pages_with_access(): array
+{
+    global $prefix;
+    $user = wp_get_current_user();
+     $profile_resources = get_user_profile_resources($user->ID);
+    if (!empty($profile_resources)) {
+        $user_attached_pages = $profile_resources;
+    } else {
+        $user_attached_pages = get_user_meta($user->ID, $prefix . 'user_attached_resource_pages', true);
+    }
+   
+    // Ensure $user_attached_pages is an array
+    if (!is_array($user_attached_pages)) {
+        $user_attached_pages = [];
+    }
+
+    $all_pages = $user_attached_pages;
+
+    // Loop through attached pages and get all their children
+    foreach ($all_pages as $page_id) {
+        $children = get_posts([
+            'post_type' => 'resource_page',
+            'post_parent' => $page_id,
+            'post_status' => 'publish',
+            'numberposts' => -1,
+            'fields' => 'ids'
+        ]);
+
+        // Recursively get all descendant pages
+        $all_descendants = [];
+        $pages_to_check = $children;
+
+        while (!empty($pages_to_check)) {
+            $current_page = array_shift($pages_to_check);
+            $all_descendants[] = $current_page;
+
+            $grandchildren = get_posts([
+                'post_type' => 'resource_page',
+                'post_parent' => $current_page,
+                'post_status' => 'publish',
+                'numberposts' => -1,
+                'fields' => 'ids'
+            ]);
+
+            $pages_to_check = array_merge($pages_to_check, $grandchildren);
+        }
+
+        $all_pages = array_merge($all_pages, $all_descendants);
+    }
+
+    $user_attached_pages = array_unique($all_pages);
+
+
+
+    // administrator or editor
+    return $user_attached_pages;
 }
 
 // Restrict file access

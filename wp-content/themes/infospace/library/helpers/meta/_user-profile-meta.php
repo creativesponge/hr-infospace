@@ -18,7 +18,7 @@ function cmb2_user_profile_metabox()
     $user->add_field(array(
         'name'    => __('User page permissions', 'hrinfospace'),
         'desc'    => __('Drag page from the left column to the right column to attach them to this newsletter.<br />You may rearrange the order of the resources in the right column by dragging and dropping.', 'hrinfospace'),
-        'id'      => $prefix . 'user_attached_xresource_pages',
+        'id'      => $prefix . 'profile_attached_resource_pages',
         'type'    => 'custom_attached_posts',
         'column'  => true, // Output in the admin post-listing as a custom column. https://github.com/CMB2/CMB2/wiki/Field-Parameters#column
         'options' => array(
