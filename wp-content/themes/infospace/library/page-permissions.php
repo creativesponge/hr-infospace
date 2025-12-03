@@ -204,11 +204,19 @@ function user_has_module_access($post_id): bool
         $created_by = get_user_meta($user->ID, $prefix . 'user_created_by', true);
 
         // Check if this user has access
+     
         if (check_module_is_parent_of_attached_page($user_attached_pages, $post_id)) {
             return true;
         }
         // Check if the parent user has access
-        $parent_user_attached_pages = get_user_meta($created_by, $prefix . 'user_attached_resource_pages', true);
+        // FIXME: 
+        $parent_profile_resources = get_user_profile_resources($created_by);
+    if (!empty($parent_profile_resources)) {
+        $parent_user_attached_pages = $parent_profile_resources;
+    } else {
+       $parent_user_attached_pages = get_user_meta($created_by, $prefix . 'user_attached_resource_pages', true);
+    }
+        
         if (check_module_is_parent_of_attached_page($parent_user_attached_pages, $post_id)) {
             return true;
         }
