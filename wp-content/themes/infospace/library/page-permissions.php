@@ -264,7 +264,14 @@ function return_users_pages_with_access(): array
 {
     global $prefix;
     $user = wp_get_current_user();
+     $created_by = get_user_meta($user->ID, $prefix . 'user_created_by', true);
+    if ($created_by != '') {
+        $user = get_user_by('id', $created_by);
+    } else {
+        $user = wp_get_current_user();
+    }
     $profile_resources = get_user_profile_resources($user->ID);
+
     if (!empty($profile_resources)) {
         $user_attached_pages = $profile_resources;
     } else {
