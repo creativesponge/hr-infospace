@@ -165,7 +165,7 @@ function user_has_page_access($userid, $page_id, $post_type): bool
     return true;
 }
 
-function user_has_module_access($post_id): bool
+function user_has_module_access($post_id) : bool
 {
     global $prefix;
     $user = wp_get_current_user();
@@ -203,23 +203,28 @@ function user_has_module_access($post_id): bool
 
         $created_by = get_user_meta($user->ID, $prefix . 'user_created_by', true);
 
-        // Check if this user has access
-     
-        if (check_module_is_parent_of_attached_page($user_attached_pages, $post_id)) {
-            return true;
+        if ($created_by != '') {
+            // Check if this user has access
+            if (check_module_is_parent_of_attached_page($user_attached_pages, $post_id)) {
+                return true;
+            }
+        } else {
+            // Check if the parent user has access
+            $parent_profile_resources = get_user_profile_resources($created_by);
+            if (!empty($parent_profile_resources)) {
+                $parent_user_attached_pages = $parent_profile_resources;
+            } else {
+                $parent_user_attached_pages = get_user_meta($created_by, $prefix . 'user_attached_resource_pages', true);
+            }
+
+            if (check_module_is_parent_of_attached_page($parent_user_attached_pages, $post_id)) {
+                return true;
+            }
         }
-        // Check if the parent user has access
-        // FIXME: 
-        $parent_profile_resources = get_user_profile_resources($created_by);
-    if (!empty($parent_profile_resources)) {
-        $parent_user_attached_pages = $parent_profile_resources;
-    } else {
-       $parent_user_attached_pages = get_user_meta($created_by, $prefix . 'user_attached_resource_pages', true);
-    }
-        
-        if (check_module_is_parent_of_attached_page($parent_user_attached_pages, $post_id)) {
-            return true;
-        }
+
+
+
+
         return false;
     }
 
@@ -249,13 +254,13 @@ function return_users_pages_with_access(): array
 {
     global $prefix;
     $user = wp_get_current_user();
-     $profile_resources = get_user_profile_resources($user->ID);
+    $profile_resources = get_user_profile_resources($user->ID);
     if (!empty($profile_resources)) {
         $user_attached_pages = $profile_resources;
     } else {
         $user_attached_pages = get_user_meta($user->ID, $prefix . 'user_attached_resource_pages', true);
     }
-   
+
     // Ensure $user_attached_pages is an array
     if (!is_array($user_attached_pages)) {
         $user_attached_pages = [];
