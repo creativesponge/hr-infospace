@@ -15,6 +15,10 @@ $sitePhone = isset($settings[$prefix . 'phone']) ? $settings[$prefix . 'phone'] 
 $siteAddress = isset($settings[$prefix . 'address']) ? $settings[$prefix . 'address'] : '';
 $copyright = isset($settings[$prefix . 'copyright']) ? $settings[$prefix . 'copyright'] : '';
 
+// site key for reCAPTCHA v3 
+$siteKey = '6Ld4_iQsAAAAAM18DdZ0dvv1KUGcDr_Ic9bcsmzl';
+$sectreteky = '6Ld4_iQsAAAAAJZCHORH432pyFxffNPyMckL2WJd';
+// recaptcha v3 integratiom
 ?>
 <footer class="footer">
 	<div class="footer__container">
@@ -128,13 +132,9 @@ $copyright = isset($settings[$prefix . 'copyright']) ? $settings[$prefix . 'copy
 					<label for="user_dfe_number"><?php _e('DFE Number'); ?></label>
 					<input type="text" name="user_dfe_number" id="user_dfe_number" class="input" value="" size="20" />
 				</div>
-				
+
 				<div class="recaptcha">
-					<?php // site key for reCAPTCHA v3 
-					$siteKey = '6Ld4_iQsAAAAAM18DdZ0dvv1KUGcDr_Ic9bcsmzl'; 
-					$sectreteky = '6Ld4_iQsAAAAAJZCHORH432pyFxffNPyMckL2WJd';
-					// recaptcha v3 integratiom
-					?>
+
 					<!-- reCAPTCHA V3 -->
 					<script src="https://www.google.com/recaptcha/api.js?render=<?php echo $siteKey; ?>"></script>
 					<script>
@@ -150,12 +150,13 @@ $copyright = isset($settings[$prefix . 'copyright']) ? $settings[$prefix . 'copy
 						});
 					</script>
 					<input type="hidden" name="recaptcha_response" id="recaptchaResponse">
-					
-							<script src="https://www.google.com/recaptcha/api.js" async defer></script>
-					<?php // End reCAPTCHA integration ?>
-					
 
-				
+					<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+					<?php // End reCAPTCHA integration 
+					?>
+
+
+
 				</div>
 				<div class="submit">
 					<input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="<?php esc_attr_e('Register'); ?>" />

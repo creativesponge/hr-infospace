@@ -18,6 +18,20 @@ function theme_contact_form()
         global $settings;
         global $prefix;
 
+        // Do recaptcha check
+        $recaptcha_response = sanitize_text_field($_POST['recaptcha_response']);
+        $recaptcha_secret = '6Ld4_iQsAAAAAJZCHORH432pyFxffNPyMckL2WJd';
+        $recaptcha_verify = wp_remote_get("https://www.google.com/recaptcha/api/siteverify?secret={$recaptcha_secret}&response={$recaptcha_response}");
+        $recaptcha_result = json_decode(wp_remote_retrieve_body($recaptcha_verify));
+        if (!$recaptcha_result->success || $recaptcha_result->score < 0.5) {
+            echo json_encode([
+                'success' => false,
+                'message' => '<p>reCAPTCHA verification failed. Please try again.</p>'
+            ]);
+            die();
+        }
+
+
         // Format $_POST data
         $data = array_map('esc_attr', $_POST);
 
@@ -41,7 +55,8 @@ function theme_contact_form()
         $tel = sanitize_text_field($filtered_data['contact_tel']);
         $message = sanitize_text_field($filtered_data['contact_message']);
         $check = $filtered_data['contact_check'] ? 'Yes' : "No";
-        $admin_email = empty($settings[$prefix . 'email']) ? get_option('admin_email') : $settings[$prefix . 'email'];
+        //$admin_email = empty($settings[$prefix . 'email']) ? get_option('admin_email') : $settings[$prefix . 'email'];
+        $admin_email = 'barry@creativesponge.co.uk';
 
         // add prefix for meta
         $meta = [];
@@ -224,25 +239,27 @@ add_action('wp_ajax_nopriv_posts_do_filter_posts', 'posts_filter_posts');
 /**
  * Pagination
  */
-function vb_ajax_pager( $query = null, $paged = 1 ) {
-  if (!$query)
-      return;
+function vb_ajax_pager($query = null, $paged = 1)
+{
+    if (!$query)
+        return;
 
-  if ($query->max_num_pages > 1) : ?>
-    <?php $pagenum = $query->query_vars['paged'] < 1 ? 1 : $query->query_vars['paged']; ?>
-      <div class="pagination">
-          <?php if($paged > 1) { ?>
-            <a href="#page=<?php echo $paged-1 ?>"><</a>
-          <?php } ?>
+    if ($query->max_num_pages > 1) : ?>
+        <?php $pagenum = $query->query_vars['paged'] < 1 ? 1 : $query->query_vars['paged']; ?>
+        <div class="pagination">
+            <?php if ($paged > 1) { ?>
+                <a href="#page=<?php echo $paged - 1 ?>">
+                    << /a>
+                    <?php } ?>
 
-          <?php echo "P".$pagenum." <span>of</span> ".$query->max_num_pages;?>
+                    <?php echo "P" . $pagenum . " <span>of</span> " . $query->max_num_pages; ?>
 
-          <?php if($paged < $query->max_num_pages) { ?>
-            <a href="#page=<?php echo $paged+1 ?>">></a>
-          <?php } ?>
+                    <?php if ($paged < $query->max_num_pages) { ?>
+                        <a href="#page=<?php echo $paged + 1 ?>">></a>
+                    <?php } ?>
 
-      </div>
-  <?php endif;
+        </div>
+<?php endif;
 }
 
 // Log links
@@ -258,7 +275,8 @@ add_action('wp_enqueue_scripts', 'log_links', 100);
 add_action('wp_ajax_log_link_click', 'log_link_click');
 add_action('wp_ajax_nopriv_log_link_click', 'log_link_click');
 
-function log_link_click() {
+function log_link_click()
+{
     // Get JSON input
     $input = json_decode(file_get_contents('php://input'), true);
     $link_id = intval($input['link_id']);
@@ -266,7 +284,7 @@ function log_link_click() {
     $page_title = sanitize_text_field($input['page_title']);
     //error_log(print_r($input, true) . "Logging link click: link_id=$link_id, link_url=$link_url, page_title=$page_title");
     // log the interaction
-    log_user_interaction($link_url, $link_id , 19, 'Clicked link', $page_title);
+    log_user_interaction($link_url, $link_id, 19, 'Clicked link', $page_title);
     wp_die();
 }
 
@@ -282,7 +300,8 @@ add_action('wp_enqueue_scripts', 'log_downloads', 100);
 
 add_action('wp_ajax_log_download_click', 'log_download_click');
 add_action('wp_ajax_nopriv_log_download_click', 'log_download_click');
-function log_download_click() {
+function log_download_click()
+{
     // Get JSON input
     $input = json_decode(file_get_contents('php://input'), true);
     $download_id = intval($input['download_id']);
@@ -290,7 +309,7 @@ function log_download_click() {
     $file_name = sanitize_text_field($input['file_name']);
     //error_log(print_r($input, true) . "Logging download click: download_id=$download_id, download_url=$download_url, file_name=$file_name");
     // log the interaction
-    log_user_interaction($download_url, $download_id , 12, 'Downloaded file', $file_name);
+    log_user_interaction($download_url, $download_id, 12, 'Downloaded file', $file_name);
     wp_die();
 }
 

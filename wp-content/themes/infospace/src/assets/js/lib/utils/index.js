@@ -45,7 +45,7 @@ var utils = {
 
             if (xhr.readyState == 4 && xhr.status == 200) {
               var response = JSON.parse(xhr.responseText);
-
+console.log(response);
               if (response.success) {
                 form.classList.add("submitted");
                 form.reset();

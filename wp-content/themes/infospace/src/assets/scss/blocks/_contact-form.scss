@@ -56,16 +56,16 @@
     }
     a {
       color: $infospace-black;
-     text-decoration: none;
-     &:hover {
-        color:$infospace-orange;
-     }
+      text-decoration: none;
+      &:hover {
+        color: $infospace-orange;
+      }
     }
     h2 {
       font-size: rem-calc(12);
       margin-bottom: 1.2em;
       margin-top: 1.3em;
-      color:$infospace-black;
+      color: $infospace-black;
       @include breakpoint(medium) {
         font-size: rem-calc(14);
         margin-bottom: 1.9em;
@@ -174,10 +174,18 @@
       margin-bottom: 1em;
     }
 
-    .contact__thanks {
+    .contact__thanks,
+    .contact__error {
       display: none;
       margin: 1rem 0;
       font-size: rem-calc(24);
+      //padding-top: 0.9em;
+      @include breakpoint(medium) {
+        padding-top: rem-calc(50);
+      }
+      @include breakpoint(xlarge) {
+        padding-top: rem-calc(250);
+      }
     }
 
     &.submitting > * {
@@ -185,7 +193,7 @@
     }
 
     &.submitted {
-      .form__content {
+      .contact-form__form-content {
         opacity: 0;
         max-height: rem-calc(1);
       }
@@ -196,14 +204,15 @@
     }
 
     &.error {
-      form {
-        opacity: 0.5;
-      }
 
-      &::after {
-        content: "Unknown error";
-        display: none;
-        background-color: $warning-color;
+
+      .contact-form__form-content {
+        opacity: 0;
+        max-height: rem-calc(1);
+      }
+      .contact__error {
+        display: block;
+        color: red;
       }
     }
   }
@@ -222,8 +231,9 @@
 
   &__form-content {
     max-width: rem-calc(788);
-    p,label {
-      color:$infospace-black;
+    p,
+    label {
+      color: $infospace-black;
     }
   }
 

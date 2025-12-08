@@ -1,6 +1,7 @@
 <?php $block_attributes = get_query_var('attributes'); ?>
 <?php $block_content = get_query_var('content'); ?>
 <?php //print_r($block_attributes); 
+$siteKey = '6Ld4_iQsAAAAAM18DdZ0dvv1KUGcDr_Ic9bcsmzl';
 ?>
 <?php $meta = theme_get_meta(); ?>
 <?php
@@ -32,7 +33,7 @@ $attachmentIdMob = (array_key_exists('attachmentIdMob', $block_attributes)) ? $b
 
 	</div>
 
-	<form method="post" class="contact-form__form">
+	<form method="post" action="ajax" class="contact-form__form">
 		<div class="contact-form__form-content">
 			<p>*Essential information</p>
 
@@ -41,23 +42,23 @@ $attachmentIdMob = (array_key_exists('attachmentIdMob', $block_attributes)) ? $b
 			<input type="hidden" name="contact_page" value="<?php echo esc_attr(get_the_title()); ?>" />
 			<div class="contact-form__row">
 				<div class="contact-form__col">
-				<label for="contact_name">First name*</label>
-				<input type="text" class="contact__name trigger-check" id="contact_name" name="contact_name" placeholder="First Name" required />
-			</div>
-			<div class="contact-form__col">
-				<label for="last_name">Last name*</label>
-				<input type="text" class="last__name trigger-check" id="last_name" name="last_name" placeholder="Last Name" required />
-			</div>
+					<label for="contact_name">First name*</label>
+					<input type="text" class="contact__name trigger-check" id="contact_name" name="contact_name" placeholder="First Name" required />
+				</div>
+				<div class="contact-form__col">
+					<label for="last_name">Last name*</label>
+					<input type="text" class="last__name trigger-check" id="last_name" name="last_name" placeholder="Last Name" required />
+				</div>
 			</div>
 			<div class="contact-form__row">
 				<div class="contact-form__col">
-				<label for="contact_company">Organisation name*</label>
-				<input type="text" class="contact__company" id="contact_company" name="contact_company" placeholder="Company" required />
-			</div>
-<div class="contact-form__col">
-				<label for="contact_tel">Phone number*</label>
-				<input type="tel" class="contact__tel" id="contact_tel" name="contact_tel" placeholder="Telephone Number" required />
-			</div>
+					<label for="contact_company">Organisation name*</label>
+					<input type="text" class="contact__company" id="contact_company" name="contact_company" placeholder="Company" required />
+				</div>
+				<div class="contact-form__col">
+					<label for="contact_tel">Phone number*</label>
+					<input type="tel" class="contact__tel" id="contact_tel" name="contact_tel" placeholder="Telephone Number" required />
+				</div>
 			</div>
 			<label for="contact_email">Email*</label>
 			<input type="email" class="contact__email" id="contact_email" name="contact_email" placeholder="Email" required />
@@ -74,9 +75,30 @@ $attachmentIdMob = (array_key_exists('attachmentIdMob', $block_attributes)) ? $b
 
 			<button type="submit">Send</button>
 		</div>
+		<!-- reCAPTCHA V3 -->
+		<script src="https://www.google.com/recaptcha/api.js?render=<?php echo $siteKey; ?>"></script>
+		<script>
+			grecaptcha.ready(function() {
 
-		<div class="contact__thanks" style="display: none;">
+				grecaptcha.execute('<?php echo $siteKey; ?>', {
+					action: 'ajax'
+				}).then(function(token) {
+					// Add your logic to submit to your backend server here.
+					var recaptchaResponse = document.getElementById('recaptchaResponse');
+					recaptchaResponse.value = token;
+				});
+			});
+		</script>
+		<input type="hidden" name="recaptcha_response" id="recaptchaResponse">
+
+		<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+		<?php // End reCAPTCHA integration  
+		 ?>
+		<div class="contact__thanks">
 			Thank you for your enquiry, a member of our team will be in touch.
+		</div>
+		<div class="contact__error">
+			There was an error. Please try again later.
 		</div>
 	</form>
 
