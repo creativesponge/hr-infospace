@@ -1,0 +1,16 @@
+/**
+ * #.# Editor Styles
+ *
+ * CSS for just Backend enqueued after style.scss
+ * which makes it higher in priority.
+ */
+
+.wp-block-theme-accept-terms {
+  position: relative;
+  text-align: left;
+
+  div.accept-terms-container {
+    padding: 30px;
+    border: 6px solid #eee;
+  }
+}

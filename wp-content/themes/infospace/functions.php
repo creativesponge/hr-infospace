@@ -104,6 +104,8 @@ require_once dirname(__FILE__) . '/library/blocks/_search-results.php';
 require_once dirname(__FILE__) . '/library/blocks/_all-favourites.php';
 require_once dirname(__FILE__) . '/library/blocks/_all-newsletters.php';
 require_once dirname(__FILE__) . '/library/blocks/_account-settings.php';
+require_once dirname(__FILE__) . '/library/blocks/_accept-terms.php';
+require_once dirname(__FILE__) . '/library/blocks/_accept-privacy.php';
 
 /** Infospace functions */
 require_once dirname(__FILE__) . '/library/import-existing-database.php';
@@ -114,6 +116,7 @@ require_once dirname(__FILE__) . '/library/module-filters.php';
 require_once dirname(__FILE__) . '/library/autocomplete.php';
 require_once dirname(__FILE__) . '/library/favourite.php';
 require_once dirname(__FILE__) . '/library/handle_user_registration.php';
+require_once dirname(__FILE__) . '/library/login-process.php';
 
 /** Stats */
 require_once dirname(__FILE__) . '/library/stats/stats-pages.php';

@@ -1,0 +1,13 @@
+.accept-privacy {
+    margin-bottom: 1em;
+  h2 {
+    font-weight: bold;
+  }
+  &__privacy, &__alerts {
+    margin-bottom: rem-calc(10);
+    @include breakpoint(medium) {
+      margin-bottom: rem-calc(40);
+      margin-top: rem-calc(20);
+    }
+  }
+}

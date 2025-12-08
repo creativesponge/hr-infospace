@@ -36,7 +36,8 @@ import search_results from "./lib/admin/blocks/search-results/index.js";
 import all_favourites from "./lib/admin/blocks/all-favourites/index.js";
 import all_newsletters from "./lib/admin/blocks/all-newsletters/index.js";
 import account_settings from "./lib/admin/blocks/account-settings/index.js";
-
+import accept_terms from "./lib/admin/blocks/accept-terms/index.js";
+import accept_privacy from "./lib/admin/blocks/accept-privacy/index.js";
 
 
 pagebannertitles.init();
@@ -76,6 +77,8 @@ search_results.init();
 all_favourites.init();
 all_newsletters.init();
 account_settings.init();
+accept_terms.init();
+accept_privacy.init();
 
 // Remove default block styles
 wp.domReady(() => {

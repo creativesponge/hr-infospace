@@ -196,11 +196,27 @@ function theme_register_theme_options_metabox()
 		'id'      => $prefix . 'updates_log_date',
 		'type'    => 'text_date',
 	));
-
+$theme_options->add_field(array(
+		'name' => 'Instruction document',
+		'type' => 'title',
+		'id'   => $prefix . 'instruction_document_title'
+	));
 	$theme_options->add_field(array(
 		'name'    => esc_html__('Instruction document', 'cmb2'),
 		'desc'    => esc_html__('Upload a file containing the instruction document', 'cmb2'),
 		'id'      => $prefix . 'instruction_document',
+		'type'    => 'file',
+	));
+
+	$theme_options->add_field(array(
+		'name' => 'Privacy document',
+		'type' => 'title',
+		'id'   => $prefix . 'privacy_document_title'
+	));
+	$theme_options->add_field(array(
+		'name'    => esc_html__('Privacy document', 'cmb2'),
+		'desc'    => esc_html__('Upload a file containing the privacy document', 'cmb2'),
+		'id'      => $prefix . 'privacy_document',
 		'type'    => 'file',
 	));
 
