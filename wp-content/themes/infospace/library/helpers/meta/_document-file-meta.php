@@ -1,6 +1,7 @@
 <?php
 
 // Document files
+/*
 add_filter('cmb2_meta_boxes', 'cmb2_document_file_metabox');
 function cmb2_document_file_metabox()
 {
@@ -69,3 +70,4 @@ function cmb2_document_file_metabox()
         ]
     ]);
 }
+*/

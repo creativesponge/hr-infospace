@@ -24,21 +24,21 @@
             'user_email' => sanitize_email($_POST['contact_email'])
         );
         wp_update_user($user_data);
-        
+
         // Update user meta fields
         update_user_meta($current_user->ID, $prefix . 'user_organisation', sanitize_text_field($_POST[$prefix . 'user_organisation']));
         update_user_meta($current_user->ID, $prefix . 'user_dfe_number', sanitize_text_field($_POST[$prefix . 'user_dfe_number']));
         update_user_meta($current_user->ID, $prefix . 'user_federation_trust', sanitize_text_field($_POST[$prefix . 'user_federation_trust']));
-        
+
         // Update alert preferences
         update_user_meta($current_user->ID, $prefix . 'user_hr_alerts', isset($_POST[$prefix . 'user_hr_alerts']) ? 'on' : '');
         update_user_meta($current_user->ID, $prefix . 'user_hsw_alerts', isset($_POST[$prefix . 'user_hsw_alerts']) ? 'on' : '');
         update_user_meta($current_user->ID, $prefix . 'user_finance_alerts', isset($_POST[$prefix . 'user_finance_alerts']) ? 'on' : '');
-        
+
         // Update consent fields
         update_user_meta($current_user->ID, $prefix . 'user_accepted_privacy_policy', isset($_POST[$prefix . 'user_accepted_privacy_policy']) ? 'on' : '');
         update_user_meta($current_user->ID, $prefix . 'user_accepted_terms', isset($_POST[$prefix . 'user_accepted_terms']) ? 'on' : '');
-        
+
         // Refresh current user data
         $current_user = wp_get_current_user();
         $user_organisation = get_user_meta($current_user->ID, $prefix . 'user_organisation', true);
@@ -103,42 +103,36 @@
                     </div>
                 </div>
                 <div class="account-settings__alerts">
-                    <h2>Alerts</h2>
+                    <?php if (user_has_module_access(4594) || user_has_module_access(4536) || user_has_module_access(4611)) : ?>
+                        <h2>Alerts</h2>
 
-                    <?php /* Fields for alerts
+                        <?php /* Fields for alerts
                     $prefix . 'user_hsw_alerts'
                     $prefix . 'user_finance_alerts'
                     $prefix . 'user_hr_alerts'
                     */ ?>
+                        <?php if (user_has_module_access(4594)) : ?>
+                            <label class="checkmark-container">
+                                <input type="checkbox" name="<?php echo $prefix . 'user_hr_alerts'; ?>" class="hr__alerts" <?php checked(get_user_meta($current_user->ID, $prefix . 'user_hr_alerts', true), 'on'); ?>>
+                                <span class="checkmark"></span>I would like to receive alerts informing me of Human Resources updates
+                            </label>
+                        <?php endif; ?>
+                        <?php if (user_has_module_access(4536)) : ?>
+                            <label class="checkmark-container">
+                                <input type="checkbox" name="<?php echo $prefix . 'user_hsw_alerts'; ?>" class="hsw__alerts" <?php checked(get_user_meta($current_user->ID, $prefix . 'user_hsw_alerts', true), 'on'); ?>>
+                                <span class="checkmark"></span>I would like to receive alerts informing me of Health, Safety & Wellbeing updates
+                            </label>
+                        <?php endif; ?>
+                        <?php if (user_has_module_access(4611)) : ?>
+                            <label class="checkmark-container">
+                                <input type="checkbox" name="<?php echo $prefix . 'user_finance_alerts'; ?>" class="finance__alerts" <?php checked(get_user_meta($current_user->ID, $prefix . 'user_finance_alerts', true), 'on'); ?>>
+                                <span class="checkmark"></span>I would like to receive alerts informing me of Finance updates
+                            </label>
+                        <?php endif; ?>
 
-                    <label class="checkmark-container">
-                        <input type="checkbox" name="<?php echo $prefix . 'user_hr_alerts'; ?>" class="hr__alerts" <?php checked(get_user_meta($current_user->ID, $prefix . 'user_hr_alerts', true), 'on'); ?>>
-                        <span class="checkmark"></span>I would like to receive alerts informing me of Human Resources updates
-                    </label>
-
-                    <label class="checkmark-container">
-                        <input type="checkbox" name="<?php echo $prefix . 'user_hsw_alerts'; ?>" class="hsw__alerts" <?php checked(get_user_meta($current_user->ID, $prefix . 'user_hsw_alerts', true), 'on'); ?>>
-                        <span class="checkmark"></span>I would like to receive alerts informing me of Health, Safety & Wellbeing updates
-                    </label>
-
-                    <label class="checkmark-container">
-                        <input type="checkbox" name="<?php echo $prefix . 'user_finance_alerts'; ?>" class="finance__alerts" <?php checked(get_user_meta($current_user->ID, $prefix . 'user_finance_alerts', true), 'on'); ?>>
-                        <span class="checkmark"></span>I would like to receive alerts informing me of Finance updates
-                    </label>
+                    <?php endif; ?>
 
 
-
-
-                </div>
-                <div class="contact__confirm">
-                    <label class="checkmark-container">
-                        <input type="checkbox" name="<?php echo $prefix . 'user_accepted_privacy_policy'; ?>" class="check-submit contact__check" <?php checked(get_user_meta($current_user->ID, $prefix . 'user_accepted_privacy_policy', true), 'on'); ?> required>
-                        <span class="checkmark"></span>I consent to the collection and storage of the data entered via the above form. Please view our <a target="_blank" href="/privacy">privacy policy</a>
-                    </label>
-                    <label class="checkmark-container">
-                        <input type="checkbox" name="<?php echo $prefix . 'user_accepted_terms'; ?>" class="check-submit contact__check" <?php checked(get_user_meta($current_user->ID, $prefix . 'user_accepted_terms', true), 'on'); ?> required>
-                        <span class="checkmark"></span>I Agree to the terms
-                    </label>
                 </div>
 
                 <button type="submit">Save changes</button>

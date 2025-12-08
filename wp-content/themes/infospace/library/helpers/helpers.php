@@ -253,3 +253,26 @@ function logout_without_confirm($action, $result)
         die;
     }
 }
+
+
+// Function to check if the $prefix . 'user_is_active' meta field is checked on login and if not don't allow the user to log in
+
+
+function check_user_is_active_on_login($user)
+{
+
+    
+    if (is_wp_error($user)) {
+        return $user;
+    }
+
+    $prefix = 'theme_fields';
+    $is_active = get_user_meta($user->ID, $prefix . 'user_is_active', true);
+
+    if ($is_active !== 'on') {
+        return new WP_Error('inactive_user', __('Your account is inactive. Please contact the administrator.', 'hrinfospace'));
+    }
+
+    return $user;
+}
+add_filter('wp_authenticate_user', 'check_user_is_active_on_login', 10, 3);

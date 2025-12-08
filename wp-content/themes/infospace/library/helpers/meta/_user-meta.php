@@ -124,18 +124,26 @@ function cmb2_user_metabox()
     ]);
     $user->add_field([
         'id'        => $prefix . 'user_is_super_user',
-        'name'      => 'Is Super User',
+        'name'      => 'Is Super User (Not used)',
         'desc'      => 'Check if this user is a super user',
         'type'      => 'checkbox',
+        'attributes' => [
+            'disabled' => 'disabled',
+            'style' => 'color: #999; background-color: #f5f5f5;'
+        ],
         'show_on_cb' => function () {
             return current_user_can('administrator');
         }
     ]);
     $user->add_field([
         'id'      => $prefix . 'user_group',
-        'name'    => 'User Group',
+        'name'    => 'User Group (Not used)',
         'desc'    => 'Select the group of the user',
         'type'    => 'select',
+        'attributes' => [
+            'disabled' => 'disabled',
+            'style' => 'color: #999; background-color: #f5f5f5;'
+        ],
         'options' => [
             'individual' => 'Individual',
             'employee'   => 'Employee',
@@ -213,6 +221,15 @@ function cmb2_user_metabox()
         'name'      => 'Created By',
         'desc'      => 'User who created this record',
         'type'      => 'text',
+        'column'    => true, // Output in the admin user-listing as a custom column
+        'display_cb' => function($field_args, $field) {
+            $user_id = $field->value();
+            if ($user_id) {
+            $user = get_user_by('id', $user_id);
+            return $user ? $user->display_name : $user_id;
+            }
+            return '';
+        },
         //'attributes' => [
         //'readonly' => 'readonly',
         // ],

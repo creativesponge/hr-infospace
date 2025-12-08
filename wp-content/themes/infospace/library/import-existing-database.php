@@ -32,8 +32,8 @@ function existing_import()
         //require __DIR__ . '/initial-import-files/import-pages.php';
         //require __DIR__ . '/initial-import-files/import-news.php';
         //require __DIR__ . '/initial-import-files/import-newsletters.php';
-        //require __DIR__ . '/initial-import-files/import-users.php';
-        require __DIR__ . '/initial-import-files/import-logs.php';
+        require __DIR__ . '/initial-import-files/import-users.php';
+        //require __DIR__ . '/initial-import-files/import-logs.php';
     }
 
     //Show existing data tables

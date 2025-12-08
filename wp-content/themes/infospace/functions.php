@@ -119,6 +119,9 @@ require_once dirname(__FILE__) . '/library/favourite.php';
 require_once dirname(__FILE__) . '/library/stats/stats-pages.php';
 require_once dirname(__FILE__) . '/library/stats/stats-downloads.php';
 
+/** Alerts */
+require_once dirname(__FILE__) . '/library/alerts/alerts.php';
+
 /** If your site requires protocol relative url's for theme assets, uncomment the line below */
 require_once( 'library/class-protocol-relative-theme-assets.php' );
 

@@ -38,7 +38,7 @@ function cmb2_document_metabox() {
         ],
     ]);*/
 // Not used as they are set in the resource page.
-    $document->add_field( array(
+    /*$document->add_field( array(
 		'name'    => __( 'Resource to show on (Not used as they are set in the resource page)', 'hrinfospace' ),
 		'desc'    => __( 'Drag a resource from the left column to the right column to attach them to this document.<br />You may rearrange the order of the posts in the right column by dragging and dropping.', 'hrinfospace' ),
 		'id'      => $prefix .'document_attached_pages',
@@ -52,9 +52,9 @@ function cmb2_document_metabox() {
 				'post_type'      => 'resource_page',
 			), // override the get_posts args
 		),
-	) );
+	) );*/
 
-    $document->add_field( array(
+    /*$document->add_field( array(
 		'name'    => __( 'Attached Files (NO LONGER USED)', 'hrinfospace' ),
 		'desc'    => __( 'Drag files from the left column to the right column to attach them to this document.<br />You may rearrange the order of the files in the right column by dragging and dropping.', 'hrinfospace' ),
 		'id'      => $prefix .'document_attached_files',
@@ -68,7 +68,11 @@ function cmb2_document_metabox() {
 				'post_type'      => 'document_file',
 			), // override the get_posts args
 		),
-	) );
+        'attributes' => [
+            'disabled' => 'disabled',
+            'style' => 'color: #999; background-color: #f5f5f5;'
+        ],
+	) );*/
 
     
     $document->add_field([

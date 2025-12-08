@@ -107,6 +107,7 @@ foreach ($userData as $userRecord) {
     if (isset($userRecord['is_active'])) {
         update_user_meta($post_id, $prefix . 'user_is_active', $userRecord['is_active'] ? 'on' : '');
     }
+   // var_dump($userRecord['is_active'] ? '<strong>true</strong>' : '<strong>false</strong>');
     if (isset($userRecord['receive_hr_alerts'])) {
         update_user_meta($post_id, $prefix . 'user_hr_alerts', $userRecord['receive_hr_alerts'] ? 'on' : '');
     }

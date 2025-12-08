@@ -321,7 +321,7 @@ function post_type_document()
 }
 
 // Document files // NOT USED?
-add_action('init', 'post_type_document_file', 0);
+/*add_action('init', 'post_type_document_file', 0);
 function post_type_document_file()
 {
     $labels = array(
@@ -372,7 +372,7 @@ function post_type_document_file()
     );
     register_post_type('document_file', $args);
 }
-
+*/
 // Page links
 add_action('init', 'post_type_page_links', 0);
 function post_type_page_links()

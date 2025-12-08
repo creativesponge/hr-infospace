@@ -53,6 +53,18 @@ function cmb2_module_metabox() {
         'type' => 'colorpicker',
     ) );
     $module->add_field( array(
+        'name' => __( 'Phone Number', 'hrinfospace' ),
+        'desc' => __( 'Enter a contact phone number for this module.', 'hrinfospace' ),
+        'id'   => $prefix . 'module_phone_number',
+        'type' => 'text',
+    ) );
+    $module->add_field( array(
+        'name' => __( 'Email address', 'hrinfospace' ),
+        'desc' => __( 'Enter a contact email address for this module.', 'hrinfospace' ),
+        'id'   => $prefix . 'module_email_address',
+        'type' => 'text',
+    ) );
+    $module->add_field( array(
         'name' => __( 'Banner Image', 'hrinfospace' ),
         'desc' => __( 'Upload a banner image for this module.', 'hrinfospace' ),
         'id'   => $prefix . 'banner_image',
