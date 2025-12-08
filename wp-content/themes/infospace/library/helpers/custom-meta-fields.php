@@ -124,7 +124,7 @@ function theme_register_theme_options_metabox()
 		'icon_url'        => 'dashicons-admin-generic', // Menu icon. Only applicable if 'parent_slug' is left empty.
 		// 'menu_title'      => esc_html__( 'Options', 'cmb2' ), // Falls back to 'title' (above).
 		// 'parent_slug'     => 'themes.php', // Make options page a submenu item of the themes menu.
-		'capability'      => 'edit_pages', // Cap required to view options-page.
+		'capability'      => 'administrator', // Cap required to view options-page.
 		'position'        => 2, // Menu position. Only applicable if 'parent_slug' is left empty.
 		// 'admin_menu_hook' => 'network_admin_menu', // 'network_admin_menu' to add network-level options page.
 		// 'display_cb'      => false, // Override the options-page form output (CMB2_Hookup::options_page_output()).

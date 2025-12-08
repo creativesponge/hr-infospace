@@ -161,7 +161,7 @@ function get_file_svg_from_filename($filename, $colour = null)
     $colour_attr = $colour ? esc_attr($colour)  : '';
     switch ($file_extension) {
         case 'pdf':
-           ob_start();
+            ob_start();
             get_template_part('template-parts/svgs/_pdf', '', array('module_colour' => $colour_attr));
             $file_svg = ob_get_clean();
             break;
@@ -174,9 +174,9 @@ function get_file_svg_from_filename($filename, $colour = null)
             break;
         case 'xls':
         case 'xlsx':
-           ob_start();
-           get_template_part('template-parts/svgs/_excel', '', array('module_colour' => $colour_attr));
-           $file_svg = ob_get_clean();
+            ob_start();
+            get_template_part('template-parts/svgs/_excel', '', array('module_colour' => $colour_attr));
+            $file_svg = ob_get_clean();
             break;
         case 'ppt':
         case 'pptx':
@@ -193,8 +193,9 @@ function get_file_svg_from_filename($filename, $colour = null)
 
 
 // Redirect search to custom search page
-function redirect_search_to_custom_page() {
-    if (is_search() ) {
+function redirect_search_to_custom_page()
+{
+    if (is_search()) {
         wp_redirect(home_url('/search-page/?q=' . urlencode(get_query_var('s'))));
         exit();
     }
@@ -203,41 +204,44 @@ add_action('template_redirect', 'redirect_search_to_custom_page');
 
 
 add_action('after_setup_theme', 'remove_admin_bar');
-function remove_admin_bar() {
+function remove_admin_bar()
+{
     //if (!current_user_can('administrator') && !is_admin()) {
-        show_admin_bar(false);
-   // }
+    show_admin_bar(false);
+    // }
 }
 
-function my_login_logo() { ?>
+function my_login_logo()
+{ ?>
     <style type="text/css">
         #login h1 a {
             background-image: url('<?php echo get_stylesheet_directory_uri(); ?>/dist/assets/images/infospace-logo.svg');
-		height: 65px;
-		width: 320px;
-		background-size: 182px 56px;
-		background-repeat: no-repeat;
-        	padding-bottom: 10px;
+            height: 65px;
+            width: 320px;
+            background-size: 182px 56px;
+            background-repeat: no-repeat;
+            padding-bottom: 10px;
         }
     </style>
 <?php }
-add_action( 'login_enqueue_scripts', 'my_login_logo' );
+add_action('login_enqueue_scripts', 'my_login_logo');
 
 
-function wpdocs_logout_redirect( $redirect_to, $requested_redirect_to, $user ) {
+function wpdocs_logout_redirect($redirect_to, $requested_redirect_to, $user)
+{
 
     $user_roles = $user->roles;
-    $user_has_admin_role = in_array( 'administrator', $user_roles );
+    $user_has_admin_role = in_array('administrator', $user_roles);
 
-	if ( $user_has_admin_role ) :
-		$redirect_to = home_url();
-	else:
-		$redirect_to = home_url();
-	endif;
+    if ($user_has_admin_role) :
+        $redirect_to = home_url();
+    else:
+        $redirect_to = home_url();
+    endif;
 
-	return $redirect_to;
-} 
-add_filter( 'logout_redirect', 'wpdocs_logout_redirect', 9999, 3 );
+    return $redirect_to;
+}
+add_filter('logout_redirect', 'wpdocs_logout_redirect', 9999, 3);
 
 
 add_action('check_admin_referer', 'logout_without_confirm', 10, 2);
@@ -261,7 +265,7 @@ function logout_without_confirm($action, $result)
 function check_user_is_active_on_login($user)
 {
 
-    
+
     if (is_wp_error($user)) {
         return $user;
     }
@@ -276,3 +280,361 @@ function check_user_is_active_on_login($user)
     return $user;
 }
 add_filter('wp_authenticate_user', 'check_user_is_active_on_login', 10, 3);
+
+
+// Create finance editor role with editor capabilities but restricted to resource_page post type
+function create_finance_editor_role()
+{
+    // Remove the role if it already exists to avoid conflicts
+    remove_role('finance_editor');
+
+    // Get editor role capabilities
+    $editor = get_role('editor');
+    $editor_caps = $editor->capabilities;
+
+    // Add the finance editor role with editor capabilities
+    add_role('finance_editor', 'Finance Editor', $editor_caps);
+}
+add_action('init', 'create_finance_editor_role');
+
+// Restrict finance editor access to only resource_page post type and specific pages
+function restrict_finance_editor_access($query)
+{
+    if (is_admin() && !defined('DOING_AJAX') && $query->is_main_query()) {
+        $user = wp_get_current_user();
+
+        if (in_array('finance_editor', $user->roles)) {
+            global $pagenow;
+
+            // Restrict to edit.php (post list) for resource_page only
+            if ($pagenow == 'edit.php' && (!isset($_GET['post_type']) || ($_GET['post_type'] !== 'resource_page') && $_GET['post_type'] != 'document') && $_GET['post_type'] != 'page_link') {
+                if (!isset($_GET['post_type']) || $_GET['post_type'] !== 'page') {
+                    wp_redirect(admin_url('edit.php?post_type=resource_page'));
+                    exit;
+                }
+            }
+
+            // Restrict resource_page access to page ID 4611 and its children
+            if ($pagenow == 'edit.php' && isset($_GET['post_type']) && $_GET['post_type'] == 'resource_page') {
+                $children = get_posts(array(
+                    'post_type' => 'resource_page',
+                    'post_parent' => 4611,
+                    'numberposts' => -1,
+                    'fields' => 'ids'
+                ));
+                $allowed_ids = array_merge([4611], $children);
+                $query->set('post__in', $allowed_ids);
+            }
+        }
+    }
+}
+add_action('pre_get_posts', 'restrict_finance_editor_access');
+
+// Hide menu items for finance editor
+function hide_admin_menus_for_finance_editor()
+{
+    $user = wp_get_current_user();
+
+    if (in_array('finance_editor', $user->roles)) {
+        // Remove all menu items except the ones they should access
+        remove_menu_page('index.php'); // Dashboard
+        remove_menu_page('edit.php'); // Posts
+        remove_menu_page('upload.php'); // Media (keep if needed)
+        remove_menu_page('edit-comments.php'); // Comments
+        remove_menu_page('themes.php'); // Appearance
+        remove_menu_page('plugins.php'); // Plugins
+        remove_menu_page('users.php'); // Users
+        remove_menu_page('tools.php'); // Tools
+        remove_menu_page('options-general.php'); // Settings
+        remove_menu_page('edit.php?post_type=module'); // Module
+        remove_menu_page('edit.php?post_type=newsletter'); // Newsletter
+        remove_menu_page('edit.php?post_type=enquiry'); // Enquiry
+        remove_menu_page('edit.php?post_type=page'); // Pages
+        remove_menu_page('edit.php?post_type=favourite'); // Favourite
+        remove_menu_page('admin.php?page=theme_options'); // Theme Options
+        remove_menu_page('admin.php?page=wpseo_workouts'); // SEO Workouts
+
+        // Keep only resource_page and specific pages access
+        // The pages menu will be filtered by the query restriction above
+    }
+}
+add_action('admin_menu', 'hide_admin_menus_for_finance_editor');
+
+// Restrict post/page editing access
+function restrict_finance_editor_post_access()
+{
+    $user = wp_get_current_user();
+
+    if (in_array('finance_editor', $user->roles)) {
+        global $pagenow;
+
+        if (($pagenow == 'post.php' || $pagenow == 'post-new.php') && isset($_GET['resource_page'])) {
+            $post_id = intval($_GET['post']);
+            $post = get_post($post_id);
+
+            if ($post) {
+                // Allow resource_page post type
+                if ($post->post_type == 'resource_page') {
+                    //return;
+                }
+
+                // Allow page ID 4611 and its children
+                if ($post->post_type == 'resource_page') {
+                    if ($post_id == 4611 || $post->post_parent == 4611 || is_child_of_page($post_id, 4611)) {
+                        return;
+                    }
+                }
+
+                // Redirect if not allowed
+                wp_redirect(admin_url('edit.php?post_type=resource_page'));
+                exit;
+            }
+        }
+    }
+}
+add_action('admin_init', 'restrict_finance_editor_post_access');
+
+
+
+
+// Create HR editor role with editor capabilities but restricted to resource_page post type
+function create_hr_editor_role()
+{
+    // Remove the role if it already exists to avoid conflicts
+    remove_role('hr_editor');
+
+    // Get editor role capabilities
+    $editor = get_role('editor');
+    $editor_caps = $editor->capabilities;
+
+    // Add the HR editor role with editor capabilities
+    add_role('hr_editor', 'HR Editor', $editor_caps);
+}
+add_action('init', 'create_hr_editor_role');
+
+// Restrict HR editor access to only resource_page post type and specific pages
+function restrict_hr_editor_access($query)
+{
+    if (is_admin() && !defined('DOING_AJAX') && $query->is_main_query()) {
+        $user = wp_get_current_user();
+
+        if (in_array('hr_editor', $user->roles)) {
+            global $pagenow;
+
+            // Restrict to edit.php (post list) for resource_page only
+            if ($pagenow == 'edit.php' && (!isset($_GET['post_type']) || ($_GET['post_type'] !== 'resource_page') && $_GET['post_type'] != 'document') && $_GET['post_type'] != 'page_link') {
+                if (!isset($_GET['post_type']) || $_GET['post_type'] !== 'page') {
+                    wp_redirect(admin_url('edit.php?post_type=resource_page'));
+                    exit;
+                }
+            }
+
+            // Restrict resource_page access to page ID 4594 and its children
+            if ($pagenow == 'edit.php' && isset($_GET['post_type']) && $_GET['post_type'] == 'resource_page') {
+                $children = get_posts(array(
+                    'post_type' => 'resource_page',
+                    'post_parent' => 4594,
+                    'numberposts' => -1,
+                    'fields' => 'ids'
+                ));
+                $allowed_ids = array_merge([4594], $children);
+                $query->set('post__in', $allowed_ids);
+            }
+        }
+    }
+}
+add_action('pre_get_posts', 'restrict_finance_editor_access');
+
+// Hide menu items for HR editor
+function hide_admin_menus_for_hr_editor()
+{
+    $user = wp_get_current_user();
+
+    if (in_array('hr_editor', $user->roles)) {
+        // Remove all menu items except the ones they should access
+        remove_menu_page('index.php'); // Dashboard
+        remove_menu_page('edit.php'); // Posts
+        remove_menu_page('upload.php'); // Media (keep if needed)
+        remove_menu_page('edit-comments.php'); // Comments
+        remove_menu_page('themes.php'); // Appearance
+        remove_menu_page('plugins.php'); // Plugins
+        remove_menu_page('users.php'); // Users
+        remove_menu_page('tools.php'); // Tools
+        remove_menu_page('options-general.php'); // Settings
+        remove_menu_page('edit.php?post_type=module'); // Module
+        remove_menu_page('edit.php?post_type=newsletter'); // Newsletter
+        remove_menu_page('edit.php?post_type=enquiry'); // Enquiry
+        remove_menu_page('edit.php?post_type=page'); // Pages
+        remove_menu_page('edit.php?post_type=favourite'); // Favourite
+        remove_menu_page('admin.php?page=theme_options'); // Theme Options
+        remove_menu_page('admin.php?page=wpseo_workouts'); // SEO Workouts
+
+        // Keep only resource_page and specific pages access
+        // The pages menu will be filtered by the query restriction above
+    }
+}
+add_action('admin_menu', 'hide_admin_menus_for_finance_editor');
+
+// Restrict post/page editing access
+function restrict_hr_editor_post_access()
+{
+    $user = wp_get_current_user();
+
+    if (in_array('hr_editor', $user->roles)) {
+        global $pagenow;
+
+        if (($pagenow == 'post.php' || $pagenow == 'post-new.php') && isset($_GET['resource_page'])) {
+            $post_id = intval($_GET['post']);
+            $post = get_post($post_id);
+
+            if ($post) {
+                // Allow resource_page post type
+                if ($post->post_type == 'resource_page') {
+                    //return;
+                }
+
+                // Allow page ID 4594 and its children
+                if ($post->post_type == 'resource_page') {
+                    if ($post_id == 4594 || $post->post_parent == 4594 || is_child_of_page($post_id, 4594)) {
+                        return;
+                    }
+                }
+
+                // Redirect if not allowed
+                wp_redirect(admin_url('edit.php?post_type=resource_page'));
+                exit;
+            }
+        }
+    }
+}
+add_action('admin_init', 'restrict_hr_editor_post_access');
+
+
+
+// Create HSW editor role with editor capabilities but restricted to resource_page post type
+function create_hsw_editor_role()
+{
+    // Remove the role if it already exists to avoid conflicts
+    remove_role('hsw_editor');
+
+    // Get editor role capabilities
+    $editor = get_role('editor');
+    $editor_caps = $editor->capabilities;
+
+    // Add the HSW editor role with editor capabilities
+    add_role('hsw_editor', 'HSW Editor', $editor_caps);
+}
+add_action('init', 'create_hsw_editor_role');
+
+// Restrict HSW editor access to only resource_page post type and specific pages
+function restrict_hsw_editor_access($query)
+{
+    if (is_admin() && !defined('DOING_AJAX') && $query->is_main_query()) {
+        $user = wp_get_current_user();
+
+        if (in_array('hsw_editor', $user->roles)) {
+            global $pagenow;
+
+            // Restrict to edit.php (post list) for resource_page only
+            if ($pagenow == 'edit.php' && (!isset($_GET['post_type']) || ($_GET['post_type'] !== 'resource_page') && $_GET['post_type'] != 'document') && $_GET['post_type'] != 'page_link') {
+                if (!isset($_GET['post_type']) || $_GET['post_type'] !== 'page') {
+                    wp_redirect(admin_url('edit.php?post_type=resource_page'));
+                    exit;
+                }
+            }
+
+            // Restrict resource_page access to page ID 4536 and its children
+            if ($pagenow == 'edit.php' && isset($_GET['post_type']) && $_GET['post_type'] == 'resource_page') {
+                $children = get_posts(array(
+                    'post_type' => 'resource_page',
+                    'post_parent' => 4536,
+                    'numberposts' => -1,
+                    'fields' => 'ids'
+                ));
+                $allowed_ids = array_merge([4536], $children);
+                $query->set('post__in', $allowed_ids);
+            }
+        }
+    }
+}
+add_action('pre_get_posts', 'restrict_finance_editor_access');
+
+// Hide menu items for HSW editor
+function hide_admin_menus_for_hsw_editor()
+{
+    $user = wp_get_current_user();
+
+    if (in_array('hsw_editor', $user->roles)) {
+        // Remove all menu items except the ones they should access
+        remove_menu_page('index.php'); // Dashboard
+        remove_menu_page('edit.php'); // Posts
+        remove_menu_page('upload.php'); // Media (keep if needed)
+        remove_menu_page('edit-comments.php'); // Comments
+        remove_menu_page('themes.php'); // Appearance
+        remove_menu_page('plugins.php'); // Plugins
+        remove_menu_page('users.php'); // Users
+        remove_menu_page('tools.php'); // Tools
+        remove_menu_page('options-general.php'); // Settings
+        remove_menu_page('edit.php?post_type=module'); // Module
+        remove_menu_page('edit.php?post_type=newsletter'); // Newsletter
+        remove_menu_page('edit.php?post_type=enquiry'); // Enquiry
+        remove_menu_page('edit.php?post_type=page'); // Pages
+        remove_menu_page('edit.php?post_type=favourite'); // Favourite
+        remove_menu_page('admin.php?page=theme_options'); // Theme Options
+        remove_menu_page('admin.php?page=wpseo_workouts'); // SEO Workouts
+
+        // Keep only resource_page and specific pages access
+        // The pages menu will be filtered by the query restriction above
+    }
+}
+add_action('admin_menu', 'hide_admin_menus_for_finance_editor');
+
+// Restrict post/page editing access
+function restrict_hsw_editor_post_access()
+{
+    $user = wp_get_current_user();
+
+    if (in_array('hsw_editor', $user->roles)) {
+        global $pagenow;
+
+        if (($pagenow == 'post.php' || $pagenow == 'post-new.php') && isset($_GET['resource_page'])) {
+            $post_id = intval($_GET['post']);
+            $post = get_post($post_id);
+
+            if ($post) {
+                // Allow resource_page post type
+                if ($post->post_type == 'resource_page') {
+                    //return;
+                }
+
+                // Allow page ID 4536 and its children
+                if ($post->post_type == 'resource_page') {
+                    if ($post_id == 4536 || $post->post_parent == 4536 || is_child_of_page($post_id, 4536)) {
+                        return;
+                    }
+                }
+
+                // Redirect if not allowed
+                wp_redirect(admin_url('edit.php?post_type=resource_page'));
+                exit;
+            }
+        }
+    }
+}
+add_action('admin_init', 'restrict_hsw_editor_post_access');
+
+
+
+
+// Helper function to check if a page is a child of a specific page
+function is_child_of_page($page_id, $parent_id)
+{
+    $page = get_post($page_id);
+    if ($page && $page->post_parent) {
+        if ($page->post_parent == $parent_id) {
+            return true;
+        }
+        return is_child_of_page($page->post_parent, $parent_id);
+    }
+    return false;
+}
