@@ -10,6 +10,16 @@ function handle_ajax_user_registration()
         wp_send_json_error(array('message' => 'Security check failed.'));
     }
 
+    //Recaptcha verification
+    $recaptcha_response = sanitize_text_field($_POST['recaptcha_response']);
+    $recaptcha_secret = '6Ld4_iQsAAAAAJZCHORH432pyFxffNPyMckL2WJd';
+    $recaptcha_verify = wp_remote_get("https://www.google.com/recaptcha/api/siteverify?secret={$recaptcha_secret}&response={$recaptcha_response}");
+    $recaptcha_result = json_decode(wp_remote_retrieve_body($recaptcha_verify));
+
+    if (!$recaptcha_result->success || $recaptcha_result->score < 0.5) {
+        wp_send_json_error(array('message' => '<p>reCAPTCHA verification failed. Please try again.</p>'));
+    }
+
     global $prefix;
     $first_name = sanitize_text_field($_POST['first_name']);
     $last_name = sanitize_text_field($_POST['last_name']);

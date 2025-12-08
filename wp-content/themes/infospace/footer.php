@@ -97,7 +97,7 @@ $copyright = isset($settings[$prefix . 'copyright']) ? $settings[$prefix . 'copy
 		// Display registration form
 		if (get_option('users_can_register')) {
 		?>
-<div id="registration-messages"></div>
+			<div id="registration-messages"></div>
 			<form name="registerform" id="login-form-register" action="<?php echo esc_url($_SERVER['REQUEST_URI']); ?>" method="post" novalidate="novalidate">
 
 				<div>
@@ -107,6 +107,14 @@ $copyright = isset($settings[$prefix . 'copyright']) ? $settings[$prefix . 'copy
 				<div>
 					<label for="last_name"><?php _e('Last Name'); ?></label>
 					<input type="text" name="last_name" id="last_name" class="input" value="" size="20" required />
+				</div>
+				<div>
+					<label for="user_email"><?php _e('Email'); ?></label>
+					<input type="email" name="user_email" id="user_email" class="input" value="" size="25" required />
+				</div>
+				<div>
+					<label for="user_confirm_email"><?php _e('Confirm email'); ?></label>
+					<input type="email" name="user_confirm_email" id="user_confirm_email" class="input" value="" size="25" required />
 				</div>
 				<div>
 					<label for="user_organisation"><?php _e('School/Academy Name'); ?></label>
@@ -120,16 +128,34 @@ $copyright = isset($settings[$prefix . 'copyright']) ? $settings[$prefix . 'copy
 					<label for="user_dfe_number"><?php _e('DFE Number'); ?></label>
 					<input type="text" name="user_dfe_number" id="user_dfe_number" class="input" value="" size="20" />
 				</div>
-				<div>
-					<label for="user_email"><?php _e('Email'); ?></label>
-					<input type="email" name="user_email" id="user_email" class="input" value="" size="25" required />
-				</div>
-				<div>
-					<label for="user_confirm_email"><?php _e('Confirm email'); ?></label>
-					<input type="email" name="user_confirm_email" id="user_confirm_email" class="input" value="" size="25" required />
-				</div>
+				
 				<div class="recaptcha">
-					Captcha
+					<?php // site key for reCAPTCHA v3 
+					$siteKey = '6Ld4_iQsAAAAAM18DdZ0dvv1KUGcDr_Ic9bcsmzl'; 
+					$sectreteky = '6Ld4_iQsAAAAAJZCHORH432pyFxffNPyMckL2WJd';
+					// recaptcha v3 integratiom
+					?>
+					<!-- reCAPTCHA V3 -->
+					<script src="https://www.google.com/recaptcha/api.js?render=<?php echo $siteKey; ?>"></script>
+					<script>
+						grecaptcha.ready(function() {
+
+							grecaptcha.execute('<?php echo $siteKey; ?>', {
+								action: 'register'
+							}).then(function(token) {
+								// Add your logic to submit to your backend server here.
+								var recaptchaResponse = document.getElementById('recaptchaResponse');
+								recaptchaResponse.value = token;
+							});
+						});
+					</script>
+					<input type="hidden" name="recaptcha_response" id="recaptchaResponse">
+					
+							<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+					<?php // End reCAPTCHA integration ?>
+					
+
+				
 				</div>
 				<div class="submit">
 					<input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="<?php esc_attr_e('Register'); ?>" />
@@ -137,7 +163,7 @@ $copyright = isset($settings[$prefix . 'copyright']) ? $settings[$prefix . 'copy
 
 				<?php wp_nonce_field('register_user', 'register_nonce'); ?>
 			</form>
-			
+
 			<script>
 				document.getElementById('login-form-register').addEventListener('submit', function(e) {
 					e.preventDefault();
