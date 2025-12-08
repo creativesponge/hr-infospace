@@ -199,7 +199,7 @@ function user_has_module_access($post_id) : bool
     if (in_array('main', (array) $user->roles)) {
         // The user has the "main" role check they have page access
         // Check if post_id is a parent of any pages in user_attached_pages
-        if (check_module_is_parent_of_attached_page($user_attached_pages, $post_id)) {
+        if (check_module_is_parent_of_attached_page($user_attached_pages, $post_id) || in_array($post_id, $user_attached_pages)) {
             return true;
         }
         return false;
@@ -211,10 +211,13 @@ function user_has_module_access($post_id) : bool
         $created_by = get_user_meta($user->ID, $prefix . 'user_created_by', true);
 
         if ($created_by == '') {
+            //return $user_attached_pages;
             // Check if this user has access
-            if (check_module_is_parent_of_attached_page($user_attached_pages, $post_id)) {
+            if (check_module_is_parent_of_attached_page($user_attached_pages, $post_id) || in_array($post_id, $user_attached_pages)) {
+                
                 return true;
             }
+            //return $user_attached_pages;
         } else {
             
             // Check if the parent user has access
@@ -227,7 +230,7 @@ function user_has_module_access($post_id) : bool
                 $parent_user_attached_pages = get_user_meta($created_by, $prefix . 'user_attached_resource_pages', true);
             }
 
-            if (check_module_is_parent_of_attached_page($parent_user_attached_pages, $post_id)) {
+            if (check_module_is_parent_of_attached_page($parent_user_attached_pages, $post_id) || in_array($post_id, $user_attached_pages)) {
                 return true;
             }  
         }
