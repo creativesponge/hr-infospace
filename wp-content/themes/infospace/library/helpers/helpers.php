@@ -443,7 +443,7 @@ function restrict_hr_editor_access($query)
         }
     }
 }
-add_action('pre_get_posts', 'restrict_finance_editor_access');
+add_action('pre_get_posts', 'restrict_hr_editor_access');
 
 // Hide menu items for HR editor
 function hide_admin_menus_for_hr_editor()
@@ -473,7 +473,7 @@ function hide_admin_menus_for_hr_editor()
         // The pages menu will be filtered by the query restriction above
     }
 }
-add_action('admin_menu', 'hide_admin_menus_for_finance_editor');
+add_action('admin_menu', 'hide_admin_menus_for_hr_editor');
 
 // Restrict post/page editing access
 function restrict_hr_editor_post_access()
@@ -557,7 +557,7 @@ function restrict_hsw_editor_access($query)
         }
     }
 }
-add_action('pre_get_posts', 'restrict_finance_editor_access');
+add_action('pre_get_posts', 'restrict_hsw_editor_access');
 
 // Hide menu items for HSW editor
 function hide_admin_menus_for_hsw_editor()
@@ -587,7 +587,7 @@ function hide_admin_menus_for_hsw_editor()
         // The pages menu will be filtered by the query restriction above
     }
 }
-add_action('admin_menu', 'hide_admin_menus_for_finance_editor');
+add_action('admin_menu', 'hide_admin_menus_for_hsw_editor');
 
 // Restrict post/page editing access
 function restrict_hsw_editor_post_access()
