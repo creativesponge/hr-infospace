@@ -68,7 +68,7 @@ $copyright = isset($settings[$prefix . 'copyright']) ? $settings[$prefix . 'copy
 <div class="form-pop-up form-pop-up--login" id="login-form-pop-up">
 	<div class="form-pop-up__content ">
 		<h2>Login</h2>
-		
+
 		<?php
 		$args = array(
 			'redirect' => home_url($_SERVER['REQUEST_URI']),
@@ -89,47 +89,44 @@ $copyright = isset($settings[$prefix . 'copyright']) ? $settings[$prefix . 'copy
 <div class="form-pop-up form-pop-up--register" id="register-form-pop-up">
 	<div class="form-pop-up__content ">
 		<h2>Register</h2>
-		
+
 		<?php
-		$args = array(
-			'redirect' => home_url($_SERVER['REQUEST_URI']),
-			'label_username' => __('Username'),
-			'label_password' => __('Password'),
-			'label_remember' => __('Remember Me'),
-			'label_log_in' => __('Log In'),
-			'remember' => true
-		);
+
 		?>
 		<?php
 		// Display registration form
-		//if (get_option('users_can_register')) {
-			?>
-			<form name="registerform" id="login-form-register" action="<?php echo esc_url(site_url('wp-login.php?action=register', 'login_post')); ?>" method="post" novalidate="novalidate">
-			
-				
+		if (get_option('users_can_register')) {
+		?>
+<div id="registration-messages"></div>
+			<form name="registerform" id="login-form-register" action="<?php echo esc_url($_SERVER['REQUEST_URI']); ?>" method="post" novalidate="novalidate">
+
 				<div>
 					<label for="first_name"><?php _e('First Name'); ?></label>
-					<input type="text" name="first_name" id="first_name" class="input" value="" size="20" />
+					<input type="text" name="first_name" id="first_name" class="input" value="" size="20" required />
 				</div>
 				<div>
 					<label for="last_name"><?php _e('Last Name'); ?></label>
-					<input type="text" name="last_name" id="last_name" class="input" value="" size="20" />
+					<input type="text" name="last_name" id="last_name" class="input" value="" size="20" required />
 				</div>
 				<div>
-					<label for="organisation_name"><?php _e('Organisation Name'); ?></label>
-					<input type="text" name="organisation_name" id="organisation_name" class="input" value="" size="30" />
+					<label for="user_organisation"><?php _e('School/Academy Name'); ?></label>
+					<input type="text" name="user_organisation" id="user_organisation" class="input" value="" size="30" required />
 				</div>
 				<div>
-					<label for="dfe_number"><?php _e('DFE Number'); ?></label>
-					<input type="text" name="dfe_number" id="dfe_number" class="input" value="" size="20" />
+					<label for="user_federation_trust"><?php _e('Federation/Trust'); ?></label>
+					<input type="text" name="user_federation_trust" id="user_federation_trust" class="input" value="" size="30" required />
+				</div>
+				<div>
+					<label for="user_dfe_number"><?php _e('DFE Number'); ?></label>
+					<input type="text" name="user_dfe_number" id="user_dfe_number" class="input" value="" size="20" />
 				</div>
 				<div>
 					<label for="user_email"><?php _e('Email'); ?></label>
-					<input type="email" name="user_email" id="user_email" class="input" value="" size="25" />
+					<input type="email" name="user_email" id="user_email" class="input" value="" size="25" required />
 				</div>
 				<div>
 					<label for="user_confirm_email"><?php _e('Confirm email'); ?></label>
-					<input type="email" name="user_confirm_email" id="user_confirm_email" class="input" value="" size="25" />
+					<input type="email" name="user_confirm_email" id="user_confirm_email" class="input" value="" size="25" required />
 				</div>
 				<div class="recaptcha">
 					Captcha
@@ -137,11 +134,57 @@ $copyright = isset($settings[$prefix . 'copyright']) ? $settings[$prefix . 'copy
 				<div class="submit">
 					<input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="<?php esc_attr_e('Register'); ?>" />
 				</div>
+
+				<?php wp_nonce_field('register_user', 'register_nonce'); ?>
 			</form>
-			<?php
-		//} else {
-			//echo '<p>' . __('User registration is currently not allowed.') . '</p>';
-		//}
+			
+			<script>
+				document.getElementById('login-form-register').addEventListener('submit', function(e) {
+					e.preventDefault();
+
+					const form = this;
+					const formData = new FormData(form);
+					formData.append('action', 'register_user_ajax');
+
+					// Disable submit button
+					const submitBtn = document.getElementById('wp-submit');
+					const originalText = submitBtn.value;
+					submitBtn.value = 'Registering...';
+					submitBtn.disabled = true;
+
+					// Clear previous messages
+					document.getElementById('registration-messages').innerHTML = '';
+
+					fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
+							method: 'POST',
+							body: formData
+						})
+						.then(response => response.json())
+						.then(data => {
+							const messageDiv = document.getElementById('registration-messages');
+
+							if (data.success) {
+								messageDiv.innerHTML = '<div class="registration-success"><h3>Registration Successful!</h3><p>' + data.data.message + '</p></div>';
+								form.reset();
+							} else {
+								messageDiv.innerHTML = '<div class="registration-error">' + data.data.message + '</div>';
+							}
+						})
+						.catch(error => {
+							document.getElementById('registration-messages').innerHTML = '<div class="registration-error"><p>An error occurred. Please try again.</p></div>';
+						})
+						.finally(() => {
+							// Re-enable submit button
+							submitBtn.value = originalText;
+							submitBtn.disabled = false;
+						});
+				});
+			</script>
+
+		<?php
+		} else {
+			echo '<p>' . __('User registration is currently not allowed.') . '</p>';
+		}
 		?>
 
 		<button class="form-pop-up__close">Close</button>

@@ -88,19 +88,20 @@
                     </div>
                 </div>
                 <div class="account-settings__right">
-                    <h2>Organisation details</h2>
+                    <h2>School/Academy</h2>
                     <div class="account-settings__col">
-                        <label for="contact_company">Organisation name</label>
-                        <input type="text" class="contact__company" id="user_organisation" name="<?php echo $prefix . 'user_organisation'; ?>" placeholder="Organisation" value="<?php echo esc_attr($user_organisation); ?>" required />
-                    </div>
-                    <div class="account-settings__col">
-                        <label for="dfe_number">DfE Number</label>
-                        <input type="text" class="dfe__number" id="user_dfe_number" name="<?php echo $prefix . 'user_dfe_number'; ?>" placeholder="DfE Number" value="<?php echo esc_attr($user_dfe_number); ?>" />
+                        <label for="user_organisation">Organisation name</label>
+                        <input type="text" class="user_organisation" id="user_organisation" name="<?php echo $prefix . 'user_organisation'; ?>" placeholder="School/Academy" value="<?php echo esc_attr($user_organisation); ?>" required />
                     </div>
                     <div class="account-settings__col">
                         <label for="user_federation_trust">User Federation Trust</label>
                         <input type="text" class="user__federation__trust" id="user_federation_trust" name="<?php echo $prefix . 'user_federation_trust'; ?>" placeholder="User Federation Trust" value="<?php echo esc_attr($user_federation_trust); ?>" />
                     </div>
+                    <div class="account-settings__col">
+                        <label for="dfe_number">DfE Number</label>
+                        <input type="text" class="dfe__number" id="user_dfe_number" name="<?php echo $prefix . 'user_dfe_number'; ?>" placeholder="DfE Number" value="<?php echo esc_attr($user_dfe_number); ?>" />
+                    </div>
+                    
                 </div>
                 <div class="account-settings__alerts">
                     <?php if (user_has_module_access(4594) || user_has_module_access(4536) || user_has_module_access(4611)) : ?>
