@@ -1,8 +1,12 @@
 <?php global $prefix; ?>
 <?php $current_user = wp_get_current_user(); ?>
-<?php $finance_landing_id = 1737 ?>
-<?php $hr_landing_id = 1735 ?>
-<?php $hsw_landing_id = 1739 ?>
+<?php //local $finance_landing_id = 1737 ?>
+<?php //local $hr_landing_id = 1735 ?>
+<?php //local $hsw_landing_id = 1739 ?>
+
+<?php $finance_landing_id = 4611 ?>
+<?php $hr_landing_id = 4594 ?>
+<?php $hsw_landing_id = 4536 ?>
 
 <?php if (user_has_module_access($finance_landing_id) || user_has_module_access($hr_landing_id) || user_has_module_access($hsw_landing_id)) : ?>
     <h2>Alerts</h2>
