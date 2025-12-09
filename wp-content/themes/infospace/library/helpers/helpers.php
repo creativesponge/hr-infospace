@@ -211,6 +211,7 @@ function remove_admin_bar()
     // }
 }
 
+
 function my_login_logo()
 { ?>
     <style type="text/css">

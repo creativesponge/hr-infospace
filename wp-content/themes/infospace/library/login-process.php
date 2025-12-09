@@ -1,5 +1,9 @@
 <?php
-
+add_action('login_form', 'my_custom_login_content');
+function my_custom_login_content() {
+    // Add your HTML here
+    echo '<p><a href="yourwebsite.com">Need an account? Sign up!</a></p>';
+}
 /**
  * Login process
  */
@@ -97,3 +101,5 @@ function enforce_terms_acceptance()
         }
     }
 }
+
+

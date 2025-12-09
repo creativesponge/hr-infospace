@@ -1,4 +1,4 @@
-<?php if (is_user_logged_in()) : ?>
+
     <?php $block_content = get_query_var('content'); ?>
     <div class="forgot-password">
         <?php //global $settings;
@@ -15,7 +15,7 @@
                 <input type="email" id="user_email" name="user_email" required>
             </div>
 
-            <div class="form-group">
+            <div class="form-group forgot-password-form__submit">
                 <button type="submit" name="reset_password">Reset Password</button>
             </div>
 
@@ -41,4 +41,3 @@
 
 
     </div>
-<?php endif;  ?>

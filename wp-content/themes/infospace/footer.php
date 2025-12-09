@@ -84,6 +84,7 @@ $sectreteky = '6Ld4_iQsAAAAAJZCHORH432pyFxffNPyMckL2WJd';
 		);
 		?>
 		<?php wp_login_form($args); ?>
+		<a href="<?php echo site_url('/forgot-password/'); ?>" class="forgot-password-link">Forgotten your password?</a>
 
 		<button class="form-pop-up__close">Close</button>
 	</div>

@@ -28,7 +28,7 @@
   &--open-delay {
     .form-pop-up__content {
       filter: blur(0px);
-      opacity:1;
+      opacity: 1;
     }
     .form-pop-up__overlay {
       backdrop-filter: blur(30px);
@@ -50,8 +50,8 @@
     position: relative;
     z-index: 1;
     filter: blur(30px);
-    opacity:0;
-     transition: all 0.25s ease;
+    opacity: 0;
+    transition: all 0.25s ease;
     @include breakpoint(medium) {
       padding: rem-calc(30);
       border-radius: rem-calc(30);
@@ -62,7 +62,7 @@
     }
   }
   label {
-    color:$infospace-black;
+    color: $infospace-black;
     font-weight: 500;
   }
   &--login {
@@ -155,6 +155,26 @@
       &:before {
         background: $infospace-green !important;
       }
+    }
+  }
+
+  .login-remember,
+  .login-submit {
+    @include breakpoint(medium) {
+      display: inline-block;
+      width: 50%;
+      vertical-align: top;
+    }
+  }
+  .login-submit {
+    @include breakpoint(medium) {
+      text-align: right;
+    }
+  }
+
+  .forgot-password-link {
+    @include breakpoint(medium) {
+      margin-top: rem-calc(-2.8em);
     }
   }
 }
