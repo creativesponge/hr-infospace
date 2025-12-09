@@ -5,7 +5,7 @@ if (!defined('ABSPATH')) {
 }
 
 
-function add_reporting_admin_page()
+function add_alerts_admin_page()
 {
     add_menu_page(
         'Alerts',
@@ -17,7 +17,7 @@ function add_reporting_admin_page()
         30
     );
 }
-add_action('admin_menu', 'add_reporting_admin_page');
+add_action('admin_menu', 'add_alerts_admin_page');
 
 
 function alerts_page_callback()
