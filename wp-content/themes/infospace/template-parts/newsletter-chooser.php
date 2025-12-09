@@ -11,8 +11,6 @@
 <?php if (user_has_module_access($finance_landing_id) || user_has_module_access($hr_landing_id) || user_has_module_access($hsw_landing_id)) : ?>
     <h2>Alerts</h2>
 
-
-
     <?php if (user_has_module_access($hr_landing_id)) : ?>
         <label class="checkmark-container">
             <input type="checkbox" name="<?php echo $prefix . 'user_hr_alerts'; ?>" class="hr__alerts" <?php checked(get_user_meta($current_user->ID, $prefix . 'user_hr_alerts', true), 'on'); ?>>

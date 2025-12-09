@@ -38,6 +38,7 @@ import all_newsletters from "./lib/admin/blocks/all-newsletters/index.js";
 import account_settings from "./lib/admin/blocks/account-settings/index.js";
 import accept_terms from "./lib/admin/blocks/accept-terms/index.js";
 import accept_privacy from "./lib/admin/blocks/accept-privacy/index.js";
+import forgot_password from "./lib/admin/blocks/forgot-password/index.js";
 
 
 pagebannertitles.init();
@@ -79,6 +80,7 @@ all_newsletters.init();
 account_settings.init();
 accept_terms.init();
 accept_privacy.init();
+forgot_password.init();
 
 // Remove default block styles
 wp.domReady(() => {
