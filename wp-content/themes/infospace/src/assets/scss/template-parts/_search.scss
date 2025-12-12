@@ -1,6 +1,7 @@
 .searchform {
   position: relative;
   display: flex;
+  max-width: rem-calc(814);
   input {
     margin-bottom: 0;
     background: $white;
@@ -14,8 +15,7 @@
   }
 
   //form {
-  display: flex;
-  max-width: rem-calc(814);
+  
   input {
     margin-bottom: 0;
     background: $white;
@@ -112,9 +112,13 @@
       line-height: 1em;
       padding: rem-calc(0 0 0 15);
       margin: 0;
+      transition: max-width 0.25s ease;
       &::placeholder {
         color: $black;
         text-transform: uppercase;
+      }
+      &:focus {
+        max-width: rem-calc(220);
       }
     }
     svg {

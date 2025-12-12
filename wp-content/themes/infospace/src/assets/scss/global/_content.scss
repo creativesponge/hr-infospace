@@ -9,9 +9,15 @@ body {
  
 }
 .main-container {
-  min-height: calc(100vh - (362px));
+  min-height: calc(100vh - (498px));
   @include xy-grid-container;
   max-width: $global-width-margins;
+  @include breakpoint(medium) {
+    min-height: calc(100vh - (300px));
+  }
+  @include breakpoint(large) {
+    min-height: calc(100vh - (362px));
+  }
 }
 
 .main-grid {

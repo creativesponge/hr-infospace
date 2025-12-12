@@ -107,7 +107,7 @@
   &__credits {
     @include breakpoint(medium) {
       text-align: right;
-      flex-basis: rem-calc(200);
+      flex-basis: rem-calc(256);
       padding-right: rem-calc(10);
       padding-top: rem-calc(3);
     }
@@ -119,16 +119,17 @@
     a {
       display: flex;
       align-items: flex-end;
-      width: 100%;
+      //width: 100%;
       justify-content: center;
       margin-bottom: rem-calc(10);
       font-size: rem-calc(14);
       @include breakpoint(medium) {
         justify-content: flex-end;
+         display: inline-flex;
         margin-bottom: rem-calc(6);
       }
       @include breakpoint(large) {
-        display: inline-flex;
+       
         width: auto;
         font-weight: 300;
         font-size: rem-calc(18);
@@ -140,7 +141,8 @@
       }
     }
     p {
-      @include breakpoint(large) {
+      
+      @include breakpoint(medium) {
         display: inline-block;
         padding-left: rem-calc(10);
       }
@@ -150,7 +152,7 @@
     margin-top: rem-calc(25);
     margin-bottom: rem-calc(25);
     @include breakpoint(medium) {
-      flex-basis: calc(100% - 200px);
+      flex-basis: calc(100% - 256px);
       margin-bottom: 0;
       margin-top: 0;
       padding-left: rem-calc(10);
