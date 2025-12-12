@@ -49,13 +49,13 @@ foreach ($userData as $userRecord) {
         $attachedGroupsId = $attachedGroup['group_id'];
 
         switch ($attachedGroupsId) {
-            case 1:
+            case 3:
                 $userRole = 'employee';
                 break;
             case 2:
                 $userRole = 'individual';
                 break;
-            case 3:
+            case 1:
                 $userRole = 'main';
                 break;
         }

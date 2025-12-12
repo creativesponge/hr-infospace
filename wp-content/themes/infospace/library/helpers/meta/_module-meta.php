@@ -95,7 +95,7 @@ function cmb2_module_metabox() {
             'url' => false,
         ),
         'text'    => array(
-            'add_upload_file_text' => __( 'Add MobileListing Image', 'hrinfospace' )
+            'add_upload_file_text' => __( 'Add Mobile Listing Image', 'hrinfospace' )
         ),
         'query_args' => array(
             'type' => array(

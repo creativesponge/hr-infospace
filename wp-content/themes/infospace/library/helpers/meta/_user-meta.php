@@ -118,6 +118,10 @@ function cmb2_user_metabox()
         'name'      => 'Is Staff',
         'desc'      => 'Check if this user is a staff member',
         'type'      => 'checkbox',
+        'attributes' => [
+            'disabled' => 'disabled',
+            'style' => 'color: #999; background-color: #f5f5f5;'
+        ],
         'show_on_cb' => function () {
             return current_user_can('administrator');
         }

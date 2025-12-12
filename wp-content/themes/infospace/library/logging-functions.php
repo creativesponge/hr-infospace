@@ -2,7 +2,13 @@
 
  function log_user_interaction($path, $object_id, $content_type_id, $action, $repr) {
         global $wpdb;
+        global $prefix;
         $user_id = get_current_user_id();
+
+        $user_exclude_from_reports = get_user_meta($user_id, $prefix . 'user_exclude_from_reports', true);
+        if ($user_exclude_from_reports == 'on') {
+            return;
+        }
         $created = current_time('mysql');
         $ip_address = $_SERVER['REMOTE_ADDR'];
         $table_name = $wpdb->prefix . 'user_logs';

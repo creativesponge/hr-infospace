@@ -6,6 +6,7 @@
 ?>
 <?php //print_r($meta); 
 $userid = get_current_user_id();
+
 ?>
 
 
@@ -18,6 +19,7 @@ $blockHeading = isset($block_attributes['mainHeading']) ? $block_attributes['mai
             echo "<h1>" . $blockHeading . "</h1>";
         } ?>
 
+        
 
         <div class="modules-list__modules-container">
             <?php
@@ -32,17 +34,17 @@ $blockHeading = isset($block_attributes['mainHeading']) ? $block_attributes['mai
                 foreach ($modules as $module) {
                     set_query_var('module', $module);
                     $module_id = $module->ID;
-                 
+
                     $meta = theme_get_meta($module_id);
                     $module_page = isset($meta->module_attached_resources) ? $meta->module_attached_resources : null;
 
-                     
-                    
+
+
                     //var_dump(user_has_module_access($module_page));
                     // var_dump($userid);
                     // var_dump($meta->module_attached_resources);
                     if (user_has_access($module_page) || user_has_module_access($module_page)) {
-                       // if (user_has_module_access($module_page)) {
+                        // if (user_has_module_access($module_page)) {
                         //continue;
 
                         get_template_part('template-parts/module-teaser');
