@@ -18,10 +18,11 @@ html {
   //@include hide-for(medium);
 }
 //
-.desktop-menu,
-.site-navigation {
-  @include show-for(medium);
+
+.site-navigation.header__top-bar {
+ @include show-for(medium);
 }
+
 
 // Site title
 .site-desktop-title a {

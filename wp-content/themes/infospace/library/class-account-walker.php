@@ -67,7 +67,7 @@ if (! class_exists('Startertheme_Account_Walker')) :
 
             $item_output = $args->before ?? '';
             $item_output .= '<a' . $attributes . '>';
-            $item_output .= ($args->link_before ?? '') . apply_filters('the_title', $item->title, $item->ID) . ($args->link_after ?? '');
+            $item_output .= '<span>' . ($args->link_before ?? '') . apply_filters('the_title', $item->title, $item->ID) . ($args->link_after ?? '') . '</span>';
             $item_output .= $image_html; // Add the image before the title
 
             $item_output .= '</a>';
