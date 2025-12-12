@@ -6,8 +6,10 @@ body {
   @include breakpoint(large) {
     padding-top: rem-calc(98);
   }
+ 
 }
 .main-container {
+  min-height: calc(100vh - (362px));
   @include xy-grid-container;
   max-width: $global-width-margins;
 }

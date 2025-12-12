@@ -87,7 +87,7 @@ function cmb2_module_metabox() {
     ) );
 
     $module->add_field( array(
-        'name' => __( 'mobule listing Image', 'hrinfospace' ),
+        'name' => __( 'Module listing image', 'hrinfospace' ),
         'desc' => __( 'Upload a banner image for this module.', 'hrinfospace' ),
         'id'   => $prefix . 'listing_image_mobile',
         'type' => 'file',

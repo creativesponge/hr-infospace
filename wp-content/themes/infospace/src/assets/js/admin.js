@@ -23,7 +23,6 @@ import share_block from "./lib/admin/blocks/share-block/index.js";
 import breadcrumbs from "./lib/admin/blocks/breadcrumbs/index.js";
 import logo_list from "./lib/admin/blocks/logo-list/index.js";
 import narrow_content from "./lib/admin/blocks/narrow-content/index.js";
-
 import image_text_banner from "./lib/admin/blocks/image-text-banner/index.js";
 import image_text_carousel from "./lib/admin/blocks/image-text-carousel/index.js";
 import image_text_slide from "./lib/admin/blocks/image-text-slide/index.js";
@@ -39,7 +38,7 @@ import account_settings from "./lib/admin/blocks/account-settings/index.js";
 import accept_terms from "./lib/admin/blocks/accept-terms/index.js";
 import accept_privacy from "./lib/admin/blocks/accept-privacy/index.js";
 import forgot_password from "./lib/admin/blocks/forgot-password/index.js";
-
+import site_map from "./lib/admin/blocks/site-map/index.js";
 
 pagebannertitles.init();
 stats.init();
@@ -81,6 +80,7 @@ account_settings.init();
 accept_terms.init();
 accept_privacy.init();
 forgot_password.init();
+site_map.init();
 
 // Remove default block styles
 wp.domReady(() => {
