@@ -23,7 +23,6 @@ if (isset($moduleMeta->module_phone_number)) {
 if (isset($moduleMeta->module_email_address)) {
 	$siteEmail = $moduleMeta->module_email_address;
 }
- 
 // site key for reCAPTCHA v3 
 $siteKey = '6Ld4_iQsAAAAAM18DdZ0dvv1KUGcDr_Ic9bcsmzl';
 $sectreteky = '6Ld4_iQsAAAAAJZCHORH432pyFxffNPyMckL2WJd';

@@ -639,3 +639,48 @@ function is_child_of_page($page_id, $parent_id)
     }
     return false;
 }
+
+// add descriptive classes to user admin page body
+function custom_user_admin_body_class($classes)
+{
+    $classes .= ' user-role-' . implode(' user-role-', wp_get_current_user()->roles);
+    return trim($classes);
+}
+add_filter('admin_body_class', 'custom_user_admin_body_class'); 
+
+// Remove Personal Options from user profile
+function remove_personal_options()
+{
+    echo '<style>
+        .user-rich-editing-wrap,
+        .user-syntax-highlighting-wrap,
+        .user-admin-color-wrap,
+    .user-nickname-wrap,
+        .user-url-wrap,
+        .user-description-wrap,
+        .user-profile-picture,
+        .user-comment-shortcuts-wrap,
+        .user-display-name-wrap,
+        .yoast.yoast-settings,
+        .application-passwords,
+        .user-role-main #dashboard-widgets,
+        .user-role-main ul.subsubsub {
+            display: none !important;
+        }
+          
+    </style>';
+}
+//add_action('admin_head-profile.php', 'remove_personal_options');
+//add_action('admin_head-user-edit.php', 'remove_personal_options');
+//add_action('admin_head-index.php', 'remove_personal_options');
+
+add_action('admin_head', 'remove_personal_options');
+
+/**
+ * Remove annoying Yoast social fields from user profile forms.
+ */
+function yoast_seo_admin_user_remove_social( $contactmethods ) {
+    // Return an empty array to remove all Yoast-added social fields.
+    return array();
+}
+add_filter( 'user_contactmethods', 'yoast_seo_admin_user_remove_social', 100, 1 );
