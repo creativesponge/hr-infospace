@@ -106,13 +106,12 @@
         @include breakpoint(medium) {
           display: inline;
         }
-        
       }
       ul li {
-          span {
-            display: inline;
-          }
+        span {
+          display: inline;
         }
+      }
     }
     li {
       margin-bottom: rem-calc(6);

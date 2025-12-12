@@ -15,6 +15,15 @@ $sitePhone = isset($settings[$prefix . 'phone']) ? $settings[$prefix . 'phone'] 
 $siteAddress = isset($settings[$prefix . 'address']) ? $settings[$prefix . 'address'] : '';
 $copyright = isset($settings[$prefix . 'copyright']) ? $settings[$prefix . 'copyright'] : '';
 
+$moduleMetaList = get_current_module_meta(null);
+$moduleMeta = theme_get_meta($moduleMetaList['module_id'] ?? null);
+if (isset($moduleMeta->module_phone_number)) {
+	$sitePhone = $moduleMeta->module_phone_number;
+}
+if (isset($moduleMeta->module_email_address)) {
+	$siteEmail = $moduleMeta->module_email_address;
+}
+ 
 // site key for reCAPTCHA v3 
 $siteKey = '6Ld4_iQsAAAAAM18DdZ0dvv1KUGcDr_Ic9bcsmzl';
 $sectreteky = '6Ld4_iQsAAAAAJZCHORH432pyFxffNPyMckL2WJd';
@@ -26,6 +35,8 @@ $sectreteky = '6Ld4_iQsAAAAAJZCHORH432pyFxffNPyMckL2WJd';
 			<?php dynamic_sidebar('footer-widgets'); ?>
 			<div class="footer__contacts show-for-medium">
 				<?php dynamic_sidebar('footer-widgets'); ?>
+
+	
 				<?php if ($sitePhone) { ?>
 					<a href="tel:<?php echo preg_replace('/\s+/', '', $sitePhone); ?>"><?php echo $sitePhone ?></a>
 				<?php } ?>
