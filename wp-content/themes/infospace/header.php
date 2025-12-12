@@ -151,7 +151,7 @@ if (get_the_ID() === 1581 && $current_module_id_global === '') { // redirect for
 
 
 					</nav>
-					<?php if (is_user_logged_in()) : ?>
+					<?php if (is_user_logged_in() && $current_module_id_global !== '') : ?>
 						<div class="header__mobile-toggle">
 							<button type="button" class="button mobile-menu-toggle" data-toggle="off-canvas" aria-label="Mobile navigation" aria-controls="off-canvas">
 								<i>Menu</i>
