@@ -500,6 +500,40 @@ function page_link_sortable_columns($columns)
     return $columns;
 }
 
+//Add an admin column for the document post type which shows the resource_page post types where thie lost id is in the $prefix . 'resource_attached_documents' field
+add_filter('manage_page_link_posts_columns', 'add_document_link_column');
+function add_document_link_column($columns)
+{
+    $columns['related_resources'] = 'Attached to';
+    return $columns;
+}
+add_action('manage_page_link_posts_custom_column', 'show_document_link_column', 10, 2);
+function show_document_link_column($column, $post_id)
+{
+    global $prefix;
+    if ($column == 'related_resources') {
+        $related_resources = get_posts(array(
+            'post_type' => 'resource_page',
+            'meta_query' => array(
+                array(
+                    'key'     => $prefix . 'resource_attached_links',
+                    'value'   => $post_id,
+                    'compare' => 'LIKE',
+                ),
+            ),
+        ));
+        if (!empty($related_resources)) {
+            $links = array();
+            foreach ($related_resources as $resource) {
+                $links[] = '<a href="' . get_edit_post_link($resource->ID) . '">' . esc_html(get_the_title($resource->ID)) . '</a>';
+            }
+            echo implode(',<br> ', $links);
+        } else {
+            echo '—';
+        }
+    }
+}
+
 // Newsletter
 add_action('init', 'post_type_newsletter', 0);
 function post_type_newsletter()
