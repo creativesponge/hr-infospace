@@ -337,8 +337,9 @@ function show_document_resource_page_column($column, $post_id)
             'meta_query' => array(
                 array(
                     'key'     => $prefix . 'resource_attached_documents',
-                    'value'   => '"' . $post_id . '"',
+                    'value'   => $post_id,
                     'compare' => 'LIKE',
+                    
                 ),
             ),
         ));
