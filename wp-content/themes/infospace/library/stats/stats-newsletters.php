@@ -1,33 +1,33 @@
 <?php
-// Add admin menu for document report
-function add_document_report_submenu()
+// Add admin menu for Newsletters report
+function add_newsletters_report_submenu()
 {
     add_submenu_page(
         'reporting',
-        'Document Report',
-        'Document Report',
+        'Newsletters Report',
+        'Newsletters Report',
         'manage_options',
-        'document-report',
-        'document_report_page_callback'
+        'newsletters-report',
+        'newsletters_report_page_callback'
     );
 }
-add_action('admin_menu', 'add_document_report_submenu');
+add_action('admin_menu', 'add_newsletters_report_submenu');
 
-function document_report_page_callback()
+function newsletters_report_page_callback()
 {
     // Handle CSV export first to avoid unnecessary processing
     if (isset($_GET['export_csv'])) {
-        infospace_export_document_report_csv_ftn();
+        infospace_export_newsletters_report_csv_ftn();
         return;
     }
 
     // Cache documents and modules queries
-    static $documents = null;
+    static $newsletters = null;
     static $modules = null;
     
-    if ($documents === null) {
-        $documents = get_posts(array(
-            'post_type' => 'document',
+    if ($newsletters === null) {
+        $newsletters = get_posts(array(
+            'post_type' => 'newsletter',
             'posts_per_page' => -1,
             'post_status' => 'publish',
             'orderby' => 'title',
@@ -50,7 +50,7 @@ function document_report_page_callback()
     // Sanitize inputs once
     $start_date = sanitize_text_field($_GET['start_date'] ?? '');
     $end_date = sanitize_text_field($_GET['end_date'] ?? '');
-    $document_id = intval($_GET['document_id'] ?? 0);
+    $page_id = intval($_GET['page_id'] ?? 0);
     $module_id = intval($_GET['module_id'] ?? 0);
     $sort_order = ($_GET['sort_order'] ?? 'DESC') === 'ASC' ? 'ASC' : 'DESC';
 
@@ -59,11 +59,11 @@ function document_report_page_callback()
     ?>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <div class="wrap">
-        <h1>Document Report</h1>
+        <h1>Newsletters Report</h1>
         <br><br>
         
         <form method="get" action="">
-            <input type="hidden" name="page" value="document-report">
+            <input type="hidden" name="page" value="newsletters-report">
             
             <label for="start_date">Start Date:&nbsp;</label>
             <input type="date" name="start_date" id="start_date" value="<?php echo esc_attr($start_date); ?>">
@@ -73,14 +73,14 @@ function document_report_page_callback()
             
             <br><br>
             
-            <label for="document_id">Document:&nbsp;</label>
-            <select name="document_id" id="document_id">
-                <option value="">All Documents</option>
+            <label for="page_id">Newsletter:&nbsp;</label>
+            <select name="page_id" id="page_id">
+                <option value="">All Newsletters</option>
                 <?php 
-                foreach ($documents as $doc_id) {
-                    $doc_title = get_the_title($doc_id);
-                    $selected = ($document_id == $doc_id) ? ' selected' : '';
-                    echo '<option value="' . esc_attr($doc_id) . '"' . $selected . '>' . esc_html($doc_title) . '</option>';
+                foreach ($newsletters as $newsletterid) {
+                    $doc_title = get_the_title($newsletterid);
+                    $selected = ($newsletterid == $page_id) ? ' selected' : '';
+                    echo '<option value="' . esc_attr($newsletterid) . '"' . $selected . '>' . esc_html($doc_title) . '</option>';
                 }
                 ?>
             </select>
@@ -112,11 +112,11 @@ function document_report_page_callback()
         </form>
 
         <form method="get" action="" style="margin-top: 10px;">
-            <input type="hidden" name="page" value="document-report">
+            <input type="hidden" name="page" value="newsletters-report">
             <input type="hidden" name="export_csv" value="1">
             <?php if ($start_date): ?><input type="hidden" name="start_date" value="<?php echo esc_attr($start_date); ?>"><?php endif; ?>
             <?php if ($end_date): ?><input type="hidden" name="end_date" value="<?php echo esc_attr($end_date); ?>"><?php endif; ?>
-            <?php if ($document_id): ?><input type="hidden" name="document_id" value="<?php echo esc_attr($document_id); ?>"><?php endif; ?>
+            <?php if ($page_id): ?><input type="hidden" name="newsletter_id" value="<?php echo esc_attr($page_id); ?>"><?php endif; ?>
             <?php if ($module_id): ?><input type="hidden" name="module_id" value="<?php echo esc_attr($module_id); ?>"><?php endif; ?>
             <input type="hidden" name="sort_order" value="<?php echo esc_attr($sort_order); ?>">
             <input type="submit" value="Export as CSV" class="button button-secondary">
@@ -124,10 +124,10 @@ function document_report_page_callback()
 
         <?php
         // Get report data
-        $report_data = get_document_report_data($start_date, $end_date, $document_id, $module_id, $sort_order);
+        $report_data = get_newsletters_report_data($start_date, $end_date, $page_id, $module_id, $sort_order);
         
         if ($report_data) {
-            $report_title = ($sort_order === 'DESC') ? 'Top 40 Most Popular Documents' : 'Top 40 Least Popular Documents';
+            $report_title = ($sort_order === 'DESC') ? 'Top 40 Most Viewed Pages' : 'Top 40 Least Popular Pages';
             ?>
             <h2><?php echo esc_html($report_title); ?></h2>
             <table class="widefat fixed striped">
@@ -135,12 +135,13 @@ function document_report_page_callback()
                     <tr>
                         <th>Object ID</th>
                         <th>Name</th>
-                        <th>Unique Download Count</th>
-                        <th>Total Download Count</th>
+                        <th>Unique Newsletters Count</th>
+                        <th>Total Newsletters Count</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach ($report_data as $row): ?>
+                        
                     <tr>
                         <td><?php echo esc_html($row->object_id); ?></td>
                         <td><?php echo esc_html($row->repr); ?></td>
@@ -153,7 +154,7 @@ function document_report_page_callback()
 
             <?php
             // Prepare chart data
-            $chart_data = array(array('Document Name', 'Total Downloads', 'Unique Downloads'));
+            $chart_data = array(array('Document Name', 'Total Newsletters', 'Unique Newsletters'));
             foreach ($report_data as $row) {
                 $chart_data[] = array($row->repr, intval($row->access_count), intval($row->unique_downloads));
             }
@@ -168,9 +169,9 @@ function document_report_page_callback()
                     var data = google.visualization.arrayToDataTable(<?php echo wp_json_encode($chart_data); ?>);
                     
                     var options = {
-                        title: "Document Download Statistics",
+                        title: "Newsletter Statistics",
                         hAxes: {0: {title: "Downloads"}},
-                        vAxes: {0: {title: "Documents"}},
+                        vAxes: {0: {title: "Newsletters"}},
                         series: {
                             0: {color: "#1f77b4", name: "Total Downloads"},
                             1: {color: "#ff7f0e", name: "Unique Downloads"}
@@ -183,7 +184,7 @@ function document_report_page_callback()
             </script>
             <?php
         } else {
-            echo '<p>No document access data found for the selected criteria.</p>';
+            echo '<p>No page access data found for the selected criteria.</p>';
         }
         ?>
     </div>
@@ -192,10 +193,10 @@ function document_report_page_callback()
 }
 
 // Separate function for database queries
-function get_document_report_data($start_date, $end_date, $document_id, $module_id, $sort_order) {
+function get_newsletters_report_data($start_date, $end_date, $page_id, $module_id, $sort_order) {
     global $wpdb, $prefix;
     
-    $where_conditions = array("content_type_id = 12");
+    $where_conditions = array("content_type_id = 9");
     $where_params = array();
 
     if ($start_date) {
@@ -208,9 +209,9 @@ function get_document_report_data($start_date, $end_date, $document_id, $module_
         $where_params[] = $end_date;
     }
 
-    if ($document_id) {
+    if ($page_id) {
         $where_conditions[] = "object_id = %d";
-        $where_params[] = $document_id;
+        $where_params[] = $page_id;
     }
 
     if ($module_id) {
@@ -237,24 +238,29 @@ function get_document_report_data($start_date, $end_date, $document_id, $module_
             $child_pages = get_all_child_pages($attached_page_id);
             $page_ids = array_merge(array($attached_page_id), $child_pages);
 
-         
-            $attached_document_ids = array();
+           
 
-            
-            foreach ($page_ids as $page_id) {
-                $documents = get_post_meta($page_id, $prefix . 'resource_attached_documents', true);
-                if ($documents) {
-                    if (is_array($documents)) {
-                        $attached_document_ids = array_merge($attached_document_ids, $documents);
-                    } else {
-                        $attached_document_ids[] = $documents;
+            if ($page_ids) {
+                $page_ids = array_unique(array_filter(array_map('intval', $page_ids)));
+                // Get newsletters that have any of the page IDs in their attached resource pages meta field
+                $newsletter_ids = array();
+                $newsletters = get_posts(array(
+                    'post_type' => 'newsletter',
+                    'posts_per_page' => -1,
+                    'post_status' => 'publish',
+                    'fields' => 'ids'
+                ));
+                
+                foreach ($newsletters as $newsletter_id) {
+                    $attached_pages = get_post_meta($newsletter_id, $prefix . 'newsletter_attached_resource_pages', true);
+                    if (is_array($attached_pages) && array_intersect($attached_pages, $page_ids)) {
+                        $newsletter_ids[] = $newsletter_id;
                     }
                 }
-            }
-
-            if ($attached_document_ids) {
-                $attached_document_ids = array_unique(array_filter(array_map('intval', $attached_document_ids)));
-                $where_conditions[] = "object_id IN (" . implode(',', $attached_document_ids) . ")";
+                
+                if ($newsletter_ids) {
+                    $where_conditions[] = "object_id IN (" . implode(',', array_map('intval', $newsletter_ids)) . ")";
+                }
             }
         }
     }
@@ -276,31 +282,31 @@ function get_document_report_data($start_date, $end_date, $document_id, $module_
 }
 
 // Handle CSV export
-add_action('admin_init', 'infospace_export_document_report_csv');
+add_action('admin_init', 'infospace_export_newsletters_report_csv');
 
-function infospace_export_document_report_csv()
+function infospace_export_newsletters_report_csv()
 {
-    if (isset($_GET['export_csv']) && $_GET['export_csv'] == '1' && isset($_GET['page']) && $_GET['page'] == 'document-report') {
+    if (isset($_GET['export_csv']) && $_GET['export_csv'] == '1' && isset($_GET['page']) && $_GET['page'] == 'newsletters-report') {
         if (!current_user_can('manage_options')) {
             wp_die('You do not have permission to access this page.');
         }
         
-        infospace_export_document_report_csv_ftn();
+        infospace_export_newsletters_report_csv_ftn();
         exit;
     }
 }
 
-function infospace_export_document_report_csv_ftn()
+function infospace_export_newsletters_report_csv_ftn()
 {
     $start_date = sanitize_text_field($_GET['start_date'] ?? '');
     $end_date = sanitize_text_field($_GET['end_date'] ?? '');
-    $document_id = intval($_GET['document_id'] ?? 0);
+    $page_id = intval($_GET['document_id'] ?? 0);
     $module_id = intval($_GET['module_id'] ?? 0);
     $sort_order = ($_GET['sort_order'] ?? 'DESC') === 'ASC' ? 'ASC' : 'DESC';
 
-    $results = get_document_report_data($start_date, $end_date, $document_id, $module_id, $sort_order);
+    $results = get_newsletters_report_data($start_date, $end_date, $page_id, $module_id, $sort_order);
 
-    $filename = 'document_report_' . date('Y-m-d_H-i-s') . '.csv';
+    $filename = 'newsletter_report_' . date('Y-m-d_H-i-s') . '.csv';
     header('Content-Type: text/csv');
     header('Content-Disposition: attachment; filename="' . $filename . '"');
     header('Pragma: no-cache');

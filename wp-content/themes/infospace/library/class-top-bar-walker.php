@@ -15,17 +15,36 @@ if (! class_exists('Startertheme_Top_Bar_Walker')) :
 		}
 		function start_el(&$output, $item, $depth = 0, $args = null, $id = 0)
 		{
+			global $resource_pages;
+			global $prefix;
+
 			// Start session if not already started
 			if (session_status() === PHP_SESSION_NONE) {
 				session_start();
 			}
 			$current_module_id_global = isset($_SESSION['current_module_id']) ? $_SESSION['current_module_id'] : '';
-
+			$current_post_type = get_post_type();
 			// Check if the menu item is "News" and user is not logged in
-			if ($item->title === 'News' && (!is_user_logged_in() || $current_module_id_global == '')) {
+			if ($item->title === 'News' && (!is_user_logged_in() || $current_module_id_global == '' || ($current_post_type != 'resource_page' && !in_array(get_the_ID(), $resource_pages)))) {
 				return;
 			}
 
+			if (
+				$item->title === 'Contact'
+				&&
+				($current_module_id_global == ''
+					||
+					($current_post_type != 'resource_page'
+						&&
+						!in_array(get_the_ID(), $resource_pages)
+
+						&& is_user_logged_in()
+					)
+				)
+			) {
+				return;
+			}
+			$accessKey = get_post_meta($item->ID, $prefix . 'nav_accesskey', true);
 			$indent = str_repeat("\t", $depth);
 
 			$classes = empty($item->classes) ? array() : (array) $item->classes;
@@ -41,6 +60,7 @@ if (! class_exists('Startertheme_Top_Bar_Walker')) :
 			$attributes .= !empty($item->target)     ? ' target="' . esc_attr($item->target) . '"' : '';
 			$attributes .= !empty($item->xfn)        ? ' rel="'    . esc_attr($item->xfn) . '"' : '';
 			$attributes .= !empty($item->url)        ? ' href="'   . esc_attr($item->url) . '"' : '';
+			$attributes .= !empty($accessKey)        ? ' accesskey="'   . esc_attr($accessKey) . '"' : '';
 
 			$before = isset($args->before) ? $args->before : '';
 			$after = isset($args->after) ? $args->after : '';

@@ -45,7 +45,7 @@ var utils = {
 
             if (xhr.readyState == 4 && xhr.status == 200) {
               var response = JSON.parse(xhr.responseText);
-console.log(response);
+              console.log(response);
               if (response.success) {
                 form.classList.add("submitted");
                 form.reset();
@@ -367,7 +367,14 @@ console.log(response);
       download.addEventListener("click", (e) => {
         const downloadId = e.currentTarget.dataset.downloadId;
         const downloadUrl = e.currentTarget.href;
-        const fileName = e.currentTarget.textContent.trim() || document.title;
+        const fileName = e.currentTarget.dataset.downloadName || document.title;
+
+        if (
+          e.target.tagName.toLowerCase() === "svg" ||
+          e.target.closest("svg")
+        ) {
+          return;
+        }
 
         // Send AJAX request to log download click
         fetch(
@@ -382,6 +389,44 @@ console.log(response);
               download_url: downloadUrl,
               file_name: fileName,
               nonce: ajaxVarsDownloads.downloadsnonce,
+            }),
+          }
+        ).catch((error) => {
+          console.error("Error logging download click:", error);
+        });
+      });
+    });
+  },
+
+  ajaxNewsletterStats: function () {
+    const newsletters = document.querySelectorAll("a[data-newsletter-id]");
+
+    newsletters.forEach((newsletter) => {
+      newsletter.addEventListener("click", (e) => {
+        const newsletterId = e.currentTarget.dataset.newsletterId;
+        const newsletterUrl = e.currentTarget.href;
+        const fileName = e.currentTarget.dataset.newsletterName || document.title;
+
+        /*if (
+          e.target.tagName.toLowerCase() === "svg" ||
+          e.target.closest("svg")
+        ) {
+          return;
+        }*/
+
+        // Send AJAX request to log download click
+        fetch(
+          ajaxVarsNewsletters.newsletters_ajax_url + "?action=log_newsletter_click",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              newsletter_id: newsletterId,
+              newsletter_url: newsletterUrl,
+              file_name: fileName,
+              nonce: ajaxVarsNewsletters.newslettersnonce,
             }),
           }
         ).catch((error) => {
@@ -968,7 +1013,7 @@ event.preventDefault();
                   outlineSpan.style.borderBottomRightRadius = "30px";
                 }
                   */
-                 setTabStyling();
+                setTabStyling();
               }
 
               if (listLink) {
@@ -1026,11 +1071,11 @@ event.preventDefault();
             outlineSpan.style.borderBottomRightRadius = "30px";
           } else if (index == 0) {
             // only 2 items
-           // let nextTabWidth = nextTab.offsetWidth;
+            // let nextTabWidth = nextTab.offsetWidth;
             //let activeTabWidth = activeTab.offsetWidth;
             outlineSpan.style.borderLeftWidth = "0";
             outlineSpan.style.borderRightWidth = "0";
-             outlineSpan.style.borderTopWidth = "0";
+            outlineSpan.style.borderTopWidth = "0";
             outlineSpan.style.borderBottomWidth = "0";
             outlineSpan.style.borderTopLeftRadius = "0";
             outlineSpan.style.borderBottomLeftRadius = "0";
@@ -1043,7 +1088,7 @@ event.preventDefault();
 
         // Re-run on browser resize
         window.addEventListener("resize", setTabStyling);
-/*
+        /*
         // inital positioning of backgrounds
         // Get the width of the active tab and set the background width
         let activeTab = tabsList.querySelector("li.active a");
@@ -1284,7 +1329,7 @@ event.preventDefault();
               ".resource-module__news-teaser h3"
             );
             const descriptions = carousel.querySelectorAll(
-              ".resource-module__news-teaser p"
+              ".resource-module__news-teaser p.news-excerpt"
             );
 
             if (mobileSwiper !== undefined) mobileSwiper.destroy(true, true);
@@ -1303,7 +1348,7 @@ event.preventDefault();
               ".resource-module__news-teaser h3"
             );
             const descriptions = carousel.querySelectorAll(
-              ".resource-module__news-teaser p"
+              ".resource-module__news-teaser p.news-excerpt"
             );
 
             if (teasers.length > 0) {

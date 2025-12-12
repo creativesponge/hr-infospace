@@ -15,6 +15,7 @@ global $_SESSION;
 $prefix = 'theme_fields';
 $namespace = 'theme_name';
 $current_module_slug_global = '';
+$resource_pages = array(1786,1581,1585);
 
 /** Various clean up functions */
 require_once( 'library/cleanup.php' );
@@ -120,8 +121,11 @@ require_once dirname(__FILE__) . '/library/handle_user_registration.php';
 require_once dirname(__FILE__) . '/library/login-process.php';
 
 /** Stats */
-require_once dirname(__FILE__) . '/library/stats/stats-pages.php';
+require_once dirname(__FILE__) . '/library/stats/stats-pages-list.php';
 require_once dirname(__FILE__) . '/library/stats/stats-downloads.php';
+require_once dirname(__FILE__) . '/library/stats/stats-page-views.php';
+require_once dirname(__FILE__) . '/library/stats/stats-newsletters.php';
+require_once dirname(__FILE__) . '/library/stats/stats-logins.php';
 
 /** Alerts */
 require_once dirname(__FILE__) . '/library/alerts/alerts.php';

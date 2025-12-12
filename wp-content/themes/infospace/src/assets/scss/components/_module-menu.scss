@@ -8,7 +8,7 @@
     max-width: rem-calc(1100);
     margin-left: auto;
     margin-right: auto;
-    @include breakpoint(large) {
+    @include breakpoint(medium) {
       columns: 2;
       column-fill: balance;
     }
@@ -32,7 +32,7 @@
         line-height: 1.4em;
         color: $white;
         padding: rem-calc(8 0 8 0);
-        
+
         @include breakpoint(large) {
           padding: rem-calc(8 0 8 20);
           font-size: rem-calc(20);
@@ -44,8 +44,13 @@
       }
     }
     &.module-menu__submenu {
-      columns: 4;
       max-width: none;
+      @include breakpoint(medium) {
+        columns: 2;
+      }
+      @include breakpoint(large) {
+        columns: 4;
+      }
       li a {
         font-size: rem-calc(18);
         font-weight: normal;
@@ -53,8 +58,12 @@
     }
     li.is-dropdown-submenu-parent {
       display: flex;
-      justify-content: flex-start;
-      align-items: center;
+      justify-content: space-between;
+      align-items: flex-end;
+      overflow: hidden;
+      @include breakpoint(large) {
+        justify-content: flex-start;
+      }
       > button {
         content: "";
         display: inline-block;
@@ -94,8 +103,13 @@
         transition: all 0.25s;
         color: $infospace-red;
         padding: rem-calc(5 36 5 15);
+        margin-bottom: 0.2em;
+        margin-top: 0.2em;
         border-radius: rem-calc(20);
         font-size: rem-calc(18);
+        @include breakpoint(large) {
+          transform: translateY(130%);
+        }
         &:before {
           background: $infospace-red;
           left: auto;
@@ -122,6 +136,14 @@
           }
           &:after {
             border-color: $white;
+          }
+        }
+      }
+
+      &:hover {
+        button.drop-down__more {
+          @include breakpoint(large) {
+            transform: translateY(-25%);
           }
         }
       }
@@ -164,12 +186,15 @@
   }
   &__submenu {
     li.is-dropdown-submenu-parent {
-      display: block;
+      //display: block;
       position: relative;
-      display: block !important;
-      // display:flex;
+      //display: block !important;
+     display:flex;
+     flex-wrap: wrap;
       // justify-content:space-between;
-      // align-items:center;
+       align-items:center!important;
+       @include breakpoint(large) {
+       }
       button.third-level-button {
         height: rem-calc(16);
         &:before {
@@ -188,6 +213,7 @@
         }
       }
       &.is-active {
+        flex-basis: 100%;
         a {
           font-weight: bold;
         }
@@ -197,6 +223,10 @@
         }
         ul {
           li {
+            margin-left: rem-calc(0);
+            &:last-child {
+              border-bottom: none;
+            }
             a {
               font-weight: normal;
 
@@ -261,15 +291,25 @@
     }
   }
   &__header {
-    margin-bottom: rem-calc(40);
-    display: flex;
+    margin-bottom: rem-calc(10);
+   
     align-items: center;
+    @include breakpoint(medium) {
+      display: flex;
+
+      margin-bottom: rem-calc(40);
+    }
     a {
       color: $white;
       display: block;
-      font-size: rem-calc(30);
+      font-size: rem-calc(24);
       font-weight: bold;
       text-decoration: none;
+       margin-top: rem-calc(10);
+       @include breakpoint(medium) {
+        margin-top: rem-calc(0);
+        font-size: rem-calc(30);
+       }
       &:hover {
         color: $infospace-orange;
         text-decoration: none;

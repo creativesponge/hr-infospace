@@ -20,7 +20,7 @@
     padding: rem-calc(20 0 0 0);
     //max-width: rem-calc(1100);
     margin: 0 auto;
-    
+
     @include breakpoint(medium) {
       display: flex;
       flex-wrap: wrap;
@@ -35,6 +35,7 @@
       margin-bottom: 0;
       text-align: center;
       padding: rem-calc(0 10);
+      display: inline-block;
       //width: 50%;
       //transform: scale(0.65);
       //opacity: 0.5;
@@ -42,7 +43,9 @@
       
       @include breakpoint(medium) {
         width: auto;
+
         //transform: none;
+        height: auto;
         //opacity: 1;
         //padding: rem-calc(0 10);
         //flex-basis: calc(33% - 20px);
@@ -61,7 +64,8 @@
       img {
         max-height: rem-calc(85);
         width: auto;
-        
+
+        height:100%;
         @include breakpoint(medium) {
          max-height: rem-calc(100);
         }

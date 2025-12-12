@@ -56,6 +56,16 @@ if (check_if_is_module_landing($post_id, $moduleMeta["attached_resources"])) {
 
 			if (!empty($doc_files)) {
 				foreach ($doc_files as $docFile) {
+
+					// Check the start and end dates
+					$now = time();
+					$start_date = isset($docFile[$prefix . 'start_date']) ?  $docFile[$prefix . 'start_date'] : null;
+					$end_date = isset($docFile[$prefix . 'end_date']) ? $docFile[$prefix . 'end_date'] : null;
+					if (($start_date && $now < $start_date) || ($end_date && $now > $end_date)) {
+						// Skip this file as it is not currently active
+						continue;
+					}
+
 					$filename = $docFile["theme_fieldsdoc_uploaded_file"];
 
 					$file_svg = get_file_svg_from_filename($filename);
@@ -89,9 +99,9 @@ if (check_if_is_module_landing($post_id, $moduleMeta["attached_resources"])) {
 
 					// Add to appropriate list based on taxonomy
 					if ($is_policy) {
-						$attached_policies_list .= '<li class="policy-doc"><a href="' . esc_url($doc_url) . '" data-download-id="' . esc_attr($docId) . '" rel="nofollow"><span>' . $file_svg . esc_html($title) . '</span>' . $favourite_svg . '</a></li>';
+						$attached_policies_list .= '<li class="policy-doc"><a href="' . esc_url($doc_url) . '" data-download-name="' . esc_html($title) . '" data-download-id="' . esc_attr($docId) . '" rel="nofollow"><span>' . $file_svg . esc_html($title) . '</span>' . $favourite_svg . '</a></li>';
 					} else {
-						$attached_docs_list .= '<li class="document-doc"><a href="' . esc_url($doc_url) . '" data-download-id="' . esc_attr($docId) . '" rel="nofollow"><span>' . $file_svg . esc_html($title) . '</span>' . $favourite_svg . '</a></li>';
+						$attached_docs_list .= '<li class="document-doc"><a href="' . esc_url($doc_url) . '" data-download-name="' . esc_html($title) . '" data-download-id="' . esc_attr($docId) . '" rel="nofollow"><span>' . $file_svg . esc_html($title) . '</span>' . $favourite_svg . '</a></li>';
 					}
 				}
 			}
@@ -205,16 +215,6 @@ if (check_if_is_module_landing($post_id, $moduleMeta["attached_resources"])) {
 								</ul>
 								<div class="resource-page__tab-panels">
 									<?php
-									// Show a list of document attached to this page
-									if (!empty($attached_docs_list)) {
-										echo '<div class="resource-page__panel tabbed-content__panel active">';
-										echo '<h3 class="show-for-sr">' . $documentsTabText . '</h3>';
-										echo '<ul class="attached-page-docs">';
-										echo $attached_docs_list;
-										echo '</ul>';
-										echo '</div>';
-									}
-
 									// Show a list of policies attached to this page
 
 									if (!empty($attached_policies_list)) {
@@ -225,6 +225,18 @@ if (check_if_is_module_landing($post_id, $moduleMeta["attached_resources"])) {
 										echo '</ul>';
 										echo '</div>';
 									}
+									
+									// Show a list of document attached to this page
+									if (!empty($attached_docs_list)) {
+										echo '<div class="resource-page__panel tabbed-content__panel active">';
+										echo '<h3 class="show-for-sr">' . $documentsTabText . '</h3>';
+										echo '<ul class="attached-page-docs">';
+										echo $attached_docs_list;
+										echo '</ul>';
+										echo '</div>';
+									}
+
+									
 									//var_dump($taxonomies);
 									// Show a list of page_link attached to this page
 
@@ -268,7 +280,7 @@ if (check_if_is_module_landing($post_id, $moduleMeta["attached_resources"])) {
 						</div>
 					</div>
 				</div>
-			<?php
+			<?php 
 				log_user_interaction(get_permalink(), $post_id, 10, 'Viewed page', get_the_title());
 			} else {
 				$content = get_the_content();

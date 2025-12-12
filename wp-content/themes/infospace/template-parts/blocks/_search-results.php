@@ -360,35 +360,44 @@ $resource_svg = ob_get_clean();
                         <?php //var_dump($post_type);
                         if ($post_type == 'document') {  ?>
                             <?php $attached_doc_array = get_post_meta($result_Id, $prefix . 'document_files', true);
-                            $doc_summary = get_post_meta($result_Id, $prefix . 'summary', true);
-                            $file_id = isset($attached_doc_array[0]['theme_fieldsdoc_uploaded_file_id']) ? $attached_doc_array[0]['theme_fieldsdoc_uploaded_file_id'] : null;
-                            $upload_date = $file_id ? get_the_date('jS F, Y', $file_id) : null;
+                            foreach ($attached_doc_array as $doc) {
+                                // Check the start and end dates
+                                $now = time();
+                                $start_date = isset($doc[$prefix . 'start_date']) ?  $doc[$prefix . 'start_date'] : null;
+                                $end_date = isset($doc[$prefix . 'end_date']) ? $doc[$prefix . 'end_date'] : null;
+                                if (($start_date && $now < $start_date) || ($end_date && $now > $end_date)) {
+                                    // Skip this file as it is not currently active
+                                    continue;
+                                }
+                                $doc_summary = get_post_meta($result_Id, $prefix . 'summary', true);
+                                $file_id = isset($doc['theme_fieldsdoc_uploaded_file_id']) ? $doc['theme_fieldsdoc_uploaded_file_id'] : null;
+                                $upload_date = $file_id ? get_the_date('jS F, Y', $file_id) : null;
 
+                                $doc_file_id = $doc['theme_fieldsdoc_uploaded_file_id'];
+                                $filename = $doc["theme_fieldsdoc_uploaded_file"];
+
+                                $file_svg = get_file_svg_from_filename($filename, $moduleColour);
+                                $doc_url = '/download-document/' . $doc_file_id;
                             ?>
+                                <div class="search-results__item">
+                                    <div class="search-results__icon">
+                                        <a href="<?php echo $doc_url ?>">
+                                            <?php echo $file_svg; ?>
+                                        </a>
+                                    </div>
+                                    <div class="search-excerpt">
+                                        <h3><a href="<?php echo $doc_url ?>"><?php the_title(); ?></a></h3>
+
+                                        <?php if ($upload_date) { ?>
+                                            <p class="search-results__date">Uploaded <?php echo esc_html($upload_date); ?></p>
+                                        <?php } ?>
+                                        <p><a href="<?php echo $doc_url ?>"><?php echo $doc_summary ?></a></p>
+
+                                    </div>
+                                </div>
                             <?php
-                            $result_Id = $attached_doc_array[0]['theme_fieldsdoc_uploaded_file_id'];
-                            $filename = $attached_doc_array[0]["theme_fieldsdoc_uploaded_file"];
-
-                            $file_svg = get_file_svg_from_filename($filename, $moduleColour);
-                            $doc_url = '/download-document/' . $result_Id; ?>
-
-                            <div class="search-results__item">
-                                <div class="search-results__icon">
-                                    <a href="<?php echo $doc_url ?>">
-                                        <?php echo $file_svg; ?>
-                                    </a>
-                                </div>
-                                <div class="search-excerpt">
-                                    <h3><a href="<?php echo $doc_url ?>"><?php the_title(); ?></a></h3>
-
-                                    <?php if ($upload_date) { ?>
-                                        <p class="search-results__date">Uploaded <?php echo esc_html($upload_date); ?></p>
-                                    <?php } ?>
-                                    <p><a href="<?php echo $doc_url ?>"><?php echo $doc_summary ?></a></p>
-
-                                </div>
-                            </div>
-                        <?php } else { ?>
+                            }
+                        } else { ?>
                             <?php $upload_date = $result_Id ? get_the_date('jS F, Y', $result_Id) : null; ?>
                             <?php $resultSummary = get_post_meta($result_Id, $prefix . 'page_link_summary', true);
                             if (empty($resultSummary)) {

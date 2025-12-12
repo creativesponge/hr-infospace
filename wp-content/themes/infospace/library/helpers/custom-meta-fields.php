@@ -372,6 +372,7 @@ function add_menu_item_custom_fields($item_id, $item, $depth, $args)
 	global $prefix;
 
 	$nav_file = get_post_meta($item_id, $prefix . 'nav_file', true);
+	$nav_accesskey = get_post_meta($item_id, $prefix . 'nav_accesskey', true);
 ?>
 	<p class="field-nav-file description description-wide">
 		<label for="edit-menu-item-nav-file-<?php echo $item_id; ?>">
@@ -381,8 +382,18 @@ function add_menu_item_custom_fields($item_id, $item, $depth, $args)
 		</label>
 	</p>
 
+	<p class="field-nav-accesskey description description-wide">
+		<label for="edit-menu-item-nav-accesskey-<?php echo $item_id; ?>">
+			Access Key<br />
+			<input type="text" id="edit-menu-item-nav-accesskey-<?php echo $item_id; ?>"
+				name="menu-item-nav-accesskey[<?php echo $item_id; ?>]" value="<?php echo esc_attr($nav_accesskey); ?>" />
+		</label>
+	</p>
 
-<?php
+	<?php
+
+
+
 }
 
 // Save the custom fields
@@ -394,4 +405,8 @@ function save_menu_item_custom_fields($menu_id, $menu_item_db_id, $args)
 	if (isset($_POST['menu-item-nav-file'][$menu_item_db_id])) {
 		update_post_meta($menu_item_db_id, $prefix . 'nav_file', sanitize_text_field($_POST['menu-item-nav-file'][$menu_item_db_id]));
 	}
+
+	if (isset($_POST['menu-item-nav-accesskey'][$menu_item_db_id])) {
+	update_post_meta($menu_item_db_id, $prefix . 'nav_accesskey', sanitize_text_field($_POST['menu-item-nav-accesskey'][$menu_item_db_id]));
+}
 }

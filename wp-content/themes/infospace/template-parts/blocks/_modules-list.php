@@ -6,8 +6,6 @@
 ?>
 <?php //print_r($meta); 
 $userid = get_current_user_id();
-
-
 ?>
 
 

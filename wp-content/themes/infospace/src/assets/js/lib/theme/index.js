@@ -11,6 +11,7 @@ import image_text_carousel from "./blocks/image-text-carousel/index.js";
 import services_carousel from "./blocks/services-carousel/index.js";
 import logo_list from "./blocks/logo-list/index.js";
 import login_register from "./blocks/login-register/index.js";
+import modules_list from "./blocks/modules-list/index.js";
 
 var sitespecific = {
   themename: function () {
@@ -20,6 +21,7 @@ var sitespecific = {
     utils.ajaxPostsFilter();
     utils.ajaxLinkStats();
     utils.ajaxDownloadStats();
+    utils.ajaxNewsletterStats();
     utils.quickLinksToggle();
 
     // Run this if using a fixed header
@@ -48,6 +50,7 @@ var sitespecific = {
     services_carousel.init();
     logo_list.init();
     login_register.init();
+    modules_list.init();
 
     // Ready to rock!
     document.body.classList.add("ready");

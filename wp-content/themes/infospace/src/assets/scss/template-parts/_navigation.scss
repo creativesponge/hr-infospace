@@ -103,6 +103,8 @@ html {
   // Sets transform to 0 to show an off-canvas panel.
   &.is-open {
     transform: translate(0, 0);
+    max-height: 100vh;
+    overflow: scroll;
   }
 
   &__logo {

@@ -61,14 +61,16 @@ function cmb2_post_metabox()
         'id'        => $prefix . 'post_start_date',
         'name'      => 'Start Date',
         'desc'      => 'The date the document became effective',
-        'type'      => 'text_date_timestamp'
+        'type'      => 'text_date_timestamp',
+        'date_format' => 'd/m/Y'
     ]);
 
     $postSide->add_field([
         'id'        => $prefix . 'post_end_date',
         'name'      => 'End Date',
         'desc'      => 'The date the document is no longer valid',
-        'type'      => 'text_date_timestamp'
+        'type'      => 'text_date_timestamp',
+        'date_format' => 'd/m/Y'
     ]);
     $postSide->add_field([
         'id'        => $prefix . 'old_post_system_id',

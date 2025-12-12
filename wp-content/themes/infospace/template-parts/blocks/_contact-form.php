@@ -7,6 +7,9 @@ $siteKey = '6Ld4_iQsAAAAAM18DdZ0dvv1KUGcDr_Ic9bcsmzl';
 <?php
 $imageId = (array_key_exists('attachmentId', $block_attributes)) ? $block_attributes['attachmentId'] : '';
 $attachmentIdMob = (array_key_exists('attachmentIdMob', $block_attributes)) ? $block_attributes['attachmentIdMob'] : $imageId;
+$current_module_id_global = isset($_SESSION['current_module_id']) ? $_SESSION['current_module_id'] : '';
+$pageModuleMeta = get_current_module_meta($current_module_id_global);
+
 
 ?>
 <section class="contact-form full-width">
@@ -15,8 +18,39 @@ $attachmentIdMob = (array_key_exists('attachmentIdMob', $block_attributes)) ? $b
 
 		<div class="contact-form__content">
 			<div class="contact-form__text">
-
 				<?php echo $block_content; ?>
+				<?php
+				// Loop through modules post type to get contact information
+				$modules_query = new WP_Query(array(
+					'post_type' => 'module',
+					'posts_per_page' => -1,
+					'post_status' => 'publish'
+				));
+
+				if ($modules_query->have_posts()) :
+					while ($modules_query->have_posts()) : $modules_query->the_post();
+						$moduleId = get_the_ID();
+						$moduleMeta = theme_get_meta($moduleId);
+						$phone = isset($moduleMeta->module_phone_number) ? $moduleMeta->module_phone_number : '';
+						$email = isset($moduleMeta->module_email_address) ? $moduleMeta->module_email_address : '';
+
+						if (($phone || $email) && ($pageModuleMeta['module_id'] == $moduleId) || !is_user_logged_in()) : ?>
+							<div class="module-contact">
+								<?php echo '<h2><strong>' . get_the_title() . '</strong></h2>'; ?>
+								<p><?php if ($phone) : ?>
+									 <?php echo esc_html($phone); ?>
+								<?php endif; ?>
+								<?php if ($email) : ?>
+									<br/><a href="mailto:<?php echo esc_attr($email); ?>"><?php echo esc_html($email); ?></a>
+								<?php endif; ?>
+								</p>
+							</div>
+				<?php endif;
+					endwhile;
+					wp_reset_postdata();
+				endif;
+				?>
+				
 			</div>
 		</div>
 		<?php if ($imageId) { ?>
@@ -93,7 +127,7 @@ $attachmentIdMob = (array_key_exists('attachmentIdMob', $block_attributes)) ? $b
 
 		<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 		<?php // End reCAPTCHA integration  
-		 ?>
+		?>
 		<div class="contact__thanks">
 			Thank you for your enquiry, a member of our team will be in touch.
 		</div>

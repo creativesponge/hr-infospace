@@ -2,7 +2,7 @@
 
 /**
  * The template for displaying search results pages.
- *
+ *NOT USED ANYMORE
  */
 global $namespace;
 global $prefix;
@@ -75,7 +75,8 @@ get_header(); ?>
 				$post_type = get_post_type($result_Id);
 				
 				?>
-				<?php var_dump($post_type); if ($post_type == 'document' && empty($attached_doc_array)) {  ?>
+				<?php var_dump($post_type); 
+				if ($post_type == 'document' && empty($attached_doc_array)) {  ?>
 					<?php $attached_doc_array = get_post_meta($result_Id, $prefix . 'document_files', true); var_dump($attached_doc_array); ?>
 					<div class="search-results__item">
 						<div class="search-icon">

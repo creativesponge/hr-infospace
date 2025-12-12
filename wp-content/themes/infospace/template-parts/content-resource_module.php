@@ -123,10 +123,10 @@ $download_svg = ob_get_clean();
 
 			$accessible_pages = return_users_pages_with_access();
 
-		// Filter children to only include accessible pages
-		if (!empty($accessible_pages)) {
-			$immediate_child_pages = array_intersect($immediate_child_pages, $accessible_pages);
-		}
+			// Filter children to only include accessible pages
+			if (!empty($accessible_pages) && !current_user_can('administrator')) {
+				$immediate_child_pages = array_intersect($immediate_child_pages, $accessible_pages);
+			}
 
 			//Show sub pages
 			if (!empty($immediate_child_pages)) {
@@ -151,6 +151,62 @@ $download_svg = ob_get_clean();
 				'order'          => 'DESC',
 			);
 
+			// Add meta query to exclude posts with start/end date restrictions
+            $current_date = current_time('timestamp');
+            $meta_query = array(
+                'relation' => 'AND',
+                // Exclude posts with start date in the future
+                array(
+                    'relation' => 'OR',
+                    array(
+                        'key' => $prefix . 'post_start_date',
+                        'compare' => 'NOT EXISTS'
+                    ),
+                    array(
+                        'key' => $prefix . 'post_start_date',
+                        'value' => '',
+                        'compare' => '='
+                    ),
+                    array(
+                        'key' => $prefix . 'post_start_date',
+                        'value' => 0,
+                        'compare' => '='
+                    ),
+                    array(
+                        'key' => $prefix . 'post_start_date',
+                        'value' => $current_date,
+                        'compare' => '<=',
+                        'type' => 'NUMERIC'
+                    )
+                ),
+                // Exclude posts with end date in the past
+                array(
+                    'relation' => 'OR',
+                    array(
+                        'key' => $prefix . 'post_end_date',
+                        'compare' => 'NOT EXISTS'
+                    ),
+                    array(
+                        'key' => $prefix . 'post_end_date',
+                        'value' => '',
+                        'compare' => '='
+                    ),
+                    array(
+                        'key' => $prefix . 'post_end_date',
+                        'value' => 0,
+                        'compare' => '='
+                    ),
+                    array(
+                        'key' => $prefix . 'post_end_date',
+                        'value' => $current_date,
+                        'compare' => '>=',
+                        'type' => 'NUMERIC'
+                    )
+                )
+            );
+
+            $news_args['meta_query'] = $meta_query;
+
 			// Get the posts for this module to check their attached resource pages
 			$loop_for_resource = new WP_Query($news_args);
 			$newsCount = 0;
@@ -172,9 +228,9 @@ $download_svg = ob_get_clean();
 			if (!empty($child_pages) && !empty($attached_to_page_ids)) {
 				$matching_post_ids = [];
 				foreach ($child_pages as $child_page_id) {
-					foreach ($attached_to_page_ids as $post_id => $attached_pages) {
+					foreach ($attached_to_page_ids as $attached_post_id => $attached_pages) {
 						if (in_array($child_page_id, $attached_pages)) {
-							$matching_post_ids[] = $post_id;
+							$matching_post_ids[] = $attached_post_id;
 						}
 					}
 				}
@@ -282,7 +338,7 @@ $download_svg = ob_get_clean();
 							echo '<div class="resource-module__news-teaser">';
 							echo '<p class="news-date">' . $updatedDate . '</p>';
 							echo '<h3 style="color: ' . esc_html($moduleMeta['module_color']) . '">' . get_the_title() . '</h3>';
-							echo '<p>' . get_the_excerpt() . '</p>';
+							echo '<p class="news-excerpt">' . get_the_excerpt() . '</p>';
 							echo '<a href="' . get_the_permalink()  . '" rel="nofollow" class="arrow-link" style="color: ' . esc_html($moduleMeta['module_color']) . '">read</a>';
 							echo '</div>';
 
@@ -376,13 +432,27 @@ $download_svg = ob_get_clean();
 							continue;
 						}
 						if (!empty($attached_fav_doc_array) && !empty($attached_fav_doc_array[0]['theme_fieldsdoc_uploaded_file_id'])) {
-							$fav_doc_id = $attached_fav_doc_array[0]['theme_fieldsdoc_uploaded_file_id'];
-							$filename = $attached_fav_doc_array[0]["theme_fieldsdoc_uploaded_file"];
-							$file_svg = get_file_svg_from_filename($filename);
-							$doc_url = '/download-document/' . $fav_doc_id;
-							// Store the HTML output for later use
-							$fav_doc_html .= '<li><a href="' . esc_url($doc_url) . '" rel="nofollow"><span>' . $file_svg . get_the_title($doc) . '</span></a></li>';
-						}
+							foreach ($attached_fav_doc_array as $file_data) {
+								if (!empty($file_data['theme_fieldsdoc_uploaded_file_id'])) {
+									$fav_doc_id = $file_data['theme_fieldsdoc_uploaded_file_id'];
+									$filename = $file_data["theme_fieldsdoc_uploaded_file"];
+									$file_svg = get_file_svg_from_filename($filename);
+									$file_title = get_the_title($doc);
+									$doc_url = '/download-document/' . $fav_doc_id;
+
+									// Check the start and end dates
+									$now = time();
+									$start_date = isset($file_data[$prefix . 'start_date']) ?  $file_data[$prefix . 'start_date'] : null;
+									$end_date = isset($file_data[$prefix . 'end_date']) ? $file_data[$prefix . 'end_date'] : null;
+									if (($start_date && $now < $start_date) || ($end_date && $now > $end_date)) {
+										// Skip this file as it is not currently active
+										continue;
+									}
+
+									// Store the HTML output for later use
+									$fav_doc_html .= '<li><a href="' . esc_url($doc_url) . '" data-download-name="' . esc_html($file_title) . '" data-download-id="' . esc_attr($doc) . '" rel="nofollow"><span>' . $file_svg . $file_title . '</span></a></li>';
+								}
+							}}
 					}
 					$fav_doc_html .= '</ul>';
 				}
@@ -480,43 +550,42 @@ $download_svg = ob_get_clean();
 				} else {
 					// No favourites
 					echo '<div class="resource-module__favourites resource-module__favourites--empty">';
-						echo '<div class="module-panel module-panel--favourites">';
-							echo '<div class="module-panel__header" style="background-color: ' . esc_html($moduleMeta['module_color']) . ';">';
-								echo '<div>';
-								get_template_part(
-									'template-parts/svgs/_favourite'
-								);
-								echo '<h2>My favourites</h2>';
-								echo '</div>';
-							echo '</div>';
-							echo '<div class="module-panel__content tabbed-content">';
-							echo '<p>You have not added any favourites yet. To add a favourite, click the ' . $favourite_svg . ' icon next to a document, link, or resource page.</p>';
-							echo '</div>';
-						echo '</div>';
+					echo '<div class="module-panel module-panel--favourites">';
+					echo '<div class="module-panel__header" style="background-color: ' . esc_html($moduleMeta['module_color']) . ';">';
+					echo '<div>';
+					get_template_part(
+						'template-parts/svgs/_favourite'
+					);
+					echo '<h2>My favourites</h2>';
+					echo '</div>';
+					echo '</div>';
+					echo '<div class="module-panel__content tabbed-content">';
+					echo '<p>You have not added any favourites yet. To add a favourite, click the ' . $favourite_svg . ' icon next to a document, link, or resource page.</p>';
+					echo '</div>';
+					echo '</div>';
 					echo '</div>';
 				}
 				wp_reset_postdata();
 			} else {
 
-				
-					// No favourites
-					echo '<div class="resource-module__favourites resource-module__favourites--empty">';
-						echo '<div class="module-panel module-panel--favourites">';
-							echo '<div class="module-panel__header" style="background-color: ' . esc_html($moduleMeta['module_color']) . ';">';
-								echo '<div>';
-								get_template_part(
-									'template-parts/svgs/_favourite'
-								);
-								echo '<h2>My favourites</h2>';
-								echo '</div>';
-							echo '</div>';
-							echo '<div class="module-panel__content tabbed-content">';
-							echo '<p>You have not added any favourites yet. To add a favourite, click the ' . $favourite_svg . ' icon next to a document, link, or resource page.</p>';
-							echo '</div>';
-						echo '</div>';
-					echo '</div>';
-				
-				}
+
+				// No favourites
+				echo '<div class="resource-module__favourites resource-module__favourites--empty">';
+				echo '<div class="module-panel module-panel--favourites">';
+				echo '<div class="module-panel__header" style="background-color: ' . esc_html($moduleMeta['module_color']) . ';">';
+				echo '<div>';
+				get_template_part(
+					'template-parts/svgs/_favourite'
+				);
+				echo '<h2>My favourites</h2>';
+				echo '</div>';
+				echo '</div>';
+				echo '<div class="module-panel__content tabbed-content">';
+				echo '<p>You have not added any favourites yet. To add a favourite, click the ' . $favourite_svg . ' icon next to a document, link, or resource page.</p>';
+				echo '</div>';
+				echo '</div>';
+				echo '</div>';
+			}
 
 			echo '</div>';
 			?>
@@ -555,7 +624,7 @@ $download_svg = ob_get_clean();
 					$file_svg = $attached_documents_link ? $screen_svg : get_file_svg_from_filename($filename);
 					$attached_documents = '';
 					$docId = '';
-
+					$newsletterTitle = get_the_title($newsletterID);
 					if (!empty($endDate) && ($endDate < time())) {
 						continue;
 					}
@@ -591,9 +660,9 @@ $download_svg = ob_get_clean();
 						echo '<p class="newsletter-date hide-for-large">Updated on: ' . $updatedDate . '</p>';
 						echo '</div>';
 						if ($attached_documents_link) {
-							echo '<a href="' . esc_url($attached_documents_link) . '" rel="nofollow" class="download-link download-link--out show-for-large" target="_blank">View ' . $linkout_svg . '</a>';
+							echo '<a href="' . esc_url($attached_documents_link) . '" data-newsletter-name="' . esc_html($newsletterTitle) . '" data-newsletter-id="' . esc_attr($newsletterID) . '" rel="nofollow" class="download-link download-link--out show-for-large" target="_blank">View ' . $linkout_svg . '</a>';
 						} else {
-							echo '<a href="' . esc_url($doc_url) . '" rel="nofollow" class="download-link show-for-large">Download ' . $download_svg . '</a>';
+							echo '<a href="' . esc_url($doc_url) . '"  data-newsletter-name="' . esc_html($newsletterTitle) . '" data-newsletter-id="' . esc_attr($newsletterID) . '" rel="nofollow" class="download-link show-for-large">Download ' . $download_svg . '</a>';
 						}
 
 						echo '</div>';
@@ -652,13 +721,13 @@ $download_svg = ob_get_clean();
 					'relation' => 'OR',
 					array(
 						'key'     => $prefix . 'is_new',
-						'value'   => strtotime('-3 months'),
+						'value'   => strtotime('-1 months'),
 						'compare' => '>=',
 						'type'    => 'NUMERIC',
 					),
 					array(
 						'key'     => $prefix . 'is_updated',
-						'value'   => strtotime('-3 months'),
+						'value'   => strtotime('-1 months'),
 						'compare' => '>=',
 						'type'    => 'NUMERIC',
 					),
@@ -691,8 +760,8 @@ $download_svg = ob_get_clean();
 						if (user_has_access($child_page_id) === false) {
 							continue;
 						}
-						
-						
+
+
 						$child_meta = theme_get_meta($child_page_id);
 
 						$attached_docs = isset($child_meta->resource_attached_documents) ? $child_meta->resource_attached_documents : [];
@@ -742,11 +811,11 @@ $download_svg = ob_get_clean();
 						$filename = $attached_documents_list[0]["theme_fieldsdoc_uploaded_file"];
 						$file_svg = get_file_svg_from_filename($filename);
 						$doc_url = '/download-document/' . $docFileId;
-
+						$file_title = get_the_title($docID);
 						if (has_term(3, 'doc_type', $docID)) {
-							$updatedDocsListPolicies .= '<li><a href="' . esc_url($doc_url) . '" rel="nofollow"><span>' . $file_svg . get_the_title() . '</span><i>' . $updatedDate . '</i></a> </li>';
+							$updatedDocsListPolicies .= '<li><a href="' . esc_url($doc_url) . '" data-download-name="' . esc_html($file_title) . '" data-download-id="' . esc_attr($docID) . '" rel="nofollow"><span>' . $file_svg . $file_title . '</span><i>' . $updatedDate . '</i></a> </li>';
 						} else {
-							$updatedDocsList .= '<li><a href="' . esc_url($doc_url) . '" rel="nofollow"><span>' . $file_svg . get_the_title() . '</span><i>' . $updatedDate . '</i></a></li>';
+							$updatedDocsList .= '<li><a href="' . esc_url($doc_url) . '" data-download-name="' . esc_html($file_title) . '" data-download-id="' . esc_attr($docID) . '" rel="nofollow"><span>' . $file_svg . $file_title . '</span><i>' . $updatedDate . '</i></a></li>';
 						}
 					}
 				}
@@ -812,7 +881,7 @@ $download_svg = ob_get_clean();
 			?>
 			<?php echo '</div>'; ?>
 			<?php echo '</div>'; ?>
-		<?php
+		<?php // var_dump($post_id);
 			log_user_interaction(get_permalink(), $post_id, 10, 'Viewed page', get_the_title());
 		} else {
 			$content = get_the_content();

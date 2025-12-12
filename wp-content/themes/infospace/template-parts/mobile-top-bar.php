@@ -111,7 +111,7 @@ if (!empty($attachedResource)) {
 		// Get accessible page IDs
 		
 		// Filter children to only include accessible pages
-		if (!empty($accessible_pages)) {
+		if (!empty($accessible_pages) && !current_user_can('administrator')) {
 			$children = array_filter($children, function($child) use ($accessible_pages) {
 				return in_array($child->ID, $accessible_pages);
 			});

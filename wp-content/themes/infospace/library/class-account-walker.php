@@ -53,7 +53,6 @@ if (! class_exists('Startertheme_Account_Walker')) :
             // Get the custom image
             $nav_image = get_post_meta($item->ID, $prefix . 'nav_file', true);
 
-
             $image_html = '';
 
             if ($nav_image) {
@@ -94,7 +93,7 @@ if (! class_exists('Startertheme_Account_Walker')) :
                 $account_image_html = wp_get_attachment_image(1605, 'thumbnail', false, array('class' => 'menu-item-image'));
                 $output .= "\n$indent\t<li class=\"menu-item\"><a href=\"/accounts/\">Account settings" . $account_image_html . "</a></li>\n";
 
-                if (current_user_can('administrator')) {
+                if (current_user_can('administrator') || in_array('main', wp_get_current_user()->roles) || in_array('editor', wp_get_current_user()->roles) || in_array('hr_editor', wp_get_current_user()->roles) || in_array('hsw_editor', wp_get_current_user()->roles)  || in_array('finance_editor', wp_get_current_user()->roles)) {
                     $admin_image_html = wp_get_attachment_image(1608, 'thumbnail', false, array('class' => 'menu-item-image'));
                     $output .= "\n$indent\t<li class=\"menu-item\"><a href=\"/wp-admin/\">Admin" . $admin_image_html . "</a></li>\n";
                 }

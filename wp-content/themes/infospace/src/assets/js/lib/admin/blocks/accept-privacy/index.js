@@ -75,7 +75,7 @@ var accept_privacy = {
         edit: function ({ attributes, className, setAttributes }) {
           return (
             <div className={className}>
-              <p>Please click here to view our Privacy Policy in line with GDPR. The policy includes information on how we store, manage and use your personal data.</p>
+              <p>Please <a href="/privacy-policy/">click here</a> to view our Privacy Policy in line with GDPR. The policy includes information on how we store, manage and use your personal data.</p>
               <div className="accept-privacy-container">
                 <InnerBlocks />
               </div>

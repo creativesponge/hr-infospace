@@ -8,9 +8,11 @@
   margin-right: auto;
   @include breakpoint(medium) {
     padding: rem-calc(30 8 0 8);
+    margin-left: 0;
   }
   @include breakpoint(large) {
     padding: rem-calc(12 8 0 8);
+    margin-right: 0;
   }
 
   a {
@@ -180,6 +182,7 @@
   &__target {
     padding: rem-calc(20);
     border-radius: rem-calc(20);
+    height:100%;
     min-height: rem-calc(224);
     overflow: hidden;
     display: flex;

@@ -14,7 +14,7 @@ function data_fetch()
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }
-    
+
     $current_module_id_global = isset($_SESSION['current_module_id']) ? $_SESSION['current_module_id'] : '';
     $moduleMeta = get_current_module_meta($current_module_id_global);
     $moduleColour = isset($moduleMeta['module_color']) ? $moduleMeta['module_color'] : '';
@@ -82,7 +82,7 @@ function data_fetch()
 
     // Limit search length to prevent abuse
     if (strlen($keyword) > 100) {
-        
+
         wp_die('Search term too long');
     }
 
@@ -111,14 +111,27 @@ function data_fetch()
             <?php if ($post_type == 'document') {  ?>
                 <?php $attached_doc_array = get_post_meta($result_Id, $prefix . 'document_files', true);
 
-                $result_Id = $attached_doc_array[0]['theme_fieldsdoc_uploaded_file_id'];
-                $filename = $attached_doc_array[0]["theme_fieldsdoc_uploaded_file"];
+                foreach ($attached_doc_array as $doc) {
 
-                $file_svg = get_file_svg_from_filename($filename, $moduleColour);
-                $doc_url = '/download-document/' . $result_Id; ?>
+                    // Check the start and end dates
+                    $now = time();
+                    $start_date = isset($doc[$prefix . 'start_date']) ?  $doc[$prefix . 'start_date'] : null;
+                    $end_date = isset($doc[$prefix . 'end_date']) ? $doc[$prefix . 'end_date'] : null;
+                    if (($start_date && $now < $start_date) || ($end_date && $now > $end_date)) {
+                        // Skip this file as it is not currently active
+                        continue;
+                    }
+                    $result_Id = $doc['theme_fieldsdoc_uploaded_file_id'];
+                    $filename = $doc["theme_fieldsdoc_uploaded_file"];
 
-                <li><a href="<?php echo esc_url($doc_url); ?>"><?php echo $file_svg; ?><?php echo esc_html(get_the_title()); ?></a></li>
-            <?php } else { ?>
+                    $file_svg = get_file_svg_from_filename($filename, $moduleColour);
+                    $doc_url = '/download-document/' . $result_Id; ?>
+
+                    <li><a href="<?php echo esc_url($doc_url); ?>"><?php echo $file_svg; ?><?php echo esc_html(get_the_title()); ?></a></li>
+
+                <?php
+                }
+            } else { ?>
 
                 <?php
                 $is_external_link = $post_type === 'page_link';

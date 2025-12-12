@@ -4,7 +4,7 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-
+global $prefix;
 // --- Block attributes and module meta ---
 $block_attributes = get_query_var('attributes');
 $block_content = get_query_var('content');
@@ -25,7 +25,6 @@ $moduleColour = isset($moduleMeta['module_color']) ? $moduleMeta['module_color']
 $child_pages = get_module_child_pages_using_module_id($current_module_id_global);
 $imageId = (is_array($block_attributes) && array_key_exists('attachmentId', $block_attributes)) ? $block_attributes['attachmentId'] : '1781';
 $attachmentIdMob = (is_array($block_attributes) && array_key_exists('attachmentIdMob', $block_attributes)) ? $block_attributes['attachmentIdMob'] : $imageId;
-
 
 ?>
 <section class="posts-list-filters full-width">
@@ -156,6 +155,63 @@ $attachmentIdMob = (is_array($block_attributes) && array_key_exists('attachmentI
                 //  'after' => '2025-11-01',
                 // )
             );
+
+            // Add meta query to exclude posts with start/end date restrictions
+            $current_date = current_time('timestamp');
+            $meta_query = array(
+                'relation' => 'AND',
+                // Exclude posts with start date in the future
+                array(
+                    'relation' => 'OR',
+                    array(
+                        'key' => $prefix . 'post_start_date',
+                        'compare' => 'NOT EXISTS'
+                    ),
+                    array(
+                        'key' => $prefix . 'post_start_date',
+                        'value' => '',
+                        'compare' => '='
+                    ),
+                    array(
+                        'key' => $prefix . 'post_start_date',
+                        'value' => 0,
+                        'compare' => '='
+                    ),
+                    array(
+                        'key' => $prefix . 'post_start_date',
+                        'value' => $current_date,
+                        'compare' => '<=',
+                        'type' => 'NUMERIC'
+                    )
+                ),
+                // Exclude posts with end date in the past
+                array(
+                    'relation' => 'OR',
+                    array(
+                        'key' => $prefix . 'post_end_date',
+                        'compare' => 'NOT EXISTS'
+                    ),
+                    array(
+                        'key' => $prefix . 'post_end_date',
+                        'value' => '',
+                        'compare' => '='
+                    ),
+                    array(
+                        'key' => $prefix . 'post_end_date',
+                        'value' => 0,
+                        'compare' => '='
+                    ),
+                    array(
+                        'key' => $prefix . 'post_end_date',
+                        'value' => $current_date,
+                        'compare' => '>=',
+                        'type' => 'NUMERIC'
+                    )
+                )
+            );
+
+            $loopArgs['meta_query'] = $meta_query;
+
             // Search functionality
             if (!empty($search)) {
                 $loopArgs['s'] = $search;

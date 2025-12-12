@@ -55,7 +55,13 @@ function theme_contact_form()
         $tel = sanitize_text_field($filtered_data['contact_tel']);
         $message = sanitize_text_field($filtered_data['contact_message']);
         $check = $filtered_data['contact_check'] ? 'Yes' : "No";
-        //$admin_email = empty($settings[$prefix . 'email']) ? get_option('admin_email') : $settings[$prefix . 'email'];
+
+       $current_module_id_global = isset($_SESSION['current_module_id']) ? $_SESSION['current_module_id'] : '';
+       $moduleMeta = theme_get_meta($current_module_id_global);
+        // set default email
+        $defaultAdminEmail =  empty($settings[$prefix . 'email']) ? get_option('admin_email') : $settings[$prefix . 'email'];
+        // get module email if set
+        //$admin_email = isset($moduleMeta->module_email_address) ? $moduleMeta->module_email_address : $defaultAdminEmail;
         $admin_email = 'barry@creativesponge.co.uk';
 
         // add prefix for meta
@@ -310,6 +316,32 @@ function log_download_click()
     //error_log(print_r($input, true) . "Logging download click: download_id=$download_id, download_url=$download_url, file_name=$file_name");
     // log the interaction
     log_user_interaction($download_url, $download_id, 12, 'Downloaded file', $file_name);
+    wp_die();
+}
+
+// Log Newsletters
+function log_newsletters()
+{
+    wp_localize_script('foundation', 'ajaxVarsNewsletters', array(
+        'newslettersnonce'    => wp_create_nonce('ajaxVarsNewsletters'),
+        'newsletters_ajax_url' => admin_url('admin-ajax.php')
+    ));
+}
+add_action('wp_enqueue_scripts', 'log_newsletters', 100);
+
+add_action('wp_ajax_log_newsletter_click', 'log_newsletter_click');
+add_action('wp_ajax_nopriv_log_newsletter_click', 'log_newsletter_click');
+function log_newsletter_click()
+{
+    // Get JSON input
+    $input = json_decode(file_get_contents('php://input'), true);
+    $newsletter_id = intval($input['newsletter_id']);
+    $newsletter_url = sanitize_text_field($input['newsletter_url']);
+
+    $newsletter_name = sanitize_text_field($input['file_name']);
+    //error_log(print_r($input, true) . "Logging newsletter click: newsletter_id=$newsletter_id, newsletter_url=$newsletter_url, newsletter_name=$newsletter_name");
+    // log the interaction
+    log_user_interaction($newsletter_url, $newsletter_id, 9, 'Clicked newsletter', $newsletter_name);
     wp_die();
 }
 

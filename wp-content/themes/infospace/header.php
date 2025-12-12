@@ -17,6 +17,7 @@ $current_module_id_global = isset($_SESSION['current_module_id']) ? $_SESSION['c
 
 global $settings;
 global $prefix;
+global $resource_pages;
 $siteEmail = isset($settings[$prefix . 'email']) ? $settings[$prefix . 'email'] : '';
 $sitePhone = isset($settings[$prefix . 'phone']) ? $settings[$prefix . 'phone'] : '';
 $moduleMeta = get_current_module_meta($current_module_id_global);
@@ -143,7 +144,7 @@ if (get_the_ID() === 1581 && $current_module_id_global === '') { // redirect for
 				<div class="header__nav">
 					<nav class="site-navigation header__top-bar" role="navigation" id="off-canvas-menu">
 
-						<?php if (is_user_logged_in()) : ?>
+						<?php if (is_user_logged_in() && (get_post_type() == 'resource_page' || in_array(get_the_ID(), $resource_pages)) ) : ?>
 							<?php get_search_form(); ?>
 						<?php endif; ?>
 						<?php startertheme_top_bar_r(); ?>
