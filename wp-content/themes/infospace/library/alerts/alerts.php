@@ -203,7 +203,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && !empty($_GET)) {
                                         <table width="303" border="0" cellspacing="0" cellpadding="0" align="left">
                                             <tbody>
                                                 <tr>
-                                                    <td width="221"><a href="https://{{ site.domain }}" target="_blank"><img src="https://www.infospace.org.uk/static/images/emails/headerlogo-infospace.png" width="270" height="107" alt="Infospace logo" /></a></td>
+                                                    <td width="221"><a href="https://{{ site.domain }}" target="_blank"><img src="https://www.infospace.org.uk/static/images/emails/headerlogo-infospace.png" width="270" height="107" alt="InfoSpace logo" /></a></td>
 
                                                 </tr>
                                             </tbody>

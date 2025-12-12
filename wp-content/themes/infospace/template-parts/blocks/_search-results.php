@@ -290,11 +290,11 @@ $resource_svg = ob_get_clean();
                                 $filter_options = [
 
                                     'externallink' => 'External link',
-                                    'infospacepage' => 'Infospace page',
+                                    'infospacepage' => 'InfoSpace page',
                                     'worddoc' => 'Word document',
                                     'pdfdoc' => 'PDF document',
                                     'exceldoc' => 'Excel document',
-                                    'pptdoc' => 'Powerpoint document',
+                                    'pptdoc' => 'PowerPoint document',
                                     //'featured' => 'Featured'
                                 ];
                                 foreach ($filter_options as $slug => $name) :
