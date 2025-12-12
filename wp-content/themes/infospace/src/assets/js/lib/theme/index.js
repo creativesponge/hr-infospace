@@ -38,6 +38,7 @@ var sitespecific = {
     utils.keyToggle();
     utils.openPopups();
     utils.ajaxFavourites();
+    utils.target_clicks();
     
     image_text_carousel.init();
     google_map.init();

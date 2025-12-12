@@ -1409,6 +1409,23 @@ event.preventDefault();
     );
   },
 
+  target_clicks: function () {
+
+    //If .module-teaser__target is clicked, go to the link
+    const moduleTeaserTargets = document.querySelectorAll('.x-large-teaser__target, .large-teaser__target, .module-panel__news-grid-featured-post,.resource-module__news-teaser');
+
+    moduleTeaserTargets.forEach(function (moduleTeaserTarget) { 
+      moduleTeaserTarget.addEventListener('click', function (e) {
+        const buttonLink = moduleTeaserTarget.querySelector('.arrow-link');
+        const link = buttonLink ? buttonLink.getAttribute('href') : null;
+        if (link) {
+          window.location.href = link;
+        }
+      });
+    });
+   
+  },
+
   // Ajax autocomplete search
   autoCompletateSearch: function () {
     var searchForm = document.getElementsByClassName("searchform");

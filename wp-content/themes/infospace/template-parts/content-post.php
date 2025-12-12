@@ -10,6 +10,9 @@
 global $namespace;
 $post_id = get_the_ID();
 
+$current_module_id_global = isset($_SESSION['current_module_id']) ? $_SESSION['current_module_id'] : '';
+$moduleMeta = get_current_module_meta($current_module_id_global);
+$moduleColour = isset($moduleMeta['module_color']) ? $moduleMeta['module_color'] : '';
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>

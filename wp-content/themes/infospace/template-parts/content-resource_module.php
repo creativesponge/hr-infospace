@@ -295,7 +295,7 @@ $download_svg = ob_get_clean();
 						$featuredPostImage = get_the_post_thumbnail($featured_post, 'featurednews') != '' ? get_the_post_thumbnail($featured_post, 'featurednews') : wp_get_attachment_image(1781, 'featurednews');
 
 						echo '<div class="grid-x module-panel__news-grid">';
-						echo '<div class="cell 12 medium-6">';
+						echo '<div class="cell 12 medium-6 module-panel__news-grid-featured-post">';
 						//if (has_post_thumbnail($featured_post)) {
 						echo '<div class="module-panel__thumbnail">';
 						echo '<div class="module-panel__thumbnail-label" style="color: ' . esc_html($moduleMeta['module_color']) . '">Featured story</div>';

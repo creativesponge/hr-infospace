@@ -12,6 +12,7 @@
     border-radius: rem-calc(20);
     padding: rem-calc(20);
     height: 100%;
+
     @include breakpoint(large) {
       padding: rem-calc(40);
     }

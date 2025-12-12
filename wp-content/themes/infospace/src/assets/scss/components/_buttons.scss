@@ -244,7 +244,7 @@
     top: calc(50% - 5px);
   }
   &:hover {
-    background: #ffb247!important;
+    background: #ffb247 !important;
     &::before,
     &::after {
       left: rem-calc(10);
@@ -291,7 +291,6 @@
       top: calc(50% - 7px);
     }
   }
- 
 }
 
 .download-link {
@@ -321,7 +320,7 @@
     margin-left: rem-calc(12);
     transition: margin 0.25s ease;
     max-width: rem-calc(14);
-    height:auto;
+    height: auto;
   }
   &:hover {
     background: #ffb247;
@@ -339,10 +338,10 @@
     &:hover {
       svg {
         margin-top: rem-calc(-3);
-        
+
         margin-bottom: auto;
       }
-    };
+    }
   }
 }
 
@@ -411,6 +410,30 @@
     }
     &::before {
       background: $infospace-orange;
+    }
+  }
+}
+
+.x-large-teaser__target,
+.large-teaser__target,
+.module-panel__news-grid-featured-post,
+.resource-module__news-teaser
+ {
+  cursor: pointer;
+  
+  &:hover {
+    .arrow-link {
+      &::before,
+      &::after {
+        right: rem-calc(-6);
+      }
+
+      &::after {
+        border-color: $infospace-orange;
+      }
+      &::before {
+        background: $infospace-orange;
+      }
     }
   }
 }
@@ -625,20 +648,19 @@ h5 {
     background: $infospace-orange;
   }
   &--filled {
-  
     svg {
       path {
         fill: $white;
-        stroke:$white;
+        stroke: $white;
       }
     }
   }
   &--small {
-    background: transparent!important;
-    padding:rem-calc(3 3);
-    svg{
+    background: transparent !important;
+    padding: rem-calc(3 3);
+    svg {
       width: rem-calc(22);
-      height:auto;
+      height: auto;
       margin-right: 0;
       path {
         stroke: $dark-grey;
@@ -646,14 +668,13 @@ h5 {
       }
     }
     &.add-to-favourites--filled {
-  
-    svg {
-      path {
-        fill: $infospace-red;
-        stroke:$infospace-red;
+      svg {
+        path {
+          fill: $infospace-red;
+          stroke: $infospace-red;
+        }
       }
     }
-  }
   }
 }
 
@@ -663,13 +684,13 @@ p {
     @include breakpoint(large) {
       margin-top: rem-calc(40);
     }
-     &--filled {
+    &--filled {
       svg {
         path {
-          fill: $white!important;
-          stroke:$white!important;
+          fill: $white !important;
+          stroke: $white !important;
         }
       }
-     }
+    }
   }
 }
