@@ -33,6 +33,7 @@ $resource_svg = ob_get_clean();
 ?>
 
 <section class="search-results full-width">
+    <?php if (is_user_logged_in()) : ?>
     <div class="search-results__switcher">
         <div class="news-tabs">
             <?php
@@ -49,6 +50,7 @@ $resource_svg = ob_get_clean();
             );
             ?></div>
     </div>
+    <?php endif; ?>
     <div class="search-results__top-container" style="background: <?php echo esc_html($moduleColour); ?>;">
         <div class="search-results__content">
             <div class="search-results__text">

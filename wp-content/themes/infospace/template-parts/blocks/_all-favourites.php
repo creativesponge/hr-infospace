@@ -193,6 +193,7 @@ $current_user_favourites = isset($_SESSION['current_user_favourite_ids']) ? $_SE
             }
 
             // Module switcher block
+            if (is_user_logged_in()) :
             echo '<div class="all-favourites__switcher  module-tabs">';
             get_template_part(
                 'template-parts/module-switcher',
@@ -205,6 +206,7 @@ $current_user_favourites = isset($_SESSION['current_user_favourite_ids']) ? $_SE
                 )
             );
             echo '</div>';
+            endif;
 
             // Output results
             echo '<div class="module-panel module-panel--favourites">';

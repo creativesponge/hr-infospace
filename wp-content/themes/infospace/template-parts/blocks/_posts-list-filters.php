@@ -28,6 +28,7 @@ $attachmentIdMob = (is_array($block_attributes) && array_key_exists('attachmentI
 
 ?>
 <section class="posts-list-filters full-width">
+    <?php if (is_user_logged_in()) : ?>
     <div class="posts-list-filters__switcher">
         <div class="news-tabs">
             <?php
@@ -45,6 +46,7 @@ $attachmentIdMob = (is_array($block_attributes) && array_key_exists('attachmentI
             ?>
         </div>
     </div>
+    <?php endif; ?>
     <div class="posts-list-filters__top-container" style="background: <?php echo esc_html($moduleColour); ?>;">
         <div class="posts-list-filters__content">
             <div class="posts-list-filters__text">

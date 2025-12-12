@@ -288,7 +288,7 @@ if (check_if_is_module_landing($post_id, $moduleMeta["attached_resources"])) {
 				$words = explode(' ', $content);
 				$limited_content = implode(' ', array_slice($words, 0, 50));
 				echo '<p>' . $limited_content . '...</p>';
-				echo "Login or <a href='" . wp_login_url() . "'>register</a> to access this content.";
+				echo "<p><strong>Login or <a href='" . wp_login_url() . "'>register</a> to access this content.</strong></p>";
 			} ?>
 
 			<?php edit_post_link(__('(Edit)', $namespace), '<span class="edit-link">', '</span>'); ?>

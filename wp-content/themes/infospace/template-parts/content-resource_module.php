@@ -66,6 +66,7 @@ $download_svg = ob_get_clean();
 <article id="post-<?php echo $post_id; ?>" <?php post_class(); ?>>
 
 	<div class="entry-content resource-module">
+		<?php if (is_user_logged_in()) : ?>
 		<div class="module-tabs">
 			<?php get_template_part(
 				'template-parts/module-switcher',
@@ -78,6 +79,7 @@ $download_svg = ob_get_clean();
 				)
 			); ?>
 		</div>
+		<?php endif; ?>
 		<header class="resource-module__header full-width" style="background-color: <?php echo esc_html($moduleMeta['module_color']); ?>">
 			<?php if (!empty($moduleMeta['module_banner'])) : ?>
 				<div class="resource-module__banner">
@@ -884,12 +886,14 @@ $download_svg = ob_get_clean();
 		<?php // var_dump($post_id);
 			log_user_interaction(get_permalink(), $post_id, 10, 'Viewed page', get_the_title());
 		} else {
-			$content = get_the_content();
-			$content = wp_strip_all_tags($content);
-			$words = explode(' ', $content);
-			$limited_content = implode(' ', array_slice($words, 0, 50));
-			echo '<p>' . $limited_content . '...</p>';
+			//$content = get_the_content();
+			//$content = wp_strip_all_tags($content);
+			//$words = explode(' ', $content);
+			//$limited_content = implode(' ', array_slice($words, 0, 50));
+			//echo '<p>' . $limited_content . '...</p>';
+			echo '<div class="resource-module__login-prompt full-width">';
 			echo "Login or <a href='" . wp_login_url() . "'>register</a> to access this content.";
+				echo '</div>';
 		} ?>
 
 		<?php edit_post_link(__('(Edit)', $namespace), '<span class="edit-link">', '</span>'); ?>
