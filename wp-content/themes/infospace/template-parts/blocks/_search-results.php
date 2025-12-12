@@ -21,6 +21,24 @@ $child_pages = get_module_child_pages_using_module_id($current_module_id_global)
 $imageId = (array_key_exists('attachmentId', $block_attributes)) ? $block_attributes['attachmentId'] : '';
 $attachmentIdMob = (array_key_exists('attachmentIdMob', $block_attributes)) ? $block_attributes['attachmentIdMob'] : $imageId;
 $args = array('module_colour' => $moduleColour);
+
+
+//Get all page links which are active to filter later
+$active_page_links = array();
+$active_page_links = get_posts(array(
+    'post_type' => 'page_link',
+    'numberposts' => -1,
+    'fields' => 'ids',
+    'meta_query' => array(
+        array(
+            'key' => $prefix . 'page_link_is_active',
+            'value' => 'on',
+            'compare' => '='
+        )
+    )
+));
+
+
 ob_start();
 
 get_template_part('template-parts/svgs/_linkout', '', $args);
@@ -183,7 +201,7 @@ $resource_svg = ob_get_clean();
             $matching_post_ids  = array(0);
             $featured_post = 0;
 
-            // Build map of post IDs to attached resource pages for news items
+            // Build map of post IDs to attached resource pages
             while ($loop_for_resource->have_posts()) : $loop_for_resource->the_post();
                 $postId = get_the_ID();
                 $post_meta = theme_get_meta($postId);
@@ -215,11 +233,18 @@ $resource_svg = ob_get_clean();
                     // Add in links
                     $attachedLinkId = isset($resourceMeta->resource_attached_links) ? $resourceMeta->resource_attached_links : '';
 
-                    if ($attachedLinkId) {
+                    if ($attachedLinkId ) {
                         if (is_array($attachedLinkId)) {
-                            $matching_post_ids = array_merge($matching_post_ids, $attachedLinkId);
+                            foreach ($attachedLinkId as $linkId) {
+                                if (in_array($linkId, $active_page_links)) {   // check for active links only  
+                                    $matching_post_ids[] = $linkId;
+                                }
+                            }
+                            //$matching_post_ids = array_merge($matching_post_ids, $attachedLinkId);
                         } else {
-                            $matching_post_ids[] = $attachedLinkId;
+                            if (in_array($attachedLinkId, $active_page_links)) {  // check for active links only  
+                                $matching_post_ids[] = $attachedLinkId;
+                            }
                         }
                     }
 
@@ -272,11 +297,7 @@ $resource_svg = ob_get_clean();
                 $loopArgs['paged'] = get_query_var('paged') ? get_query_var('paged') : 1;
                 $loop = new WP_Query($loopArgs);
 
-
-
                 $total_posts_before_featured_removed = $loop->found_posts;
-
-
 
             ?> <p class="search-results__number">Showing <?php echo $total_posts_before_featured_removed; ?> results for '<?php echo esc_html($search); ?>'</p>
                 <div id="list-top" class="listing-filter">

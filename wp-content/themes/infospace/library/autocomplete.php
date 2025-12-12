@@ -44,6 +44,22 @@ function data_fetch()
         wp_die();
     }
 
+
+    //Get all page links which are active to filter later
+    $active_page_links = array();
+    $active_page_links = get_posts(array(
+        'post_type' => 'page_link',
+        'numberposts' => -1,
+        'fields' => 'ids',
+        'meta_query' => array(
+            array(
+                'key' => $prefix . 'page_link_is_active',
+                'value' => 'on',
+                'compare' => '='
+            )
+        )
+    ));
+
     // Find posts matching current module's child pages
     if (!empty($child_pages)) {
         $matching_post_ids = [];
@@ -56,9 +72,16 @@ function data_fetch()
 
             if ($attachedLinkId) {
                 if (is_array($attachedLinkId)) {
-                    $matching_post_ids = array_merge($matching_post_ids, $attachedLinkId);
+                    foreach ($attachedLinkId as $linkId) {
+                        if (in_array($linkId, $active_page_links)) {   // check for active links only  
+                            $matching_post_ids[] = $linkId;
+                        }
+                    }
+                    //$matching_post_ids = array_merge($matching_post_ids, $attachedLinkId);
                 } else {
-                    $matching_post_ids[] = $attachedLinkId;
+                    if (in_array($attachedLinkId, $active_page_links)) {  // check for active links only  
+                        $matching_post_ids[] = $attachedLinkId;
+                    }
                 }
             }
 
