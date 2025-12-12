@@ -181,6 +181,7 @@ function cmb2_document_metabox() {
         'type'      => 'text_small',
         'attributes' => [
             'readonly' => 'readonly',
+            'style' => 'display: none;'
         ],
     ]);
     
@@ -216,6 +217,7 @@ function cmb2_document_metabox() {
         'type'      => 'text_small',
         'attributes' => [
             'readonly' => 'readonly',
+             'style' => 'display: none;'
         ]
     ]);
 

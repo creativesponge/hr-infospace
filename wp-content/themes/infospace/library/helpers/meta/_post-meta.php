@@ -79,6 +79,7 @@ function cmb2_post_metabox()
         'type'      => 'text',
         'attributes' => [
             'readonly' => 'readonly',
+             'style' => 'display: none;'
         ]
     ]);
    $postSide->add_field([

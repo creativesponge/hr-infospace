@@ -125,7 +125,7 @@ function post_type_module_page()
         'labels'                => $labels,
         'menu_icon'             => 'dashicons-networking',
         'show_in_rest'             => true,
-        'supports'              => array('title','page-attributes','thumbnail'),
+        'supports'              => array('title', 'page-attributes', 'thumbnail'),
         'hierarchical'          => true,
         'public'                => true,
         'show_ui'               => true,
@@ -140,7 +140,7 @@ function post_type_module_page()
         'capability_type'       => 'page',
         'rewrite'               => array('slug' => 'module', 'with_front' => false),
         'taxonomies'            => array(),
-        
+
     );
     register_post_type('module', $args);
 }
@@ -175,7 +175,7 @@ function post_type_user_profile()
         'items_list'            => 'User Profile list',
         'items_list_navigation' => 'User Profile list navigation',
         'filter_items_list'     => 'Filter User Profile',
-        
+
     );
 
     $args = array(
@@ -199,7 +199,7 @@ function post_type_user_profile()
         'capability_type'       => 'page',
         'rewrite'               => array('slug' => 'user-profile', 'with_front' => false),
         'taxonomies'            => array(),
-        
+
     );
     register_post_type('user_profile', $args);
 }
@@ -257,7 +257,7 @@ function post_type_resource_page()
         'capability_type'       => 'page',
         'rewrite'               => array('slug' => 'resource', 'with_front' => true),
         'taxonomies'            => array(),
-        
+
     );
     register_post_type('resource_page', $args);
 }
@@ -299,8 +299,8 @@ function post_type_document()
         'description'           => 'Document item',
         'labels'                => $labels,
         'menu_icon'             => 'dashicons-media-document',
-      
-        'supports'              => array('title', 'page-attributes'),
+
+        'supports'              => array('title'),
         'hierarchical'          => false,
         'public'                => true,
         'show_ui'               => true,
@@ -324,7 +324,7 @@ function post_type_document()
 add_filter('manage_document_posts_columns', 'add_document_resource_page_column');
 function add_document_resource_page_column($columns)
 {
-    $columns['related_resources'] = 'Attached to';                
+    $columns['related_resources'] = 'Attached to';
     return $columns;
 }
 add_action('manage_document_posts_custom_column', 'show_document_resource_page_column', 10, 2);
@@ -336,12 +336,12 @@ function show_document_resource_page_column($column, $post_id)
             'post_type' => 'resource_page',
             'meta_query' => array(
                 array(
-                    'key'     => $prefix.'resource_attached_documents',
+                    'key'     => $prefix . 'resource_attached_documents',
                     'value'   => '"' . $post_id . '"',
                     'compare' => 'LIKE',
                 ),
             ),
-        ));     
+        ));
         if (!empty($related_resources)) {
             $links = array();
             foreach ($related_resources as $resource) {
@@ -352,7 +352,7 @@ function show_document_resource_page_column($column, $post_id)
             echo '—';
         }
     }
-}   
+}
 
 
 
@@ -453,7 +453,7 @@ function post_type_page_links()
         'description'           => 'Page Link item',
         'labels'                => $labels,
         'menu_icon'             => 'dashicons-admin-links',
-       'supports'              => array('title', 'page-attributes'),
+        'supports'              => array('title'),
         'hierarchical'          => false,
         'public'                => true,
         'show_ui'               => true,
@@ -537,7 +537,7 @@ function post_type_newsletter()
         'description'           => 'Newsletter item',
         'labels'                => $labels,
         'menu_icon'             => 'dashicons-email',
-        'supports'              => array('title', 'page-attributes'),
+        'supports'              => array('title'),
         'hierarchical'          => false,
         'public'                => false,
         'show_ui'               => true,
@@ -594,7 +594,7 @@ function post_type_favourite()
         'description'           => 'Favourite item',
         'labels'                => $labels,
         'menu_icon'             => 'dashicons-admin-post',
-        'supports'              => array('title', 'page-attributes', 'author'),
+        'supports'              => array('title', 'author'),
         'hierarchical'          => false,
         'public'                => false,
         'show_ui'               => true,

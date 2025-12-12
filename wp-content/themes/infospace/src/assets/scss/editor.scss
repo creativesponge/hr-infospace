@@ -70,3 +70,7 @@
   @import 'components/buttons';
 
 }
+
+.cmb2-id-theme-fieldsresource-slug, .cmb2-id-theme-fieldsresource-tree-id, .cmb2-id-theme-fieldsresource-right, .cmb2-id-theme-fieldsresource-parent-id, .cmb2-id-theme-fieldsresource-lft, .cmb2-id-theme-fieldsresource-level, .cmb2-id-theme-fieldssort-order, #theme_fieldspage_link_details_side, #theme_fieldsnewsletter_details_side, #theme_fieldsfavourite_details_side, .cmb2-id-theme-fieldsold-favourite-system-id, .cmb2-id-theme-fieldsold-user-system-id, .cmb2-id-theme-fieldsold-post-system-id, .cmb2-id-theme-fieldsold-resource-system-id, .cmb-row.cmb-type-text-small.cmb2-id-theme-fieldsold-system-id {
+  display: none;
+}

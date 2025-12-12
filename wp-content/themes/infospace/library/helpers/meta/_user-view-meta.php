@@ -105,6 +105,7 @@ function cmb2_page_link_metabox()
         'type'      => 'text',
         'attributes' => [
             'readonly' => 'readonly',
+             'style' => 'display: none;'
         ]
     ]);
 

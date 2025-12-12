@@ -119,6 +119,7 @@ function cmb2_page_metabox()
         'type'      => 'text',
         'attributes' => [
             'readonly' => 'readonly',
+             'style' => 'display: none;'
         ]
     ]);
 

@@ -80,6 +80,7 @@ function cmb2_favourite_metabox()
         'type'      => 'text',
         'attributes' => [
             'readonly' => 'readonly',
+             'style' => 'display: none;'
         ]
     ]);
 }

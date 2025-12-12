@@ -96,6 +96,7 @@ function cmb2_newsletter_metabox()
         'type'      => 'text',
         'attributes' => [
             'readonly' => 'readonly',
+             'style' => 'display: none;'
         ]
     ]);
 }

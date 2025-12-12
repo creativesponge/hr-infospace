@@ -211,6 +211,7 @@ function cmb2_user_metabox()
         'type'      => 'text',
         'attributes' => [
             'readonly' => 'readonly',
+             'style' => 'display: none;'
         ],
         'show_on_cb' => function () {
             return current_user_can('administrator');
