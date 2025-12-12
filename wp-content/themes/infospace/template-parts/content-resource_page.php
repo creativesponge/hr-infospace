@@ -127,7 +127,13 @@ if (check_if_is_module_landing($post_id, $moduleMeta["attached_resources"])) {
 	if (!empty($attached_links)) {
 		foreach ($attached_links as $linkId) {
 			$link_post = get_post($linkId);
-			$link_url = get_post_meta($linkId, $prefix . 'page_link_url', true);
+			
+			$link_meta = theme_get_meta($linkId);
+			$link_url = isset($link_meta->page_link_url) ? $link_meta->page_link_url : '';
+			$linkActive = isset($link_meta->page_link_is_active) ? $link_meta->page_link_is_active : 'off';
+			if (empty($link_url) || $linkActive == 'off') {
+				continue;
+			}
 			$title = $linkId ? get_the_title($linkId) : "No title";
 
 			// Create favoutite button

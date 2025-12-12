@@ -502,8 +502,10 @@ $download_svg = ob_get_clean();
 							continue;
 						}
 						$link_meta = theme_get_meta($link);
+						$linkActive = isset($link_meta->page_link_is_active) ? $link_meta->page_link_is_active : 'off';
+					
 						$link_url = isset($link_meta->page_link_url) ? $link_meta->page_link_url : '';
-						if (empty($link_url)) {
+						if (empty($link_url ) || $linkActive == 'off') {
 							continue;
 						}
 						$fav_link_html .= '<li><a href="' . esc_url($link_url) . '" rel="nofollow"><span>' . $linkout_svg . esc_html(get_the_title($link)) . '</span></a></li>';
@@ -879,8 +881,10 @@ $download_svg = ob_get_clean();
 				foreach ($attachedLinks as $linkID) {
 					$linkMeta = theme_get_meta($linkID);
 					$linkURL = isset($linkMeta->page_link_url) ? $linkMeta->page_link_url : '';
+					$linkActive = isset($linkMeta->page_link_is_active) ? $linkMeta->page_link_is_active : 'off';
+					
 					$linkTitle = get_the_title($linkID);
-					if (!empty($linkURL)) {
+					if (!empty($linkURL) && $linkActive != 'off') {
 						echo '<li><a href="' . esc_url($linkURL) . '" target="_blank" rel="nofollow"><span>' . $linkout_svg . esc_html($linkTitle) . '</span></a></li>';
 					}
 				}
