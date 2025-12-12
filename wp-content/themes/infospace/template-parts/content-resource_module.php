@@ -413,7 +413,15 @@ $download_svg = ob_get_clean();
 					$fav_doc_html .= '<ul>';
 					foreach ($attached_documents_list as $doc) {
 						$fav_doc_meta = theme_get_meta($doc);
-
+				$fileNewDate = isset($fav_doc_meta->is_new) ? $fav_doc_meta->is_new : '';
+			$fileUpdatedDate = isset($fav_doc_meta->is_updated) ? $fav_doc_meta->is_updated : '';
+			if ($fileNewDate && $fileNewDate > time() - (30 * DAY_IN_SECONDS)) {
+				$fileDateLabel = ' <strong><i class="document-label document-label--new" aria-label="New document">New</i></strong>';
+			} elseif ($fileUpdatedDate && $fileUpdatedDate > time() - (30 * DAY_IN_SECONDS)) {
+				$fileDateLabel = ' <strong><i class="document-label document-label--updated" aria-label="Updated document">Updated</i></strong>';
+			} else {
+				$fileDateLabel = '';
+			}
 						$attached_fav_doc_array = isset($fav_doc_meta->document_files) ? $fav_doc_meta->document_files : '';
 
 						// check if it is attached to a resource in this module
@@ -452,7 +460,7 @@ $download_svg = ob_get_clean();
 									}
 
 									// Store the HTML output for later use
-									$fav_doc_html .= '<li><a href="' . esc_url($doc_url) . '" data-download-name="' . esc_html($file_title) . '" data-download-id="' . esc_attr($doc) . '" rel="nofollow"><span>' . $file_svg . $file_title . '</span></a></li>';
+									$fav_doc_html .= '<li><a href="' . esc_url($doc_url) . '" data-download-name="' . esc_html($file_title) . '" data-download-id="' . esc_attr($doc) . '" rel="nofollow"><span>' . $file_svg . $file_title . '</span>'.$fileDateLabel . '</a></li>';
 								}
 							}}
 					}

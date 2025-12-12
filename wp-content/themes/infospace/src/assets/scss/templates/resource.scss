@@ -244,3 +244,14 @@
     }
   }
 }
+
+.document-label--new {
+  padding-right:rem-calc(20);
+  text-transform: uppercase;
+  font-weight:600;
+}
+.document-label--updated {
+  padding-right:rem-calc(20);
+ text-transform: uppercase;
+ font-weight:600;
+}

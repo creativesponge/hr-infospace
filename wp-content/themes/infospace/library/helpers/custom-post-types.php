@@ -339,7 +339,6 @@ function show_document_resource_page_column($column, $post_id)
                     'key'     => $prefix . 'resource_attached_documents',
                     'value'   => $post_id,
                     'compare' => 'LIKE',
-                    
                 ),
             ),
         ));

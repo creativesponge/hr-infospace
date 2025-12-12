@@ -54,6 +54,16 @@ if (check_if_is_module_landing($post_id, $moduleMeta["attached_resources"])) {
 
 			$doc_files = get_post_meta($docId, $prefix . 'document_files', true);
 
+			$fileNewDate = get_post_meta($docId, $prefix . 'is_new', true);
+			$fileUpdatedDate = get_post_meta($docId, $prefix . 'is_updated', true);
+			if ($fileNewDate && $fileNewDate > time() - (30 * DAY_IN_SECONDS)) {
+				$fileDateLabel = ' <i class="document-label document-label--new" aria-label="New document">New</i>';
+			} elseif ($fileUpdatedDate && $fileUpdatedDate > time() - (30 * DAY_IN_SECONDS)) {
+				$fileDateLabel = ' <i class="document-label document-label--updated" aria-label="Updated document">Updated</i>';
+			} else {
+				$fileDateLabel = '';
+			}
+	
 			if (!empty($doc_files)) {
 				foreach ($doc_files as $docFile) {
 
@@ -65,6 +75,8 @@ if (check_if_is_module_landing($post_id, $moduleMeta["attached_resources"])) {
 						// Skip this file as it is not currently active
 						continue;
 					}
+					
+
 
 					$filename = $docFile["theme_fieldsdoc_uploaded_file"];
 
@@ -99,9 +111,9 @@ if (check_if_is_module_landing($post_id, $moduleMeta["attached_resources"])) {
 
 					// Add to appropriate list based on taxonomy
 					if ($is_policy) {
-						$attached_policies_list .= '<li class="policy-doc"><a href="' . esc_url($doc_url) . '" data-download-name="' . esc_html($title) . '" data-download-id="' . esc_attr($docId) . '" rel="nofollow"><span>' . $file_svg . esc_html($title) . '</span>' . $favourite_svg . '</a></li>';
+						$attached_policies_list .= '<li class="policy-doc"><a href="' . esc_url($doc_url) . '" data-download-name="' . esc_html($title) . '" data-download-id="' . esc_attr($docId) . '" rel="nofollow"><span>' . $file_svg . esc_html($title) . '</span><strong>'. $fileDateLabel . $favourite_svg . '</strong></a></li>';
 					} else {
-						$attached_docs_list .= '<li class="document-doc"><a href="' . esc_url($doc_url) . '" data-download-name="' . esc_html($title) . '" data-download-id="' . esc_attr($docId) . '" rel="nofollow"><span>' . $file_svg . esc_html($title) . '</span>' . $favourite_svg . '</a></li>';
+						$attached_docs_list .= '<li class="document-doc"><a href="' . esc_url($doc_url) . '" data-download-name="' . esc_html($title) . '" data-download-id="' . esc_attr($docId) . '" rel="nofollow"><span>' . $file_svg . esc_html($title) . '</span><strong>'. $fileDateLabel . $favourite_svg . '</strong></a></li>';
 					}
 				}
 			}

@@ -4,7 +4,7 @@
   margin: rem-calc(0 0 25 0);
   position: relative;
   //width:100%;
-  
+
   border-radius: rem-calc(30);
   display: flex;
 
@@ -17,7 +17,7 @@
     padding: 0;
     display: flex;
     align-items: center;
-  flex-grow: 1;
+    flex-grow: 1;
     a {
       // background-color: $white;
       padding: rem-calc(10 12 10 12);
@@ -33,7 +33,7 @@
       //background: $white;
       display: block;
       position: relative;
-      width:100%;
+      width: 100%;
       text-align: center;
 
       @include breakpoint(medium) {
@@ -233,6 +233,14 @@
               display: block;
             }
           }
+          strong {
+            display: flex;
+            align-items: center;
+            i {
+              display: block;
+            }
+          }
+
           &:hover {
             background: $infospace-orange;
             //color: $white;
@@ -312,7 +320,6 @@
       display: none;
       @include breakpoint(large) {
         display: block;
-        
       }
       a {
         text-align: left;
