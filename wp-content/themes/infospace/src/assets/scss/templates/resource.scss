@@ -2,7 +2,7 @@
   &__header {
     background: $infospace-red;
     color: $white;
-    padding: rem-calc(20 20 50 20);
+    padding: rem-calc(10 20 40 20);
     border-top-left-radius: rem-calc(20);
     border-top-right-radius: rem-calc(20);
     @include breakpoint(medium) {
@@ -25,8 +25,7 @@
       }
     }
     &:after {
-      @include breakpoint(medium) {
-        content: "";
+      content: "";
         display: block;
         position: absolute;
         background: $white;
@@ -37,6 +36,8 @@
         border-top-left-radius: rem-calc(30);
         border-top-right-radius: rem-calc(30);
         height: rem-calc(30);
+      @include breakpoint(medium) {
+        
       }
 
       @include breakpoint(large) {
@@ -153,17 +154,16 @@
       text-align: center;
       position: relative;
       background: $infospace-green;
-      padding: rem-calc(25 20 50 20);
-      margin-top: rem-calc(-20);
-      margin-right: rem-calc(-20);
-      margin-left: rem-calc(-20);
-      border-bottom-left-radius: 0;
-      border-bottom-right-radius: 0;
-      @include breakpoint(medium) {
-        border-bottom-left-radius: rem-calc(20);
+      padding: rem-calc(20 20 25 20);
+      //margin-top: rem-calc(20);
+      //margin-right: rem-calc(-20);
+      //margin-left: rem-calc(-20);
+       border-bottom-left-radius: rem-calc(20);
         border-bottom-right-radius: rem-calc(20);
+      @include breakpoint(medium) {
+       
         padding: rem-calc(20 20 25 20);
-        margin: 0;
+        //margin: 0;
         text-align: left;
       }
       @include breakpoint(large) {
@@ -172,7 +172,7 @@
         //border-bottom-left-radius: rem-calc(50);
         //border-bottom-right-radius: rem-calc(50);
       }
-      &:after {
+      /*&:after {
         content: "";
         display: block;
         position: absolute;
@@ -186,7 +186,7 @@
         @include breakpoint(medium) {
           display: none;
         }
-      }
+      }*/
       h3 {
         color: $black;
       }

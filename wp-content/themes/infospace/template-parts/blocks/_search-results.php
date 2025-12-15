@@ -92,10 +92,10 @@ $resource_svg = ob_get_clean();
         <?php endif; ?>
     </div>
 
-    <div class="search-results__box search-results__box--green hide-for-medium">
-        <h3><?php echo $siteGetInTouchText; ?></h3>
-        <a href="<?php echo esc_url($siteGetInTouchUrl); ?>" class="button-link button-link--rev">Contact us</a>
-    </div>
+    <!--<div class="search-results__box search-results__box--green hide-for-medium">
+        <h3><?php //echo $siteGetInTouchText; ?></h3>
+        <a href="<?php //echo esc_url($siteGetInTouchUrl); ?>" class="button-link button-link--rev">Contact us</a>
+    </div>-->
 
     <div class="search-results__body">
         <!-- Filter and Sort UI -->
@@ -476,7 +476,7 @@ $resource_svg = ob_get_clean();
                     <div class="search-results__box show-for-medium">
                         <?php get_template_part('template-parts/key', '', array('module_colour' => $moduleColour, 'linkout_svg' => $linkout_svg, 'resource_svg' => $resource_svg)); ?>
                     </div>
-                    <div class="search-results__box search-results__box--green show-for-medium">
+                    <div class="search-results__box search-results__box--green">
                         <h3><?php echo $siteGetInTouchText; ?></h3>
                         <a href="<?php echo esc_url($siteGetInTouchUrl); ?>" class="button-link button-link--rev">Contact us</a>
                     </div>

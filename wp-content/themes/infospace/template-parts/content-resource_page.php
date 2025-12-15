@@ -213,10 +213,10 @@ if (check_if_is_module_landing($post_id, $moduleMeta["attached_resources"])) {
 					<?php get_template_part('template-parts/add-to-favourites') ?>
 				</div>
 			</header>
-			<div class="resource-page__box resource-page__box--green hide-for-medium">
-				<h3><?php echo $siteGetInTouchText; ?></h3>
-				<a href="<?php echo esc_url($siteGetInTouchUrl); ?>" class="button-link button-link--rev">Contact us</a>
-			</div>
+			<!--<div class="resource-page__box resource-page__box--green hide-for-medium">
+				<h3><?php //echo $siteGetInTouchText; ?></h3>
+				<a href="<?php //echo esc_url($siteGetInTouchUrl); ?>" class="button-link button-link--rev">Contact us</a>
+			</div>-->
 			<?php //var_dump(user_has_page_access(get_current_user_id(), $post_id, 'resource_page')); 
 			if (user_has_access($post_id)) { ?>
 				<div class="resource-page__grid">
@@ -292,7 +292,7 @@ if (check_if_is_module_landing($post_id, $moduleMeta["attached_resources"])) {
 							echo '</div>';
 						}
 						?>
-						<div class="resource-page__box resource-page__box--green show-for-medium">
+						<div class="resource-page__box resource-page__box--green ">
 							<h3><?php echo $siteGetInTouchText; ?></h3>
 							<a href="<?php echo esc_url($siteGetInTouchUrl); ?>" class="button-link button-link--rev">Contact us</a>
 						</div>

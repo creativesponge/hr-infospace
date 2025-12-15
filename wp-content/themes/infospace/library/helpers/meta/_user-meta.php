@@ -151,6 +151,93 @@ function cmb2_user_metabox()
             return current_user_can('administrator');
         }
     ]);
+
+    // Add HR Alerts column to admin list view
+    add_filter('manage_users_columns', function($columns) use ($prefix) {
+        $columns[$prefix . 'user_hr_alerts'] = 'HR Alerts';
+        return $columns;
+    });
+
+    // Add Finance Alerts column to admin list view
+    add_filter('manage_users_columns', function($columns) use ($prefix) {
+        $columns[$prefix . 'user_finance_alerts'] = 'Finance Alerts';
+        return $columns;
+    });
+
+    // Add HSW Alerts column to admin list view
+    add_filter('manage_users_columns', function($columns) use ($prefix) {
+        $columns[$prefix . 'user_hsw_alerts'] = 'HSW Alerts';
+        return $columns;
+    });
+
+    // Add Accepted Terms column to admin list view
+    //add_filter('manage_users_columns', function($columns) use ($prefix) {
+       // $columns[$prefix . 'user_accepted_terms'] = 'Terms';
+        //return $columns;
+   // });
+
+    // Add Accepted Privacy Policy column to admin list view
+   // add_filter('manage_users_columns', function($columns) use ($prefix) {
+     //   $columns[$prefix . 'user_accepted_privacy_policy'] = 'Privacy';
+     //   return $columns;
+  //  });
+
+    // Add Exclude from Reports column to admin list view
+    add_filter('manage_users_columns', function($columns) use ($prefix) {
+        $columns[$prefix . 'user_exclude_from_reports'] = 'Exclude Reports';
+        return $columns;
+    });
+
+    // Make columns sortable
+    add_filter('manage_users_sortable_columns', function($columns) use ($prefix) {
+        $columns[$prefix . 'user_hr_alerts'] = $prefix . 'user_hr_alerts';
+        $columns[$prefix . 'user_finance_alerts'] = $prefix . 'user_finance_alerts';
+        $columns[$prefix . 'user_hsw_alerts'] = $prefix . 'user_hsw_alerts';
+       // $columns[$prefix . 'user_accepted_terms'] = $prefix . 'user_accepted_terms';
+       // $columns[$prefix . 'user_accepted_privacy_policy'] = $prefix . 'user_accepted_privacy_policy';
+        $columns[$prefix . 'user_exclude_from_reports'] = $prefix . 'user_exclude_from_reports';
+        return $columns;
+    });
+
+    // Handle sorting
+    add_action('pre_get_users', function($query) use ($prefix) {
+        if (!is_admin()) {
+            return;
+        }
+
+        $orderby = $query->get('orderby');
+        
+        if (in_array($orderby, [
+            $prefix . 'user_hr_alerts',
+            $prefix . 'user_finance_alerts',
+            $prefix . 'user_hsw_alerts',
+           // $prefix . 'user_accepted_terms',
+          //  $prefix . 'user_accepted_privacy_policy',
+            $prefix . 'user_exclude_from_reports'
+        ])) {
+            $query->set('meta_key', $orderby);
+            $query->set('orderby', 'meta_value');
+        }
+    });
+
+    // Display column content
+    add_action('manage_users_custom_column', function($output, $column, $user_id) use ($prefix) {
+        $checkbox_fields = [
+            $prefix . 'user_hr_alerts',
+            $prefix . 'user_finance_alerts',
+            $prefix . 'user_hsw_alerts',
+           // $prefix . 'user_accepted_terms',
+          //  $prefix . 'user_accepted_privacy_policy',
+            $prefix . 'user_exclude_from_reports'
+        ];
+        
+        if (in_array($column, $checkbox_fields)) {
+            $value = get_user_meta($user_id, $column, true);
+            return $value == 'on' ? '✓' : '✗';
+        }
+        return $output;
+    }, 10, 3);
+
     $user->add_field([
         'id'        => $prefix . 'user_is_staff',
         'name'      => 'Is Staff',
@@ -295,3 +382,41 @@ function cmb2_user_metabox()
         }
     ]);
 }
+
+// Add Last Login column to admin list view
+add_filter('manage_users_columns', function($columns) use ($prefix) {
+    $columns[$prefix . 'user_last_login'] = 'Last Login';
+    return $columns;
+});
+
+// Make Last Login column sortable
+add_filter('manage_users_sortable_columns', function($columns) use ($prefix) {
+    $columns[$prefix . 'user_last_login'] = $prefix . 'user_last_login';
+    return $columns;
+});
+
+// Handle Last Login sorting
+add_action('pre_get_users', function($query) use ($prefix) {
+    if (!is_admin()) {
+        return;
+    }
+
+    $orderby = $query->get('orderby');
+    
+    if ($orderby == $prefix . 'user_last_login') {
+        $query->set('meta_key', $prefix . 'user_last_login');
+        $query->set('orderby', 'meta_value_num');
+    }
+});
+
+// Display Last Login column content
+add_action('manage_users_custom_column', function($output, $column, $user_id) use ($prefix) {
+    if ($column == $prefix . 'user_last_login') {
+        $last_login = get_user_meta($user_id, $prefix . 'user_last_login', true);
+        if ($last_login) {
+            return date('d/m/Y', $last_login);
+        }
+        return 'Never';
+    }
+    return $output;
+}, 10, 3);

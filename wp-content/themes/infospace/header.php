@@ -144,7 +144,7 @@ if (get_the_ID() === 1581 && $current_module_id_global === '') { // redirect for
 				<div class="header__nav">
 					<nav class="site-navigation header__top-bar" role="navigation" id="off-canvas-menu">
 
-						<?php if (is_user_logged_in() && (get_post_type() == 'resource_page' || in_array(get_the_ID(), $resource_pages)) ) : ?>
+						<?php if (is_user_logged_in() && ((get_post_type() == 'resource_page' || get_post_type() == 'post') || in_array(get_the_ID(), $resource_pages)) ) : ?>
 							<?php get_search_form(); ?>
 						<?php endif; ?>
 						<?php startertheme_top_bar_r(); ?>

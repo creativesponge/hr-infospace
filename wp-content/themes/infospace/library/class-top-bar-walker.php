@@ -25,7 +25,11 @@ if (! class_exists('Startertheme_Top_Bar_Walker')) :
 			$current_module_id_global = isset($_SESSION['current_module_id']) ? $_SESSION['current_module_id'] : '';
 			$current_post_type = get_post_type();
 			// Check if the menu item is "News" and user is not logged in
-			if ($item->title === 'News' && (!is_user_logged_in() || $current_module_id_global == '' || ($current_post_type != 'resource_page' && !in_array(get_the_ID(), $resource_pages)))) {
+			if ($item->title === 'News' && (!is_user_logged_in() 
+				|| 
+			$current_module_id_global == '' 
+			|| 
+			($current_post_type != 'resource_page' && $current_post_type != 'post' && !in_array(get_the_ID(), $resource_pages)))) {
 				return;
 			}
 
@@ -34,7 +38,7 @@ if (! class_exists('Startertheme_Top_Bar_Walker')) :
 				&&
 				($current_module_id_global == ''
 					||
-					($current_post_type != 'resource_page'
+					(($current_post_type != 'resource_page' && $current_post_type != 'post') 
 						&&
 						!in_array(get_the_ID(), $resource_pages)
 
