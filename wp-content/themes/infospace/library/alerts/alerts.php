@@ -74,6 +74,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && !empty($_GET)) {
             $alert_subject = isset($_POST['alert_subject']) ? sanitize_text_field($_POST['alert_subject']) : '';
             $module_type = isset($_POST['module_type']) ? sanitize_text_field($_POST['module_type']) : '';
             $email_addresses = isset($_POST['email_addresses']) ? sanitize_text_field($_POST['email_addresses']) : '';
+            $email_addresses = str_replace(', ', ',<br>', esc_html($email_addresses));
+        $email_count = count(explode(', ', $_POST['email_addresses']));
         }
         // Process the alert here
         //echo '<div class="notice notice-success is-dismissible">';
@@ -297,7 +299,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && !empty($_GET)) {
                     </tr>
                 </table>
             </div>
-            <br><br><p>Email will be sent to the following addresses: <br> <?php echo esc_html($email_addresses); ?></p>
+            <br><br><p><strong>Email will be sent to the following <?php  echo $email_count; ?> addresses: </strong><br> <?php echo $email_addresses; ?></p>
         </div>
     <?php
 
