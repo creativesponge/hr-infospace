@@ -60,21 +60,21 @@ function cmb2_user_metabox()
         }
     ]);
     // Add is active column to admin list view
-    add_filter('manage_user_posts_columns', function($columns) use ($prefix) {
+    add_filter('manage_users_columns', function($columns) use ($prefix) {
         $columns[$prefix . 'user_is_active'] = 'Active';
         return $columns;
     });
 
     // Make columns sortable
-    add_filter('manage_edit-user_sortable_columns', function($columns) use ($prefix) {
+    add_filter('manage_users_sortable_columns', function($columns) use ($prefix) {
        
         $columns[$prefix . 'user_is_active'] = $prefix . 'user_is_active';
         return $columns;
     });
 
     // Handle sorting
-    add_action('pre_get_posts', function($query) use ($prefix) {
-        if (!is_admin() || !$query->is_main_query()) {
+    add_action('pre_get_users', function($query) use ($prefix) {
+        if (!is_admin()) {
             return;
         }
 
@@ -88,13 +88,15 @@ function cmb2_user_metabox()
         }
     });
 
-    add_action('manage_user_posts_custom_column', function($column, $post_id) use ($prefix) {
+    add_action('manage_users_custom_column', function($output, $column, $user_id) use ($prefix) {
         if ($column == $prefix . 'user_is_active') {
-            $is_active = get_post_meta($post_id, $prefix . 'user_is_active', true);
-            echo $is_active == 'on' ? '✓' : '✗';
+            $is_active = get_user_meta($user_id, $prefix . 'user_is_active', true);
+            return $is_active == 'on' ? '✓' : '✗';
         }
-    }, 10, 2);
+        return $output;
+    }, 10, 3);
 
+    
     $user->add_field([
         'id'        => $prefix . 'user_hr_alerts',
         'name'      => 'Receive HR alerts',

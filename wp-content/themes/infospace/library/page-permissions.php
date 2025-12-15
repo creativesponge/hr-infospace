@@ -27,6 +27,12 @@ function user_has_access($post_id): bool
         return false;
     }
 
+    //Check if the user is active
+    $is_active = get_user_meta($user->ID, $prefix . 'user_is_active', true);
+    if ($is_active !== 'on') {
+        return false;
+    }
+
     $allowed_child_roles = ['individual', 'employee', 'hsw_editor', 'hr_editor', 'finance_editor'];
     if (array_intersect($allowed_child_roles, (array) $user->roles)) {
 
@@ -138,7 +144,7 @@ function user_has_page_access($userid, $page_id, $post_type): bool
             //error_log('doc files: ' . print_r($document_files[0], true));
             if (!empty($document_files) && in_array($page_id, $document_files[0])) {
                 $relevant_documents[] = $document_id;
-                error_log('Relevant document: ' . print_r($document_id, true));
+               // error_log('Relevant document: ' . print_r($document_id, true));
             }
         }
         $attached_documents = $relevant_documents;
@@ -177,6 +183,7 @@ function user_has_page_access($userid, $page_id, $post_type): bool
 function user_has_module_access($post_id) : bool
 {
     global $prefix;
+   
     $user = wp_get_current_user();
     //$post_type = get_post_type($post_id);
     if (! is_user_logged_in()) {
@@ -195,7 +202,10 @@ function user_has_module_access($post_id) : bool
         $user_attached_pages = get_user_meta($user->ID, $prefix . 'user_attached_resource_pages', true);
     }
 
-    //return $user_attached_pages;
+    // Ensure $user_attached_pages is an array
+    if (!is_array($user_attached_pages)) {
+        $user_attached_pages = [];
+    }
 
     if (in_array('main', (array) $user->roles)) {
         // The user has the "main" role check they have page access
