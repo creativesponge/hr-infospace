@@ -9,7 +9,7 @@ $siteGetInTouchUrl = isset($settings[$prefix . 'get_in_touch_url']) ? $settings[
 $block_attributes = get_query_var('attributes');
 $block_content = get_query_var('content');
 $numberPosts = isset($block_attributes['numberPosts']) ? $block_attributes['numberPosts'] : '6';
-$sortBy = isset($_GET['orderby']) ? $_GET['orderby'] : 'mostrecent';
+$sortBy = isset($_GET['orderby']) ? $_GET['orderby'] : 'relevance';
 $filterBy = isset($_GET['filter']) ? $_GET['filter'] : '';
 $search = isset($_GET['q']) ? $_GET['q'] : '';
 //$filterCat = get_term_by('slug', $filterBy, 'category');
@@ -21,7 +21,6 @@ $child_pages = get_module_child_pages_using_module_id($current_module_id_global)
 $imageId = (array_key_exists('attachmentId', $block_attributes)) ? $block_attributes['attachmentId'] : '';
 $attachmentIdMob = (array_key_exists('attachmentIdMob', $block_attributes)) ? $block_attributes['attachmentIdMob'] : $imageId;
 $args = array('module_colour' => $moduleColour);
-
 
 //Get all page links which are active to filter later
 $active_page_links = array();
@@ -195,8 +194,10 @@ $resource_svg = ob_get_clean();
             if (!empty($search)) {
                 $loopArgs['s'] = $search;
             }
+
             // GET POST IDS FOR NEWS
             $loop_for_resource = new WP_Query($loopArgs);
+            relevanssi_do_query($loop_for_resource);
             $attached_to_page_ids = array();
             $matching_post_ids  = array(0);
             $featured_post = 0;
@@ -240,12 +241,13 @@ $resource_svg = ob_get_clean();
                                     $matching_post_ids[] = $linkId;
                                 }
                             }
-                            //$matching_post_ids = array_merge($matching_post_ids, $attachedLinkId);
+                          //  $matching_post_ids = array_merge($matching_post_ids, $attachedLinkId);
                         } else {
                             if (in_array($attachedLinkId, $active_page_links)) {  // check for active links only  
                                 $matching_post_ids[] = $attachedLinkId;
                             }
-                        }
+                        }   
+                    
                     }
 
                     // Add in documents
@@ -296,7 +298,7 @@ $resource_svg = ob_get_clean();
 
                 $loopArgs['paged'] = get_query_var('paged') ? get_query_var('paged') : 1;
                 $loop = new WP_Query($loopArgs);
-
+ relevanssi_do_query($loop);
                 $total_posts_before_featured_removed = $loop->found_posts;
 
             ?> <p class="search-results__number">Showing <?php echo $total_posts_before_featured_removed; ?> results for '<?php echo esc_html($search); ?>'</p>
@@ -372,8 +374,6 @@ $resource_svg = ob_get_clean();
                     // Output posts: featured and regular
                     $total_posts = $loop->found_posts;
                     $topnewsCounter = 0;
-
-
 
                     while ($loop->have_posts()) : $loop->the_post();
                         $result_Id = get_the_ID();

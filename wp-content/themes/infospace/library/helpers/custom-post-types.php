@@ -463,7 +463,7 @@ function post_type_page_links()
         'menu_position'         => 29,
         'can_export'            => true,
         'has_archive'           => false,
-        'exclude_from_search'   => true,
+        'exclude_from_search'   => false,
         'publicly_queryable'    => false,
         'capability_type'       => 'page',
         'rewrite'               => array('slug' => 'page-link', 'with_front' => false),
