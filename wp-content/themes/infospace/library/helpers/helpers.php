@@ -684,25 +684,3 @@ function yoast_seo_admin_user_remove_social( $contactmethods ) {
     return array();
 }
 add_filter( 'user_contactmethods', 'yoast_seo_admin_user_remove_social', 100, 1 );
-
-// Limit search in admin to just search the titles of posts/pages
-add_filter( 'posts_search', 'search_by_title_only', 10, 2 );
-function search_by_title_only( $search, $wp_query ) {
-    if ( !is_admin() || empty( $search ) ){
-        return $search;
-    }
-    global $wpdb;
-    $q = $wp_query->query_vars;
-    $x = ! empty( $q['exact'] ) ? '' : '%';
-    $search = '';
-    $searchand = '';
-    foreach ( (array) $q['search_terms'] as $term ) {
-        $term = esc_sql( $wpdb->esc_like( $term ) );
-        $search .= "{$searchand}($wpdb->posts.post_title LIKE '{$x}{$term}{$x}')";
-        $searchand = ' AND ';
-    }
-    if ( ! empty( $search ) ) {
-        $search = " AND ({$search}) ";
-    }
-    return $search;
-}
