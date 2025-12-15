@@ -37,6 +37,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && !empty($_GET)) {
         }
     }
 }
+
+ // Handle CSV export first to avoid unnecessary processing
+    if (isset($_GET['export_csv'])) {
+        infospace_export_users_report_csv_ftn();
+        return;
+    }
+
+
     $alert_content = '';
     $alert_subject = '';
     $module_type = '';
@@ -367,6 +375,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && !empty($_GET)) {
         echo '</div>';
         echo '</form><br>';
 
+       
+        
+
         // Get users with pagination and role filter
         $user_args = array(
             'number' => $posts_per_page,
@@ -460,8 +471,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && !empty($_GET)) {
         }
 
 
-
-
         $users = get_users($user_args);
 
         // Get total user count for pagination
@@ -480,6 +489,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && !empty($_GET)) {
             $email_addresses[] = $user->user_email;
         }
         $comma_separated_emails = implode(', ', $email_addresses);
+
+?>
+        <form method="get" action="" style="margin-top: 10px;">
+            <input type="hidden" name="page" value="alerts">
+            <input type="hidden" name="export_csv" value="1">
+            <?php if ($selected_role): ?><input type="hidden" name="role" value="<?php echo esc_attr($selected_role); ?>"><?php endif; ?>
+            <?php if ($selected_hsw_alerts): ?><input type="hidden" name="hsw_alerts" value="<?php echo esc_attr($selected_hsw_alerts); ?>"><?php endif; ?>
+            <?php if ($selected_finance_alerts): ?><input type="hidden" name="finance_alerts" value="<?php echo esc_attr($selected_finance_alerts); ?>"><?php endif; ?>
+            <?php if ($selected_hr_alerts): ?><input type="hidden" name="hr_alerts" value="<?php echo esc_attr($selected_hr_alerts); ?>"><?php endif; ?>
+            <?php if ($user_is_staff): ?><input type="hidden" name="user_is_staff" value="<?php echo esc_attr($user_is_staff); ?>"><?php endif; ?>
+            <?php if ($user_is_active): ?><input type="hidden" name="user_is_active" value="<?php echo esc_attr($user_is_active); ?>"><?php endif; ?>
+            <input type="hidden" name="_wpnonce" value="<?php echo wp_create_nonce('alerts_filter_nonce'); ?>">
+            <input type="submit" value="Export as CSV" class="button button-secondary">
+        </form>
+<?php
       
         // Display users table
         echo '<table class="wp-list-table widefat fixed striped">';
@@ -644,4 +668,115 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && !empty($_GET)) {
         echo '</form>';
         echo '</div>';
     }
+}
+
+// Handle CSV export
+add_action('admin_init', 'infospace_export_users_report_csv');
+
+function infospace_export_users_report_csv()
+{
+    if (isset($_GET['export_csv']) && $_GET['export_csv'] == '1' && isset($_GET['page']) && $_GET['page'] == 'alerts') {
+        if (!current_user_can('manage_options')) {
+            wp_die('You do not have permission to access this page.');
+        }
+       
+        infospace_export_users_report_csv_ftn();
+        exit;
+    }
+}
+
+function infospace_export_users_report_csv_ftn()
+{
+    $prefix = 'theme_fields';
+    
+    // Get the same filters used in the main query
+    $selected_role = sanitize_text_field($_GET['role'] ?? '');
+    $selected_hsw_alerts = sanitize_text_field($_GET['hsw_alerts'] ?? '');
+    $selected_finance_alerts = sanitize_text_field($_GET['finance_alerts'] ?? '');
+    $selected_hr_alerts = sanitize_text_field($_GET['hr_alerts'] ?? '');
+    $user_is_staff = sanitize_text_field($_GET['user_is_staff'] ?? '');
+    $user_is_active = sanitize_text_field($_GET['user_is_active'] ?? '');
+
+    // Build the same query as the main page
+    $args = array(
+        'number' => -1 // Get all users for export
+    );
+
+    if (!empty($selected_role)) {
+        $args['role'] = $selected_role;
+    }
+
+    if (!empty($selected_hsw_alerts)) {
+        $args['meta_query'][] = array(
+            'key' => $prefix . 'user_hsw_alerts',
+            'value' => $selected_hsw_alerts,
+            'compare' => '='
+        );
+    }
+
+    if (!empty($selected_finance_alerts)) {
+        $args['meta_query'][] = array(
+            'key' => $prefix . 'user_finance_alerts',
+            'value' => $selected_finance_alerts,
+            'compare' => '='
+        );
+    }
+
+    if (!empty($selected_hr_alerts)) {
+        $args['meta_query'][] = array(
+            'key' => $prefix . 'user_hr_alerts',
+            'value' => $selected_hr_alerts,
+            'compare' => '='
+        );
+    }
+
+    if (!empty($user_is_staff)) {
+        $args['meta_query'][] = array(
+            'key' => $prefix . 'user_is_staff',
+            'value' => $user_is_staff,
+            'compare' => '='
+        );
+    }
+
+    if (!empty($user_is_active)) {
+        $args['meta_query'][] = array(
+            'key' => $prefix . 'user_is_active',
+            'value' => $user_is_active,
+            'compare' => '='
+        );
+    }
+
+    if (isset($args['meta_query']) && count($args['meta_query']) > 1) {
+        $args['meta_query']['relation'] = 'AND';
+    }
+
+    $users = get_users($args);
+
+    $filename = 'users_list_' . date('Y-m-d_H-i-s') . '.csv';
+    header('Content-Type: text/csv');
+    header('Content-Disposition: attachment; filename="' . $filename . '"');
+    header('Pragma: no-cache');
+    header('Expires: 0');
+
+    $output = fopen('php://output', 'w');
+    fputcsv($output, array('ID', 'Username', 'Email', 'Active', 'Staff', 'Role', 'Registration Date'));
+
+    foreach ($users as $user) {
+        $user_meta = get_user_meta($user->ID);
+        $is_active = isset($user_meta[$prefix . 'user_is_active'][0]) && $user_meta[$prefix . 'user_is_active'][0] == 'on' ? 'Yes' : 'No';
+        $is_staff = isset($user_meta[$prefix . 'user_is_staff'][0]) && $user_meta[$prefix . 'user_is_staff'][0] == 'on' ? 'Yes' : 'No';
+        $user_roles = implode(', ', $user->roles);
+        
+        fputcsv($output, array(
+            $user->ID,
+            $user->user_login,
+            $user->user_email,
+            $is_active,
+            $is_staff,
+            $user_roles,
+            date('Y-m-d', strtotime($user->user_registered))
+        ));
+    }
+
+    fclose($output);
 }
