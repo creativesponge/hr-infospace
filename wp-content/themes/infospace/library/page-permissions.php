@@ -12,8 +12,9 @@ function user_has_access($post_id): bool
     if (! is_user_logged_in()) {
         return false;
     }
+    
     // Check if user is in an allowed role
-    $allowed_roles = ['main', 'individual', 'employee', 'administrator', 'editor'];
+    $allowed_roles = ['main', 'individual', 'employee', 'administrator', 'editor', 'hsw_editor', 'hr_editor', 'finance_editor'];
     if (!array_intersect($allowed_roles, (array) $user->roles)) {
         return false;
     }
@@ -26,7 +27,7 @@ function user_has_access($post_id): bool
         return false;
     }
 
-    $allowed_child_roles = ['individual', 'employee'];
+    $allowed_child_roles = ['individual', 'employee', 'hsw_editor', 'hr_editor', 'finance_editor'];
     if (array_intersect($allowed_child_roles, (array) $user->roles)) {
 
         $created_by = get_user_meta($user->ID, $prefix . 'user_created_by', true);

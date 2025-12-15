@@ -373,7 +373,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && !empty($_GET)) {
             echo '</div>';
           
         echo '</div>';
-        echo '</form><br>';
+        echo '</form>';
 
        
         
@@ -502,7 +502,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && !empty($_GET)) {
             <?php if ($user_is_active): ?><input type="hidden" name="user_is_active" value="<?php echo esc_attr($user_is_active); ?>"><?php endif; ?>
             <input type="hidden" name="_wpnonce" value="<?php echo wp_create_nonce('alerts_filter_nonce'); ?>">
             <input type="submit" value="Export as CSV" class="button button-secondary">
-        </form>
+        </form><br>
 <?php
       
         // Display users table
