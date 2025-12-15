@@ -40,6 +40,7 @@ function cmb2_post_metabox()
             'query_args'      => array(
                 'posts_per_post' => 10,
                 'post_type'      => 'resource_page',
+                'post_parent' => 0,
             ), // override the get_posts args
         ),
     ));
@@ -93,8 +94,12 @@ function cmb2_post_metabox()
 
     ]);
 
+
+
     add_filter('manage_post_posts_columns', function($columns) use ($prefix) {
         $columns[$prefix . 'post_featured'] = __('Featured', 'hrinfospace');
+        $columns[$prefix . 'post_start_date'] = __('Start Date', 'hrinfospace');
+        $columns[$prefix . 'post_end_date'] = __('End Date', 'hrinfospace');
         return $columns;
     });
 
@@ -102,6 +107,12 @@ function cmb2_post_metabox()
         if ($column === $prefix . 'post_featured') {
             $value = get_post_meta($post_id, $prefix . 'post_featured', true);
             echo (!empty($value) && ($value === 'on' || $value === '1' || $value === 1)) ? '✔' : '';
+        } elseif ($column === $prefix . 'post_start_date') {
+            $value = get_post_meta($post_id, $prefix . 'post_start_date', true);
+            echo !empty($value) ? date('d/m/Y', $value) : '';
+        } elseif ($column === $prefix . 'post_end_date') {
+            $value = get_post_meta($post_id, $prefix . 'post_end_date', true);
+            echo !empty($value) ? date('d/m/Y', $value) : '';
         }
     }, 10, 2);
 }

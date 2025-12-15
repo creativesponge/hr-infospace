@@ -75,6 +75,7 @@ function cmb2_newsletter_metabox()
             'query_args'      => array(
                 'posts_per_post' => 10,
                 'post_type'      => 'resource_page',
+                'post_parent' => 0,
             ), // override the get_posts args
         ),
     ));
