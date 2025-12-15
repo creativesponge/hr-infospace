@@ -85,12 +85,20 @@ function cmb2_module_metabox() {
         ),
         'preview_size' => 'medium',
     ) );
-
-    $module->add_field( array(
-        'name' => __( 'Module listing image', 'hrinfospace' ),
-        'desc' => __( 'Upload a banner image for this module.', 'hrinfospace' ),
+$moduleSide = new_cmb2_box([
+        'id'            => $prefix .'module_details_side',
+        'title'         => 'Mobile',
+        'object_types'  => ['module'],
+        'context'       => 'side',
+        'priority'      => 'low',
+        'show_names'    => true,
+    ]);
+    $moduleSide->add_field( array(
+        'name' => __( 'Mobile listing image', 'hrinfospace' ),
+        'desc' => __( 'Upload a mobile listing image for this module.', 'hrinfospace' ),
         'id'   => $prefix . 'listing_image_mobile',
         'type' => 'file',
+        'context' => 'side',
         'options' => array(
             'url' => false,
         ),
@@ -107,6 +115,8 @@ function cmb2_module_metabox() {
         ),
         'preview_size' => 'medium',
     ) );
+
+     
 /*
     $module->add_field( array(
         'name'    => __( 'Select Pages', 'hrinfospace' ),
