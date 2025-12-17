@@ -761,7 +761,7 @@ function infospace_export_users_report_csv_ftn()
     header('Expires: 0');
 
     $output = fopen('php://output', 'w');
-    fputcsv($output, array('ID', 'Username', 'Email', 'Active', 'Staff', 'Role', 'Registration Date'));
+    fputcsv($output, array('ID', 'Username', 'Email', 'Active', 'Staff', 'Role', 'Registration Date', 'Expiry Date', 'Organisation name'));
 
     foreach ($users as $user) {
         $user_meta = get_user_meta($user->ID);
@@ -776,7 +776,9 @@ function infospace_export_users_report_csv_ftn()
             $is_active,
             $is_staff,
             $user_roles,
-            date('Y-m-d', strtotime($user->user_registered))
+            date('Y-m-d', strtotime($user->user_registered)),
+            isset($user_meta[$prefix . 'user_end_date'][0]) ? date('Y-m-d', $user_meta[$prefix . 'user_end_date'][0]) : '',
+            isset($user_meta[$prefix . 'user_organisation'][0]) ? $user_meta[$prefix . 'user_organisation'][0] : ''
         ));
     }
 
