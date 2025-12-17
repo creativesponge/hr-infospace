@@ -50,7 +50,7 @@ function newsletters_report_page_callback()
     // Sanitize inputs once
     $start_date = sanitize_text_field($_GET['start_date'] ?? '');
     $end_date = sanitize_text_field($_GET['end_date'] ?? '');
-    $page_id = intval($_GET['page_id'] ?? 0);
+    $page_id = intval($_GET['newsletter_id'] ?? 0);
     $module_id = intval($_GET['module_id'] ?? 0);
     $sort_order = ($_GET['sort_order'] ?? 'DESC') === 'ASC' ? 'ASC' : 'DESC';
 
@@ -74,7 +74,7 @@ function newsletters_report_page_callback()
             <br><br>
             
             <label for="page_id">Newsletter:&nbsp;</label>
-            <select name="page_id" id="page_id">
+            <select name="newsletter_id" id="page_id">
                 <option value="">All Newsletters</option>
                 <?php 
                 foreach ($newsletters as $newsletterid) {
@@ -184,7 +184,7 @@ function newsletters_report_page_callback()
             </script>
             <?php
         } else {
-            echo '<p>No page access data found for the selected criteria.</p>';
+            echo '<p>No newsletter access data found for the selected criteria.</p>';
         }
         ?>
     </div>
@@ -300,7 +300,7 @@ function infospace_export_newsletters_report_csv_ftn()
 {
     $start_date = sanitize_text_field($_GET['start_date'] ?? '');
     $end_date = sanitize_text_field($_GET['end_date'] ?? '');
-    $page_id = intval($_GET['document_id'] ?? 0);
+    $page_id = intval($_GET['newsletter_id'] ?? 0);
     $module_id = intval($_GET['module_id'] ?? 0);
     $sort_order = ($_GET['sort_order'] ?? 'DESC') === 'ASC' ? 'ASC' : 'DESC';
 

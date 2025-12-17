@@ -164,7 +164,7 @@ function login_report_page_callback()
             </script>
         <?php
         } else {
-            echo '<p>No page access data found for the selected criteria.</p>';
+            echo '<p>No login access data found for the selected criteria.</p>';
         }
         ?>
     </div>
