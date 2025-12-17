@@ -9,6 +9,7 @@ function user_has_access($post_id): bool
     global $prefix;
     $user = wp_get_current_user();
     $post_type = get_post_type($post_id);
+
     if (! is_user_logged_in()) {
         return false;
     }
@@ -19,17 +20,17 @@ function user_has_access($post_id): bool
         return false;
     }
 
+    //Check if the user is active
+    $is_active = get_user_meta($user->ID, $prefix . 'user_is_active', true);
+    if ($is_active !== 'on') {
+        return false;
+    }
+
     if (in_array('main', (array) $user->roles)) {
         // The user has the "main" role check they have page access
         if (user_has_page_access($user->ID, $post_id, $post_type)) {
             return true;
         }
-        return false;
-    }
-
-    //Check if the user is active
-    $is_active = get_user_meta($user->ID, $prefix . 'user_is_active', true);
-    if ($is_active !== 'on') {
         return false;
     }
 
@@ -86,11 +87,12 @@ function user_has_page_access($userid, $page_id, $post_type): bool
 {
     global $prefix;
     $profile_resources = get_user_profile_resources($userid);
-    if (!empty($profile_resources)) {
+    if (!empty($profile_resources)) { // if it has a profile use that first
         $attached_pages = $profile_resources;
     } else {
         $attached_pages = get_user_meta($userid, $prefix . 'user_attached_resource_pages', true);
     }
+
     // resource pages
     if ($post_type == 'resource_page' && (empty($attached_pages) || !in_array($page_id, $attached_pages))) {
         // Get parent pages recursively
@@ -120,9 +122,10 @@ function user_has_page_access($userid, $page_id, $post_type): bool
     }
 
     if ($post_type == 'attachment') {
+        
         //error_log('Relevant attachment: ' . print_r($page_id, true));
         // document files - find documents that contain this attachment
-        $attached_documents = get_posts([
+        $all_active_documents = get_posts([
             'post_type' => 'document',
             'post_status' => 'publish',
             'meta_query' => [
@@ -136,19 +139,25 @@ function user_has_page_access($userid, $page_id, $post_type): bool
             'numberposts' => -1,
             'fields' => 'ids'
         ]);
-
+//return $all_active_documents;
         // Filter documents that contain this attachment
         $relevant_documents = [];
-        foreach ($attached_documents as $document_id) {
+        foreach ($all_active_documents as $document_id) {
             $document_files = get_post_meta($document_id, $prefix . 'document_files', true);
             //error_log('doc files: ' . print_r($document_files[0], true));
-            if (!empty($document_files) && in_array($page_id, $document_files[0])) {
-                $relevant_documents[] = $document_id;
-               // error_log('Relevant document: ' . print_r($document_id, true));
+            //return var_dump($document_files);
+            if (!empty($document_files) && is_array($document_files)) {
+                foreach ($document_files as $file) {
+                    if (in_array($page_id, $file)) {
+                        $relevant_documents[] = $document_id;
+                        // error_log('Relevant document: ' . print_r($document_id, true));
+                        break; // Found the attachment in this document, no need to check other files
+                    }
+                }
             }
         }
         $attached_documents = $relevant_documents;
-
+//return $attached_documents;
         // Get the pages
         $attached_document_pages = get_posts([
             'post_type' => 'resource_page',
@@ -161,9 +170,14 @@ function user_has_page_access($userid, $page_id, $post_type): bool
         foreach ($attached_document_pages as $attached_page_id) {
             $attached_docs = get_post_meta($attached_page_id, $prefix . 'resource_attached_documents', true);
 
-            if (!empty($attached_docs) && in_array($attached_docs[0], $attached_documents)) {
-                $relevant_pages[] = $attached_page_id;
-                error_log('Relevant page: ' . print_r($attached_page_id, true));
+            if (!empty($attached_docs) && is_array($attached_docs)) {
+                foreach ($attached_docs as $attached_doc) {
+                    if (in_array($attached_doc, $attached_documents)) {
+                        $relevant_pages[] = $attached_page_id;
+                        //error_log('Relevant page: ' . print_r($attached_page_id, true));
+                        break; // Found a match, no need to check other docs for this page
+                    }
+                }
             }
         }
 
@@ -374,7 +388,7 @@ add_action('template_redirect', function () {
 
         // Get the file path from the attachment
         $file_path = get_attached_file($doc_id);
-        error_log('File path: ' . print_r($file_path, true));
+        //error_log('File path: ' . print_r($file_path, true));
         $filename = basename($file_path);
 
         if ($file_path && file_exists($file_path)) {
