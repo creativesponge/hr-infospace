@@ -1,92 +1,140 @@
 .page-banner-titles {
   margin-bottom: rem-calc(40);
+  background: $light-grey;
+
+  border-top-left-radius: rem-calc(20);
+  border-top-right-radius: rem-calc(20);
   
+   
   @include breakpoint(medium) {
     margin-bottom: rem-calc(60);
+    border-top-left-radius: rem-calc(30);
+    border-top-right-radius: rem-calc(30);
+    padding-left: rem-calc(30);
   }
-  
+
   @include breakpoint(large) {
-    margin-bottom: rem-calc(90);
+    //margin-bottom: rem-calc(90);
+    border-top-left-radius: rem-calc(50);
+    border-top-right-radius: rem-calc(50);
   }
 
   &:first-child {
-   // margin-top: -1rem;
-    
+    // margin-top: -1rem;
+
     @include breakpoint(medium) {
       //margin-top: -3rem;
     }
   }
 
+  &:after {
+    content: "";
+    background: $white;
+
+    height: rem-calc(20);
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    border-top-left-radius: rem-calc(20);
+    border-top-right-radius: rem-calc(20);
+    @include breakpoint(medium) {
+      height: rem-calc(30);
+      border-top-left-radius: rem-calc(30);
+      border-top-right-radius: rem-calc(30);
+    }
+    @include breakpoint(large) {
+      height: rem-calc(50);
+      border-top-left-radius: rem-calc(50);
+      border-top-right-radius: rem-calc(50);
+    }
+  }
+
   &__inner {
-    max-width: rem-calc(1160);
+    max-width: $global-width-inner;
     display: flex;
     align-items: center;
     justify-content: flex-start;
     flex-direction: column;
     margin: auto;
-    
+
     @include breakpoint(medium) {
       flex-direction: row;
       height: rem-calc(400);
     }
-    
+
     @include breakpoint(large) {
       height: rem-calc(480);
+    }
+    @include breakpoint(xlarge) {
+      height: rem-calc(630);
     }
   }
 
   &__background {
     height: rem-calc(230);
     width: 100%;
-    
+    overflow: hidden;
+
     @include breakpoint(medium) {
       position: absolute;
-      left: 0;
+
+      right: 0;
       top: 0;
+      width: 47%;
       height: rem-calc(400);
     }
-    
     @include breakpoint(large) {
       height: rem-calc(480);
+    }
+    @include breakpoint(xlarge) {
+      height: rem-calc(630);
     }
 
     img {
       //display: none;
-      
+      border-top-right-radius: rem-calc(20);
       @include breakpoint(medium) {
         display: block;
         height: 100%;
         width: 100%;
         object-fit: cover;
+        border-top-right-radius: rem-calc(30);
+      }
+      @include breakpoint(large) {
+        border-top-right-radius: rem-calc(50);
+      }
+    }
+    svg {
+      display: none;
+
+      @include breakpoint(medium) {
+        display: block;
+        position: absolute;
+        left: -1px;
+        top: 0;
+        width: auto;
+        height: 100%;
       }
     }
   }
 
   &__headings {
-    background: $dark-grey;
+    padding: rem-calc(0 20 30 20);
     position: relative;
-    padding: rem-calc(30 30 80 30);
-    color: #fff;
-    
     @include breakpoint(medium) {
-      padding: rem-calc(30);
       max-width: rem-calc(426);
-      margin-left: rem-calc(50);
+      margin-right: rem-calc(50);
+      padding: rem-calc(0);
     }
-    
+
     @include breakpoint(large) {
-      padding: rem-calc(50);
       max-width: rem-calc(526);
+      margin-right: rem-calc(70);
     }
 
     h3 {
-      color: inherit;
       margin-bottom: 0.4em;
-      font-size: rem-calc(30);
-      
-      @include breakpoint(medium) {
-        font-size: rem-calc(40);
-      }
     }
 
     p {
@@ -101,7 +149,7 @@
     height: 100%;
     background-size: cover;
     background-position: center;
-    
+
     @include breakpoint(medium) {
       display: none;
     }

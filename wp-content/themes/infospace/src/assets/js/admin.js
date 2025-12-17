@@ -1,6 +1,6 @@
 // Import custom modules and init
 
-import pagebannertitles from "./lib/admin/blocks/page-banner-titles/index.js";
+
 import stats from "./lib/admin/blocks/stats/index.js";
 import stat from "./lib/admin/blocks/stat/index.js";
 import image_text from "./lib/admin/blocks/image-text/index.js";
@@ -39,12 +39,11 @@ import accept_terms from "./lib/admin/blocks/accept-terms/index.js";
 import accept_privacy from "./lib/admin/blocks/accept-privacy/index.js";
 import forgot_password from "./lib/admin/blocks/forgot-password/index.js";
 import site_map from "./lib/admin/blocks/site-map/index.js";
+import pagebannertitles from "./lib/admin/blocks/page-banner-titles/index.js";
 
-pagebannertitles.init();
 stats.init();
 stat.init();
 image_text.init();
-
 accordion.init();
 contact_form.init();
 video.init();
@@ -81,6 +80,7 @@ accept_terms.init();
 accept_privacy.init();
 forgot_password.init();
 site_map.init();
+pagebannertitles.init();
 
 // Remove default block styles
 wp.domReady(() => {

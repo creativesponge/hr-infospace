@@ -59,7 +59,7 @@
     li.is-dropdown-submenu-parent {
       display: flex;
       justify-content: space-between;
-      align-items: flex-end;
+      align-items: center;
       overflow: hidden;
       @include breakpoint(large) {
         justify-content: flex-start;
@@ -103,12 +103,12 @@
         transition: all 0.25s;
         color: $infospace-red;
         padding: rem-calc(5 36 5 15);
-        margin-bottom: 0.2em;
-        margin-top: 0.2em;
+        margin-bottom: 0.4em;
+        margin-top: 0.4em;
         border-radius: rem-calc(20);
         font-size: rem-calc(18);
         @include breakpoint(large) {
-          transform: translateY(130%);
+          transform: translateY(200%);
         }
         &:before {
           background: $infospace-red;
@@ -143,7 +143,7 @@
       &:hover {
         button.drop-down__more {
           @include breakpoint(large) {
-            transform: translateY(-25%);
+            transform: translateY(0%);
           }
         }
       }

@@ -13,20 +13,20 @@ $imageId = (array_key_exists('attachmentId', $block_attributes)) ? $block_attrib
 
 ?>
 <section class="image-text <?php echo $alignmentClass ?>">
+	<div class="image-text__colour">
+		<div class="image-text__container">
 
-	<div class="image-text__container">
-
-		<div class="image-text__content">
-			<div class="image-text__text">
-				<?php echo $block_content; ?>
+			<div class="image-text__content">
+				<div class="image-text__text">
+					<?php echo $block_content; ?>
+				</div>
 			</div>
+			<?php if ($imageId) { ?>
+				<div class="image-text__image">
+					<?php echo wp_get_attachment_image($imageId, 'imagetext', '', ["class" => "wp-image-$imageId"]); ?>
+				</div>
+			<?php } ?>
+
 		</div>
-		<?php if ($imageId) { ?>
-			<div class="image-text__image">
-				<?php echo wp_get_attachment_image($imageId, 'imagetext', '', ["class" => "wp-image-$imageId"]); ?>			
-			</div>
-		<?php } ?>
-
 	</div>
-
 </section>

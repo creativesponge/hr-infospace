@@ -405,7 +405,8 @@ var utils = {
       newsletter.addEventListener("click", (e) => {
         const newsletterId = e.currentTarget.dataset.newsletterId;
         const newsletterUrl = e.currentTarget.href;
-        const fileName = e.currentTarget.dataset.newsletterName || document.title;
+        const fileName =
+          e.currentTarget.dataset.newsletterName || document.title;
 
         /*if (
           e.target.tagName.toLowerCase() === "svg" ||
@@ -416,7 +417,8 @@ var utils = {
 
         // Send AJAX request to log download click
         fetch(
-          ajaxVarsNewsletters.newsletters_ajax_url + "?action=log_newsletter_click",
+          ajaxVarsNewsletters.newsletters_ajax_url +
+            "?action=log_newsletter_click",
           {
             method: "POST",
             headers: {
@@ -1290,8 +1292,7 @@ event.preventDefault();
 
   quickLinksToggle: function () {
     // console.log("quick links toggle init");
-    var quickLinks = document.querySelectorAll(".quick-links"),
-      toggleBtn = document.querySelectorAll(".quick-links__toggle");
+    var toggleBtn = document.querySelectorAll(".quick-links__toggle");
 
     for (var i = 0; i < toggleBtn.length; i++) {
       toggleBtn[i].addEventListener("click", function (e) {
@@ -1303,10 +1304,17 @@ event.preventDefault();
         if (!parent.classList.contains("quick-links--expanded")) {
           // Open panel
           parent.classList.add("quick-links--expanded");
+          setTimeout(() => {
+            parent.classList.add("quick-links--fadein");
+          }, 250);
           $this.setAttribute("aria-expanded", "true");
         } else {
           // Close panel
-          parent.classList.remove("quick-links--expanded");
+          parent.classList.remove("quick-links--fadein");
+          setTimeout(() => {
+            parent.classList.remove("quick-links--expanded");
+          }, 250);
+
           $this.setAttribute("aria-expanded", "false");
         }
 
@@ -1410,20 +1418,20 @@ event.preventDefault();
   },
 
   target_clicks: function () {
-
     //If .module-teaser__target is clicked, go to the link
-    const moduleTeaserTargets = document.querySelectorAll('.x-large-teaser__target, .large-teaser__target, .module-panel__news-grid-featured-post,.resource-module__news-teaser');
+    const moduleTeaserTargets = document.querySelectorAll(
+      ".x-large-teaser__target, .large-teaser__target, .module-panel__news-grid-featured-post,.resource-module__news-teaser"
+    );
 
-    moduleTeaserTargets.forEach(function (moduleTeaserTarget) { 
-      moduleTeaserTarget.addEventListener('click', function (e) {
-        const buttonLink = moduleTeaserTarget.querySelector('.arrow-link');
-        const link = buttonLink ? buttonLink.getAttribute('href') : null;
+    moduleTeaserTargets.forEach(function (moduleTeaserTarget) {
+      moduleTeaserTarget.addEventListener("click", function (e) {
+        const buttonLink = moduleTeaserTarget.querySelector(".arrow-link");
+        const link = buttonLink ? buttonLink.getAttribute("href") : null;
         if (link) {
           window.location.href = link;
         }
       });
     });
-   
   },
 
   // Ajax autocomplete search

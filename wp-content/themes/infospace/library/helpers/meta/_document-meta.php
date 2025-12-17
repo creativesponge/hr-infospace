@@ -127,6 +127,7 @@ function cmb2_document_metabox() {
     // Add is active column to admin list view
     add_filter('manage_document_posts_columns', function($columns) use ($prefix) {
         $columns[$prefix . 'document_is_active'] = 'Active';
+         $columns[$prefix . 'document_url'] = 'Embed url';
         return $columns;
     });
 
@@ -145,11 +146,6 @@ function cmb2_document_metabox() {
 
         $orderby = $query->get('orderby');
         
-        if ($orderby == $prefix . 'document_url') {
-            $query->set('meta_key', $prefix . 'document_url');
-            $query->set('orderby', 'meta_value');
-        }
-        
         if ($orderby == $prefix . 'document_is_active') {
             $query->set('meta_key', $prefix . 'document_is_active');
             $query->set('orderby', 'meta_value');
@@ -161,19 +157,27 @@ function cmb2_document_metabox() {
             $is_active = get_post_meta($post_id, $prefix . 'document_is_active', true);
             echo $is_active == 'on' ? '✓' : '✗';
         }
+        if ($column == $prefix . 'document_url') {
+            $attachedFilesArray = get_post_meta($post_id, $prefix . 'document_files', true);
+            $document_url = get_site_url() . '/download-document/'. $attachedFilesArray[0][$prefix . 'doc_uploaded_file_id'];
+            echo esc_url($document_url);
+        }
     }, 10, 2);
 
     $document->add_group_field($prefix . 'document_files', [
         'id'        => $prefix . 'doc_uploaded_file',
         'name'      => 'Upload File',
-        'desc'      => 'Upload the document file',
+        'desc'      => 'Upload the document file' ,
         'type'      => 'file',
+       
         'options'   => [
             'url' => false, // Hide the text input for the URL
         ],
          'column'    => true,
         'sortable'  => true,
+        
     ]);
+
     $document->add_group_field($prefix . 'document_files', [
         'id'        => $prefix .'old_system_doc_file_id',
         'name'      => 'Old System ID',
@@ -184,7 +188,7 @@ function cmb2_document_metabox() {
             'style' => 'display: none;'
         ],
     ]);
-    
+
     $documentSide = new_cmb2_box([
         'id'            => $prefix .'document_details_side',
         'title'         => 'Document info',
@@ -224,13 +228,14 @@ function cmb2_document_metabox() {
 
     $documentSide->add_field([
         'id'        => $prefix .'sort_order',
-        'name'      => 'Sort Order',
+        'name'      => 'Sort Order (From old system)',
         'desc'      => 'Order for sorting documents',
         'type'      => 'text_small',
         'attributes' => [
             'type' => 'number',
             'min'  => 0,
             'readonly' => 'readonly',
+            
         ],
     ]);
 

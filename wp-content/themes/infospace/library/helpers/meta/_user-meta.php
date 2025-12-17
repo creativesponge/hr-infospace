@@ -240,7 +240,7 @@ function cmb2_user_metabox()
 
     $user->add_field([
         'id'        => $prefix . 'user_is_staff',
-        'name'      => 'Is Staff',
+        'name'      => 'Is Staff (Not used)',
         'desc'      => 'Check if this user is a staff member',
         'type'      => 'checkbox',
         'attributes' => [
@@ -294,7 +294,7 @@ function cmb2_user_metabox()
             'show_thumbnails' => true, // Show thumbnails on the left
             'filter_boxes'    => true, // Show a text box for filtering the results
             'query_args'      => array(
-                'posts_per_post' => 10,
+                'posts_per_page' => 10,
                 'post_type'      => 'user_profile',
             ), // override the get_posts args
         ),
@@ -314,7 +314,7 @@ function cmb2_user_metabox()
             'show_thumbnails' => true, // Show thumbnails on the left
             'filter_boxes'    => true, // Show a text box for filtering the results
             'query_args'      => array(
-                'posts_per_post' => 10,
+                'posts_per_page' => -1,
                 'post_type'      => 'resource_page',
             ), // override the get_posts args
         ),

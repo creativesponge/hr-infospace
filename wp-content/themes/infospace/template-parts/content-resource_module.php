@@ -26,7 +26,8 @@ $updatesLogDate = isset($settings[$prefix . 'updates_log_date']) ? $settings[$pr
 if (!empty($updatesLogDate) && !is_numeric($updatesLogDate)) {
 	$updatesLogDate = strtotime($updatesLogDate);
 }
-$updatesLogDate = date('F j, Y', $updatesLogDate);
+$updatesLogDate = date('j F Y', $updatesLogDate);
+
 //$filename = $newsletter_meta->newsletter_file;
 $log_doc_id = $settings[$prefix . 'updates_log_file_id'];
 $log_file_svg = get_file_svg_from_filename($updatesLog);
@@ -293,7 +294,7 @@ $download_svg = ob_get_clean();
 						echo '<div class="module-panel__content">';
 						$featuredMeta = theme_get_meta($featured_post);
 						$featuredSummary = isset($featuredMeta->post_summary) ? $featuredMeta->post_summary : get_the_excerpt($featured_post);
-						$featuredUpdatedDate = date('jS F, Y', strtotime(get_the_date('Y-m-d', $featured_post)));
+						$featuredUpdatedDate = date('j F Y', strtotime(get_the_date('Y-m-d', $featured_post)));
 						$featuredPostImage = get_the_post_thumbnail($featured_post, 'featurednews') != '' ? get_the_post_thumbnail($featured_post, 'featurednews') : wp_get_attachment_image(1781, 'featurednews');
 
 						echo '<div class="grid-x module-panel__news-grid">';
@@ -317,7 +318,7 @@ $download_svg = ob_get_clean();
 						$newsID = get_the_ID();
 
 						$news_meta = theme_get_meta($newsID);
-						$updatedDate = get_the_date('jS F, Y', $newsID);
+						$updatedDate = get_the_date('j F Y', $newsID);
 						$attached_post_resources = isset($news_meta->post_attached_resource_pages) ? $news_meta->post_attached_resource_pages : '';
 						$postStartDate = isset($news_meta->post_start_date) ? $news_meta->post_start_date : '';
 						$postEndDate = isset($news_meta->post_end_date) ? $news_meta->post_end_date : '';
@@ -624,8 +625,8 @@ $download_svg = ob_get_clean();
 					$newsletterID = get_the_ID();
 					$newsletter_meta = theme_get_meta($newsletterID);
 					$updatedDate = isset($newsletter_meta->newsletter_date) && !empty($newsletter_meta->newsletter_date)
-						? date('F j, Y', $newsletter_meta->newsletter_date)
-						: get_the_date('F j, Y', $newsletterID);
+						? date('j F Y', $newsletter_meta->newsletter_date)
+						: get_the_date('j F Y', $newsletterID);
 					$startDate = isset($newsletter_meta->newsletter_start_date) ? $newsletter_meta->newsletter_start_date : '';
 					$endDate = isset($newsletter_meta->newsletter_end_date) ? $newsletter_meta->newsletter_end_date : '';
 					$attached_resources = isset($newsletter_meta->newsletter_attached_resource_pages) ? $newsletter_meta->newsletter_attached_resource_pages : '';
@@ -757,6 +758,7 @@ $download_svg = ob_get_clean();
 			$updatedDocsList = "";
 			$updatedDocsListPolicies = "";
 			if ($updated_query->have_posts()) {
+				
 				$updatedDocsList = "<ul>";
 				$updatedDocsListPolicies = "<ul>";
 
@@ -769,6 +771,7 @@ $download_svg = ob_get_clean();
 					$child_attached_doc_ids = array();
 
 					foreach ($child_pages as $child_page_id) {
+						
 						if (user_has_access($child_page_id) === false) {
 							continue;
 						}
@@ -783,7 +786,7 @@ $download_svg = ob_get_clean();
 						}
 					}
 					$child_attached_doc_ids = array_unique($child_attached_doc_ids);
-					//var_dump($doc);
+					//var_dump($child_attached_doc_ids);
 					if (!in_array($docID, $child_attached_doc_ids)) {
 
 						continue;

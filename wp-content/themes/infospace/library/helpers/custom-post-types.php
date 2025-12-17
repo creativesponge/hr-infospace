@@ -500,15 +500,15 @@ function page_link_sortable_columns($columns)
     return $columns;
 }
 
-//Add an admin column for the document post type which shows the resource_page post types where thie lost id is in the $prefix . 'resource_attached_documents' field
-add_filter('manage_page_link_posts_columns', 'add_document_link_column');
-function add_document_link_column($columns)
+//Add an admin column for the page_link post type which shows the resource_page post types where this post id is in the $prefix . 'resource_attached_links' field
+add_filter('manage_page_link_posts_columns', 'add_page_link_resource_column');
+function add_page_link_resource_column($columns)
 {
     $columns['related_resources'] = 'Attached to';
     return $columns;
 }
-add_action('manage_page_link_posts_custom_column', 'show_document_link_column', 10, 2);
-function show_document_link_column($column, $post_id)
+add_action('manage_page_link_posts_custom_column', 'show_page_link_resource_column', 10, 2);
+function show_page_link_resource_column($column, $post_id)
 {
     global $prefix;
     if ($column == 'related_resources') {
@@ -531,6 +531,27 @@ function show_document_link_column($column, $post_id)
         } else {
             echo '—';
         }
+    }
+}
+
+// Make the related_resources column sortable
+add_filter('manage_edit-page_link_sortable_columns', 'page_link_related_resources_sortable');
+function page_link_related_resources_sortable($columns)
+{
+    $columns['related_resources'] = 'related_resources';
+    return $columns;
+}
+
+// Handle sorting by related resources
+add_action('pre_get_posts', 'page_link_orderby_related_resources');
+function page_link_orderby_related_resources($query)
+{
+    if (!is_admin() || !$query->is_main_query()) {
+        return;
+    }
+
+    if ('related_resources' === $query->get('orderby')) {
+        $query->set('orderby', 'meta_value');
     }
 }
 
@@ -716,36 +737,6 @@ function post_type_user_view()
 
 function add_custom_taxonomies()
 {
-    // Add new "Team" taxonomy to Posts
-    /*register_taxonomy('team', 'person', array(
-        // Hierarchical taxonomy (like categories)
-        'hierarchical' => false,
-        // This array of options controls the labels displayed in the WordPress Admin UI
-        'labels' => array(
-            'name' => _x('Team', 'taxonomy general name'),
-            'singular_name' => _x('Team', 'taxonomy singular name'),
-            'search_items' =>  __('Search Team'),
-            'all_items' => __('All Teams'),
-            'parent_item' => __('Parent Team'),
-            'parent_item_colon' => __('Parent Team:'),
-            'edit_item' => __('Edit Team'),
-            'update_item' => __('Update Team'),
-            'add_new_item' => __('Add New Team'),
-            'new_item_name' => __('New Team Name'),
-            'menu_name' => __('Teams'),
-        ),
-        // Control the slugs used for this taxonomy
-        'rewrite' => array(
-            'slug' => 'team', // This controls the base slug that will display before each term
-            'with_front' => false, // Don't display the category base before "/locations/"
-
-            //'query_var' => true,
-            //'rewrite' => array( 'slug' => 'topic' ),
-        ),
-        'show_in_rest'      => true, // Gutenberg support
-        'show_admin_column' => true,
-    ));
-*/
 
     // Add document taxonomy
     register_taxonomy('doc_type', 'document', array(
@@ -778,3 +769,49 @@ function add_custom_taxonomies()
     ));
 }
 add_action('init', 'add_custom_taxonomies', 0);
+
+
+// Add filter dropdown for doc_type in document admin
+add_action('restrict_manage_posts', 'add_doc_type_filter_dropdown');
+function add_doc_type_filter_dropdown() {
+    global $typenow;
+    
+    if ($typenow == 'document') {
+        $selected = isset($_GET['doc_type_id']) ? $_GET['doc_type_id'] : '';
+        $info_taxonomy = get_taxonomy('doc_type');
+        wp_dropdown_categories(array(
+            'show_option_all' => __("All {$info_taxonomy->label}"),
+            'taxonomy' => 'doc_type',
+            'name' => 'doc_type_id',
+            'orderby' => 'name',
+            'selected' => $selected,
+            'show_count' => true,
+            'hide_empty' => true,
+        ));
+    }
+}
+
+// Handle the filter
+add_filter('parse_query', 'filter_documents_by_doc_type');
+function filter_documents_by_doc_type($query) {
+    global $pagenow;
+    
+    // Only modify the query if we're in admin and it's the main query for the document post type
+    if (!is_admin() || !$query->is_main_query() || $pagenow !== 'edit.php') {
+        return;
+    }
+    
+    $type = isset($_GET['post_type']) ? $_GET['post_type'] : 'document';
+    
+    if ($type == 'document' && isset($_GET['doc_type_id']) && $_GET['doc_type_id'] != '' && is_numeric($_GET['doc_type_id'])) {
+        $query->query_vars['tax_query'] = array(
+            array(
+                'taxonomy' => 'doc_type',
+                'field'    => 'term_id',
+                'terms'    => intval($_GET['doc_type_id']),
+            ),
+        );
+    }
+}
+
+

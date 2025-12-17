@@ -25,7 +25,7 @@ function cmb2_user_profile_metabox()
             'show_thumbnails' => true, // Show thumbnails on the left
             'filter_boxes'    => true, // Show a text box for filtering the results
             'query_args'      => array(
-                'posts_per_post' => 10,
+                'posts_per_page' => -1, 
                 'post_type'      => 'resource_page',
             ), // override the get_posts args
         ),

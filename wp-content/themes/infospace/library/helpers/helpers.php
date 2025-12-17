@@ -322,7 +322,8 @@ function remove_personal_options()
         .yoast.yoast-settings,
         .application-passwords,
         .user-role-main #dashboard-widgets,
-        .user-role-main ul.subsubsub {
+        .user-role-main ul.subsubsub,
+        #createuser .form-table .form-field:nth-child(5) {
             display: none !important;
         }
           

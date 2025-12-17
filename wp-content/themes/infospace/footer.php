@@ -15,7 +15,8 @@ $sitePhone = isset($settings[$prefix . 'phone']) ? $settings[$prefix . 'phone'] 
 $siteAddress = isset($settings[$prefix . 'address']) ? $settings[$prefix . 'address'] : '';
 $copyright = isset($settings[$prefix . 'copyright']) ? $settings[$prefix . 'copyright'] : '';
 
-$moduleMetaList = get_current_module_meta(null);
+$current_module_id_global = isset($_SESSION['current_module_id']) ? $_SESSION['current_module_id'] : '';
+$moduleMetaList = get_current_module_meta($current_module_id_global);
 $moduleMeta = theme_get_meta($moduleMetaList['module_id'] ?? null);
 if (isset($moduleMeta->module_phone_number)) {
 	$sitePhone = $moduleMeta->module_phone_number;

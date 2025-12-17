@@ -11,6 +11,12 @@
 if (session_status() === PHP_SESSION_NONE) {
 	session_start();
 }
+$post_id = get_the_ID();
+if ($post_id === 1728) {
+	$_SESSION['current_module_id'] = null;
+} else {
+	$current_module_id_global = isset($_SESSION['current_module_id']) ? $_SESSION['current_module_id'] : '';
+}
 get_current_module_meta(null);
 $current_module_id_global = isset($_SESSION['current_module_id']) ? $_SESSION['current_module_id'] : '';
 //$current_user_favourites = isset($_SESSION['current_user_favourite_ids']) ? $_SESSION['current_user_favourite_id'] : '';
@@ -144,8 +150,9 @@ if (get_the_ID() === 1581 && $current_module_id_global === '') { // redirect for
 				<div class="header__nav">
 					<nav class="site-navigation header__top-bar" role="navigation" id="off-canvas-menu">
 
-						<?php if (is_user_logged_in() && ((get_post_type() == 'resource_page' || get_post_type() == 'post') || in_array(get_the_ID(), $resource_pages)) ) : ?>
+						<?php if (is_user_logged_in() && ((get_post_type() == 'resource_page' || get_post_type() == 'post') && $current_module_id_global != null) || (in_array(get_the_ID(), $resource_pages) && $current_module_id_global != null) ) : ?>
 							<?php get_search_form(); ?>
+							
 						<?php endif; ?>
 						<?php startertheme_top_bar_r(); ?>
 

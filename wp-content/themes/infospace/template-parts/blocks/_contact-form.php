@@ -34,7 +34,7 @@ $pageModuleMeta = get_current_module_meta($current_module_id_global);
 						$phone = isset($moduleMeta->module_phone_number) ? $moduleMeta->module_phone_number : '';
 						$email = isset($moduleMeta->module_email_address) ? $moduleMeta->module_email_address : '';
 
-						if (($phone || $email) && ($pageModuleMeta['module_id'] == $moduleId) || !is_user_logged_in()) : ?>
+						if (($phone || $email) && ($pageModuleMeta['module_id'] == $moduleId || $current_module_id_global == null) || !is_user_logged_in()) : ?>
 							<div class="module-contact">
 								<?php echo '<h2><strong>' . get_the_title() . '</strong></h2>'; ?>
 								<p><?php if ($phone) : ?>

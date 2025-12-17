@@ -45,6 +45,7 @@ function cmb2_page_metabox()
         'id'      => $prefix . 'resource_attached_documents',
         'type'    => 'custom_attached_posts',
         'column'  => true, // Output in the admin post-listing as a custom column. https://github.com/CMB2/CMB2/wiki/Field-Parameters#column
+
         'options' => array(
             'show_thumbnails' => true, // Show thumbnails on the left
             'filter_boxes'    => true, // Show a text box for filtering the results

@@ -4,10 +4,25 @@
 
   @include breakpoint(medium) {
     margin-bottom: rem-calc(60);
+    padding-right: rem-calc(230);
   }
 
   @include breakpoint(large) {
     margin-bottom: rem-calc(100);
+    max-width: $global-width-inner;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  &__colour {
+    background: $light-grey;
+    border-radius: rem-calc(20);
+    @include breakpoint(medium) {
+      border-radius: rem-calc(30);
+    }
+    @include breakpoint(large) {
+      border-radius: rem-calc(50);
+    }
   }
 
   &__container {
@@ -16,35 +31,39 @@
     display: flex;
     flex-direction: column;
 
+    padding: rem-calc(30);
+
     @include breakpoint(medium) {
       flex-direction: row;
+    }
+    @include breakpoint(large) {
+      padding: rem-calc(40 0);
+      margin-right: rem-calc(-230);
     }
   }
 
   &__content {
     order: 2;
     padding: rem-calc(60 40 0 40);
-    text-align: center;
-
     @include breakpoint(medium) {
-      text-align: right;
-      padding: rem-calc(0 30 0 0);
-      width: 50%;
+      padding: rem-calc(50 30 50 50);
+      width: 60%;
       display: flex;
       justify-content: flex-end;
     }
 
     @include breakpoint(large) {
       padding-right: rem-calc(40);
+      padding-left: rem-calc(80);
     }
 
     @include breakpoint(xlarge) {
-      padding-right: rem-calc(60);
+      // padding-right: rem-calc(60);
     }
   }
 
   &__text {
-    max-width: rem-calc(510);
+    max-width: rem-calc(590);
   }
 
   &__image {
@@ -53,42 +72,57 @@
     text-align: center;
 
     @include breakpoint(medium) {
-      width: 50%;
+      width: 40%;
       order: 3;
-      margin: auto;
+      //margin: auto;
+      //padding-right: rem-calc(40);
     }
 
     img {
       margin: 0 auto;
-
+      border-radius: rem-calc(20);
       @include breakpoint(medium) {
-        margin-left: rem-calc(30);
+        //margin-left: rem-calc(30);
+        //border-radius: rem-calc(30);
       }
 
       @include breakpoint(large) {
-        margin-left: rem-calc(40);
+        //margin-left: rem-calc(40);
+        //border-radius: rem-calc(50);
       }
     }
   }
 
   &--reversed {
+    padding-right: rem-calc(230);
+    @include breakpoint(medium) {
+      padding-left: rem-calc(230);
+      padding-right: 0;
+    }
     .image-text__image {
       @include breakpoint(medium) {
         order: 1;
       }
 
-      .img {
+      img {
         @include breakpoint(medium) {
-          margin: rem-calc(0 30 0 0);
+          // margin: rem-calc(0 30 0 0);
         }
 
         @include breakpoint(large) {
-          margin: rem-calc(0 40 0 0);
+          // margin: rem-calc(0 40 0 0);
         }
 
         @include breakpoint(xlarge) {
-          margin: rem-calc(0 80 0 0);
+          //margin: rem-calc(0 80 0 0);
         }
+      }
+    }
+
+    .image-text__container {
+      @include breakpoint(large) {
+        margin-right: 0;
+        margin-left: rem-calc(-230);
       }
     }
 

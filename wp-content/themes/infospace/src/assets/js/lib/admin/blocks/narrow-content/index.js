@@ -89,7 +89,7 @@ var narrow_content = {
                   <PanelRow>
                     <ToggleControl
                       id="narrow-content-toggle"
-                      label={__("Very narrow", "themename")}
+                      label={__("Align left", "themename")}
                       checked={attributes.contentWidth}
                       onChange={setWidth}
                     />

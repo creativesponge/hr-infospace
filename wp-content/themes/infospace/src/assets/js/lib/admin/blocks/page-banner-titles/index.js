@@ -16,9 +16,10 @@ var page_banner_titles = {
       const { __ } = wp.i18n; // Import __() from wp.i18n
       const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
 
-      const { MediaUpload, InspectorControls, PlainText } = wp.blockEditor;
+      const { InnerBlocks, MediaUpload, InspectorControls, PlainText } =
+        wp.blockEditor;
       const { Button, PanelBody, PanelRow } = wp.components;
-      
+
       /**
        * Custom SVG path
        */
@@ -46,6 +47,8 @@ var page_banner_titles = {
           <rect x="7.5" y="5.9" width="7" height="1.5" fill="#555d65" />
         </svg>
       );
+
+      const TEMPLATE = [["core/buttons", {}, []]];
       /**
        * Register: aa Gutenberg Block.
        *
@@ -99,9 +102,6 @@ var page_banner_titles = {
             default: null,
           },
           mainHeading: {
-            type: "string",
-          },
-          strapLine: {
             type: "string",
           },
         },
@@ -239,10 +239,7 @@ var page_banner_titles = {
           }
 
           return (
-            <div
-              className={className}
-              style={{ backgroundImage: `url(${attributes.backgroundImage})` }}
-            >
+            <div className={className}>
               <InspectorControls>
                 <PanelBody title={__("Mobile", "themename")}>
                   <div
@@ -280,23 +277,19 @@ var page_banner_titles = {
                     className="page-banner-titles-heading-text"
                   />
                 </h1>
-                <p className="page-banner-titles-strapline">
-                  <PlainText
-                    onChange={(content) =>
-                      setAttributes({ strapLine: content })
-                    }
-                    value={attributes.strapLine}
-                    placeholder="Enter sub heading here"
-                    className="page-banner-titles-strapline-text"
-                  />
-                </p>
+                <div className="narrow-content-container">
+                  <InnerBlocks template={TEMPLATE} />
+                </div>
+              </div>
+              <div className="banner-page-title__image" style={{ backgroundImage: `url(${attributes.backgroundImage})` }}>
+
               </div>
             </div>
           );
         },
 
         save: function ({ attributes }) {
-          return null;
+          return <InnerBlocks.Content />;
         },
       });
     }

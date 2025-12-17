@@ -1,5 +1,5 @@
 <?php $postype = get_post_type(); ?>
-<div class="yoast-breadcrumbs full-width">
+<div class="yoast-breadcrumbs">
     <?php if ($postype == 'post') { ?>
         <span><a href="/news/">News</a> &gt; <span class="breadcrumb_last" aria-current="page"><?php the_title(); ?></span></span>
     <?php } else if ($postype == 'vacancy') { ?>

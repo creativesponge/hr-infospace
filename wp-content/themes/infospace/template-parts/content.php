@@ -7,7 +7,7 @@
  */
 
 global $namespace;
-echo "content";
+
 
 ?>
 

@@ -73,7 +73,7 @@ function cmb2_newsletter_metabox()
             'show_thumbnails' => true, // Show thumbnails on the left
             'filter_boxes'    => true, // Show a text box for filtering the results
             'query_args'      => array(
-                'posts_per_post' => 10,
+                'posts_per_page' => -1,
                 'post_type'      => 'resource_page',
                 'post_parent' => 0,
             ), // override the get_posts args

@@ -15,7 +15,7 @@
   }
   @include breakpoint(large) {
     width: rem-calc(448);
-     margin-top: rem-calc(-10);
+    margin-top: rem-calc(-10);
   }
   &__toggle {
     padding: rem-calc(11 60 11 15);
@@ -81,12 +81,12 @@
     left: 0;
     border-bottom-left-radius: rem-calc(20);
     border-bottom-right-radius: rem-calc(20);
-    transition: width 0.25s ease;
-    height: 0;
+    transition: width 0.25s ease, max-height 0.25s ease;
+    max-height: 0;
     overflow: hidden;
     width: calc(100% - 40px);
     @include breakpoint(medium) {
-       margin: 0;
+      margin: 0;
       width: rem-calc(277);
     }
     @include breakpoint(large) {
@@ -99,6 +99,8 @@
       break-inside: avoid;
     }
     li {
+      opacity: 0;
+      transition: opacity 0.25s ease;
       margin-bottom: 0rem;
       border-bottom: $white 1px solid;
       &:last-child {
@@ -166,6 +168,15 @@
     }
   }
 
+  &--fadein {
+    ul {
+       max-height: 100vh;
+      li {
+        opacity: 1;
+      }
+    }
+  }
+
   &--expanded {
     @include breakpoint(large) {
       width: rem-calc(900);
@@ -185,19 +196,18 @@
         width: rem-calc(900);
         padding: rem-calc(25 40 20 40);
       }
-       @include breakpoint(xlarge) {
+      @include breakpoint(xlarge) {
         width: rem-calc(1094);
-        
       }
       &:after {
-        top: calc(50%  + 4px);
+        top: calc(50% + 4px);
         transform: rotate(-135deg);
       }
     }
     ul {
       //display: block;
       padding: rem-calc(5 15 15 15);
-      height: auto;
+     
       overflow: visible;
       @include breakpoint(medium) {
         padding: rem-calc(5 24 15 24);
@@ -207,7 +217,7 @@
         padding: rem-calc(30 40 50 40);
       }
       @include breakpoint(xlarge) {
-         width: rem-calc(1094);
+        width: rem-calc(1094);
       }
     }
   }
