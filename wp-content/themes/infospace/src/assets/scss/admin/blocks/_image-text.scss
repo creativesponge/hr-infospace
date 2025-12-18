@@ -12,7 +12,10 @@
   text-align: left;
   border: 6px solid #eee;
   background: $light-grey;
-  border-radius: 50px;;
+  border-radius: 50px;
+  max-width: rem-calc(1160);
+  margin-left: auto!important;
+  margin-right: auto!important;
   .image-text-image {
     position: relative;
     background-size: cover;
@@ -38,7 +41,7 @@
     margin: 10px 0;
   }
   .block-editor-inner-blocks {
-    padding: 20px;
+    padding: 20px 50px;
   }
   .image-text {
     display: flex;
@@ -47,14 +50,17 @@
     z-index: 1;
     text-align: left;
     padding: 20px;
+    h2,h3,h4 {
+      color:$infospace-purple;
+    }
     text-area {
       padding: 0 20px;
     }
     > div {
-      width: 60%;
+      width: 55%;
       //flex-basis: auto;
       &.image-text-image-container {
-        width: 40%;
+        width: 45%;
       }
     }
 

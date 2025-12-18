@@ -100,7 +100,7 @@ var small_blocks_container = {
                     }
                     value={attributes.mainHeading}
                     placeholder="Enter heading here"
-                    className="image-text-carousel-heading-text"
+                    className="small-blocks-container__heading-text"
                   />
                 </h2>
               <div className="small-blocks-container">
@@ -109,16 +109,16 @@ var small_blocks_container = {
                   allowedBlocks={["theme/small-block"]}
                 />
               </div>
-              <h2 className="image-text-carousel-heading">
+              <h3 className="small-blocks-container__footer">
                   <RichText
                     onChange={(content) =>
                       setAttributes({ footerText: content })
                     }
                     value={attributes.footerText}
                     placeholder="Enter footer text here"
-                    className="image-text-carousel-heading-text"
+                    className="small-blocks-container__footer-text"
                   />
-                </h2>
+                </h3>
             </div>
           );
         },

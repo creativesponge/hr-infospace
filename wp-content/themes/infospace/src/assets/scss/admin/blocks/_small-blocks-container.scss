@@ -5,9 +5,17 @@
  * which makes it higher in priority.
  */
 .wp-block-theme-small-blocks-container {
-  padding: 10px !important;
+  padding: 40px 40px 0px 40px!important;
   position: relative;
   border: 6px solid #eee;
+  background: #eee;
+  border-radius: rem-calc(50);
+  h2 {
+    textarea {
+      font-weight: bold;
+      background: rgba(255, 255, 255, 0.1);
+    }
+  }
   .small-blocks-container {
     .block-editor-block-list__layout {
       display: flex;
@@ -30,6 +38,25 @@
           max-width: none;
         }
       }
+    }
+  }
+
+  .small-blocks-container__footer {
+    text-align: center;
+    padding: rem-calc(30 20 30 20) !important;
+    background: $infospace-green;
+    color: $white;
+    line-height: 1.5em;
+    border-bottom-left-radius: rem-calc(50);
+    border-bottom-right-radius: rem-calc(50);
+    margin-top: rem-calc(40);
+    strong {
+      color: $black;
+
+    }
+    a {
+      color: $white;
+      text-decoration: none;
     }
   }
 }

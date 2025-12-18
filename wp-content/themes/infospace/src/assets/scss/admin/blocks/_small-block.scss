@@ -9,20 +9,19 @@
   padding: 10px;
   position: relative;
   border: 6px solid #eee;
+  background: #fff;
+  border-radius: rem-calc(30);
   .small-block {
-    text-align: center;
-    
+    padding: rem-calc(40);
   }
   .small-block__image {
     .small-block__image-container {
-      max-width: rem-calc(194);
-      height:0;
-      padding-bottom: 100%;
-      background: #eee;
-      background-size: cover;
+      width: rem-calc(30);
+      height: rem-calc(30);
+      background: #fff;
+      background-size: contain;
       background-position: center;
-     
-      margin: auto;
+      margin: 0 auto 0 0;
     }
   }
   .button-container {

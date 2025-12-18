@@ -6,11 +6,10 @@
  */
 
 .wp-block-theme-page-contact {
-  padding: 20px;
+  padding: 20px!important;
   position: relative;
   text-align: left;
   border: 6px solid #eee;
-
   padding-bottom: 90px;
 .page-contact-image {
     position: relative;
@@ -56,13 +55,7 @@
     text-area {
       padding: 0 20px;
     }
-    > div {
-      width: 40%;
-      //flex-basis: auto;
-      &.page-contact-image-container {
-        width: 60%;
-      }
-    }
+    
   }
   .page-contact-message {
     background: rgba(256, 256, 256, 0.8);
