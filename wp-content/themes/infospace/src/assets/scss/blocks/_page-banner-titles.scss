@@ -63,7 +63,7 @@
     height: rem-calc(230);
     width: 100%;
     overflow: hidden;
-    position:relative;
+    position: relative;
     @include breakpoint(medium) {
       position: absolute;
 
@@ -104,19 +104,19 @@
         height: 100%;
       }
       &.module-banner-mask-mobile {
-         display: block;
+        display: block;
         position: absolute;
         display: block;
-        left:0;
-        bottom:-1px;
-        top:auto;
+        left: 0;
+        bottom: -1px;
+        top: auto;
         width: 100%;
         height: auto;
         path {
           fill: $light-grey;
         }
         @include breakpoint(medium) {
-        display:none;
+          display: none;
         }
       }
     }
