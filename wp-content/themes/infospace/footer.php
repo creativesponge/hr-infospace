@@ -30,8 +30,8 @@ $sectreteky = '6Ld4_iQsAAAAAJZCHORH432pyFxffNPyMckL2WJd';
 // recaptcha v3 integratiom
 
 $meta = theme_get_meta();
-
-$footerClass = (isset($meta->grey_footer) && $meta->grey_footer == true) ? ' footer--grey' : '';
+$postType = get_post_type();
+$footerClass = (isset($meta->grey_footer) && $meta->grey_footer == true) || $postType == 'resource_page' ? ' footer--grey' : '';
 ?>
 <footer class="footer<?php echo $footerClass; ?>">
 	<div class="footer__container">

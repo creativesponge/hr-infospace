@@ -9,7 +9,7 @@ function cmb2_page_page_metabox()
     $post = new_cmb2_box([
         'id'            => $prefix . 'page_page_details',
         'title'         => 'Page styling',
-        'object_types'  => ['page'],
+        'object_types'  => ['page'], // Post type
         'context'       => 'side',
         'priority'      => 'high',
         'show_names'    => true,
