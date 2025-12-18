@@ -40,6 +40,13 @@ import accept_privacy from "./lib/admin/blocks/accept-privacy/index.js";
 import forgot_password from "./lib/admin/blocks/forgot-password/index.js";
 import site_map from "./lib/admin/blocks/site-map/index.js";
 import pagebannertitles from "./lib/admin/blocks/page-banner-titles/index.js";
+import icon_list from "./lib/admin/blocks/icon-list/index.js";
+import icon_list_item from "./lib/admin/blocks/icon-list-item/index.js";
+import benefit_carousel from "./lib/admin/blocks/benefit-carousel/index.js";
+import benefit_slide from "./lib/admin/blocks/benefit-slide/index.js";
+import globe_cta from "./lib/admin/blocks/globe-cta/index.js";
+import page_contact from "./lib/admin/blocks/page-contact/index.js";
+
 
 stats.init();
 stat.init();
@@ -81,6 +88,12 @@ accept_privacy.init();
 forgot_password.init();
 site_map.init();
 pagebannertitles.init();
+icon_list.init();
+icon_list_item.init();
+benefit_carousel.init();
+benefit_slide.init();
+globe_cta.init();
+page_contact.init();
 
 // Remove default block styles
 wp.domReady(() => {

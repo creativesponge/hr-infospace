@@ -110,6 +110,12 @@ require_once dirname(__FILE__) . '/library/blocks/_accept-terms.php';
 require_once dirname(__FILE__) . '/library/blocks/_accept-privacy.php';
 require_once dirname(__FILE__) . '/library/blocks/_forgot-password.php';
 require_once dirname(__FILE__) . '/library/blocks/_site-map.php';
+require_once dirname(__FILE__) . '/library/blocks/_icon-list.php';
+require_once dirname(__FILE__) . '/library/blocks/_icon-list-item.php';
+require_once dirname(__FILE__) . '/library/blocks/_benefit-carousel.php';
+require_once dirname(__FILE__) . '/library/blocks/_benefit-slide.php';
+require_once dirname(__FILE__) . '/library/blocks/_globe-cta.php';
+require_once dirname(__FILE__) . '/library/blocks/_page-contact.php';
 
 /** Infospace functions */
 require_once dirname(__FILE__) . '/library/import-existing-database.php';

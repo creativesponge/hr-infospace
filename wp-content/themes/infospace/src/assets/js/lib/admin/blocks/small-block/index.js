@@ -24,9 +24,9 @@ var small_block = {
         );
 
         const TEMPLATE = [
-          ["core/heading", { level: 3, placeholder: "Enter heading" }, []],
+     
         	['core/paragraph', {placeholder: "Enter smaller text"}, []],
-          ['core/buttons', {align:'center', textAlign: 'center'}, []],
+         
         ]
         /**
          * Register: aa Gutenberg Block.

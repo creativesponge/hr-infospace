@@ -1,59 +1,56 @@
-var small_blocks_container = {
+var benefit_carousel = {
   init: function () {
-    this.smallblocksContainer();
+    this.benefitCarousel();
   },
-  smallblocksContainer: function () {
+  benefitCarousel: function () {
     /**
-     * BLOCK: Small Blocks Container
+     * BLOCK: Benefit carousel
      *
      * Registering a basic block with Gutenberg.
      * Simple block, renders and saves the same content without any interactivity.
      */
-
     if (document.body.classList.contains("block-editor-page")) {
       // check if is a gutenberg page
       const { __ } = wp.i18n; // Import __() from wp.i18n
-      const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
-      const { InnerBlocks, PlainText, RichText } = wp.blockEditor;
+      const { registerBlockType} = wp.blocks; // Import registerBlockType() from wp.blocks
+      const { InnerBlocks, PlainText } = wp.blockEditor;
 
       /**
        * Custom SVG path
        */
+
       const MyIcon = () => (
         <svg
-          id="a6a49eea-be80-4f7b-b0f0-86139954ce4f"
-          data-name="a0e25ff0-08dc-4c8d-bb19-3a4ec433f28c"
+          id="afbf634e-195b-4a38-9f28-1ef263af47bb"
+          data-name="Layer 1"
           xmlns="http://www.w3.org/2000/svg"
-          width="22"
-          height="11.3"
-          viewBox="0 0 22 11.3"
+          viewBox="0 0 22 16"
         >
-          <rect
-            x="1"
-            y="1"
-            width="20"
-            height="9.34"
-            fill="none"
-            stroke="#555d65"
-            stroke-miterlimit="10"
-            stroke-width="2"
+          <rect x="6" y="14" width="5" height="2" fill="#fff" />
+          <polygon points="11 14 6 14 6 16 11 16 11 14 11 14" fill="#555d65" />
+          <rect x="12" y="14" width="5" height="2" fill="#fff" />
+          <polygon points="17 14 12 14 12 16 17 16 17 14 17 14" fill="#999" />
+          <rect x="3" y="5" width="7" height="2" fill="#fff" />
+          <polygon points="10 5 3 5 3 7 10 7 10 5 10 5" fill="#555d65" />
+          <rect x="3" y="8" width="7" height="2" fill="#fff" />
+          <polygon points="10 8 3 8 3 10 10 10 10 8 10 8" fill="#555d65" />
+          <path
+            d="M21,8v7H3V8H21m2-2H1V17H23V6Z"
+            transform="translate(-1 -4)"
+            fill="#555d65"
           />
-          <circle cx="4.7" cy="4.6" r="1.9" fill="#555d65" />
-          <circle cx="8.9" cy="4.6" r="1.9" fill="#555d65" />
-          <circle cx="13.2" cy="4.6" r="1.9" fill="#555d65" />
-          <circle cx="17.3" cy="4.6" r="1.9" fill="#555d65" />
-          <rect x="2.8" y="7.4" width="3.8" height="1.14" fill="#555d65" />
-          <rect x="7" y="7.4" width="3.8" height="1.14" fill="#555d65" />
-          <rect x="11.2" y="7.4" width="3.8" height="1.14" fill="#555d65" />
-          <rect x="15.5" y="7.4" width="3.8" height="1.14" fill="#555d65" />
+          <rect x="13" y="1" width="8" height="8" fill="#fff" />
+          <path
+            d="M21,6v6H15V6h6m2-2H13V14H23V4Z"
+            transform="translate(-1 -4)"
+            fill="#555d65"
+          />
         </svg>
       );
 
       const TEMPLATE = [
-        ["theme/small-block", {}, []],
-        ["theme/small-block", {}, []],
-        ["theme/small-block", {}, []],
-        ["theme/small-block", {}, []],
+        ["theme/benefit-slide", {}, []],
+        ["theme/benefit-slide", {}, []],
       ];
       /**
        * Register: aa Gutenberg Block.
@@ -68,19 +65,17 @@ var small_blocks_container = {
        * @return {?WPBlock}          The block, if it has been successfully
        *                             registered; otherwise `undefined`.
        */
-      registerBlockType("theme/small-blocks-container", {
+      registerBlockType("theme/benefit-carousel-list", {
         // Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
-        title: __("Small blocks container"), // Block title.
+        title: __("Benefit carousel"), // Block title.
         icon: MyIcon, // Block icon from Dashicons → https://developer.wordpress.org/resource/dashicons/.
         category: "theme-specific", // Block category — Group blocks together based on common traits E.g. common, formatting, layout widgets, embed.
         attributes: {
           mainHeading: {
             type: "string",
           },
-          footerText: {
-            type: "string",
-          },
         },
+
         /**
          * The edit function describes the structure of your block in the context of the editor.
          * This represents what the editor will render when the block is used.
@@ -93,6 +88,7 @@ var small_blocks_container = {
           // Creates a <p class='wp-block-cgb-block-related-posts'></p>.
           return (
             <div className={className}>
+              <div className="benefit-carousel-container">
               <h2 className="image-text-carousel-heading">
                   <PlainText
                     onChange={(content) =>
@@ -103,22 +99,11 @@ var small_blocks_container = {
                     className="image-text-carousel-heading-text"
                   />
                 </h2>
-              <div className="small-blocks-container">
                 <InnerBlocks
                   template={TEMPLATE}
-                  allowedBlocks={["theme/small-block"]}
+                  allowedBlocks={["theme/benefit-slide"]}
                 />
               </div>
-              <h2 className="image-text-carousel-heading">
-                  <RichText
-                    onChange={(content) =>
-                      setAttributes({ footerText: content })
-                    }
-                    value={attributes.footerText}
-                    placeholder="Enter footer text here"
-                    className="image-text-carousel-heading-text"
-                  />
-                </h2>
             </div>
           );
         },
@@ -139,4 +124,4 @@ var small_blocks_container = {
   },
 };
 
-export default small_blocks_container;
+export default benefit_carousel;

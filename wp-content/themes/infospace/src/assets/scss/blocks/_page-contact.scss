@@ -1,0 +1,193 @@
+.page-contact {
+  padding: rem-calc(0 20 20 20);
+  @include breakpoint(medium) {
+    padding: rem-calc(0 30 20 30);
+  }
+  @include breakpoint(large) {
+  }
+
+  &__container {
+    padding: 0;
+
+    //display: flex;
+    // flex-direction: column;
+
+    @include breakpoint(medium) {
+      // flex-direction: row;
+    }
+    @include breakpoint(large) {
+      max-width: $global-width-inner;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+  &__content {
+    //order: 2;
+    //color:$black;
+    //padding: rem-calc(30 20 0 20);
+    @include breakpoint(medium) {
+      //padding: rem-calc(70 30 30 30);
+      //width: 40%;
+      //display: flex;
+      //justify-content: flex-end;
+    }
+
+    @include breakpoint(large) {
+      // padding: rem-calc(200 40 0 67);
+      //width: 36%;
+      padding-bottom: rem-calc(30);
+    }
+
+    @include breakpoint(xlarge) {
+      // padding: rem-calc(200 60 0 67);
+    }
+    a {
+      color: $infospace-black;
+      font-weight: 600;
+
+      &:hover {
+        color: $infospace-orange;
+      }
+    }
+  }
+  &__text {
+    width: 100%;
+  }
+  &__image {
+    order: 1;
+    width: 100%;
+    text-align: center;
+
+    @include breakpoint(medium) {
+      width: 60%;
+      order: 3;
+      margin: auto;
+      margin-top: rem-calc(-40);
+      margin-bottom: rem-calc(60);
+    }
+
+    @include breakpoint(large) {
+      width: 64%;
+      margin-bottom: rem-calc(-60);
+      //margin-right: rem-calc(-160);
+      margin-top: rem-calc(65);
+    }
+    @include breakpoint(xlarge) {
+      margin-bottom: rem-calc(-220);
+      margin-top: rem-calc(65);
+    }
+  }
+  &__form {
+    max-width: $global-width-inner;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    //padding: rem-calc(40 20 50 20);
+    @include breakpoint(medium) {
+      // padding: rem-calc(10 30 60 30);
+    }
+    @include breakpoint(large) {
+      //  padding: rem-calc(40 30 60 67);
+    }
+    @include breakpoint(xlarge) {
+      //  padding: rem-calc(40 30 80 67);
+    }
+    input {
+      display: block;
+      //background: $white;
+      margin-bottom: 0.9em;
+      @include breakpoint(medium) {
+        margin-bottom: 1.2em;
+      }
+      @include breakpoint(large) {
+        margin-bottom: 1.4em;
+      }
+    }
+    textarea {
+      display: block;
+      //background: $white;
+      margin-bottom: 0.8em;
+    }
+
+    .contact__confirm {
+      margin-bottom: 1em;
+    }
+
+    .contact__thanks,
+    .contact__error {
+      display: none;
+      margin: 1rem 0;
+      font-size: rem-calc(24);
+      //padding-top: 0.9em;
+      @include breakpoint(medium) {
+        padding-top: rem-calc(50);
+      }
+      @include breakpoint(xlarge) {
+        padding-top: rem-calc(250);
+      }
+    }
+
+    &.submitting > * {
+      opacity: 0.5;
+    }
+
+    &.submitted {
+      .page-contact__form-content {
+        opacity: 0;
+        max-height: rem-calc(1);
+      }
+
+      .contact__thanks {
+        display: block;
+      }
+    }
+
+    &.error {
+      .page-contact__form-content {
+        opacity: 0;
+        max-height: rem-calc(1);
+      }
+      .contact__error {
+        display: block;
+        color: red;
+      }
+    }
+  }
+
+  &__row {
+    @include breakpoint(medium) {
+      display: flex;
+      gap: rem-calc(16);
+    }
+  }
+  &__col {
+    @include breakpoint(medium) {
+      flex: 1;
+    }
+  }
+
+  &__form-content {
+    //max-width: rem-calc(788);
+    p,
+    label {
+      color: $infospace-black;
+    }
+  }
+  .checkmark-container {
+    &:hover input ~ .checkmark {
+      background-color: $medium-grey;
+    }
+    input:checked ~ .checkmark {
+      background-color: $light-grey;
+    }
+
+    .checkmark {
+      background: $light-grey;
+      border: none;
+      &::after {
+        left: rem-calc(8);
+        width: rem-calc(8.5);
+      }
+    }
+  }
+}

@@ -1,0 +1,46 @@
+/**
+ * #.# Editor Styles
+ *
+ * CSS for just Backend enqueued after style.scss
+ * which makes it higher in priority.
+ */
+
+.wp-block-theme-icon-list-item {
+  padding: 10px !important;
+  margin-bottom: rem-calc(10) !important;
+  position: relative;
+  border: 6px solid #eee;
+  .icon-list-item {
+    text-align: center;
+    h3 {
+      font-size: rem-calc(18);
+      font-weight: 600;
+      margin-bottom: 1em!important;
+    }
+    p {
+      font-size: rem-calc(14);
+      color: $white !important;
+      margin-bottom: 1em!important;
+    }
+  }
+  .icon-list-item__image {
+    .icon-list-item__image-container {
+      max-width: rem-calc(86);
+      height: 0;
+      padding-bottom: 50%;
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+      margin: auto;
+    }
+  }
+  .button-container {
+    text-align: center;
+    padding-top: rem-calc(10);
+    .size-square {
+      font-size: 12px;
+      margin: 10px 0;
+      color: #999;
+    }
+  }
+}

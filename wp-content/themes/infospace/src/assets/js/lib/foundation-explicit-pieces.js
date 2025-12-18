@@ -15,7 +15,7 @@ import { Foundation } from "foundation-sites/js/foundation.core.js";
 //import { Drilldown } from 'foundation-sites/js/foundation.drilldown.js';
 //import { Dropdown } from 'foundation-sites/js/foundation.dropdown.js';
 //import { DropdownMenu } from "foundation-sites/js/foundation.dropdownMenu.js";
-//import { Equalizer } from 'foundation-sites/js/foundation.equalizer.js';
+import { Equalizer } from 'foundation-sites/js/foundation.equalizer.js';
 //import { Interchange } from "foundation-sites/js/foundation.interchange.js";
 //import { Magellan } from 'foundation-sites/js/foundation.magellan.js';
 //import { OffCanvas } from "foundation-sites/js/foundation.offcanvas.js";
@@ -72,7 +72,7 @@ var foundationPieces = {
 
     //Foundation.plugin(DropdownMenu, "DropdownMenu");
 
-    //Foundation.plugin(Equalizer, 'Equalizer');
+    Foundation.plugin(Equalizer, 'Equalizer');
 
     //Foundation.plugin(Interchange, "Interchange");
 

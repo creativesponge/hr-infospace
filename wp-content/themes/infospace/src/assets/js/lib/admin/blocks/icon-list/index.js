@@ -1,10 +1,10 @@
-var small_blocks_container = {
+var icon_list = {
   init: function () {
-    this.smallblocksContainer();
+    this.iconList();
   },
-  smallblocksContainer: function () {
+  iconList: function () {
     /**
-     * BLOCK: Small Blocks Container
+     * BLOCK: Icon list
      *
      * Registering a basic block with Gutenberg.
      * Simple block, renders and saves the same content without any interactivity.
@@ -14,7 +14,7 @@ var small_blocks_container = {
       // check if is a gutenberg page
       const { __ } = wp.i18n; // Import __() from wp.i18n
       const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
-      const { InnerBlocks, PlainText, RichText } = wp.blockEditor;
+      const { InnerBlocks, PlainText } = wp.blockEditor;
 
       /**
        * Custom SVG path
@@ -50,10 +50,10 @@ var small_blocks_container = {
       );
 
       const TEMPLATE = [
-        ["theme/small-block", {}, []],
-        ["theme/small-block", {}, []],
-        ["theme/small-block", {}, []],
-        ["theme/small-block", {}, []],
+        ["theme/icon-list-item", {}, []],
+        ["theme/icon-list-item", {}, []],
+        ["theme/icon-list-item", {}, []],
+        ["theme/icon-list-item", {}, []],
       ];
       /**
        * Register: aa Gutenberg Block.
@@ -68,16 +68,13 @@ var small_blocks_container = {
        * @return {?WPBlock}          The block, if it has been successfully
        *                             registered; otherwise `undefined`.
        */
-      registerBlockType("theme/small-blocks-container", {
+      registerBlockType("theme/icon-list", {
         // Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
-        title: __("Small blocks container"), // Block title.
+        title: __("Icon list"), // Block title.
         icon: MyIcon, // Block icon from Dashicons → https://developer.wordpress.org/resource/dashicons/.
         category: "theme-specific", // Block category — Group blocks together based on common traits E.g. common, formatting, layout widgets, embed.
         attributes: {
           mainHeading: {
-            type: "string",
-          },
-          footerText: {
             type: "string",
           },
         },
@@ -93,32 +90,22 @@ var small_blocks_container = {
           // Creates a <p class='wp-block-cgb-block-related-posts'></p>.
           return (
             <div className={className}>
-              <h2 className="image-text-carousel-heading">
-                  <PlainText
-                    onChange={(content) =>
-                      setAttributes({ mainHeading: content })
-                    }
-                    value={attributes.mainHeading}
-                    placeholder="Enter heading here"
-                    className="image-text-carousel-heading-text"
-                  />
-                </h2>
-              <div className="small-blocks-container">
+              <h2 className="share-block-heading">
+                <PlainText
+                  onChange={(content) =>
+                    setAttributes({ mainHeading: content })
+                  }
+                  value={attributes.mainHeading}
+                  placeholder="Enter heading here"
+                  className="share-block-heading-text"
+                />
+              </h2>
+              <div className="icon-list__inner">
                 <InnerBlocks
                   template={TEMPLATE}
-                  allowedBlocks={["theme/small-block"]}
+                  allowedBlocks={["theme/icon-list-item"]}
                 />
               </div>
-              <h2 className="image-text-carousel-heading">
-                  <RichText
-                    onChange={(content) =>
-                      setAttributes({ footerText: content })
-                    }
-                    value={attributes.footerText}
-                    placeholder="Enter footer text here"
-                    className="image-text-carousel-heading-text"
-                  />
-                </h2>
             </div>
           );
         },
@@ -139,4 +126,4 @@ var small_blocks_container = {
   },
 };
 
-export default small_blocks_container;
+export default icon_list;

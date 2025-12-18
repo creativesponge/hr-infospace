@@ -1,0 +1,135 @@
+.globe-cta {
+  //padding: rem-calc(30 20);
+  margin-bottom: rem-calc(20);
+  background: $white;
+  border-radius: rem-calc(20);
+  overflow: hidden;
+  @include breakpoint(medium) {
+     margin-bottom: rem-calc(60);
+    border-radius: rem-calc(30);
+  }
+
+  @include breakpoint(large) {
+     margin-bottom: rem-calc(80);
+    border-radius: rem-calc(50);
+   
+  }
+
+  &__container {
+    
+    background: $infospace-light-purple;
+    position:relative;
+    overflow: hidden;
+    max-width: $global-width-inner;
+    margin-left: auto;
+    margin-right: auto;
+    color: $white;
+    border-radius: rem-calc(20);
+    border-radius: rem-calc(20);
+    @include breakpoint(medium) {
+      //flex-direction: row;
+      border-radius: rem-calc(30);
+      border-radius: rem-calc(30);
+    }
+    @include breakpoint(large) {
+      display: flex;
+      border-radius: rem-calc(50);
+      border-radius: rem-calc(50);
+      padding: rem-calc(60 80 40 80);
+      // flex-direction: column;
+    }
+  }
+
+  &__content {
+    padding: rem-calc(30 20 120 30);
+    overflow: hidden;
+    position: relative;
+    @include breakpoint(medium) {
+      padding: rem-calc(30 30);
+      //min-height: rem-calc(370);
+      //display: flex;
+      //justify-content: flex-end;
+    }
+
+    @include breakpoint(large) {
+      padding: 0;
+      width: 50%;
+      padding-right: rem-calc(40);
+      //min-height: none;
+    }
+
+    @include breakpoint(xlarge) {
+      padding-right: rem-calc(60);
+    }
+    p {
+        max-width: rem-calc(400);
+        margin-bottom: 2em;
+    }
+    
+    svg {
+      display: none;
+      
+      @include breakpoint(large) {
+        display: none;
+      }
+    }
+  }
+
+  &__right {
+    position: relative;
+    overflow: hidden;
+    color: $white;
+
+    @include breakpoint(medium) {
+      min-height: rem-calc(170);
+    }
+
+    @include breakpoint(large) {
+      width: 50%;
+
+      //border-radius: rem-calc(20);
+      min-height: unset;
+    }
+
+    @include breakpoint(xlarge) {
+      
+    }
+
+    
+    
+   
+  }
+  svg {
+      position: absolute;
+      bottom: rem-calc(-130);
+      right: rem-calc(-20);
+      width: rem-calc(250);
+      @include breakpoint(medium) {
+        bottom: rem-calc(-80);
+        right: rem-calc(-40);
+        width: rem-calc(400);
+        height: rem-calc(400);
+      }
+      @include breakpoint(large) {
+        bottom: rem-calc(-160);
+        right: rem-calc(-80);
+         width: rem-calc(458);
+        height: auto;
+      }
+      @include breakpoint(xlarge) {
+        bottom: rem-calc(-220);
+        right: rem-calc(-80);
+        width: rem-calc(558);
+      
+      }
+    }
+}
+
+.forgot-password-link {
+  color: $dark-grey;
+  @include breakpoint(medium) {
+    display: block;
+    margin-top: rem-calc(-1.4em);
+    max-width: 50%;
+  }
+}

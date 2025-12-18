@@ -1,0 +1,51 @@
+/**
+ * #.# Editor Styles
+ *
+ * CSS for just Backend enqueued after style.scss
+ * which makes it higher in priority.
+ */
+
+
+ .wp-block-theme-globe-cta {
+  padding: 50px 20px;
+  position: relative;
+  text-align: left;
+  border: 6px solid #eee;
+  
+  .block-editor-inner-blocks {
+    padding: 20px;
+  }
+  .globe-cta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    text-align: left;
+    padding: 20px;
+    text-area {
+      padding: 0 20px;
+    }
+    > div {
+      width: 50%;
+      //flex-basis: auto;
+      &.globe-cta-image-container {
+        width: 50%;
+      }
+    }
+
+  }
+  &.reverse {
+    .globe-cta {
+      > div {
+        
+        order: 2;
+
+        &.globe-cta-image-container {
+          
+          order:1;
+        }
+      }
+    }
+  }
+
+}

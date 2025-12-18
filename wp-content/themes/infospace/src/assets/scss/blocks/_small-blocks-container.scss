@@ -1,41 +1,167 @@
 .small-blocks-container {
-  padding: 0;
-  text-align: center;
-  margin: 0 auto rem-calc(80) auto;
+  padding: rem-calc(30 30 0 30);
+  background: $light-grey;
+  border-radius: rem-calc(20);
+
+  margin: 0 auto rem-calc(40) auto;
+  @include breakpoint(medium) {
+    border-radius: rem-calc(30);
+    margin-bottom: rem-calc(60);
+  }
+  @include breakpoint(large) {
+    padding: rem-calc(80 20 0 20);
+    border-radius: rem-calc(50);
+    margin: 0 auto rem-calc(80) auto;
+  }
+  h2 {
+    max-width: $global-width-inner;
+    margin-left: auto;
+    margin-right: auto;
+    font-weight: bold;
+    @include breakpoint(large) {
+      padding-left: rem-calc(10);
+      padding-right: rem-calc(10);
+    }
+  }
 }
 
 .small-blocks-grid {
-  display:flex;
-  justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  max-width: $global-width;
+  margin-left: auto;
+  margin-right: auto;
+  @include breakpoint(xlarge) {
+    padding-left: rem-calc(30);
+    padding-right: rem-calc(30);
+  }
+}
+
+.small-blocks__footer {
+  text-align: center;
+  background: $infospace-green;
+  margin-top: rem-calc(10);
+  margin-left: rem-calc(-30);
+  margin-right: rem-calc(-30);
+  padding: rem-calc(60 20 10 20);
+  border-bottom-left-radius: rem-calc(20);
+  border-bottom-right-radius: rem-calc(20);
+  position: relative;
+  @include breakpoint(medium) {
+    margin-top: 0;
+    padding: rem-calc(90 30 10 30);
+    border-bottom-left-radius: rem-calc(30);
+    border-bottom-right-radius: rem-calc(30);
+  }
+  @include breakpoint(large) {
+     margin-top: rem-calc(10);
+    padding: rem-calc(150 30 20 30);
+    border-bottom-left-radius: rem-calc(50);
+    border-bottom-right-radius: rem-calc(50);
+  }
+  &:before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: rem-calc(40);
+    border-bottom-left-radius: rem-calc(20);
+    border-bottom-right-radius: rem-calc(20);
+    background: $light-grey;
+    margin: 0 auto rem-calc(20) auto;
+    @include breakpoint(medium) {
+      height: rem-calc(60);
+      border-bottom-left-radius: rem-calc(30);
+      border-bottom-right-radius: rem-calc(30);
+    }
+    @include breakpoint(large) {
+      border-bottom-left-radius: rem-calc(50);
+      border-bottom-right-radius: rem-calc(50);
+    }
+  }
+  p {
+    max-width: $global-width-inner;
+    font-weight: bold;
+    font-size: rem-calc(16);
+
+    margin-left: auto;
+    margin-right: auto;
+    color: $white;
+    @include breakpoint(medium) {
+      font-size: rem-calc(20);
+      line-height: 1.5em;
+      
+    }
+    @include breakpoint(large) {
+      font-size: rem-calc(28);
+    }
+    a {
+      color: $white;
+      text-decoration: none;
+    }
+    strong {
+      color: $black;
+    }
+  }
 }
 
 .small-blocks-item {
-  padding: rem-calc(20);
-  align-items: center;
-  text-align: center;
-  margin-bottom: 1em;
+  padding: rem-calc(10 0);
+  //margin-bottom: 1em;
+  width: 100%;
   @include breakpoint(medium) {
-    margin-bottom: 2em;
+    //margin-bottom: 2em;
+    flex-basis: 50%;
+    padding: rem-calc(10);
+    &:nth-child(odd) {
+      padding-left: rem-calc(0);
+    }
+    &:nth-child(even) {
+      padding-right: rem-calc(0);
+    }
+  }
+  @include breakpoint(large) {
+    flex-basis: 25%;
+    &:nth-child(odd) {
+      padding-left: rem-calc(10);
+    }
+    &:nth-child(even) {
+      padding-right: rem-calc(10);
+    }
+  }
+  @include breakpoint(xlarge) {
+    padding: rem-calc(14);
   }
 
+  &__inner {
+    padding: rem-calc(20);
+    background: $white;
+    border-radius: rem-calc(20);
+    @include breakpoint(medium) {
+      border-radius: rem-calc(30);
+      height:100%;
+    }
+    @include breakpoint(large) {
+      flex-basis: 25%;
+    }
+    @include breakpoint(xlarge) {
+      padding: rem-calc(40 40 20 40);
+      border-radius: rem-calc(50);
+    }
+    p {
+      font-size: rem-calc(18);
+    }
+  }
 
   .small-blocks-item__image {
-    width: rem-calc(197);
-    height: rem-calc(197);
-    margin: 0 auto rem-calc(34) auto;
+    //width: rem-calc(197);
+    //height: rem-calc(197);
+    margin: 0 0 rem-calc(20) 0;
     @include breakpoint(medium) {
-      width: rem-calc(300);
-      height: rem-calc(300);
+      //width: rem-calc(300);
+      // height: rem-calc(300);
     }
   }
-  
-  h3 {
-    margin: 0 0 0.6em 0;
-    font-size: rem-calc(18);
-    @include breakpoint(medium) {
-      font-size: rem-calc(30);
-      margin: 0 0 0.4em 0;
-    }
-  }
-  
 }

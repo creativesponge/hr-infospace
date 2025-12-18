@@ -1,0 +1,46 @@
+/**
+ * #.# Editor Styles
+ *
+ * CSS for just Backend enqueued after style.scss
+ * which makes it higher in priority.
+ */
+
+.wp-block-theme-icon-list {
+  position: relative;
+  border: 6px solid #eee;
+  background: $infospace-purple;
+  border-radius: rem-calc(50);
+  padding: rem-calc(20) !important;
+  color: $white;
+  h2 {
+    textarea {
+      background: rgba(255, 255, 255, 0.1) !important;
+      color: $white !important;
+      font-weight: bold;
+      padding: rem-calc(10);
+    }
+  }
+
+  .block-editor-block-list__layout {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    > .wp-block {
+      margin: auto;
+      max-width: 16%;
+    }
+    > p.wp-block {
+      margin-bottom: 1em;
+    }
+    .block-editor-inner-blocks {
+      margin: auto;
+    }
+    .block-editor-block-list__layout {
+      display: block;
+      .wp-block {
+        max-width: none;
+      }
+    }
+  }
+}

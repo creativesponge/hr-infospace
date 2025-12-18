@@ -1,0 +1,129 @@
+.benefit-carousel-list {
+  margin-bottom: rem-calc(40);
+  padding-left: rem-calc(20);
+  padding-right: rem-calc(20);
+  @include breakpoint(medium) {
+    margin-bottom: rem-calc(40);
+    padding-left: rem-calc(30);
+    padding-right: rem-calc(30);
+  }
+
+  @include breakpoint(large) {
+    margin-bottom: rem-calc(80);
+  }
+  @include breakpoint(xlarge) {
+    margin-left: rem-calc(67);
+  }
+  h2 {
+    font-weight: bold;
+    margin-bottom: 1.2em;
+    @include breakpoint(medium) {
+      max-width: $global-width-inner;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+  .flickity-viewport {
+    overflow: visible !important;
+  }
+
+  .benefit-carousel__carousel {
+    padding: rem-calc(5 0);
+    margin: 0;
+    max-width: rem-calc(1600);
+    position: relative;
+    overflow: hidden;
+    margin-left: auto;
+    margin-right: auto;
+    &:before {
+      content: "";
+      z-index: 1;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: rem-calc(67);
+      height: 100%;
+      background: linear-gradient(
+        to right,
+        $white 0%,
+        rgba(255, 255, 255, 0) 100%
+      );
+      pointer-events: none;
+      @include breakpoint(large) {
+        width: rem-calc(267);
+      }
+    }
+    &:after {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: rem-calc(67);
+      height: 100%;
+      background: linear-gradient(
+        to left,
+        $white 0%,
+        rgba(255, 255, 255, 0) 100%
+      );
+      pointer-events: none;
+      @include breakpoint(large) {
+        width: rem-calc(267);
+      }
+    }
+  }
+
+  .flickity-page-dots {
+    position: relative;
+    bottom: 0;
+    width: auto;
+    margin-left: rem-calc(8);
+    margin-right: rem-calc(8);
+
+    @include breakpoint(medium) {
+      justify-content: flex-start;
+      //margin-left: rem-calc(98);
+    }
+
+    @include breakpoint(large) {
+      //margin-left: rem-calc(212);
+    }
+  }
+
+  .flickity-enabled {
+    .services-slide {
+      filter: blur(5px);
+      .services-slide__container {
+        transform: scale(0.9);
+        transition: all 0.5s ease-in-out;
+      }
+      &.is-selected {
+        filter: blur(0);
+        //transform: scale(1);
+        .services-slide__container {
+          transform: scale(1);
+        }
+      }
+    }
+  }
+  .button-row {
+    margin-top: rem-calc(20);
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    max-width: $global-width-inner;
+    margin-left: auto;
+    margin-right: auto;
+    .button {
+      svg {
+        width: rem-calc(20);
+        height: rem-calc(20);
+      }
+      &.button--previous {
+        svg {
+          transform: rotate(180deg);
+        }
+      }
+    }
+  }
+}

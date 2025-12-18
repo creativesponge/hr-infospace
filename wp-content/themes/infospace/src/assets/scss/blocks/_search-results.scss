@@ -289,9 +289,10 @@
         //margin-left: rem-calc(30);
         border-radius: 50%;
         //overflow: hidden;
-        margin-left: rem-calc(30);
+        margin-left: rem-calc(40);
         transform-origin: 0 50%;
-        transform: scale(1.25);
+        transform: scale(1.35);
+    
       }
 
       @include breakpoint(large) {
@@ -349,19 +350,20 @@
     @include breakpoint(large) {
       padding-right: rem-calc(490);
       //padding-left: rem-calc(0);
-      padding-right: rem-calc(50);
-      padding-left: rem-calc(50);
+      padding-right: rem-calc(40);
+      padding-left: rem-calc(40);
     }
     p {
       margin-bottom: 0;
       margin-top: rem-calc(10);
       @include breakpoint(medium) {
         margin-top: rem-calc(40);
+        max-width: calc(100% - 40%);
         //order: 2;
       }
       @include breakpoint(large) {
         margin-top: rem-calc(50);
-        //order: 2;
+        max-width: calc(100% - 400px);
       }
     }
   }
@@ -505,14 +507,16 @@
       width: 50%;
       order: 3;
       margin: auto;
-      margin-top: rem-calc(-245);
-      margin-bottom: rem-calc(20);
+      margin-top: rem-calc(-145);
+      margin-bottom: rem-calc(-120);
+      //background: red;
     }
 
     @include breakpoint(large) {
-      margin-bottom: rem-calc(-460);
+      margin-bottom: rem-calc(-560);
       //margin-right: rem-calc(-160);
-      margin-top: rem-calc(-360);
+      margin-top: rem-calc(-260);
+
     }
     @include breakpoint(xlarge) {
       margin-bottom: rem-calc(-500);
@@ -523,7 +527,7 @@
       margin: 0 auto;
 
       @include breakpoint(medium) {
-        //margin-left: rem-calc(30);
+        margin-left: rem-calc(50);
         border-radius: 50%;
         //overflow: hidden;
         transform-origin: 0 50%;

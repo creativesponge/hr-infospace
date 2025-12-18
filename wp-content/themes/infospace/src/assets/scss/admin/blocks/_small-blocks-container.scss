@@ -4,34 +4,32 @@
  * CSS for just Backend enqueued after style.scss
  * which makes it higher in priority.
  */
-
-.small-blocks-container {
-  padding: 10px;
+.wp-block-theme-small-blocks-container {
+  padding: 10px !important;
   position: relative;
   border: 6px solid #eee;
-  .block-editor-block-list__layout {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    > .wp-block {
-      margin:auto;
-      max-width: 24%;
-      
-    }
-    > p.wp-block {
-      margin-bottom:1em;
-    }
-    .block-editor-inner-blocks {
-      margin:auto;
-    }
+  .small-blocks-container {
     .block-editor-block-list__layout {
-      display:block;
-      .wp-block {
-        max-width:none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      > .wp-block {
+        margin: auto;
+        max-width: 24%;
       }
-      
+      > p.wp-block {
+        margin-bottom: 1em;
+      }
+      .block-editor-inner-blocks {
+        margin: auto;
+      }
+      .block-editor-block-list__layout {
+        display: block;
+        .wp-block {
+          max-width: none;
+        }
+      }
     }
   }
-
 }
