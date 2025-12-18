@@ -12,6 +12,7 @@
   text-align: left;
   border: 6px solid #eee;
   background: $light-grey;
+  border-radius: 50px;;
   .image-text-image {
     position: relative;
     background-size: cover;
@@ -19,6 +20,7 @@
     background-position: center;
     background-color: #eee;
     margin: auto;
+     border-radius: 50px;;
     span {
         display: block;
         width:100%;
@@ -49,10 +51,10 @@
       padding: 0 20px;
     }
     > div {
-      width: 50%;
+      width: 60%;
       //flex-basis: auto;
       &.image-text-image-container {
-        width: 50%;
+        width: 40%;
       }
     }
 
