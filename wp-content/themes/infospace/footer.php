@@ -31,7 +31,7 @@ $sectreteky = '6Ld4_iQsAAAAAJZCHORH432pyFxffNPyMckL2WJd';
 
 $meta = theme_get_meta();
 $postType = get_post_type();
-$footerClass = (isset($meta->grey_footer) && $meta->grey_footer == true) || $postType == 'resource_page' ? ' footer--grey' : '';
+$footerClass = (isset($meta->grey_footer) && $meta->grey_footer == true) || $postType == 'resource_page' || $postType == 'post'? ' footer--grey' : '';
 ?>
 <footer class="footer<?php echo $footerClass; ?>">
 	<div class="footer__container">

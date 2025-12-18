@@ -20,6 +20,9 @@
       padding-left: rem-calc(30);
       padding-right: rem-calc(30);
     }
+    &:after {
+      background: $white;
+    }
   }
   .resource-module__header-inner {
     max-width: $global-width-small;
@@ -33,6 +36,9 @@
       padding: rem-calc(15 0 20 0);
       @include breakpoint(medium) {
         padding: rem-calc(25 0 30 0);
+      }
+      @include breakpoint(large) {
+        padding: rem-calc(30 0 60 0);
       }
     }
   }
