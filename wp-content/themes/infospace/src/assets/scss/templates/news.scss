@@ -1,16 +1,17 @@
 .single-post {
   .resource-module__news {
+    background: $white;
     padding: rem-calc(0 20 30 20);
-    border-bottom-left-radius: rem-calc(20);
-    border-bottom-right-radius: rem-calc(20);
+   //border-bottom-left-radius: rem-calc(20);
+    //border-bottom-right-radius: rem-calc(20);
     @include breakpoint(medium) {
-      border-bottom-left-radius: rem-calc(30);
-      border-bottom-right-radius: rem-calc(30);
+      //border-bottom-left-radius: rem-calc(30);
+      //border-bottom-right-radius: rem-calc(30);
       padding: rem-calc(0 30 30 30);
     }
     @include breakpoint(large) {
-      border-bottom-left-radius: rem-calc(50);
-      border-bottom-right-radius: rem-calc(50);
+      //border-bottom-left-radius: rem-calc(50);
+     //border-bottom-right-radius: rem-calc(50);
     }
   }
   .resource-module__header {

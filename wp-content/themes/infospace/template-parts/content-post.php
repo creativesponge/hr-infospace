@@ -12,10 +12,12 @@ $post_id = get_the_ID();
 
 $current_module_id_global = isset($_SESSION['current_module_id']) ? $_SESSION['current_module_id'] : '';
 $moduleMeta = get_current_module_meta($current_module_id_global);
+var_dump($moduleMeta['attached_resources']);
 $moduleColour = isset($moduleMeta['module_color']) ? $moduleMeta['module_color'] : '';
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+	<?php get_template_part('template-parts/blocks/_breadcrumbs') ?>
 	<header class="resource-module__header full-width" style="background-color: <?php echo esc_html($moduleColour); ?>;">
 		<div class="resource-module__header-inner"  >
 			<div class="resource-module__header-content">
