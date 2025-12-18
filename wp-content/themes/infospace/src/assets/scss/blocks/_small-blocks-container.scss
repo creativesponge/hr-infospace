@@ -6,7 +6,7 @@
   margin: 0 auto rem-calc(40) auto;
   @include breakpoint(medium) {
     border-radius: rem-calc(30);
-    margin-bottom: rem-calc(60);
+    margin-bottom: rem-calc(40);
   }
   @include breakpoint(large) {
     padding: rem-calc(80 20 0 20);

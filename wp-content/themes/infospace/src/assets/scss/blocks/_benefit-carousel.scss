@@ -1,11 +1,11 @@
 .benefit-carousel-list {
   margin-bottom: rem-calc(40);
   padding-left: rem-calc(20);
-  padding-right: rem-calc(20);
+  padding-right: rem-calc(0);
   @include breakpoint(medium) {
     margin-bottom: rem-calc(40);
     padding-left: rem-calc(30);
-    padding-right: rem-calc(30);
+    padding-right: rem-calc(0);
   }
 
   @include breakpoint(large) {
@@ -36,20 +36,23 @@
     margin-left: auto;
     margin-right: auto;
     &:before {
-      content: "";
-      z-index: 1;
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: rem-calc(67);
-      height: 100%;
-      background: linear-gradient(
-        to right,
-        $white 0%,
-        rgba(255, 255, 255, 0) 100%
-      );
-      pointer-events: none;
-      @include breakpoint(large) {
+      @include breakpoint(medium) {
+        content: "";
+        z-index: 1;
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        height: 100%;
+        background: linear-gradient(
+          to right,
+          $white 0%,
+          rgba(255, 255, 255, 0) 100%
+        );
+        pointer-events: none;
+        width: rem-calc(67);
+      }
+      @include breakpoint(xlarge) {
         width: rem-calc(267);
       }
     }
@@ -58,7 +61,7 @@
       position: absolute;
       top: 0;
       right: 0;
-      width: rem-calc(67);
+
       height: 100%;
       background: linear-gradient(
         to left,
@@ -66,7 +69,23 @@
         rgba(255, 255, 255, 0) 100%
       );
       pointer-events: none;
-      @include breakpoint(large) {
+      width: rem-calc(40);
+      @include breakpoint(medium) {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+
+        height: 100%;
+        background: linear-gradient(
+          to left,
+          $white 0%,
+          rgba(255, 255, 255, 0) 100%
+        );
+        pointer-events: none;
+        width: rem-calc(67);
+      }
+      @include breakpoint(xlarge) {
         width: rem-calc(267);
       }
     }

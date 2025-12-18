@@ -1,7 +1,13 @@
 .icon-list {
-  padding: 0;
-
-  margin-bottom: rem-calc(60);
+  margin-bottom: rem-calc(40);
+  padding: 0 rem-calc(20);
+  @include breakpoint(medium) {
+    padding: 0 rem-calc(30);
+    margin-bottom: rem-calc(40);
+  }
+  @include breakpoint(large) {
+     margin-bottom: rem-calc(60);
+  }
 
   p {
     font-size: rem-calc(14);
@@ -9,34 +15,50 @@
   h2 {
     color: $white;
     font-weight: bold;
-    padding: rem-calc(0 30);
+    padding: rem-calc(0 10);
+    @include breakpoint(medium) {
+      padding: rem-calc(0 30);
+    }
   }
 
   &__container {
     background: $infospace-purple;
     margin: 0 auto 0 auto;
     max-width: $global-width;
-    border-radius: rem-calc(50);
-    padding: rem-calc(40 30);
+    border-radius: rem-calc(20);
+    padding: rem-calc(30 20 20 20);
+    @include breakpoint(medium) {
+      border-radius: rem-calc(30);
+    }
+    @include breakpoint(large) {
+      padding: rem-calc(40 30);
+      border-radius: rem-calc(50);
+    }
   }
 }
 
 .icon-list__grid {
   color: $white;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  @include breakpoint(large) {
+    flex-wrap: nowrap;
+  }
 }
 
 .icon-list-item {
   padding: rem-calc(20 15);
   align-items: center;
   text-align: center;
-  margin-bottom: rem-calc(10);
+  //margin-bottom: rem-calc(10);
+  flex-basis: 50%;
   @include breakpoint(medium) {
-    flex-basis: 16.66%;
+    flex-basis: 33.33%;
   }
   @include breakpoint(large) {
     margin-bottom: rem-calc(0);
+    flex-basis: 16.66%;
   }
 
   .icon-list-item__image {

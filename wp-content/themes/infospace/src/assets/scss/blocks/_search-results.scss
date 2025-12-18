@@ -7,7 +7,7 @@
   }
   &:first-child {
     @include breakpoint(medium) {
-     // margin-top: rem-calc(-25);
+      // margin-top: rem-calc(-25);
     }
     @include breakpoint(large) {
       //margin-top: 0;
@@ -142,9 +142,9 @@
       margin-bottom: rem-calc(35);
       margin-top: rem-calc(-150);
       margin-right: 0;
-       border-top-right-radius: rem-calc(20);
-        border-bottom-right-radius: rem-calc(20);
-        //border-bottom-left-radius: rem-calc(50);  
+      border-top-right-radius: rem-calc(20);
+      border-bottom-right-radius: rem-calc(20);
+      //border-bottom-left-radius: rem-calc(50);
     }
     ul {
       margin: rem-calc(10) 0 0 0;
@@ -171,11 +171,11 @@
       //margin-top: rem-calc(-20);
       //margin-right: rem-calc(-20);
       //margin-left: rem-calc(-20);
-       border-bottom-left-radius: rem-calc(20);
+      border-bottom-left-radius: rem-calc(20);
       border-bottom-right-radius: rem-calc(20);
       @include breakpoint(medium) {
-      border-bottom-right-radius: rem-calc(0);
-       //border-top-right-radius: 0;
+        border-bottom-right-radius: rem-calc(0);
+        //border-top-right-radius: 0;
         padding: rem-calc(20 20 30 20);
         margin: 0;
         margin-right: rem-calc(-40);
@@ -185,11 +185,11 @@
         padding: rem-calc(40);
         margin-right: rem-calc(0);
         //border-bottom-right-radius: rem-calc(20);
-         //border-top-right-radius: rem-calc(20);
+        //border-top-right-radius: rem-calc(20);
         //border-bottom-left-radius: rem-calc(50);
         border-bottom-right-radius: rem-calc(20);
       }
-     /* &:after {
+      /* &:after {
         content: "";
         display: block;
         position: absolute;
@@ -255,7 +255,7 @@
     width: 100%;
     text-align: center;
     position: relative;
-     border-top-left-radius: rem-calc(20);
+    border-top-left-radius: rem-calc(20);
     border-top-right-radius: rem-calc(20);
     overflow: hidden;
     @include breakpoint(medium) {
@@ -292,7 +292,6 @@
         margin-left: rem-calc(40);
         transform-origin: 0 50%;
         transform: scale(1.35);
-    
       }
 
       @include breakpoint(large) {
@@ -374,7 +373,7 @@
 
     li {
       display: flex;
-      position:relative;
+      position: relative;
       align-items: center;
       margin-bottom: rem-calc(10);
       font-size: rem-calc(14);
@@ -383,13 +382,12 @@
       }
       @include breakpoint(large) {
         font-size: rem-calc(20);
-        
       }
       span {
-        width:rem-calc(40);
+        width: rem-calc(40);
         text-align: center;
         margin-left: rem-calc(-1);
-    
+
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -403,7 +401,7 @@
           height: rem-calc(20);
         }
         @include breakpoint(large) {
-            width: auto;
+          width: auto;
           height: rem-calc(24);
         }
       }
@@ -516,7 +514,6 @@
       margin-bottom: rem-calc(-560);
       //margin-right: rem-calc(-160);
       margin-top: rem-calc(-260);
-
     }
     @include breakpoint(xlarge) {
       margin-bottom: rem-calc(-500);

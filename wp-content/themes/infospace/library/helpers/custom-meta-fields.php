@@ -97,6 +97,7 @@ require_once('meta/_user-meta.php');
 require_once('meta/_user-profile-meta.php');
 require_once('meta/_favourite-meta.php');
 require_once('meta/_module-meta.php');
+require_once('meta/_page-meta.php');
 
 
 

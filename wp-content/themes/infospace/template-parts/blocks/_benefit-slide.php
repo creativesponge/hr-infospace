@@ -16,7 +16,7 @@ $pickedColour = (array_key_exists('pickedColour', $block_attributes)) ? $block_a
 
     <div class="benefit-slide__container" style="background-color: <?php echo esc_attr($pickedColour); ?>;">
         <?php if ($imageId) { ?>
-            <div class="benefit-slide__image show-for-large ">
+            <div class="benefit-slide__image">
                  <?php echo wp_get_attachment_image($imageId, 'benefit', '', ["class" => "wp-image-$imageId"]); ?>
             </div>
         <?php } ?>

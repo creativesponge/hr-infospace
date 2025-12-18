@@ -25,6 +25,7 @@ $attachmentIdMob = (array_key_exists('attachmentIdMob', $block_attributes)) ? $b
 			} ?>
 			<?php get_template_part('template-parts/svgs/_banner-mask2'); 
 			?>
+			<?php get_template_part('template-parts/svgs/_module-banner-mask-mobile'); ?>
 		</div>
 
 		<div class="page-banner-titles__headings">

@@ -3,11 +3,12 @@
   margin-bottom: rem-calc(40);
 
   @include breakpoint(medium) {
-    margin-bottom: rem-calc(60);
-    padding-right: rem-calc(230);
+    margin-bottom: rem-calc(40);
+    padding-right: rem-calc(100);
   }
 
   @include breakpoint(large) {
+     padding-right: rem-calc(230);
     margin-bottom: rem-calc(100);
     max-width: $global-width-inner;
     margin-left: auto;
@@ -31,10 +32,12 @@
     display: flex;
     flex-direction: column;
 
-    padding: rem-calc(30);
+    padding: rem-calc(0);
 
     @include breakpoint(medium) {
       flex-direction: row;
+      padding: rem-calc(30);
+      margin-right: rem-calc(-130);
     }
     @include breakpoint(large) {
       padding: rem-calc(40 0);
@@ -44,17 +47,17 @@
 
   &__content {
     order: 2;
-    padding: rem-calc(60 40 0 40);
+    padding: rem-calc(30 20 15 20);
     @include breakpoint(medium) {
-      padding: rem-calc(50 30 50 50);
+      padding: rem-calc(0 30 0 0);
       width: 60%;
       display: flex;
       justify-content: flex-end;
     }
 
     @include breakpoint(large) {
-      padding-right: rem-calc(40);
-      padding-left: rem-calc(80);
+       padding: rem-calc(50 40 50 80);
+      
     }
 
     @include breakpoint(xlarge) {
@@ -72,10 +75,13 @@
     text-align: center;
 
     @include breakpoint(medium) {
-      width: 40%;
+      width: 50%;
       order: 3;
       //margin: auto;
       //padding-right: rem-calc(40);
+    }
+    @include breakpoint(large) {
+      width: 40%;
     }
 
     img {
@@ -94,8 +100,12 @@
   }
 
   &--reversed {
-    padding-right: rem-calc(230);
+    
     @include breakpoint(medium) {
+      padding-left: rem-calc(100);
+      padding-right: 0;
+    }
+    @include breakpoint(large) {
       padding-left: rem-calc(230);
       padding-right: 0;
     }
@@ -120,6 +130,10 @@
     }
 
     .image-text__container {
+      @include breakpoint(medium) {
+        margin-right: 0;
+        margin-left: rem-calc(-130);
+      }
       @include breakpoint(large) {
         margin-right: 0;
         margin-left: rem-calc(-230);

@@ -1,20 +1,19 @@
 .page-banner-titles {
-  margin-bottom: rem-calc(40);
+  margin-bottom: rem-calc(10);
   background: $light-grey;
 
   border-top-left-radius: rem-calc(20);
   border-top-right-radius: rem-calc(20);
-  
-   
+
   @include breakpoint(medium) {
-    margin-bottom: rem-calc(60);
+    margin-bottom: rem-calc(20);
     border-top-left-radius: rem-calc(30);
     border-top-right-radius: rem-calc(30);
     padding-left: rem-calc(30);
   }
 
   @include breakpoint(large) {
-    //margin-bottom: rem-calc(90);
+    margin-bottom: rem-calc(60);
     border-top-left-radius: rem-calc(50);
     border-top-right-radius: rem-calc(50);
   }
@@ -75,7 +74,7 @@
     height: rem-calc(230);
     width: 100%;
     overflow: hidden;
-
+    position:relative;
     @include breakpoint(medium) {
       position: absolute;
 
@@ -107,7 +106,6 @@
     }
     svg {
       display: none;
-
       @include breakpoint(medium) {
         display: block;
         position: absolute;
@@ -116,14 +114,27 @@
         width: auto;
         height: 100%;
       }
+      &.module-banner-mask-mobile {
+         display: block;
+        position: absolute;
+        display: block;
+        left:0;
+        bottom:-1px;
+        top:auto;
+        width: 100%;
+        height: auto;
+        path {
+          fill: $light-grey;
+        }
+      }
     }
   }
 
   &__headings {
-    padding: rem-calc(0 20 30 20);
+    padding: rem-calc(20 20 30 20);
     position: relative;
     @include breakpoint(medium) {
-      max-width: rem-calc(426);
+      max-width: 45%;
       margin-right: rem-calc(50);
       padding: rem-calc(0);
     }

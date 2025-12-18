@@ -1,20 +1,27 @@
 .benefit-slide {
-  padding: rem-calc(0 24 0 0);
+  padding: rem-calc(0 12 0 0);
+
   @include breakpoint(medium) {
     padding: rem-calc(0 12 0 12);
   }
   h3 {
     color: $white;
     margin-bottom: 0;
-    max-width: rem-calc(246);
+    max-width: 80%;
+    font-size: rem-calc(24);
+    @include breakpoint(medium) {
+      font-size: rem-calc(28);
+       max-width: rem-calc(246);
+    }
   }
   &__container {
     padding: 0;
 
-    max-width: calc(100vw - 90px);
+    // max-width: calc(100vw - 90px);
     background: $light-grey;
     border-radius: rem-calc(20);
     overflow: hidden;
+    width: calc(70vw);
     max-width: rem-calc(360);
     @include breakpoint(medium) {
       width: calc(85vw);
@@ -31,7 +38,7 @@
 
   &__content {
     position: absolute;
-    bottom:rem-calc(10);
+    bottom: rem-calc(10);
     left: rem-calc(10);
     padding: rem-calc(20 20 12 20);
     @include breakpoint(medium) {
