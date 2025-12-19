@@ -374,10 +374,10 @@ function instruction_document_dashboard_widget_display()
 // Change the contents of the email that gets sents to a user when the account is created
 function custom_new_user_notification_email($wp_new_user_notification_email, $user, $blogname)
 {
-    $change_password_url = wp_lostpassword_url();
+    $change_password_url = network_site_url("wp-login.php?action=rp&key=" . get_password_reset_key($user) . "&login=" . rawurlencode($user->user_login), 'login');
     $message  = sprintf(__('Welcome to %s!'), $blogname) . "\r\n\r\n";
     $message .= __('Your account has been created. You can log in using the following credentials:') . "\r\n\r\n";
-    $message .= sprintf(__('Username: %s'), $user->user_login) . "\r\n";
+    $message .= sprintf(__('Username: %s'), $user->user_login) . "\r\n\r\n";
     $message .= sprintf(__('Please change your password here: %s'), $change_password_url) . "\r\n\r\n";
     $message .= __('Thank you!') . "\r\n";
     $wp_new_user_notification_email['subject'] = sprintf(__('Your new account on %s'), $blogname);
