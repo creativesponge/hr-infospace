@@ -1,5 +1,4 @@
 <?php
-
 // Favourites functionality
 // When a user clicks on a button with the class 'add-to-favourites', we use the post ID from data-id on the button create a new post as a 'favourite' custom post type.
 // If it is a resource the new post will have a meta field $prefix . 'favourite_attached_resources' that is the data-id.
@@ -8,9 +7,7 @@
 // Use the users id as the author of the favourite post to link it to them.
 // Use data-name on the button to set the title of the favourite post.
 // If the favourite already exists for that user then remove the favourite post for that user.
-?>
 
-<?php
 // Enqueue the JavaScript for favourites functionality
 add_action('wp_ajax_toggle_favourite', 'handle_toggle_favourite');
 add_action('wp_ajax_nopriv_toggle_favourite', 'handle_toggle_favourite');
