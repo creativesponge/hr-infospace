@@ -28,8 +28,8 @@ $siteEmail = isset($settings[$prefix . 'email']) ? $settings[$prefix . 'email'] 
 $sitePhone = isset($settings[$prefix . 'phone']) ? $settings[$prefix . 'phone'] : '';
 $moduleMeta = get_current_module_meta($current_module_id_global);
 $moduleColour = isset($moduleMeta['module_color']) ? $moduleMeta['module_color'] : '';
-
-if (get_the_ID() === 1581 && $current_module_id_global === '') { // redirect for news page if not logged in
+$post_type = get_post_type();
+if ((get_the_ID() === 1581 && $current_module_id_global === '') || ($post_type === 'post' && $current_module_id_global === '')) { // redirect for news page if not logged in
 	wp_redirect(home_url('/'));
 	exit;
 }
