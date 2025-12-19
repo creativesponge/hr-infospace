@@ -14,6 +14,5 @@
     </div>
     
     <?php echo $block_content; ?>
-
 </div>
-<?php } ?>
+<?php }

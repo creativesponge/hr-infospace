@@ -8,11 +8,15 @@
 if (! class_exists('Startertheme_Account_Walker')) :
     class Startertheme_Account_Walker extends Walker_Nav_Menu
     {
+        function __construct($moduleColour = null)
+        {
+            $this->moduleColour = $moduleColour;
+        }
 
         function start_lvl(&$output, $depth = 0, $args = array())
         {
             $indent  = str_repeat("\t", $depth);
-            $output .= "\n$indent<ul class=\"dropdown menu vertical\" data-toggle>\n";
+            $output .= "\n$indent<ul class=\"dropdown menu vertical\" style=\"background-color:" . esc_attr($this->moduleColour) . ";\" data-toggle>\n";
             // Add user name as first menu item if user is logged in
             if (is_user_logged_in()) {
                 $current_user = wp_get_current_user();

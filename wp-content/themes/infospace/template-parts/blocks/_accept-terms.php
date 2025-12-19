@@ -8,4 +8,4 @@
         <input type="hidden" name="accept_terms" value="1" />
         <button type="submit" class="btn btn-primary">I agree</button>
     </form>
-<?php endif;  ?>
+<?php endif; ?>

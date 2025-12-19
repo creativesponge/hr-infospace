@@ -6,5 +6,4 @@ $contentWidthClass = (isset($block_attributes['contentWidth']) && $block_attribu
 ?> 
 
 <div class="narrow-content<?php echo $contentWidthClass; ?>">
-        <?php echo $block_content; ?>
-</div>
+        <?php echo $block_content; ?></div>

@@ -66,16 +66,16 @@ if ( ! function_exists( 'startertheme_mobile_nav' ) ) {
  * @link http://codex.wordpress.org/Function_Reference/wp_nav_menu
  */
 if ( ! function_exists( 'startertheme_account_nav' ) ) {
-	function startertheme_account_nav() {
+	function startertheme_account_nav($moduleColour = '') {
 		wp_nav_menu(
 			array(
 				'container'      => false,
 				'menu_class'     => 'dropdown menu desktop-menu header__account-menu',
-				'items_wrap'     => '<ul id="%1$s" class="%2$s" data-dropdown-menu>%3$s</ul>',
+				'items_wrap'     => '<ul id="%1$s" class="%2$s" style="background-color:' . esc_attr($moduleColour) . ';" data-dropdown-menu>%3$s</ul>',
 				'theme_location' => 'account-nav',
 				'depth'          => 3,
 				'fallback_cb'    => false,
-				'walker'         => new Startertheme_Account_Walker(),
+				'walker'         => new Startertheme_Account_Walker($moduleColour),
 			)
 		);
 	}

@@ -171,7 +171,7 @@ if ((get_the_ID() === 1581 && $current_module_id_global === '') || ($post_type =
 					<nav class="site-navigation account-nav" role="navigation" id="account-navigation">
 						<div class="account-nav-right">
 							<?php
-							startertheme_account_nav();
+							startertheme_account_nav($moduleColour);
 							?>
 						</div>
 					</nav>

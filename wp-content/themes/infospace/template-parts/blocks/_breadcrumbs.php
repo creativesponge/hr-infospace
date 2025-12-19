@@ -16,5 +16,4 @@ if (isset($moduleMeta['attached_resources']) && !empty($moduleMeta['attached_res
         <span><a href="/">Home</a> &gt; <?php echo $moduleCrummbs; ?><a href="/news/">News</a> &gt; <span class="breadcrumb_last" aria-current="page"><?php the_title(); ?></span></span>
     <?php } else { ?>
         <?php echo do_shortcode('[wpseo_breadcrumb]'); ?>
-    <?php } ?>
-</div>
+    <?php } ?></div>

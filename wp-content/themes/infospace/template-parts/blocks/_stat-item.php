@@ -7,5 +7,4 @@
 <?php //print_r($meta); 
 ?>
  <div class="stat-item cell medium-6">
-    <?php echo $block_content; ?>
-</div>
+    <?php echo $block_content; ?></div>

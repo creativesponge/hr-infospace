@@ -143,5 +143,3 @@ require_once dirname(__FILE__) . '/library/alerts/alerts.php';
 /** If your site requires protocol relative url's for theme assets, uncomment the line below */
 require_once( 'library/class-protocol-relative-theme-assets.php' );
 
-
-

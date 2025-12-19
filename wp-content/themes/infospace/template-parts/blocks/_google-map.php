@@ -11,4 +11,4 @@ wp_enqueue_script('gmaps', 'https://maps.googleapis.com/maps/api/js?key='.$googl
 <section class="google-map">
 	<div class="map" data-longitude="<?php echo $mapLong ?>" data-latitude="<?php echo $mapLat ?>"></div>
 </section>
-<?php } ?>
+<?php }
