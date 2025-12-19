@@ -157,10 +157,9 @@
       }
     }
     &--green {
-      
       position: relative;
       //background: $infospace-green;
-      background:rgba($infospace-green, 0.8);
+      background: rgba($infospace-green, 0.8);
 
       padding: rem-calc(15 20 15 20);
       //margin-top: rem-calc(20);
@@ -198,13 +197,11 @@
       }*/
       h3 {
         color: $black;
-        
       }
 
       .button-link {
         display: inline-block;
         font-size: rem-calc(12);
-       
       }
     }
   }
@@ -239,19 +236,19 @@
       &:hover {
         background: $infospace-orange;
       }
+      span {
+        svg {
+          @include breakpoint(large) {
+            flex-basis: rem-calc(23);
+          }
+        }
+      }
     }
   }
   .tabbed-content__panel ul li:nth-child(odd) a {
     background: $light-grey;
     &:hover {
       background: $infospace-orange;
-    }
-    span {
-      svg {
-        @include breakpoint(large) {
-          flex-basis: rem-calc(23);
-        }
-      }
     }
   }
 }
