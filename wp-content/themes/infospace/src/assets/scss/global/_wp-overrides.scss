@@ -5,10 +5,10 @@
   padding: 0.25rem 0;
 }
 
-p.wp-caption-text{
-  font-size:90%;
+p.wp-caption-text {
+  font-size: 90%;
   color: #666;
-  padding:rem-calc(10) 0;
+  padding: rem-calc(10) 0;
 }
 
 .alignleft {
@@ -46,7 +46,7 @@ p.wp-caption-text{
       overflow: hidden;
       height: 0;
       padding-top: 56.25%;
-     
+
       iframe {
         position: absolute;
         top: 50%;
@@ -61,29 +61,26 @@ p.wp-caption-text{
 
 .wp-block-quote {
   margin: 0 0 1rem;
-    padding: 0.5625rem 1.25rem 0 0;
-    border-left: none;
-    p {
-      font-weight: bold;
-      color:$body-font-color;
+  padding: 0.5625rem 1.25rem 0 0;
+  border-left: none;
+  p {
+    font-weight: bold;
+    color: $body-font-color;
+  }
+  cite {
+    font-style: normal;
+    color: $body-font-color;
+    &:before {
+      content: "";
     }
-    cite {
-      font-style: normal;
-      color:$body-font-color;
-      &:before {
-        content:"";
-      }
-    }
+  }
 }
 
 // from global styles
 
-
 :where(.is-layout-flex) {
   gap: 1em;
 }
-
-
 
 body .is-layout-flex {
   display: flex;
@@ -139,7 +136,92 @@ figure.wp-block-table {
 }
 
 .cky-notice-btn-wrapper button {
-font-weight: bold;
+  font-weight: bold;
 }
+#login {
+  background: $white;
+  padding: rem-calc(40 10 10 10);
+  margin-bottom: 2em;
+  border-radius: rem-calc(20);
+  @include breakpoint(medium) {
+    border-radius: rem-calc(30);
+    width: 480px;
+  }
+  h1 a {
+    background-image: url("../images/infospace-logo.svg");
+    height: 60px;
+    width: 300px;
+    background-size: auto 60px;
+    background-repeat: no-repeat;
+    padding: rem-calc(10);
+    @include breakpoint(medium) {
+      height: 80px;
+      width: 320px;
+      background-size: auto 80px;
+    }
+  }
+}
+.wp-login-logo {
+  background-size: auto 80px;
+}
+input[type="submit"]#wp-submit {
+  line-height: 1.2em;
+  color: $black;
+  margin-top: rem-calc(15);
+  @include breakpoint(medium) {
+    margin-top: rem-calc(5);
+  }
+  @include breakpoint(large) {
+    padding: rem-calc(16 75 15 34);
+  }
+}
+.login {
+  //background: $white;
+  background: $light-grey;
 
+  form {
+    box-shadow: none;
+    border: none;
+  }
+  #nav {
+    display: none;
+  }
+  #loginform {
+    margin-top: 0;
+    padding-top: 0;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    @include breakpoint(medium) {
+      padding-top: rem-calc(20);
+    }
+  }
+  #backtoblog {
+    display: none;
+  }
+  form .input {
+    background: $light-grey;
+    border: none;
+    box-shadow: none;
+    border-radius: rem-calc(30);
+    font-size: rem-calc(16);
+    line-height: 1.2em;
+    padding: rem-calc(14 20);
+    border: none;
+    border-radius: rem-calc(20);
+    appearance: none;
 
+    @include breakpoint(medium) {
+      padding: rem-calc(15 30);
+      border-radius: rem-calc(30);
+    }
+    @include breakpoint(large) {
+      padding: rem-calc(18 30);
+    }
+  }
+  .wp-login-lost-password {
+    font-size: rem-calc(16);
+    //margin-bottom: 0.4em;
+    display: block;
+    text-align: center;
+  }
+}

@@ -212,20 +212,6 @@ function remove_admin_bar()
 }
 
 
-function my_login_logo()
-{ ?>
-    <style type="text/css">
-        #login h1 a {
-            background-image: url('<?php echo get_stylesheet_directory_uri(); ?>/dist/assets/images/infospace-logo.svg');
-            height: 65px;
-            width: 320px;
-            background-size: 182px 56px;
-            background-repeat: no-repeat;
-            padding-bottom: 10px;
-        }
-    </style>
-<?php }
-add_action('login_enqueue_scripts', 'my_login_logo');
 
 
 function wpdocs_logout_redirect($redirect_to, $requested_redirect_to, $user)
@@ -386,3 +372,7 @@ function custom_new_user_notification_email($wp_new_user_notification_email, $us
     return $wp_new_user_notification_email;
 }
 add_filter('wp_new_user_notification_email', 'custom_new_user_notification_email', 10, 3);
+
+
+
+

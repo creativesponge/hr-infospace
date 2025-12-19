@@ -1,9 +1,30 @@
 <?php
-add_action('login_form', 'my_custom_login_content');
+
+//Load login styles to admin
+
+function my_login_stylesheet() {
+    wp_enqueue_style( 'main-stylesheet', get_stylesheet_directory_uri() . '/dist/assets/css/' . startertheme_asset_path( 'app.css' ), array(), '2.10.7', 'all' );
+}
+add_action( 'login_enqueue_scripts', 'my_login_stylesheet' );
+
+// Hide the language awitcher form login page
+add_filter( 'login_display_language_dropdown', '__return_false' );
+
+// Remove 'register' link from wordpress login page
+add_filter( 'register', '__return_false' );
+
+// Remove 'need an account? Sign up!' from wordpress login page
+add_filter( 'login_form_bottom', 'remove_signup_text' );
+function remove_signup_text( $content ) {
+    return 'ddd';
+}
+
+add_action('login_footer', 'my_custom_login_content');
 function my_custom_login_content() {
     // Add your HTML here
-    echo '<p><a href="yourwebsite.com">Need an account? Sign up!</a></p>';
+    echo '<p><a class="wp-login-lost-password" href="//localhost:3000/wp-login.php?action=lostpassword">Lost your password?</a></p>';
 }
+  
 /**
  * Login process
  */

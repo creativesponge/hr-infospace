@@ -46,7 +46,7 @@ import benefit_carousel from "./lib/admin/blocks/benefit-carousel/index.js";
 import benefit_slide from "./lib/admin/blocks/benefit-slide/index.js";
 import globe_cta from "./lib/admin/blocks/globe-cta/index.js";
 import page_contact from "./lib/admin/blocks/page-contact/index.js";
-
+import custom_login from "./lib/admin/blocks/custom-login/index.js";
 
 stats.init();
 stat.init();
@@ -94,6 +94,7 @@ benefit_carousel.init();
 benefit_slide.init();
 globe_cta.init();
 page_contact.init();
+custom_login.init();
 
 // Remove default block styles
 wp.domReady(() => {
