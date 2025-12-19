@@ -398,9 +398,9 @@ $attachmentIdMob = (is_array($block_attributes) && array_key_exists('attachmentI
 
                 echo '</div>'; // .grid-x
                 echo '<div class="posts-list-filters__footer">'; // .posts-list-filters__container
-                if (!empty($moduleMeta['attached_resources'])) {
-                    echo '<a href="' . get_permalink($moduleMeta['attached_resources']) . '" class="button-back" style="background: ' . esc_html($moduleColour) . ';">Back<span class="show-for-medium"> to ' . get_the_title($moduleMeta['attached_resources']) . '<span> </a>';
-                }
+                //if (!empty($moduleMeta['attached_resources'])) {
+                    //echo '<a href="' . get_permalink($moduleMeta['attached_resources']) . '" class="button-posts-list-filters__footer" style="background: ' . esc_html($moduleColour) . ';">Back<span class="show-for-medium"> to ' . get_the_title($moduleMeta['attached_resources']) . '<span> </a>';
+               // }
                 // Pagination
                 if (function_exists('startertheme_pagination')) {
                     global $wp_query;
