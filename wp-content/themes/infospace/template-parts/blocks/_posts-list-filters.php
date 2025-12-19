@@ -125,8 +125,8 @@ $attachmentIdMob = (is_array($block_attributes) && array_key_exists('attachmentI
 
                                 'mostrecent' => 'Most recent',
                                 'oldest' => 'Oldest',
-                                'name' => 'Alphabetical (A-Z)',
-                                'namereversed' => 'Alphabetical (Z-A)',
+                                'name' => 'A-Z',
+                                'namereversed' => 'Z-A',
                                 //'featured' => 'Featured'
                             ];
                             foreach ($sort_options as $key => $label) {

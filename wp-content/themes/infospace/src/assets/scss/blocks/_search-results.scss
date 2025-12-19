@@ -325,11 +325,12 @@
   &__number {
     font-weight: 500;
     font-size: rem-calc(16);
+   
     @include breakpoint(medium) {
       font-size: rem-calc(22);
     }
     @include breakpoint(large) {
-      font-size: rem-calc(36);
+      font-size: rem-calc(26);
     }
   }
   &__header-filters {
@@ -353,7 +354,7 @@
       padding-left: rem-calc(40);
     }
     p {
-      margin-bottom: 0;
+      margin-bottom: 0.2em;
       margin-top: rem-calc(10);
       @include breakpoint(medium) {
         margin-top: rem-calc(40);

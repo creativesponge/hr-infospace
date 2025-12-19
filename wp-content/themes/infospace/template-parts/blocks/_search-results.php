@@ -344,10 +344,10 @@ $resource_svg = ob_get_clean();
                                 <?php
                                 $sort_options = [
 
-                                    'mostrecent' => 'Time added (Most recent)',
-                                    'oldest' => 'Time added (Least recent)',
-                                    'name' => 'Alphabetical (A-Z)',
-                                    'namereversed' => 'Alphabetical (Z-A)',
+                                    'mostrecent' => 'Most recent',
+                                    'oldest' => 'Oldest',
+                                    'name' => 'A-Z',
+                                    'namereversed' => 'Z-A',
                                     //'featured' => 'Featured'
                                 ];
                                 foreach ($sort_options as $key => $label) {
