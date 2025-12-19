@@ -181,7 +181,9 @@ if (check_if_is_module_landing($post_id, $moduleMeta["attached_resources"])) {
 		'post_type' => 'resource_page',
 		'post_parent' => $post_id,
 		'post_status' => 'publish',
-		'numberposts' => -1
+		'numberposts' => -1,
+		'orderby' => 'menu_order',
+		'order' => 'ASC',
 	));
 
 
@@ -210,7 +212,7 @@ if (check_if_is_module_landing($post_id, $moduleMeta["attached_resources"])) {
 			<header class="resource-page__header full-width" style="background-color: <?php echo esc_html($moduleColour); ?>;">
 				<div class="resource-page__header-inner">
 					<h1 class="entry-title"><?php the_title(); ?></h1>
-					<?php get_template_part('template-parts/add-to-favourites') ?>
+					<?php // get_template_part('template-parts/add-to-favourites') ?>
 				</div>
 			</header>
 			<!--<div class="resource-page__box resource-page__box--green hide-for-medium">
