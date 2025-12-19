@@ -29,23 +29,23 @@ $attachmentIdMob = (is_array($block_attributes) && array_key_exists('attachmentI
 ?>
 <section class="posts-list-filters full-width">
     <?php if (is_user_logged_in()) : ?>
-    <div class="posts-list-filters__switcher">
-        <div class="news-tabs">
-            <?php
-            // Module switcher block
-            get_template_part(
-                'template-parts/module-switcher',
-                null,
-                array(
-                    'module_id' => $moduleMeta['module_id'] ?? null,
-                    'post_id' => $moduleMeta['attached_resources'] ?? null,
-                    'attached_resources' => $moduleMeta['attached_resources'] ?? null,
-                    'module_colour' => $moduleMeta['module_color'] ?? null,
-                )
-            );
-            ?>
+        <div class="posts-list-filters__switcher">
+            <div class="news-tabs">
+                <?php
+                // Module switcher block
+                get_template_part(
+                    'template-parts/module-switcher',
+                    null,
+                    array(
+                        'module_id' => $moduleMeta['module_id'] ?? null,
+                        'post_id' => $moduleMeta['attached_resources'] ?? null,
+                        'attached_resources' => $moduleMeta['attached_resources'] ?? null,
+                        'module_colour' => $moduleMeta['module_color'] ?? null,
+                    )
+                );
+                ?>
+            </div>
         </div>
-    </div>
     <?php endif; ?>
     <div class="posts-list-filters__top-container" style="background: <?php echo esc_html($moduleColour); ?>;">
         <div class="posts-list-filters__content">
@@ -104,7 +104,7 @@ $attachmentIdMob = (is_array($block_attributes) && array_key_exists('attachmentI
                             endforeach; ?>
                         </ul>
                         <p><strong>Enter keywords</strong><br />(Separate with a comma)</p>
-                        <form method="GET" action="">
+                        <form method="GET" action="<?php echo esc_url(get_permalink()); ?>">
                             <input type="text" name="q" value="<?php echo isset($_GET['q']) ? esc_attr($_GET['q']) : ''; ?>" placeholder="Search posts..." />
                             <input type="hidden" name="orderby" value="<?php echo esc_attr($sortBy); ?>" />
                             <input type="hidden" name="filter" value="<?php echo esc_attr($filterBy); ?>" />
@@ -245,6 +245,7 @@ $attachmentIdMob = (is_array($block_attributes) && array_key_exists('attachmentI
             }
 
             $loop_for_resource = new WP_Query($loopArgs);
+            relevanssi_do_query($loop_for_resource);
             $attached_to_page_ids = array();
             $matching_post_ids  = array(0);
             $featured_post = 0;
@@ -258,7 +259,8 @@ $attachmentIdMob = (is_array($block_attributes) && array_key_exists('attachmentI
                     $attached_to_page_ids[$postId] = $attached_to_pages;
                 }
             endwhile;
-            wp_reset_postdata();
+
+
 
             // Find posts matching current module's child pages
             if (!empty($child_pages) && !empty($attached_to_page_ids)) {
@@ -282,9 +284,6 @@ $attachmentIdMob = (is_array($block_attributes) && array_key_exists('attachmentI
                 //$loopArgs['category__in'] = $filterCat->term_id;
                 // }
 
-
-
-
                 // Sorting logic
                 if ($sortBy == 'mostrecent') {
                     $loopArgs['orderby'] = array('date' => 'DESC');
@@ -300,8 +299,9 @@ $attachmentIdMob = (is_array($block_attributes) && array_key_exists('attachmentI
                 }
 
                 $loopArgs['paged'] = get_query_var('paged') ? get_query_var('paged') : 1;
-                $loop = new WP_Query($loopArgs);
 
+                $loop = new WP_Query($loopArgs);
+                relevanssi_do_query($loop);
                 // Find and remove featured post from loop
                 if ($loop->have_posts()) {
                     $loop->the_post();
@@ -324,6 +324,7 @@ $attachmentIdMob = (is_array($block_attributes) && array_key_exists('attachmentI
                     }
                 endwhile;
                 $loop->rewind_posts();
+                $postCount = $loop->post_count;
                 wp_reset_postdata();
 
                 // If no featured post, use first post as featured
@@ -333,9 +334,11 @@ $attachmentIdMob = (is_array($block_attributes) && array_key_exists('attachmentI
                     $loop->rewind_posts();
                 }
 
+                $search_term_text = !empty($search) ? ' for "' . esc_html($search) . '"' : '';
+                $search_stories_text = $total_posts_before_featured_removed > 1 ? ' stories found' : ' story found';
 
 
-            ?> <p class="posts-list-filters__number"><?php echo $total_posts_before_featured_removed; ?> news stories</p>
+            ?> <p class="posts-list-filters__number"><?php echo $total_posts_before_featured_removed; ?> news <?php echo $search_stories_text . $search_term_text; ?></p>
         </div>
         <div class="posts-list-filters__container">
             <div class="grid-x">
