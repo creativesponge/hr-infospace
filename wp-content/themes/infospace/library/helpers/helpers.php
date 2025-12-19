@@ -370,3 +370,22 @@ function instruction_document_dashboard_widget_display()
         echo '<p>No instruction document set.</p>';
     }
 }
+
+// Change the contents of the email that gets sents to a user when the account is created
+function custom_new_user_notification_email($wp_new_user_notification_email, $user, $blogname
+
+) {
+    $login_url = wp_login_url();
+    $message  = sprintf( __('Welcome to %s!'), $blogname ) . "\r\n\r\n";
+    $message .= __('Your account has been created. You can log in using the following credentials:') . "\r\n\r\n";
+    $message .= sprintf( __('Username: %s'), $user->user_login ) . "\r\n";
+    $message .= sprintf( __('Password: (the password you set during registration)') ) . "\r\n\r\n";
+    $message .= sprintf( __('You can log in here: %s'), $login_url ) . "\r\n\r\n";
+    $message .= __('Please change your password after logging in for the first time.') . "\r\n";
+
+    $wp_new_user_notification_email['subject'] = sprintf( __('Your new account on %s'), $blogname );
+    $wp_new_user_notification_email['message'] = $message;
+
+    return $wp_new_user_notification_email;
+}
+add_filter( 'wp_new_user_notification_email', 'custom_new_user_notification_email', 10, 3 );
