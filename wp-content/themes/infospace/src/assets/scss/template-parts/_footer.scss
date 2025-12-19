@@ -62,9 +62,15 @@
     }
   }
   &__logo-cell {
+    max-width: rem-calc(364);
+    margin-left: auto;
+    margin-right: auto;
     @include breakpoint(medium) {
       text-align: right;
       flex-basis: rem-calc(264);
+      max-width: none;
+      margin-left: unset;
+      margin-right: unset;
     }
     @include breakpoint(large) {
       flex-basis: rem-calc(370);
@@ -73,7 +79,8 @@
   &__logo {
     padding-left: $mobile-spacing;
     padding-right: $mobile-spacing;
-    max-width: rem-calc(349);
+    max-width: 100%;
+
     @include breakpoint(medium) {
       max-width: rem-calc(254);
       padding-left: 0;

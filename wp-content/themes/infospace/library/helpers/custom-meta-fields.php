@@ -167,7 +167,7 @@ function theme_register_theme_options_metabox()
 		'id'      => $prefix . 'email',
 		'type'    => 'text',
 	));
-	
+
 
 	$theme_options->add_field(array(
 		'name' => 'Footer',
@@ -197,7 +197,7 @@ function theme_register_theme_options_metabox()
 		'id'      => $prefix . 'updates_log_date',
 		'type'    => 'text_date',
 	));
-$theme_options->add_field(array(
+	$theme_options->add_field(array(
 		'name' => 'Instruction document',
 		'type' => 'title',
 		'id'   => $prefix . 'instruction_document_title'
@@ -254,7 +254,6 @@ $theme_options->add_field(array(
 		'id'      => $prefix . 'search_heading_image_mobile',
 		'type'    => 'file',
 	));
-	
 }
 
 /**
@@ -391,7 +390,7 @@ function add_menu_item_custom_fields($item_id, $item, $depth, $args)
 		</label>
 	</p>
 
-	<?php
+<?php
 
 
 
@@ -408,6 +407,6 @@ function save_menu_item_custom_fields($menu_id, $menu_item_db_id, $args)
 	}
 
 	if (isset($_POST['menu-item-nav-accesskey'][$menu_item_db_id])) {
-	update_post_meta($menu_item_db_id, $prefix . 'nav_accesskey', sanitize_text_field($_POST['menu-item-nav-accesskey'][$menu_item_db_id]));
-}
+		update_post_meta($menu_item_db_id, $prefix . 'nav_accesskey', sanitize_text_field($_POST['menu-item-nav-accesskey'][$menu_item_db_id]));
+	}
 }

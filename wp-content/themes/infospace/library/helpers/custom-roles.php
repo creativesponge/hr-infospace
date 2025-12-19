@@ -14,6 +14,7 @@ function add_edit_own_created_users_capability()
     if ($role) {
         $role->add_cap('edit_own_created_users');
         $role->add_cap('delete_own_created_users');
+    
     }
 }
 
@@ -117,6 +118,20 @@ function add_custom_roles()
     }
 }
 
+/**
+ * Hide 'WordPress News and Events' and 'Activity' widgets for users with the role 'main'
+ */
+function hide_wordpress_news_for_main_role()
+{
+    $user = wp_get_current_user();
+    
+    if (in_array('main', $user->roles)) {
+        remove_meta_box('dashboard_primary', 'dashboard', 'side');
+        remove_meta_box('dashboard_activity', 'dashboard', 'normal');
+    }
+}
+add_action('wp_dashboard_setup', 'hide_wordpress_news_for_main_role');
+
 // Hook into WordPress initialization
 add_action('init', 'add_custom_roles');
 
@@ -141,7 +156,7 @@ function wpse_293133_filter_editable_roles($all_roles)
 {
     if (in_array('main', wp_get_current_user()->roles)) {
         $all_roles = array(
-            'employee' => $all_roles['employee'],
+            //'employee' => $all_roles['employee'],
             'individual' => $all_roles['individual']
         );
     }
@@ -153,7 +168,7 @@ add_filter('editable_roles', 'wpse_293133_filter_editable_roles', 21);
 
 
 /**
- * When adding a new user and the user is 'main', only allow the user to add a new user if there are less than 2 users of that role created by them
+ * When adding a new user and the user is 'main', only allow the user to add a new user if there are less than 6 users of that role created by them
  */
 function restrict_user_creation_before_add($errors, $sanitized_user_data, $user_data)
 {
@@ -176,7 +191,7 @@ function restrict_user_creation_before_add($errors, $sanitized_user_data, $user_
             if ($user_count >= 6) {
                 $errors->add('too_many_individual_users', __('You cannot create more than 6 individual users. Please remove an existing user to add a new one.', 'hrinfospace'));
             }
-        } elseif ($role === 'employee') {
+        } /*elseif ($role === 'employee') {
             // Get users created by the current user with 'employee' role
             $args = array(
                 'meta_key' => $prefix . 'user_created_by',
@@ -189,7 +204,7 @@ function restrict_user_creation_before_add($errors, $sanitized_user_data, $user_
             if ($user_count >= 1) {
                 $errors->add('too_many_employee_users', __('You cannot create more than 1 employee user', 'hrinfospace'));
             }
-        }
+        }*/ 
     }
     
     return $errors;

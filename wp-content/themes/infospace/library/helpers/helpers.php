@@ -304,7 +304,7 @@ function custom_user_admin_body_class($classes)
     $classes .= ' user-role-' . implode(' user-role-', wp_get_current_user()->roles);
     return trim($classes);
 }
-add_filter('admin_body_class', 'custom_user_admin_body_class'); 
+add_filter('admin_body_class', 'custom_user_admin_body_class');
 
 // Remove Personal Options from user profile
 function remove_personal_options()
@@ -321,7 +321,7 @@ function remove_personal_options()
         .user-display-name-wrap,
         .yoast.yoast-settings,
         .application-passwords,
-        .user-role-main #dashboard-widgets,
+
         .user-role-main ul.subsubsub,
         #createuser .form-table .form-field:nth-child(5) {
             display: none !important;
@@ -338,8 +338,35 @@ add_action('admin_head', 'remove_personal_options');
 /**
  * Remove annoying Yoast social fields from user profile forms.
  */
-function yoast_seo_admin_user_remove_social( $contactmethods ) {
+function yoast_seo_admin_user_remove_social($contactmethods)
+{
     // Return an empty array to remove all Yoast-added social fields.
     return array();
 }
-add_filter( 'user_contactmethods', 'yoast_seo_admin_user_remove_social', 100, 1 );
+add_filter('user_contactmethods', 'yoast_seo_admin_user_remove_social', 100, 1);
+
+// Add a dashbaord widget showing a link to the $prefix . 'instruction_document' field
+function add_instruction_document_dashboard_widget()
+{
+    global $prefix;
+    wp_add_dashboard_widget(
+        'instruction_document_dashboard_widget',
+        'Instruction Document',
+        'instruction_document_dashboard_widget_display'
+    );
+}
+add_action('wp_dashboard_setup', 'add_instruction_document_dashboard_widget');
+
+function instruction_document_dashboard_widget_display()
+{
+    global $prefix;
+    global $settings;
+
+    $instruction_document_id = $settings[$prefix . 'instruction_document_id'];
+    if ($instruction_document_id) {
+       // $instruction_document_url = wp_get_attachment_url($instruction_document_id);
+        echo '<p><a href="/download-document/' . $instruction_document_id . '" target="_blank">View Instruction Document</a></p>';
+    } else {
+        echo '<p>No instruction document set.</p>';
+    }
+}
