@@ -364,7 +364,7 @@ function instruction_document_dashboard_widget_display()
 
     $instruction_document_id = $settings[$prefix . 'instruction_document_id'];
     if ($instruction_document_id) {
-       // $instruction_document_url = wp_get_attachment_url($instruction_document_id);
+        // $instruction_document_url = wp_get_attachment_url($instruction_document_id);
         echo '<p><a href="/download-document/' . $instruction_document_id . '" target="_blank">View Instruction Document</a></p>';
     } else {
         echo '<p>No instruction document set.</p>';
@@ -372,20 +372,17 @@ function instruction_document_dashboard_widget_display()
 }
 
 // Change the contents of the email that gets sents to a user when the account is created
-function custom_new_user_notification_email($wp_new_user_notification_email, $user, $blogname
-
-) {
-    $login_url = wp_login_url();
-    $message  = sprintf( __('Welcome to %s!'), $blogname ) . "\r\n\r\n";
+function custom_new_user_notification_email($wp_new_user_notification_email, $user, $blogname)
+{
+    $change_password_url = wp_lostpassword_url();
+    $message  = sprintf(__('Welcome to %s!'), $blogname) . "\r\n\r\n";
     $message .= __('Your account has been created. You can log in using the following credentials:') . "\r\n\r\n";
-    $message .= sprintf( __('Username: %s'), $user->user_login ) . "\r\n";
-    $message .= sprintf( __('Password: (the password you set during registration)') ) . "\r\n\r\n";
-    $message .= sprintf( __('You can log in here: %s'), $login_url ) . "\r\n\r\n";
-    $message .= __('Please change your password after logging in for the first time.') . "\r\n";
-
-    $wp_new_user_notification_email['subject'] = sprintf( __('Your new account on %s'), $blogname );
+    $message .= sprintf(__('Username: %s'), $user->user_login) . "\r\n";
+    $message .= sprintf(__('Please change your password here: %s'), $change_password_url) . "\r\n\r\n";
+    $message .= __('Thank you!') . "\r\n";
+    $wp_new_user_notification_email['subject'] = sprintf(__('Your new account on %s'), $blogname);
     $wp_new_user_notification_email['message'] = $message;
 
     return $wp_new_user_notification_email;
 }
-add_filter( 'wp_new_user_notification_email', 'custom_new_user_notification_email', 10, 3 );
+add_filter('wp_new_user_notification_email', 'custom_new_user_notification_email', 10, 3);
