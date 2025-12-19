@@ -55,7 +55,7 @@ $resource_svg = ob_get_clean();
         <div class="news-tabs">
             <?php
             // Module switcher block
-            get_template_part(
+           /* get_template_part(
                 'template-parts/module-switcher',
                 null,
                 array(
@@ -64,8 +64,8 @@ $resource_svg = ob_get_clean();
                     'attached_resources' => $moduleMeta['attached_resources'] ?? null,
                     'module_colour' => $moduleMeta['module_color'] ?? null,
                 )
-            );
-            ?></div>
+            );*/
+            ?><br></br></br></div>
     </div>
     <?php endif; ?>
     <div class="search-results__top-container" style="background: <?php echo esc_html($moduleColour); ?>;">

@@ -33,7 +33,7 @@ $attachmentIdMob = (is_array($block_attributes) && array_key_exists('attachmentI
             <div class="news-tabs">
                 <?php
                 // Module switcher block
-                get_template_part(
+               /* get_template_part(
                     'template-parts/module-switcher',
                     null,
                     array(
@@ -42,8 +42,9 @@ $attachmentIdMob = (is_array($block_attributes) && array_key_exists('attachmentI
                         'attached_resources' => $moduleMeta['attached_resources'] ?? null,
                         'module_colour' => $moduleMeta['module_color'] ?? null,
                     )
-                );
-                ?>
+                );*/
+                
+                ?><br></br></br>
             </div>
         </div>
     <?php endif; ?>
