@@ -160,6 +160,12 @@ figure.wp-block-table {
       background-size: auto 80px;
     }
   }
+  .login .message, .login .notice, .login .success {
+    margin-left: rem-calc(25);
+    margin-right: rem-calc(25);
+    box-shadow: none;
+    border-left-width: rem-calc(8);
+  }
 }
 .wp-login-logo {
   background-size: auto 80px;

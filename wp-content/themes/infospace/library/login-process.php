@@ -22,7 +22,7 @@ function remove_signup_text( $content ) {
 add_action('login_footer', 'my_custom_login_content');
 function my_custom_login_content() {
     // Add your HTML here
-    echo '<p><a class="wp-login-lost-password" href="//localhost:3000/wp-login.php?action=lostpassword">Lost your password?</a></p>';
+    echo '<p><a class="wp-login-lost-password" href="/wp-login.php?action=lostpassword">Lost your password?</a></p>';
 }
   
 /**
