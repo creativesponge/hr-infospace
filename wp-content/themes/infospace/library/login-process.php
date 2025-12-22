@@ -19,11 +19,19 @@ function remove_signup_text( $content ) {
     return 'ddd';
 }
 
+// Add custom content to the login footer
 add_action('login_footer', 'my_custom_login_content');
 function my_custom_login_content() {
     // Add your HTML here
     echo '<p><a class="wp-login-lost-password" href="/wp-login.php?action=lostpassword">Lost your password?</a></p>';
 }
+
+// Change login logo URL to site URL
+add_filter( 'login_headerurl', 'my_login_logo_url' );
+function my_login_logo_url() {
+    return home_url();
+}
+
   
 /**
  * Login process
