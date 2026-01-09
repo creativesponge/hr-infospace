@@ -8,6 +8,12 @@ global $prefix;
 // --- Block attributes and module meta ---
 $block_attributes = get_query_var('attributes');
 $block_content = get_query_var('content');
+
+if (strlen($block_content) > 11) {
+     
+    $block_content = '';
+}   
+
 $numberPosts = isset($block_attributes['numberPosts']) ? $block_attributes['numberPosts'] : '6';
 $sortBy = isset($_GET['orderby']) ? sanitize_text_field($_GET['orderby']) : 'mostrecent';
 $filterBy = isset($_GET['filter']) ? sanitize_text_field($_GET['filter']) : '';
@@ -15,7 +21,7 @@ $search = isset($_GET['q']) ? sanitize_text_field($_GET['q']) : '';
 //$filterCat = get_term_by('slug', $filterBy, 'category');
 $current_module_id_global = isset($_SESSION['current_module_id']) ? $_SESSION['current_module_id'] : '';
 $moduleMeta = get_current_module_meta($current_module_id_global);
-
+$full_meta = theme_get_meta($current_module_id_global);
 // Ensure $moduleMeta is an array
 if (!is_array($moduleMeta)) {
     $moduleMeta = array();
@@ -52,7 +58,10 @@ $attachmentIdMob = (is_array($block_attributes) && array_key_exists('attachmentI
         <div class="posts-list-filters__content">
             <div class="posts-list-filters__text">
                 <div class="posts-list-filters__header">
-                    <?php echo $block_content; ?>
+                   
+              
+                    <?php echo isset($full_meta->news_intro_text) ? wp_kses_post(wpautop($full_meta->news_intro_text)) : 'Latest News'; ?>
+                     <?php //echo $block_content; ?>
                 </div>
             </div>
         </div>

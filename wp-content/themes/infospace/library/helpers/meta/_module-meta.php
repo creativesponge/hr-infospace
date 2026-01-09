@@ -2,11 +2,12 @@
 
 // Modules
 add_filter('cmb2_meta_boxes', 'cmb2_module_metabox');
-function cmb2_module_metabox() {
+function cmb2_module_metabox()
+{
     global $prefix;
-    
+
     $module = new_cmb2_box([
-        'id'            => $prefix .'module_details',
+        'id'            => $prefix . 'module_details',
         'title'         => 'Module details',
         'object_types'  => ['module'],
         'context'       => 'normal',
@@ -15,14 +16,14 @@ function cmb2_module_metabox() {
     ]);
 
 
-    $module->add_field( array(
-        'name'    => __( 'Resource to start access from', 'hrinfospace' ),
-        'desc'    => __( 'Select a single resource as a starting point for this module.', 'hrinfospace' ),
-        'id'      => $prefix .'module_attached_resources',
+    $module->add_field(array(
+        'name'    => __('Resource to start access from', 'hrinfospace'),
+        'desc'    => __('Select a single resource as a starting point for this module.', 'hrinfospace'),
+        'id'      => $prefix . 'module_attached_resources',
         'type'    => 'select',
         'column'  => true,
-        'show_option_none' => __( 'Select a resource...', 'hrinfospace' ),
-        'options_cb' => function() {
+        'show_option_none' => __('Select a resource...', 'hrinfospace'),
+        'options_cb' => function () {
             $resources = get_posts(array(
                 'post_type' => 'resource_page',
                 'posts_per_page' => -1,
@@ -36,44 +37,50 @@ function cmb2_module_metabox() {
             }
             return $options;
         },
-    ) );
-    $module->add_field( array(
-        'name' => __( 'Description', 'hrinfospace' ),
-        'desc' => __( 'Enter a description for this module.', 'hrinfospace' ),
+    ));
+    $module->add_field(array(
+        'name' => __('Description', 'hrinfospace'),
+        'desc' => __('Enter a description for this module.', 'hrinfospace'),
         'id'   => $prefix . 'module_description',
         'type' => 'textarea_small',
-    ) );
+    ));
 
-    
 
-    $module->add_field( array(
-        'name' => __( 'Module Color', 'hrinfospace' ),
-        'desc' => __( 'Choose a color for this module.', 'hrinfospace' ),
+
+    $module->add_field(array(
+        'name' => __('Module Color', 'hrinfospace'),
+        'desc' => __('Choose a color for this module.', 'hrinfospace'),
         'id'   => $prefix . 'module_color',
         'type' => 'colorpicker',
-    ) );
-    $module->add_field( array(
-        'name' => __( 'Phone Number', 'hrinfospace' ),
-        'desc' => __( 'Enter a contact phone number for this module.', 'hrinfospace' ),
+    ));
+    $module->add_field(array(
+        'name' => __('Phone Number', 'hrinfospace'),
+        'desc' => __('Enter a contact phone number for this module.', 'hrinfospace'),
         'id'   => $prefix . 'module_phone_number',
         'type' => 'text',
-    ) );
-    $module->add_field( array(
-        'name' => __( 'Email address', 'hrinfospace' ),
-        'desc' => __( 'Enter a contact email address for this module.', 'hrinfospace' ),
+    ));
+    $module->add_field(array(
+        'name' => __('Email address', 'hrinfospace'),
+        'desc' => __('Enter a contact email address for this module.', 'hrinfospace'),
         'id'   => $prefix . 'module_email_address',
         'type' => 'text',
-    ) );
-    $module->add_field( array(
-        'name' => __( 'Banner Image', 'hrinfospace' ),
-        'desc' => __( 'Upload a banner image for this module.', 'hrinfospace' ),
+    ));
+    $module->add_field(array(
+        'name' => __('News Intro Text', 'hrinfospace'),
+        'desc' => __('Enter intro text for news content.', 'hrinfospace'),
+        'id'   => $prefix . 'news_intro_text',
+        'type' => 'wysiwyg',
+    ));
+    $module->add_field(array(
+        'name' => __('Banner Image', 'hrinfospace'),
+        'desc' => __('Upload a banner image for this module.', 'hrinfospace'),
         'id'   => $prefix . 'banner_image',
         'type' => 'file',
         'options' => array(
             'url' => false,
         ),
         'text'    => array(
-            'add_upload_file_text' => __( 'Add Banner Image', 'hrinfospace' )
+            'add_upload_file_text' => __('Add Banner Image', 'hrinfospace')
         ),
         'query_args' => array(
             'type' => array(
@@ -84,18 +91,18 @@ function cmb2_module_metabox() {
             ),
         ),
         'preview_size' => 'medium',
-    ) );
-$moduleSide = new_cmb2_box([
-        'id'            => $prefix .'module_details_side',
+    ));
+    $moduleSide = new_cmb2_box([
+        'id'            => $prefix . 'module_details_side',
         'title'         => 'Mobile',
         'object_types'  => ['module'],
         'context'       => 'side',
         'priority'      => 'low',
         'show_names'    => true,
     ]);
-    $moduleSide->add_field( array(
-        'name' => __( 'Mobile listing image', 'hrinfospace' ),
-        'desc' => __( 'Upload a mobile listing image for this module.', 'hrinfospace' ),
+    $moduleSide->add_field(array(
+        'name' => __('Mobile listing image', 'hrinfospace'),
+        'desc' => __('Upload a mobile listing image for this module.', 'hrinfospace'),
         'id'   => $prefix . 'listing_image_mobile',
         'type' => 'file',
         'context' => 'side',
@@ -103,7 +110,7 @@ $moduleSide = new_cmb2_box([
             'url' => false,
         ),
         'text'    => array(
-            'add_upload_file_text' => __( 'Add Mobile Listing Image', 'hrinfospace' )
+            'add_upload_file_text' => __('Add Mobile Listing Image', 'hrinfospace')
         ),
         'query_args' => array(
             'type' => array(
@@ -114,10 +121,10 @@ $moduleSide = new_cmb2_box([
             ),
         ),
         'preview_size' => 'medium',
-    ) );
+    ));
 
-     
-/*
+
+    /*
     $module->add_field( array(
         'name'    => __( 'Select Pages', 'hrinfospace' ),
         'desc'    => __( 'Choose pages from the dropdown list to attach to this module.', 'hrinfospace' ),
@@ -135,9 +142,4 @@ $moduleSide = new_cmb2_box([
         'column'  => true,
     ) );
 */
-    
-
-
-    
-
 }

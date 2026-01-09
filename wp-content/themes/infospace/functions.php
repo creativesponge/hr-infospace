@@ -19,7 +19,8 @@ $current_module_slug_global = '';
 $site_url = get_site_url();
 
  $resource_pages = array(1786, 1581, 1585);
-if ($site_url == 'https://hr-infospace:8890/' || $site_url == 'https://localhost:3000/') {
+
+if ($site_url == 'https://hr-infospace:8890' || $site_url == 'https://localhost:3000') {
     // dev
     $finance_page = 1737;
     $hr_page = 1735;
