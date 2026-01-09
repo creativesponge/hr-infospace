@@ -102,7 +102,6 @@ function cmb2_user_metabox()
         'desc'      => 'Check to activate HR alerts for this user',
         'type'      => 'checkbox',
         'show_on_cb' => function () {
-
             global $hr_page;
             return (current_user_can('administrator') || current_user_can('main') || current_user_can('individual')) && user_has_access($hr_page);
         }
@@ -123,7 +122,6 @@ function cmb2_user_metabox()
         'desc'      => 'Check to activate H,S&W alerts for this user',
         'type'      => 'checkbox',
         'show_on_cb' => function () {
-
             global $hsafety_page;
             return (current_user_can('administrator') || current_user_can('main') || current_user_can('individual')) && user_has_access($hsafety_page);
         }
