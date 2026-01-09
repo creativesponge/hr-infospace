@@ -16,7 +16,7 @@ add_filter( 'register', '__return_false' );
 // Remove 'need an account? Sign up!' from wordpress login page
 add_filter( 'login_form_bottom', 'remove_signup_text' );
 function remove_signup_text( $content ) {
-    return 'ddd';
+    return '';
 }
 
 // Add custom content to the login footer

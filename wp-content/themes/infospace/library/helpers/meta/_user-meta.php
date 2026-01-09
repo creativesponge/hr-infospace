@@ -103,7 +103,7 @@ function cmb2_user_metabox()
         'desc'      => 'Check to activate HR alerts for this user',
         'type'      => 'checkbox',
         'show_on_cb' => function () {
-            return current_user_can('administrator') || current_user_can('main')|| current_user_can('individual');
+            return (current_user_can('administrator') || current_user_can('main') || current_user_can('individual')) && user_has_access(1735);
         }
     ]);
     $user->add_field([
@@ -112,7 +112,7 @@ function cmb2_user_metabox()
         'desc'      => 'Check to activate finance alerts for this user',
         'type'      => 'checkbox',
         'show_on_cb' => function () {
-            return current_user_can('administrator') || current_user_can('main')|| current_user_can('individual');
+            return (current_user_can('administrator') || current_user_can('main') || current_user_can('individual')) && user_has_access(1737);
         }
     ]);
      $user->add_field([
@@ -121,7 +121,7 @@ function cmb2_user_metabox()
         'desc'      => 'Check to activate H,S&W alerts for this user',
         'type'      => 'checkbox',
         'show_on_cb' => function () {
-            return current_user_can('administrator') || current_user_can('main')|| current_user_can('individual');
+            return (current_user_can('administrator') || current_user_can('main') || current_user_can('individual')) && user_has_access(1739);
         }
     ]);
     $user->add_field([

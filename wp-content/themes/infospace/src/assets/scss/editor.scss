@@ -87,3 +87,13 @@
  {
     width: auto;
 }
+
+.user-role-main {
+
+  .wp-list-table {
+    tfoot {
+      display: none;
+    }
+  }
+
+}
