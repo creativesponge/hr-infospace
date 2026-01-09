@@ -16,54 +16,68 @@ global $_SESSION;
 $prefix = 'theme_fields';
 $namespace = 'theme_name';
 $current_module_slug_global = '';
-$resource_pages = array(1786,1581,1585);
+$site_url = get_site_url();
+
+ $resource_pages = array(1786, 1581, 1585);
+if ($site_url == 'https://hr-infospace:8890/' || $site_url == 'https://localhost:3000/') {
+    // dev
+    $finance_page = 1737;
+    $hr_page = 1735;
+    $hsafety_page = 1739;
+} else {
+    // live
+    $finance_page = 4611;
+    $hr_page = 4536;
+    $hsafety_page = 4613;
+}
+
 
 /** Various clean up functions */
-require_once( 'library/cleanup.php' );
+require_once('library/cleanup.php');
 
 /** Required for Foundation to work properly */
-require_once( 'library/foundation.php' );
+require_once('library/foundation.php');
 
 /** Format comments */
-require_once( 'library/class-comments.php' );
+require_once('library/class-comments.php');
 
 /** Register all navigation menus */
-require_once( 'library/navigation.php' );
+require_once('library/navigation.php');
 
 /** Add menu walkers for top-bar and off-canvas */
-require_once( 'library/class-top-bar-walker.php' );
-require_once( 'library/class-mobile-walker.php' );
-require_once( 'library/class-account-walker.php' );
+require_once('library/class-top-bar-walker.php');
+require_once('library/class-mobile-walker.php');
+require_once('library/class-account-walker.php');
 
 /** Create widget areas in sidebar and footer */
 //require_once( 'library/widget-areas.php' );
 
 /** Enqueue scripts */
-require_once( 'library/enqueue-scripts.php' );
+require_once('library/enqueue-scripts.php');
 
 /** Add theme support */
-require_once( 'library/theme-support.php' );
+require_once('library/theme-support.php');
 
 /** Change WP's sticky post class */
-require_once( 'library/sticky-posts.php' );
+require_once('library/sticky-posts.php');
 
 /** Configure responsive image sizes */
-require_once( 'library/responsive-images.php' );
+require_once('library/responsive-images.php');
 
 /** Gutenberg editor support */
-require_once( 'library/gutenberg.php' );
+require_once('library/gutenberg.php');
 
 /** Theme helper */
-require_once( 'library/helpers/helpers.php' );
+require_once('library/helpers/helpers.php');
 /** include CMB2 fields */
 
-require_once( 'library/helpers/custom-post-types.php' );
+require_once('library/helpers/custom-post-types.php');
 
 /** include CMB2 fields */
-require_once( 'library/helpers/custom-meta-fields.php' );
+require_once('library/helpers/custom-meta-fields.php');
 
 /** include new Roles */
-require_once( 'library/helpers/custom-roles.php' );
+require_once('library/helpers/custom-roles.php');
 
 /** Ajax */
 require_once dirname(__FILE__) . '/library/_ajax.php';
@@ -143,5 +157,4 @@ require_once dirname(__FILE__) . '/library/stats/stats-logins.php';
 require_once dirname(__FILE__) . '/library/alerts/alerts.php';
 
 /** If your site requires protocol relative url's for theme assets, uncomment the line below */
-require_once( 'library/class-protocol-relative-theme-assets.php' );
-
+require_once('library/class-protocol-relative-theme-assets.php');
