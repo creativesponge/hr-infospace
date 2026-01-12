@@ -110,8 +110,8 @@ function post_type_module_page()
         'not_found_in_trash'    => 'Not found in bin',
         'featured_image'        => 'Listing Image',
         'set_featured_image'    => 'Set listing image',
-        'remove_featured_image' => 'Remove Profile image',
-        'use_featured_image'    => 'Use as Profile image',
+        'remove_featured_image' => 'Remove Module image',
+        'use_featured_image'    => 'Use as Module image',
         'insert_into_item'      => 'Insert into Module',
         'uploaded_to_this_item' => 'Uploaded to this Module',
         'items_list'            => 'Module list',
@@ -150,37 +150,36 @@ add_action('init', 'post_type_user_profile', 0);
 function post_type_user_profile()
 {
     $labels = array(
-        'name'                  => 'Access Profile',
-        'singular_name'         => 'Access Profile',
-        'menu_name'             => 'Access Profiles',
-        'name_admin_bar'        => 'Access Profile',
-        'archives'              => 'Access Profile List',
-        'parent_item_colon'     => 'Parent Access Profile:',
-        'all_items'             => 'All Access Profiles',
-        'add_new_item'          => 'Add Access Profile',
-        'add_new'               => 'Add Access Profile',
-        'new_item'              => 'New Access Profile',
-        'edit_item'             => 'Edit Access Profile',
-        'update_item'           => 'Update Access Profile',
-        'view_item'             => 'View Access Profile',
-        'search_items'          => 'Search Access Profile',
+        'name'                  => 'Access Permissions',
+        'singular_name'         => 'Access Permission',
+        'menu_name'             => 'Access Permissions',
+        'name_admin_bar'        => 'Access Permission',
+        'archives'              => 'Access Permission List',
+        'parent_item_colon'     => 'Parent Access Permission:',
+        'all_items'             => 'All Access Permissions',
+        'add_new_item'          => 'Add Access Permission',
+        'add_new'               => 'Add Access Permission',
+        'new_item'              => 'New Access Permission',
+        'edit_item'             => 'Edit Access Permission',
+        'update_item'           => 'Update Access Permission',
+        'view_item'             => 'View Access Permission',
+        'search_items'          => 'Search Access Permission',
         'not_found'             => 'Not found',
         'not_found_in_trash'    => 'Not found in bin',
         'featured_image'        => 'Listing Image',
         'set_featured_image'    => 'Set listing image',
-        'remove_featured_image' => 'Remove Access Profile image',
-        'use_featured_image'    => 'Use as Access Profile image',
-        'insert_into_item'      => 'Insert into Access Profile',
-        'uploaded_to_this_item' => 'Uploaded to this Access Profile',
-        'items_list'            => 'Access Profile list',
-        'items_list_navigation' => 'Access Profile list navigation',
-        'filter_items_list'     => 'Filter Access Profile',
-
+        'remove_featured_image' => 'Remove Access Permission image',
+        'use_featured_image'    => 'Use as Access Permission image',
+        'insert_into_item'      => 'Insert into Access Permission',
+        'uploaded_to_this_item' => 'Uploaded to this Access Permission',
+        'items_list'            => 'Access Permission list',
+        'items_list_navigation' => 'Access Permission list navigation',
+        'filter_items_list'     => 'Filter Access Permission',
     );
 
     $args = array(
-        'label'                 => 'User Access Profile',
-        'description'           => 'Front end access Profile item',
+        'label'                 => 'User Access Permission',
+        'description'           => 'Front end access Permission item',
         'labels'                => $labels,
         'menu_icon'             => 'dashicons-networking',
         'show_in_rest'             => true,
@@ -814,7 +813,6 @@ function filter_documents_by_doc_type($query) {
         );
     }
 }
-
 
 
 
