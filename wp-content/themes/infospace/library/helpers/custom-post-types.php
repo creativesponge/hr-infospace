@@ -168,7 +168,7 @@ function post_type_user_profile()
         'not_found_in_trash'    => 'Not found in bin',
         'featured_image'        => 'Listing Image',
         'set_featured_image'    => 'Set listing image',
-        'remove_featured_image' => 'Remove AccessProfile image',
+        'remove_featured_image' => 'Remove Access Profile image',
         'use_featured_image'    => 'Use as Access Profile image',
         'insert_into_item'      => 'Insert into Access Profile',
         'uploaded_to_this_item' => 'Uploaded to this Access Profile',
@@ -814,4 +814,7 @@ function filter_documents_by_doc_type($query) {
         );
     }
 }
+
+
+
 
