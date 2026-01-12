@@ -156,7 +156,7 @@ function post_type_user_profile()
         'name_admin_bar'        => 'Access Permission',
         'archives'              => 'Access Permission List',
         'parent_item_colon'     => 'Parent Access Permission:',
-        'all_items'             => 'All Access Permissions',
+        'all_items'             => 'Access Permissions',
         'add_new_item'          => 'Add Access Permission',
         'add_new'               => 'Add Access Permission',
         'new_item'              => 'New Access Permission',
@@ -813,6 +813,7 @@ function filter_documents_by_doc_type($query) {
         );
     }
 }
+
 
 
 
