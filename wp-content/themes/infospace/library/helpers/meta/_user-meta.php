@@ -287,7 +287,7 @@ function cmb2_user_metabox()
 
 
     $user->add_field(array(
-        'name'    => __('User permissions profile', 'hrinfospace'),
+        'name'    => __('Front end access profile', 'hrinfospace'),
         'desc'    => __('Drag profile from the left column to the right column to attach them to this user.<br />You may rearrange the order of the profile in the right column by dragging and dropping.', 'hrinfospace'),
         'id'      => $prefix . 'user_attached_user_profile',
         'type'    => 'custom_attached_posts',

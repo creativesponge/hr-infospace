@@ -150,37 +150,37 @@ add_action('init', 'post_type_user_profile', 0);
 function post_type_user_profile()
 {
     $labels = array(
-        'name'                  => 'User Profile',
-        'singular_name'         => 'User Profile',
-        'menu_name'             => 'User Profiles',
-        'name_admin_bar'        => 'User Profile',
-        'archives'              => 'User Profile List',
-        'parent_item_colon'     => 'Parent User Profile:',
-        'all_items'             => 'All User Profiles',
-        'add_new_item'          => 'Add User Profile',
-        'add_new'               => 'Add User Profile',
-        'new_item'              => 'New User Profile',
-        'edit_item'             => 'Edit User Profile',
-        'update_item'           => 'Update User Profile',
-        'view_item'             => 'View User Profile',
-        'search_items'          => 'Search User Profile',
+        'name'                  => 'Access Profile',
+        'singular_name'         => 'Access Profile',
+        'menu_name'             => 'Access Profiles',
+        'name_admin_bar'        => 'Access Profile',
+        'archives'              => 'Access Profile List',
+        'parent_item_colon'     => 'Parent Access Profile:',
+        'all_items'             => 'All Access Profiles',
+        'add_new_item'          => 'Add Access Profile',
+        'add_new'               => 'Add Access Profile',
+        'new_item'              => 'New Access Profile',
+        'edit_item'             => 'Edit Access Profile',
+        'update_item'           => 'Update Access Profile',
+        'view_item'             => 'View Access Profile',
+        'search_items'          => 'Search Access Profile',
         'not_found'             => 'Not found',
         'not_found_in_trash'    => 'Not found in bin',
         'featured_image'        => 'Listing Image',
         'set_featured_image'    => 'Set listing image',
-        'remove_featured_image' => 'Remove Profile image',
-        'use_featured_image'    => 'Use as Profile image',
-        'insert_into_item'      => 'Insert into User Profile',
-        'uploaded_to_this_item' => 'Uploaded to this User Profile',
-        'items_list'            => 'User Profile list',
-        'items_list_navigation' => 'User Profile list navigation',
-        'filter_items_list'     => 'Filter User Profile',
+        'remove_featured_image' => 'Remove AccessProfile image',
+        'use_featured_image'    => 'Use as Access Profile image',
+        'insert_into_item'      => 'Insert into Access Profile',
+        'uploaded_to_this_item' => 'Uploaded to this Access Profile',
+        'items_list'            => 'Access Profile list',
+        'items_list_navigation' => 'Access Profile list navigation',
+        'filter_items_list'     => 'Filter Access Profile',
 
     );
 
     $args = array(
-        'label'                 => 'User Profile',
-        'description'           => 'User Profile item',
+        'label'                 => 'User Access Profile',
+        'description'           => 'Front end access Profile item',
         'labels'                => $labels,
         'menu_icon'             => 'dashicons-networking',
         'show_in_rest'             => true,
@@ -409,6 +409,7 @@ function post_type_document_file()
     register_post_type('document_file', $args);
 }
 */
+
 // Page links
 add_action('init', 'post_type_page_links', 0);
 function post_type_page_links()
@@ -813,5 +814,4 @@ function filter_documents_by_doc_type($query) {
         );
     }
 }
-
 

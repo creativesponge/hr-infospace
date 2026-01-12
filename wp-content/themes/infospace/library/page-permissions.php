@@ -13,7 +13,7 @@ function user_has_access($post_id): bool
     if (! is_user_logged_in()) {
         return false;
     }
-    
+
     // Check if user is in an allowed role
     $allowed_roles = ['main', 'individual', 'employee', 'administrator', 'editor', 'hsw_editor', 'hr_editor', 'finance_editor'];
     if (!array_intersect($allowed_roles, (array) $user->roles)) {
@@ -52,9 +52,6 @@ function user_has_access($post_id): bool
             }
         }
 
-
-        
-        
         return false;
     }
 
@@ -122,7 +119,7 @@ function user_has_page_access($userid, $page_id, $post_type): bool
     }
 
     if ($post_type == 'attachment') {
-        
+
         //error_log('Relevant attachment: ' . print_r($page_id, true));
         // document files - find documents that contain this attachment
         $all_active_documents = get_posts([
@@ -139,7 +136,7 @@ function user_has_page_access($userid, $page_id, $post_type): bool
             'numberposts' => -1,
             'fields' => 'ids'
         ]);
-//return $all_active_documents;
+        //return $all_active_documents;
         // Filter documents that contain this attachment
         $relevant_documents = [];
         foreach ($all_active_documents as $document_id) {
@@ -157,7 +154,7 @@ function user_has_page_access($userid, $page_id, $post_type): bool
             }
         }
         $attached_documents = $relevant_documents;
-//return $attached_documents;
+        //return $attached_documents;
         // Get the pages
         $attached_document_pages = get_posts([
             'post_type' => 'resource_page',
@@ -194,10 +191,10 @@ function user_has_page_access($userid, $page_id, $post_type): bool
     return true;
 }
 
-function user_has_module_access($post_id) : bool
+function user_has_module_access($post_id): bool
 {
     global $prefix;
-   
+
     $user = wp_get_current_user();
     //$post_type = get_post_type($post_id);
     if (! is_user_logged_in()) {
@@ -239,30 +236,26 @@ function user_has_module_access($post_id) : bool
             //return $user_attached_pages;
             // Check if this user has access
             if (check_module_is_parent_of_attached_page($user_attached_pages, $post_id) || in_array($post_id, $user_attached_pages)) {
-                
+
                 return true;
             }
             //return $user_attached_pages;
         } else {
-            
+
             // Check if the parent user has access
             $parent_profile_resources = get_user_profile_resources($created_by);
             if (!empty($parent_profile_resources)) {
-            
+
                 $parent_user_attached_pages = $parent_profile_resources;
                 //return $parent_user_attached_pages;
-            } else {    
+            } else {
                 $parent_user_attached_pages = get_user_meta($created_by, $prefix . 'user_attached_resource_pages', true);
             }
 
             if (check_module_is_parent_of_attached_page($parent_user_attached_pages, $post_id) || in_array($post_id, $user_attached_pages)) {
                 return true;
-            }  
+            }
         }
-
-
-
-
         return false;
     }
 
@@ -293,7 +286,7 @@ function return_users_pages_with_access(): array
     global $prefix;
     $user = wp_get_current_user();
     $created_by = get_user_meta($user->ID, $prefix . 'user_created_by', true);
-    
+
     if ($created_by != '') {
         $user = get_user_by('id', $created_by);
     } else {
@@ -350,7 +343,7 @@ function return_users_pages_with_access(): array
 
 
 
-    
+
     return $user_attached_pages;
 }
 
