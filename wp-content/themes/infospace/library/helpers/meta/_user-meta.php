@@ -103,7 +103,7 @@ function cmb2_user_metabox()
         'type'      => 'checkbox',
         'show_on_cb' => function () {
             global $hr_page;
-            return (current_user_can('administrator') || current_user_can('main') || current_user_can('individual')) && user_has_access($hr_page);
+            return (current_user_can('administrator') || current_user_can('main') || current_user_can('individual')) && (user_has_access($hr_page) || user_has_module_access($hr_page));
         }
     ]);
     $user->add_field([
@@ -113,7 +113,7 @@ function cmb2_user_metabox()
         'type'      => 'checkbox',
         'show_on_cb' => function () {
             global $finance_page;
-            return (current_user_can('administrator') || current_user_can('main') || current_user_can('individual')) && user_has_access($finance_page);
+            return (current_user_can('administrator') || current_user_can('main') || current_user_can('individual')) && (user_has_access($finance_page) || user_has_module_access($finance_page));
         }
     ]);
     $user->add_field([
@@ -123,7 +123,7 @@ function cmb2_user_metabox()
         'type'      => 'checkbox',
         'show_on_cb' => function () {
             global $hsafety_page;
-            return (current_user_can('administrator') || current_user_can('main') || current_user_can('individual')) && user_has_access($hsafety_page);
+            return (current_user_can('administrator') || current_user_can('main') || current_user_can('individual')) && (user_has_access($hsafety_page) || user_has_module_access($hsafety_page));
         }
     ]);
     $user->add_field([
