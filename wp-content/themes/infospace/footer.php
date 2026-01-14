@@ -252,36 +252,35 @@ $footerClass = (isset($meta->grey_footer) && $meta->grey_footer == true) || $pos
 			$meta = theme_get_meta($surveyId);
 			$ninjaFormId = isset($meta->ninja_form_id) ? $meta->ninja_form_id : '';
 			$surveyActive = isset($meta->survey_active) ? $meta->survey_active : false;
-			
+
 			// Get all custom meta fields for this survey
 			//$meta_fields = get_post_meta($survey->ID);
 
-			if ($ninjaFormId && $surveyActive) { ?>
+	?>
+			<?php if ($ninjaFormId && $surveyActive && isset($meta->survey_attached_resource_pages) && is_array($meta->survey_attached_resource_pages) && !empty($meta->survey_attached_resource_pages)) : ?>
+				<?php
+				if (is_array($meta->survey_attached_resource_pages)) {
+					$hasAccess = false;
+					foreach ($meta->survey_attached_resource_pages as $resourcePage) {
+						if (user_has_access($resourcePage) || user_has_module_access($resourcePage)) {
+							$hasAccess = true;
+							break;
+						}
+					}
 
-				<div class="form-pop-up form-pop-up--survey" id="survey-pop-up">
-					<div class="form-pop-up__content ">
-<?php //var_dump($meta->survey_attached_resource_pages);  ?>
-						<?php if (isset($meta->survey_attached_resource_pages) && is_array($meta->survey_attached_resource_pages) && !empty($meta->survey_attached_resource_pages)) : ?>
-							<?php foreach ($meta->survey_attached_resource_pages as $resource_page_id) : ?>
-								<?php 
-
-								echo $resource_page_id;
-								$resource_page = get_post($resource_page_id);
-								if ($resource_page) {
-									echo '<p>' . esc_html($resource_page->post_title) . '</p>';
-								}
+					if ($hasAccess) : ?>
+						<div class="form-pop-up form-pop-up--survey" data-surveyid="<?php echo esc_attr($surveyId); ?>" id="survey-pop-up">
+							<div class="form-pop-up__content ">
+								<?php
+								echo do_shortcode('[ninja_form id="' . esc_html($ninjaFormId) . '"]');
 								?>
-							<?php endforeach; ?>
-						<?php endif; ?>
-						<?php
-						echo do_shortcode('[ninja_form id="' . esc_html($ninjaFormId) . '"]');
-						?>
-						<button class="form-pop-up__close">Close</button>
-					</div>
-					<div class="form-pop-up__overlay"></div>
-				</div>
-	<?php
-			}
+								<button class="form-pop-up__close">Close</button>
+							</div>
+							<div class="form-pop-up__overlay"></div>
+						</div>
+	<?php endif;
+				}
+			endif;
 		}
 	}
 	?>

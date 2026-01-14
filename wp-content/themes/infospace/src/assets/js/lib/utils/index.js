@@ -1,3 +1,20 @@
+/**
+ * Utility functions module for handling various UI interactions and AJAX operations.
+ *
+ * @namespace utils
+ * @description A comprehensive utility object containing methods for form submissions,
+ * post filtering, menu interactions, carousel functionality, and user interface components.
+ *
+ * @example
+ * // Initialize specific functionality
+ * utils.ajaxFormSubmission();
+ * utils.mobileMenuToggle();
+ *
+ * @example
+ * // Use utility functions
+ * const encodedData = utils.urlencodeFormData(formData);
+ * const cookieValue = utils.getCookie('myCookie');
+ */
 var utils = {
   //init: function () {
   //this.ajaxFormSubmission();
@@ -45,7 +62,7 @@ var utils = {
 
             if (xhr.readyState == 4 && xhr.status == 200) {
               var response = JSON.parse(xhr.responseText);
-   
+
               if (response.success) {
                 form.classList.add("submitted");
                 form.reset();
@@ -1641,41 +1658,139 @@ event.preventDefault();
     }
 
     // Open survey popup after 5 seconds
-    const surveyPopup = document.getElementById("survey-pop-up");
-    if (surveyPopup) {
-      setTimeout(() => {
-        // Check if the cookie "survey_popup_shown" is set
-        if (this.getCookie("survey_popup_shown") !== "true") {
-          surveyPopup.classList.add("form-pop-up--open");
-          setTimeout(() => {
-            surveyPopup.classList.add("form-pop-up--open-delay");
-          }, 10);
-          // Set the cookie to prevent showing the popup again for 1 day
-          const d = new Date();
-          d.setTime(d.getTime() + 24 * 60 * 60 * 1000); // 1 day
-          const expires = "expires=" + d.toUTCString();
-          document.cookie = "survey_popup_shown=true;" + expires + ";path=/";
-        }  
-      }, 1000);
+    const surveyPopups = document.querySelectorAll(".form-pop-up--survey");
 
-    
-      const closeButtons = [
-        ...surveyPopup.querySelectorAll(
-          ".form-pop-up__close, .form-pop-up__overlay"
-        ),
-       
-      ];
-      closeButtons.forEach((button) => {
-        button.addEventListener("click", function (e) {
-          e.preventDefault();
-          surveyPopup.classList.remove("form-pop-up--open-delay");
-          setTimeout(() => {
-            surveyPopup.classList.remove("form-pop-up--open");
-          }, 250);
+    surveyPopups.forEach((surveyPopup) => {
+      if (surveyPopup) {
+        setTimeout(() => {
+          // Check if the cookie "survey_popup_shown" is set
+          const surveyId = surveyPopup.dataset.surveyid || "default";
+          const showCountCookie = this.getCookie(
+            "survey_popup_count_" + surveyId
+          );
+          const lastShownCookie = this.getCookie(
+            "survey_popup_last_shown_" + surveyId
+          );
+
+          let showCount = showCountCookie ? parseInt(showCountCookie) : 0;
+          const today = new Date().toDateString();
+          const lastShownDate = lastShownCookie || "";
+
+          // Set up form event listener first (outside of timing-dependent code)
+          const surveyForm = surveyPopup.querySelector("form");
+          const expires =
+            "expires=" +
+            new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toUTCString(); // 1 year
+
+          if (surveyForm) {
+            // For Ninja Forms, listen for their custom success event
+            if (typeof nfRadio !== "undefined") {
+              nfRadio
+                .channel("forms")
+                .on("submit:response", function (response) {
+                  // Check if this is our form by comparing form elements
+                  const formElement = document.getElementById(
+                    "nf-form-" + response.data.form_id + "-cont"
+                  );
+                  if (surveyPopup.contains(formElement)) {
+                    surveyPopup.classList.remove("form-pop-up--open-delay");
+                    setTimeout(() => {
+                      surveyPopup.classList.remove("form-pop-up--open");
+                    }, 250);
+                    document.cookie =
+                      "survey_popup_count_" +
+                      surveyId +
+                      "=4;" +
+                      expires +
+                      ";path=/";
+                  }
+                });
+            }
+
+            // Fallback: Standard form submit event (in case it's not Ninja Forms or as backup)
+            surveyForm.addEventListener("submit", function (e) {
+  
+
+              surveyPopup.classList.remove("form-pop-up--open-delay");
+              setTimeout(() => {
+                surveyPopup.classList.remove("form-pop-up--open");
+              }, 250);
+              document.cookie =
+                "survey_popup_count_" + surveyId + "=4;" + expires + ";path=/";
+            });
+
+            // Alternative: Listen for click on submit button
+            const submitButton = surveyForm.querySelector(
+              'input[type="submit"], button[type="submit"], .nf-element.submit-button input'
+            );
+            if (submitButton) {
+              submitButton.addEventListener("click", function () {
+                console.log("Submit button clicked");
+                // Add a small delay to allow form validation
+                setTimeout(() => {
+                  console.log("Processing form submission...");
+                  surveyPopup.classList.remove("form-pop-up--open-delay");
+                  setTimeout(() => {
+                    surveyPopup.classList.remove("form-pop-up--open");
+                  }, 250);
+                  document.cookie =
+                    "survey_popup_count_" +
+                    surveyId +
+                    "=4;" +
+                    expires +
+                    ";path=/";
+                }, 1000); // Wait 1 second for form processing
+              });
+            }
+          }
+
+          // Check if we should show the popup (max 3 times, once per day)
+          if (showCount < 3 && lastShownDate !== today) {
+            surveyPopup.classList.add("form-pop-up--open");
+            setTimeout(() => {
+              surveyPopup.classList.add("form-pop-up--open-delay");
+            }, 10);
+
+            // Update counters
+            showCount++;
+
+            document.cookie =
+              "survey_popup_count_" +
+              surveyId +
+              "=" +
+              showCount +
+              ";" +
+              expires +
+              ";path=/";
+            document.cookie =
+              "survey_popup_last_shown_" +
+              surveyId +
+              "=" +
+              today +
+              ";" +
+              expires +
+              ";path=/";
+          }
+        }, 1000);
+
+        // close popup when clicking the close button or outside the form
+
+        const closeButtons = [
+          ...surveyPopup.querySelectorAll(
+            ".form-pop-up__close, .form-pop-up__overlay"
+          ),
+        ];
+        closeButtons.forEach((button) => {
+          button.addEventListener("click", function (e) {
+            e.preventDefault();
+            surveyPopup.classList.remove("form-pop-up--open-delay");
+            setTimeout(() => {
+              surveyPopup.classList.remove("form-pop-up--open");
+            }, 250);
+          });
         });
-      });
-    
-    }      
+      }
+    });
   },
   // For ajax loading
   getCookie: function (cname) {
