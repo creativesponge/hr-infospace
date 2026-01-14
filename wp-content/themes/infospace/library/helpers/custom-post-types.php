@@ -814,6 +814,61 @@ function filter_documents_by_doc_type($query) {
     }
 }
 
+// Survey
+add_action('init', 'post_type_survey', 0);
+function post_type_survey()
+{
+    $labels = array(
+        'name'                  => 'Survey',
+        'singular_name'         => 'Survey',
+        'menu_name'             => 'Surveys',
+        'name_admin_bar'        => 'Survey',
+        'archives'              => 'Survey List',
+        'parent_item_colon'     => 'Parent Survey:',
+        'all_items'             => 'All Surveys',
+        'add_new_item'          => 'Add Survey',
+        'add_new'               => 'Add Survey',
+        'new_item'              => 'New Survey',
+        'edit_item'             => 'Edit Survey',
+        'update_item'           => 'Update Survey',
+        'view_item'             => 'View Survey',
+        'search_items'          => 'Search Surveys',
+        'not_found'             => 'Not found',
+        'not_found_in_trash'    => 'Not found in bin',
+        'featured_image'        => 'Listing Image',
+        'set_featured_image'    => 'Set listing image',
+        'remove_featured_image' => 'Remove Survey image',
+        'use_featured_image'    => 'Use as Survey image',
+        'insert_into_item'      => 'Insert into Survey',
+        'uploaded_to_this_item' => 'Uploaded to this Survey',
+        'items_list'            => 'Survey list',
+        'items_list_navigation' => 'Survey list navigation',
+        'filter_items_list'     => 'Filter Survey',
+    );
 
+    $args = array(
+        'label'                 => 'Survey',
+        'description'           => 'Survey item',
+        'labels'                => $labels,
+        'menu_icon'             => 'dashicons-clipboard',
+        'supports'              => array('revisions', 'title', 'author'),
+        'hierarchical'          => false,
+        'public'                => false,
+        'show_ui'               => true,
+        'show_in_menu'          => true,
+        'show_in_nav_menus'     => true,
+        'show_in_admin_bar'     => true,
+        'menu_position'         => 29,
+        'can_export'            => true,
+        'has_archive'           => false,
+        'exclude_from_search'   => true,
+        'publicly_queryable'    => false,
+        'capability_type'       => 'page',
+        'rewrite'               => array('slug' => 'survey', 'with_front' => false),
+        'taxonomies'            => array(),
+        'show_in_rest'          => true,
+    );
+    register_post_type('survey', $args);
+}
 
 

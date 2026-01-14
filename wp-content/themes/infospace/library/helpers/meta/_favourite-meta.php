@@ -79,7 +79,7 @@ function cmb2_favourite_metabox()
         'desc'      => 'ID from the old system',
         'type'      => 'text',
         'attributes' => [
-            'readonly' => 'readonly',
+            //'readonly' => 'readonly',
              'style' => 'display: none;'
         ]
     ]);

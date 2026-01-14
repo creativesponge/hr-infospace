@@ -98,7 +98,7 @@ require_once('meta/_user-profile-meta.php');
 require_once('meta/_favourite-meta.php');
 require_once('meta/_module-meta.php');
 require_once('meta/_page-meta.php');
-
+require_once('meta/_survey-meta.php');
 
 
 add_action('cmb2_admin_init', 'theme_register_theme_options_metabox');

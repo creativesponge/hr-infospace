@@ -199,9 +199,11 @@ foreach ($userData as $userRecord) {
 
             // Attach the resource to the post
             // Get existing attached resources array
-            $existingResources = get_post_meta($post_id, $prefix . 'user_attached_resource_pages', true);
+            $existingResources = get_user_meta($post_id, $prefix . 'user_attached_resource_pages', true);
+            var_dump($post_id);
             if (!is_array($existingResources)) {
-                $existingResources = array();
+                $existingResources = array($existingResources);
+                //$existingResources = array();
             }
 
             // Add new ID to array
@@ -407,7 +409,7 @@ foreach ($userData as $userRecord) {
 
             //foreach ($relatedResources as $relatedResource) {
 
-            $relatedResourcesId = $favouritesFile['object_id'];
+            $favRelatedResourcesId = $favouritesFile['object_id'];
             // Get the document post by old_system_id
             $resource_posts = get_posts(array(
                 'post_type'      => 'resource_page',
@@ -416,7 +418,7 @@ foreach ($userData as $userRecord) {
                 'meta_query'     => array(
                     array(
                         'key'   => $prefix . 'old_resource_system_id',
-                        'value' => $relatedResourcesId,
+                        'value' => $favRelatedResourcesId,
                         'compare' => '='
                     )
                 )

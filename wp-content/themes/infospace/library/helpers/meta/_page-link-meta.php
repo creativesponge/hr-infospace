@@ -104,7 +104,7 @@ function cmb2_page_link_metabox()
         'desc'      => 'ID from the old system',
         'type'      => 'text',
         'attributes' => [
-            'readonly' => 'readonly',
+            //'readonly' => 'readonly',
              'style' => 'display: none;'
         ]
     ]);
@@ -117,7 +117,8 @@ function cmb2_page_link_metabox()
         'attributes' => [
             'type' => 'number',
             'min'  => 0,
-            'readonly' => 'readonly',
+            'style' => 'display: none;'
+            //'readonly' => 'readonly',
         ],
     ]);
 }

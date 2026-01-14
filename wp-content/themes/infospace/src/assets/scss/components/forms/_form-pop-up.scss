@@ -158,6 +158,13 @@
     }
   }
 
+  &--survey {
+    .form-pop-up__content {
+      overflow:scroll;
+      max-height: 80vh;
+    }
+  }
+
   .login-remember,
   .login-submit {
     @include breakpoint(medium) {

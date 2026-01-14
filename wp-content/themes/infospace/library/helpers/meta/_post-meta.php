@@ -79,7 +79,7 @@ function cmb2_post_metabox()
         'desc'      => 'ID from the old system',
         'type'      => 'text',
         'attributes' => [
-            'readonly' => 'readonly',
+            //'readonly' => 'readonly',
              'style' => 'display: none;'
         ]
     ]);
@@ -89,7 +89,8 @@ function cmb2_post_metabox()
         'desc'      => 'The slug from old site',
         'type'      => 'text',
         'attributes' => [
-            'readonly' => 'readonly',
+            //'readonly' => 'readonly',
+             'style' => 'display: none;'
         ]
 
     ]);

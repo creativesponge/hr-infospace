@@ -1639,6 +1639,43 @@ event.preventDefault();
         });
       });
     }
+
+    // Open survey popup after 5 seconds
+    const surveyPopup = document.getElementById("survey-pop-up");
+    if (surveyPopup) {
+      setTimeout(() => {
+        // Check if the cookie "survey_popup_shown" is set
+        if (this.getCookie("survey_popup_shown") !== "true") {
+          surveyPopup.classList.add("form-pop-up--open");
+          setTimeout(() => {
+            surveyPopup.classList.add("form-pop-up--open-delay");
+          }, 10);
+          // Set the cookie to prevent showing the popup again for 1 day
+          const d = new Date();
+          d.setTime(d.getTime() + 24 * 60 * 60 * 1000); // 1 day
+          const expires = "expires=" + d.toUTCString();
+          document.cookie = "survey_popup_shown=true;" + expires + ";path=/";
+        }  
+      }, 1000);
+
+    
+      const closeButtons = [
+        ...surveyPopup.querySelectorAll(
+          ".form-pop-up__close, .form-pop-up__overlay"
+        ),
+       
+      ];
+      closeButtons.forEach((button) => {
+        button.addEventListener("click", function (e) {
+          e.preventDefault();
+          surveyPopup.classList.remove("form-pop-up--open-delay");
+          setTimeout(() => {
+            surveyPopup.classList.remove("form-pop-up--open");
+          }, 250);
+        });
+      });
+    
+    }      
   },
   // For ajax loading
   getCookie: function (cname) {

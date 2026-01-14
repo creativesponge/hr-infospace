@@ -120,7 +120,8 @@ function cmb2_document_metabox() {
         'desc'      => 'Activated by attached document files',
         'type'      => 'checkbox',
         'attributes' => [
-            'readonly' => 'readonly',
+            'style' => 'display: none;'
+            //Uncomment once live 'readonly' => 'readonly',
         ],
     ]);
 
@@ -159,7 +160,7 @@ function cmb2_document_metabox() {
         }
         if ($column == $prefix . 'document_url') {
             $attachedFilesArray = get_post_meta($post_id, $prefix . 'document_files', true);
-            $document_url = get_site_url() . '/download-document/'. $attachedFilesArray[0][$prefix . 'doc_uploaded_file_id'];
+            $document_url  = isset($attachedFilesArray[0][$prefix . 'doc_uploaded_file_id']) ? get_site_url() . '/download-document/'. $attachedFilesArray[0][$prefix . 'doc_uploaded_file_id'] : '';
             echo esc_url($document_url);
         }
     }, 10, 2);
@@ -184,7 +185,7 @@ function cmb2_document_metabox() {
         'desc'      => 'ID from the old system',
         'type'      => 'text_small',
         'attributes' => [
-            'readonly' => 'readonly',
+            //Uncomment once live 'readonly' => 'readonly',
             'style' => 'display: none;'
         ],
     ]);
@@ -220,7 +221,7 @@ function cmb2_document_metabox() {
         'desc'      => 'ID from the old system',
         'type'      => 'text_small',
         'attributes' => [
-            'readonly' => 'readonly',
+            //Uncomment once live 'readonly' => 'readonly',
              'style' => 'display: none;'
         ]
     ]);
@@ -234,7 +235,8 @@ function cmb2_document_metabox() {
         'attributes' => [
             'type' => 'number',
             'min'  => 0,
-            'readonly' => 'readonly',
+            'style' => 'display: none;'
+            //Uncomment once live 'readonly' => 'readonly',
             
         ],
     ]);

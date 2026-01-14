@@ -341,7 +341,7 @@ function cmb2_user_metabox()
         'desc'      => 'ID from the old system',
         'type'      => 'text',
         'attributes' => [
-            'readonly' => 'readonly',
+            //'readonly' => 'readonly',
             'style' => 'display: none;'
         ],
         'show_on_cb' => function () {
@@ -377,7 +377,8 @@ function cmb2_user_metabox()
         'type'      => 'text_date_timestamp',
         'date_format' => 'd/m/Y',
         'attributes' => [
-            'readonly' => 'readonly',
+            //'readonly' => 'readonly',
+            'style' => 'display: none;'
         ],
         'show_on_cb' => function () {
             return current_user_can('administrator');

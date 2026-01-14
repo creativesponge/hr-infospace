@@ -119,7 +119,7 @@ function cmb2_page_metabox()
         'desc'      => 'ID from the old system',
         'type'      => 'text',
         'attributes' => [
-            'readonly' => 'readonly',
+            //'readonly' => 'readonly',
              'style' => 'display: none;'
         ]
     ]);
@@ -152,7 +152,8 @@ function cmb2_page_metabox()
         'attributes' => [
             'type' => 'number',
             'min'  => 0,
-            'readonly' => 'readonly',
+            'style' => 'display: none;'
+            //'readonly' => 'readonly',
         ],
     ]);
     $resourceSide->add_field([
@@ -163,7 +164,8 @@ function cmb2_page_metabox()
         'attributes' => [
             'type' => 'number',
             'min'  => 0,
-            'readonly' => 'readonly',
+            //'readonly' => 'readonly',
+            'style' => 'display: none;'
         ],
     ]);
     $resourceSide->add_field([
@@ -174,7 +176,8 @@ function cmb2_page_metabox()
         'attributes' => [
             'type' => 'number',
             'min'  => 0,
-            'readonly' => 'readonly',
+            //'readonly' => 'readonly',
+            'style' => 'display: none;'
         ],
     ]);
     $resourceSide->add_field([
@@ -185,7 +188,8 @@ function cmb2_page_metabox()
         'attributes' => [
             'type' => 'number',
             'min'  => 0,
-            'readonly' => 'readonly',
+            //'readonly' => 'readonly',
+            'style' => 'display: none;'
         ],
     ]);
     $resourceSide->add_field([
@@ -196,7 +200,8 @@ function cmb2_page_metabox()
         'attributes' => [
             'type' => 'number',
             'min'  => 0,
-            'readonly' => 'readonly',
+            'style' => 'display: none;'
+            //'readonly' => 'readonly',
         ],
     ]);
 
@@ -206,7 +211,8 @@ function cmb2_page_metabox()
         'desc'      => 'The slug from old site',
         'type'      => 'text',
         'attributes' => [
-            'readonly' => 'readonly',
+            //'readonly' => 'readonly',
+            'style' => 'display: none;'
         ]
 
     ]);

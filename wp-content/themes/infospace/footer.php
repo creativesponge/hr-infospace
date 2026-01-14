@@ -31,7 +31,7 @@ $sectreteky = '6Ld4_iQsAAAAAJZCHORH432pyFxffNPyMckL2WJd';
 
 $meta = theme_get_meta();
 $postType = get_post_type();
-$footerClass = (isset($meta->grey_footer) && $meta->grey_footer == true) || $postType == 'resource_page' || $postType == 'post'? ' footer--grey' : '';
+$footerClass = (isset($meta->grey_footer) && $meta->grey_footer == true) || $postType == 'resource_page' || $postType == 'post' ? ' footer--grey' : '';
 ?>
 <footer class="footer<?php echo $footerClass; ?>">
 	<div class="footer__container">
@@ -40,7 +40,7 @@ $footerClass = (isset($meta->grey_footer) && $meta->grey_footer == true) || $pos
 			<div class="footer__contacts show-for-medium">
 				<?php dynamic_sidebar('footer-widgets'); ?>
 
-	
+
 				<?php if ($sitePhone) { ?>
 					<a href="tel:<?php echo preg_replace('/\s+/', '', $sitePhone); ?>"><?php echo $sitePhone ?></a>
 				<?php } ?>
@@ -234,6 +234,58 @@ $footerClass = (isset($meta->grey_footer) && $meta->grey_footer == true) || $pos
 	</div>
 	<div class="form-pop-up__overlay"></div>
 </div>
+
+
+<?php if (is_user_logged_in()) : ?>
+	<?php
+	// Get all survey posts
+	$surveys = get_posts(array(
+		'post_type' => 'survey',
+		'posts_per_page' => -1,
+		'post_status' => 'publish'
+	));
+
+	if (!empty($surveys)) {
+
+		foreach ($surveys as $survey) {
+			$surveyId = $survey->ID;
+			$meta = theme_get_meta($surveyId);
+			$ninjaFormId = isset($meta->ninja_form_id) ? $meta->ninja_form_id : '';
+			$surveyActive = isset($meta->survey_active) ? $meta->survey_active : false;
+			
+			// Get all custom meta fields for this survey
+			//$meta_fields = get_post_meta($survey->ID);
+
+			if ($ninjaFormId && $surveyActive) { ?>
+
+				<div class="form-pop-up form-pop-up--survey" id="survey-pop-up">
+					<div class="form-pop-up__content ">
+<?php var_dump($meta->survey_attached_resource_pages);  ?>
+						<?php if (isset($meta->survey_attached_resource_pages) && is_array($meta->survey_attached_resource_pages) && !empty($meta->survey_attached_resource_pages)) : ?>
+							<?php foreach ($meta->survey_attached_resource_pages as $resource_page_id) : ?>
+								<?php 
+
+								echo $resource_page_id;
+								$resource_page = get_post($resource_page_id);
+								if ($resource_page) {
+									echo '<p>' . esc_html($resource_page->post_title) . '</p>';
+								}
+								?>
+							<?php endforeach; ?>
+						<?php endif; ?>
+						<?php
+						echo do_shortcode('[ninja_form id="' . esc_html($ninjaFormId) . '"]');
+						?>
+						<button class="form-pop-up__close">Close</button>
+					</div>
+					<div class="form-pop-up__overlay"></div>
+				</div>
+	<?php
+			}
+		}
+	}
+	?>
+<?php endif; ?>
 
 </div><!-- Close off-canvas content -->
 
