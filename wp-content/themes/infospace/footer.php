@@ -260,7 +260,7 @@ $footerClass = (isset($meta->grey_footer) && $meta->grey_footer == true) || $pos
 
 				<div class="form-pop-up form-pop-up--survey" id="survey-pop-up">
 					<div class="form-pop-up__content ">
-<?php var_dump($meta->survey_attached_resource_pages);  ?>
+<?php //var_dump($meta->survey_attached_resource_pages);  ?>
 						<?php if (isset($meta->survey_attached_resource_pages) && is_array($meta->survey_attached_resource_pages) && !empty($meta->survey_attached_resource_pages)) : ?>
 							<?php foreach ($meta->survey_attached_resource_pages as $resource_page_id) : ?>
 								<?php 
