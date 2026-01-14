@@ -1,6 +1,15 @@
+<?php $block_content = get_query_var('content'); ?>
+<?php $current_user = wp_get_current_user(); ?>
 
-    <?php $block_content = get_query_var('content'); ?>
-    <div class="forgot-password">
+<section class="account-settings full-width">
+    <header class="panel-header full-width">
+        <div class="panel-header__inner">
+            <div class="panel-header__content">
+                <h1 class="entry-title">Hello <?php echo esc_html($current_user->first_name . ' ' . $current_user->last_name); ?><span>Password reset</span></h1>
+            </div>
+        </div>
+    </header>
+    <div class="account-settings__content forgot-password">
         <?php //global $settings;
         //global  $prefix;
         // $current_user = wp_get_current_user();
@@ -41,3 +50,5 @@
 
 
     </div>
+
+</section>

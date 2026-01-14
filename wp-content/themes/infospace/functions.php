@@ -123,6 +123,7 @@ require_once dirname(__FILE__) . '/library/blocks/_all-newsletters.php';
 require_once dirname(__FILE__) . '/library/blocks/_account-settings.php';
 require_once dirname(__FILE__) . '/library/blocks/_accept-terms.php';
 require_once dirname(__FILE__) . '/library/blocks/_accept-privacy.php';
+require_once dirname(__FILE__) . '/library/blocks/_change-password.php';
 require_once dirname(__FILE__) . '/library/blocks/_forgot-password.php';
 require_once dirname(__FILE__) . '/library/blocks/_site-map.php';
 require_once dirname(__FILE__) . '/library/blocks/_icon-list.php';

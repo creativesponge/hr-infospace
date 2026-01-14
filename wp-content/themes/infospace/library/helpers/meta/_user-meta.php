@@ -136,6 +136,15 @@ function cmb2_user_metabox()
         }
     ]);
     $user->add_field([
+        'id'        => $prefix . 'user_changed_password',
+        'name'      => 'Changed password',
+        'desc'      => 'Uncheck to force a password change for this user',
+        'type'      => 'checkbox',
+        'show_on_cb' => function () {
+            return current_user_can('administrator');
+        }
+    ]);
+    $user->add_field([
         'id'        => $prefix . 'user_accepted_privacy_policy',
         'name'      => 'Accepted privacy policy',
         'desc'      => 'Check to confirm acceptance of privacy policy for this user',
