@@ -80,9 +80,7 @@ if ((get_the_ID() === 1581 && $current_module_id_global === '') || ($post_type =
 		}
 
 		.resource-module__news-teaser {
-
 			border-bottom-color: <?php echo esc_html($moduleColour); ?>;
-
 		}
 
 		.dropdown.menu>li.is-active>a:after {
