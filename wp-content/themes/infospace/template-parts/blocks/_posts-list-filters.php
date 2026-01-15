@@ -14,7 +14,7 @@ if (strlen($block_content) > 11) {
     $block_content = '';
 }   
 
-$numberPosts = isset($block_attributes['numberPosts']) ? $block_attributes['numberPosts'] : '6';
+$numberPosts = isset($block_attributes['numberPosts']) ? $block_attributes['numberPosts'] : '9';
 $sortBy = isset($_GET['orderby']) ? sanitize_text_field($_GET['orderby']) : 'mostrecent';
 $filterBy = isset($_GET['filter']) ? sanitize_text_field($_GET['filter']) : '';
 $search = isset($_GET['q']) ? sanitize_text_field($_GET['q']) : '';
