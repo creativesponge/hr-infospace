@@ -44,14 +44,15 @@
                 
                 if ($new_password !== $confirm_password) {
                     echo '<div class="error-message">New passwords do not match.</div>';
-                } elseif (strlen($new_password) < 8) {
-                    echo '<div class="error-message">Password must be at least 8 characters long.</div>';
+                } elseif (strlen($new_password) < 12) {
+                    echo '<div class="error-message">Password must be at least 12 characters long.</div>';
                 } elseif (!wp_check_password($current_password, $current_user->user_pass, $current_user->ID)) {
                     echo '<div class="error-message">Current password is incorrect.</div>';
                 } else {
                     wp_set_password($new_password, $current_user->ID);
                     wp_set_current_user($current_user->ID);
                     wp_set_auth_cookie($current_user->ID);
+
                     echo '<div class="success-message">Password changed successfully.</div>';
                     wp_redirect('/module/');
                     exit;

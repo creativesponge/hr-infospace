@@ -117,6 +117,11 @@ add_filter('big_image_size_threshold', '__return_false');
 add_filter('login_redirect', 'infospace_login_redirect');
 function infospace_login_redirect()
 {
+    // Don't redirect if updating account settings or if updated parameter is present
+    if (isset($_GET['updated']) || isset($_POST['action'])) {
+        return false; // Don't redirect
+    }
+    
     // Change this to the url to Updates page.
     // $user = wp_get_current_user();
     // $valid_roles = ['employer', 'candidate'];
@@ -131,6 +136,11 @@ function infospace_login_redirect()
 add_action('template_redirect', 'infospace_redirect_home_to_modules');
 function infospace_redirect_home_to_modules()
 {
+    // Don't redirect if form was just submitted or if updated parameter is present
+    if (isset($_GET['updated']) || isset($_POST['action'])) {
+        return;
+    }
+    
     if (is_front_page() && is_user_logged_in()) {
         wp_redirect(home_url('/module/'));
         exit;

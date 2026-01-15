@@ -6,7 +6,6 @@ body {
   @include breakpoint(large) {
     padding-top: rem-calc(98);
   }
- 
 }
 .main-container {
   min-height: calc(100vh - (498px));
@@ -43,4 +42,17 @@ body {
     margin-left: -50vw;
     margin-right: -50vw;
   }
+}
+
+.error-message {
+  color: $infospace-red;
+  padding: rem-calc(20) 0;
+  margin-bottom: rem-calc(15);
+  border-radius: rem-calc(4);
+}
+.success-message {
+  color: $infospace-purple;
+  padding: rem-calc(20) 0;
+  margin-bottom: rem-calc(15);
+  border-radius: rem-calc(4);
 }

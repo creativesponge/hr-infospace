@@ -23,7 +23,8 @@
     }
   }
 
-  &__form, &__content {
+  &__form,
+  &__content {
     max-width: $global-width;
     margin-left: auto;
     margin-right: auto;
@@ -178,5 +179,11 @@
     }
   }
 
-  
+  .error-message {
+    font-weight: bold;
+  }
+  .success-message {
+    font-weight: bold;
+    color:$black;
+  }
 }

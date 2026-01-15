@@ -48,8 +48,17 @@ function check_terms_acceptance()
 {
     global $prefix;
 
+    if (isset($_POST['form_action']) && $_POST['form_action'] == 'account_settings') {
+        return;
+    }
+
     // Only check for logged-in users
     if (!is_user_logged_in()) {
+        return;
+    }
+
+    // Don't redirect if form was just submitted or if updated parameter is present
+    if (isset($_GET['updated']) || isset($_POST['action'])) {
         return;
     }
 
@@ -81,6 +90,11 @@ add_action('init', 'process_terms_acceptance');
 function process_terms_acceptance()
 {
     global $prefix;
+
+    if (isset($_POST['form_action']) && $_POST['form_action'] == 'account_settings') {
+        return;
+    }
+
     if (isset($_POST['accept_terms']) && is_user_logged_in()) {
         $user_id = get_current_user_id();
         update_user_meta($user_id, $prefix . 'user_accepted_terms', true);
@@ -122,8 +136,12 @@ function enforce_terms_acceptance()
 {
     global $prefix;
 
+    if (isset($_POST['form_action']) && $_POST['form_action'] == 'account_settings') {
+        return;
+    }
+
     // Don't redirect AJAX requests or if already on terms page
-    if (defined('DOING_AJAX') && DOING_AJAX) {
+    if ((defined('DOING_AJAX') && DOING_AJAX)) {
         return;
     }
 

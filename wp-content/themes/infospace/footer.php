@@ -74,7 +74,7 @@ $footerClass = (isset($meta->grey_footer) && $meta->grey_footer == true) || $pos
 			</nav>
 			<div class="footer__credits">
 
-				<a href="https://www.creative-sponge.co.uk/" target="_blank">Web design by <?php get_template_part('template-parts/svgs/_sponge-logo') ?></a>
+				<a href="https://www.creative-sponge.co.uk/" target="_blank">Web design by Sponge</a>
 				<?php if ($copyright) {
 					echo "<p>" . $copyright . "</p>";
 				} ?>
