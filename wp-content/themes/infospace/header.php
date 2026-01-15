@@ -26,6 +26,8 @@ global $prefix;
 global $resource_pages;
 $siteEmail = isset($settings[$prefix . 'email']) ? $settings[$prefix . 'email'] : '';
 $sitePhone = isset($settings[$prefix . 'phone']) ? $settings[$prefix . 'phone'] : '';
+
+$meta = theme_get_meta();
 $moduleMeta = get_current_module_meta($current_module_id_global);
 $moduleColour = isset($moduleMeta['module_color']) ? $moduleMeta['module_color'] : '';
 $post_type = get_post_type();
@@ -33,8 +35,12 @@ if ((get_the_ID() === 1581 && $current_module_id_global === '') || ($post_type =
 	wp_redirect(home_url('/'));
 	exit;
 }
-
+$bannerClass = (isset($meta->white_banner) && $meta->white_banner == true) ? ' header--white' : '';
 ?>
+
+<?php $moduleTitle = isset($moduleMeta["attached_resources"]) && $moduleMeta["attached_resources"] ? get_the_title($moduleMeta["attached_resources"]) : ''; ?>
+<?php $moduleLink = isset($moduleMeta["attached_resources"]) && $moduleMeta["attached_resources"] ? get_the_permalink($moduleMeta["attached_resources"]) : ''; ?>
+
 <!doctype html>
 <html class="no-js" <?php language_attributes(); ?>>
 
@@ -94,6 +100,7 @@ if ((get_the_ID() === 1581 && $current_module_id_global === '') || ($post_type =
 		.button.mobile-menu-toggle span {
 			background: <?php echo esc_html($moduleColour); ?>;
 		}
+
 		.tab-list {
 			border-color: <?php echo esc_html($moduleColour); ?>;
 		}
@@ -135,6 +142,9 @@ if ((get_the_ID() === 1581 && $current_module_id_global === '') || ($post_type =
 			fill: <?php echo esc_html($moduleColour); ?>;
 			stroke: <?php echo esc_html($moduleColour); ?>;
 		}
+		.header__module-link a:hover:before {
+			background: <?php echo esc_html($moduleColour); ?>;
+		}
 	</style>
 </head>
 
@@ -147,12 +157,17 @@ if ((get_the_ID() === 1581 && $current_module_id_global === '') || ($post_type =
 
 		</div>
 
-		<header class="header">
+		<header class="header<?php echo esc_html($bannerClass); ?>">
 			<div class="header__container">
 				<div class="header__logo">
 					<a accesskey="1" href="<?php echo esc_url(home_url('/')); ?>" aria-label="Home link">
 						<?php get_template_part('template-parts/svgs/_logo') ?>
 					</a>
+					<?php if (is_user_logged_in() && $moduleLink !== '' && $moduleTitle !== '') : ?>
+						<div class="header__module-link">
+							<a href="<?php echo esc_url($moduleLink); ?>" ><?php echo esc_html($moduleTitle); ?></a>
+						</div>
+					<?php endif; ?>
 				</div>
 				<div class="header__nav">
 					<nav class="site-navigation header__top-bar" role="navigation" id="off-canvas-menu">

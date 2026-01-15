@@ -221,9 +221,6 @@ function remove_admin_bar()
     // }
 }
 
-
-
-
 function wpdocs_logout_redirect($redirect_to, $requested_redirect_to, $user)
 {
 
@@ -275,10 +272,6 @@ function check_user_is_active_on_login($user)
     return $user;
 }
 add_filter('wp_authenticate_user', 'check_user_is_active_on_login', 10, 3);
-
-
-
-
 
 
 // Helper function to check if a page is a child of a specific page

@@ -20,7 +20,12 @@ function cmb2_page_page_metabox()
         'name'   => 'Grey footer',
         'desc'   => 'Change the page footer to grey',
         'type'   => 'checkbox',
-        
-        
+    ]);
+
+    $post->add_field([
+        'id'     => $prefix . 'white_banner',
+        'name'   => 'White banner',
+        'desc'   => 'Change the page banner to white',
+        'type'   => 'checkbox',
     ]);
 }
