@@ -41,7 +41,18 @@
 
   // Top-level item active state
   > li.is-active > a {
-    color: $infospace-orange;
+    color: $black;
+    position:relative;
+    &:after {
+      content: '';
+      display: block;
+      width: calc(100% - rem-calc(30));
+      height: rem-calc(1);
+      background: $infospace-purple;
+      position:absolute;
+      bottom:rem-calc(5);
+      left:rem-calc(15);
+    }
     //background: $dark-gray;
   }
   .user-greeting {

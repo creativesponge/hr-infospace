@@ -88,7 +88,18 @@
           font-size: rem-calc(18);
         }
         &:hover {
-          color: $infospace-orange;
+          color: $black;
+          position: relative;
+          &:after {
+            content: "";
+            display: block;
+            width: calc(100% - rem-calc(30));
+            height: rem-calc(1);
+            background: $infospace-purple;
+            position: absolute;
+            bottom: rem-calc(5);
+            left: rem-calc(15);
+          }
         }
       }
     }
@@ -99,7 +110,9 @@
     border-top-right-radius: rem-calc(20);
     padding: rem-calc(8 10 0 10);
     margin-left: rem-calc(15);
-
+    @include breakpoint(large) {
+      padding: rem-calc(8 20 0 20);
+    }
     > li {
       span {
         display: none;
@@ -156,6 +169,9 @@
             font-weight: normal;
             font-size: rem-calc(18);
             padding: rem-calc(8 0);
+            @include breakpoint(large) {
+              padding: rem-calc(12 0);
+            }
           }
           .user-greeting {
             font-weight: bold;

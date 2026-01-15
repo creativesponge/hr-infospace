@@ -20,9 +20,8 @@ html {
 //
 
 .site-navigation.header__top-bar {
- @include show-for(medium);
+  @include show-for(medium);
 }
-
 
 // Site title
 .site-desktop-title a {
@@ -65,7 +64,6 @@ html {
   }
 }
 .off-canvas-wrapper {
-   
   position: relative;
   //overflow: hidden;
 }
@@ -160,8 +158,8 @@ html {
       padding: rem-calc(10 0);
       margin-bottom: rem-calc(20);
       @include breakpoint(medium) {
-         margin-left: auto;
-      margin-right: auto;
+        margin-left: auto;
+        margin-right: auto;
         border-radius: rem-calc(20);
         background: $white;
         color: $infospace-mag;
@@ -174,15 +172,14 @@ html {
   }
 
   &__module-info-mob {
-    color:$white;
+    color: $white;
     font-size: rem-calc(18);
     line-height: 1.3em;
-     margin-bottom: rem-calc(30);
+    margin-bottom: rem-calc(30);
     span {
       text-transform: uppercase;
       font-weight: bold;
     }
-   
   }
 
   &__actions {
@@ -331,7 +328,7 @@ button.mobile-menu-toggle {
     transform: rotate(0deg);
     transition: all 0.25s;
     background: $infospace-orange;
-
+    background: $black;
     &:nth-child(2) {
       top: rem-calc(2);
     }

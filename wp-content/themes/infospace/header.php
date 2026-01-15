@@ -85,8 +85,17 @@ if ((get_the_ID() === 1581 && $current_module_id_global === '') || ($post_type =
 
 		}
 
+		.dropdown.menu>li.is-active>a:after {
+			background: <?php echo esc_html($moduleColour); ?>;
+		}
 
+		.header__menu>li a:hover:after {
+			background: <?php echo esc_html($moduleColour); ?>;
+		}
 
+		.button.mobile-menu-toggle span {
+			background: <?php echo esc_html($moduleColour); ?>;
+		}
 		.tab-list {
 			border-color: <?php echo esc_html($moduleColour); ?>;
 		}

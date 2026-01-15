@@ -32,13 +32,13 @@
         line-height: 1.4em;
         color: $white;
         padding: rem-calc(8 0 8 0);
-
+        transition: opacity 0.25s;
         @include breakpoint(large) {
           padding: rem-calc(8 0 8 20);
           font-size: rem-calc(20);
         }
         &:hover {
-          color: $infospace-orange;
+          opacity: 0.8;
           text-decoration: none;
         }
       }
@@ -189,12 +189,12 @@
       //display: block;
       position: relative;
       //display: block !important;
-     display:flex;
-     flex-wrap: wrap;
+      display: flex;
+      flex-wrap: wrap;
       // justify-content:space-between;
-       align-items:center!important;
-       @include breakpoint(large) {
-       }
+      align-items: center !important;
+      @include breakpoint(large) {
+      }
       button.third-level-button {
         height: rem-calc(16);
         &:before {
@@ -292,7 +292,7 @@
   }
   &__header {
     margin-bottom: rem-calc(10);
-   
+
     align-items: center;
     @include breakpoint(medium) {
       display: flex;
@@ -305,11 +305,11 @@
       font-size: rem-calc(24);
       font-weight: bold;
       text-decoration: none;
-       margin-top: rem-calc(10);
-       @include breakpoint(medium) {
+      margin-top: rem-calc(10);
+      @include breakpoint(medium) {
         margin-top: rem-calc(0);
         font-size: rem-calc(30);
-       }
+      }
       &:hover {
         color: $infospace-orange;
         text-decoration: none;
