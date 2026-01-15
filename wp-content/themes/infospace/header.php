@@ -150,12 +150,11 @@ if ((get_the_ID() === 1581 && $current_module_id_global === '') || ($post_type =
 				<div class="header__nav">
 					<nav class="site-navigation header__top-bar" role="navigation" id="off-canvas-menu">
 
-						<?php if (is_user_logged_in() && ((get_post_type() == 'resource_page' || get_post_type() == 'post') && $current_module_id_global != null) || (in_array(get_the_ID(), $resource_pages) && $current_module_id_global != null) ) : ?>
+						<?php if (is_user_logged_in() && ((get_post_type() == 'resource_page' || get_post_type() == 'post') && $current_module_id_global != null) || (in_array(get_the_ID(), $resource_pages) && $current_module_id_global != null)) : ?>
 							<?php get_search_form(); ?>
-							
 						<?php endif; ?>
-						<?php startertheme_top_bar_r(); ?>
 
+						<?php startertheme_top_bar_r(); ?>
 
 					</nav>
 					<?php if (is_user_logged_in() && $current_module_id_global !== '') : ?>
@@ -170,9 +169,20 @@ if ((get_the_ID() === 1581 && $current_module_id_global === '') || ($post_type =
 					<?php endif; ?>
 					<nav class="site-navigation account-nav" role="navigation" id="account-navigation">
 						<div class="account-nav-right">
-							<?php
-							startertheme_account_nav($moduleColour);
-							?>
+
+							<?php if (is_user_logged_in()) : ?>
+								<?php startertheme_account_nav($moduleColour); ?>
+							<?php else : ?>
+								<ul id="menu-my-account-navigation" class="dropdown menu desktop-menu header__account-menu is-login" style="background-color:;" data-dropdown-menu="">
+									<li class="menu-item menu-item-type-post_type menu-item-object-page current-menu-ancestor current-menu-parent current_page_parent current_page_ancestor menu-item-has-children menu-item-1938 is-dropdown-submenu-parent opens-left"><a href="https://hr-infospace:8890/accounts/" aria-haspopup="true" aria-expanded="false"><span>My account</span><img width="14" height="16" src="https://hr-infospace:8890/wp-content/uploads/2025/12/person.svg" class="menu-item-image" alt="" decoding="async"></a><button class="show-on-focus" aria-expanded="false"><span class="show-for-sr">show submenu for “My account”</span></button>
+										<ul class="dropdown menu vertical is-dropdown-submenu" data-toggle="">
+											<li class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-1820 is-active"><a href="/"><span>Home</span><img width="28" height="13" src="https://hr-infospace:8890/wp-content/uploads/2025/10/home.svg" class="menu-item-image" alt="" decoding="async"></a></li>
+
+											<li class="menu-item is-login"><a href="/wp-login.php">Log in<img width="18" height="14" src="https://hr-infospace:8890/wp-content/uploads/2025/10/signout.svg" class="menu-item-image" alt="" decoding="async"></a></li>
+										</ul>
+									</li>
+								</ul>
+							<?php endif; ?>
 						</div>
 					</nav>
 				</div>
