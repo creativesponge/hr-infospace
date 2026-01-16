@@ -24,31 +24,32 @@ function alerts_page_callback()
 {
 
     // Check user capabilities
-if (!current_user_can('manage_options')) {
-    wp_die(__('You do not have sufficient permissions to access this page.'));
-}
+    if (!current_user_can('manage_options')) {
+        wp_die(__('You do not have sufficient permissions to access this page.'));
+    }
 
-// Verify nonce for form submissions
-if ($_SERVER['REQUEST_METHOD'] === 'GET' && !empty($_GET)) {
-    // Only verify nonce if filter parameters are present and page parameter exists
-    if (isset($_GET['page']) && $_GET['page'] === 'alerts' && (isset($_GET['role']) || isset($_GET['hsw_alerts']) || isset($_GET['finance_alerts']) || isset($_GET['hr_alerts']) || isset($_GET['paged']))) {
-        if (!isset($_GET['_wpnonce']) || !wp_verify_nonce($_GET['_wpnonce'], 'alerts_filter_nonce')) {
-            wp_die(__('Security check failed.'));
+    // Verify nonce for form submissions
+    if ($_SERVER['REQUEST_METHOD'] === 'GET' && !empty($_GET)) {
+        // Only verify nonce if filter parameters are present and page parameter exists
+        if (isset($_GET['page']) && $_GET['page'] === 'alerts' && (isset($_GET['role']) || isset($_GET['hsw_alerts']) || isset($_GET['finance_alerts']) || isset($_GET['hr_alerts']) || isset($_GET['paged']))) {
+            if (!isset($_GET['_wpnonce']) || !wp_verify_nonce($_GET['_wpnonce'], 'alerts_filter_nonce')) {
+                wp_die(__('Security check failed.'));
+            }
         }
     }
-}
 
- // Handle CSV export first to avoid unnecessary processing
+    // Handle CSV export first to avoid unnecessary processing
     if (isset($_GET['export_csv'])) {
         infospace_export_users_report_csv_ftn();
         return;
     }
 
+$docId = isset($_GET['doc_id']) ? intval($_GET['doc_id']) : 0;
 
     $alert_content = '';
-    $alert_subject = '';
+    $alert_subject = $docId ? get_the_title($docId) . ' has been updated' : '';
     $module_type = '';
-
+    
     echo '<div class="wrap">';
     echo '<h1>Alerts</h1>';
     echo "<br>";
@@ -75,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && !empty($_GET)) {
             $module_type = isset($_POST['module_type']) ? sanitize_text_field($_POST['module_type']) : '';
             $email_addresses = isset($_POST['email_addresses']) ? sanitize_text_field($_POST['email_addresses']) : '';
             $email_addresses = str_replace(', ', ',<br>', esc_html($email_addresses));
-        $email_count = count(explode(', ', $_POST['email_addresses']));
+            $email_count = count(explode(', ', $_POST['email_addresses']));
         }
         // Process the alert here
         //echo '<div class="notice notice-success is-dismissible">';
@@ -84,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && !empty($_GET)) {
 
         echo '<h2>Alert preview</h2>';
         echo '<h3><strong>Subject:</strong> ' . esc_html($subject) . '</h3>';
-        
+
         echo '<button onclick="window.history.back();">Back</button><br><br>';
 ?>
         <div style="max-width: 700px;">
@@ -299,7 +300,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && !empty($_GET)) {
                     </tr>
                 </table>
             </div>
-            <br><br><p><strong>Email will be sent to the following <?php  echo $email_count; ?> addresses: </strong><br> <?php echo $email_addresses; ?></p>
+            <br><br>
+            <p><strong>Email will be sent to the following <?php echo $email_count; ?> addresses: </strong><br> <?php echo $email_addresses; ?></p>
         </div>
     <?php
 
@@ -327,153 +329,232 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && !empty($_GET)) {
         // Get table prefix for meta queries
         $prefix = 'theme_fields';
 
-        // Get selected HSW alerts filter
-        echo '<form method="GET">';
+        // Check if this is a document alert
+        if (!empty($docId)) {
 
-        echo '<input type="hidden" name="page" value="alerts">';
-        echo '<input type="hidden" name="_wpnonce" value="' . wp_create_nonce('alerts_filter_nonce') . '">';
-        echo '<h3>Filter users to send to:</h3>';
-        echo '<div style="display: flex; flex-wrap: wrap; gap: 20px;">';
-            echo '<div>';
-                echo '<div><input type="checkbox" name="hsw_alerts" id="hsw_alerts" value="on"' . ($selected_hsw_alerts === 'on' ? ' checked' : '') . '>';
-                echo '<label for="hsw_alerts">Recieve HSW alerts </label></div>';
+            // Get list of modules with their content and attached resources
+            $modules = get_posts(array(
+                'post_type' => 'module',
+                'post_status' => 'publish',
+                'numberposts' => -1
+            ));
 
-                echo '<div><input type="checkbox" name="finance_alerts" id="finance_alerts" value="on"' . ($selected_finance_alerts === 'on' ? ' checked' : '') . '>';
-                echo '<label for="finance_alerts">Recieve Finance alerts </label></div>';
-
-                echo '<div><input type="checkbox" name="hr_alerts" id="hr_alerts" value="on"' . ($selected_hr_alerts === 'on' ? ' checked' : '') . '>';
-                echo '<label for="hr_alerts">Recieve HR alerts </label></div><br>';
-            echo '</div>';
-            echo '<div>';
-                echo '<div><label for="user_is_staff">Staff status: </label>';
-                echo '<select name="user_is_staff" id="user_is_staff">';
-                echo '<option value="">All</option>';
-                echo '<option value="on"' . ($user_is_staff === 'on' ? ' selected' : '') . '>Is Staff</option>';
-                echo '<option value="off"' . ($user_is_staff === 'off' ? ' selected' : '') . '>Not Staff</option>';
-                echo '</select></div><br>';
-            echo '</div>';
-            echo '<div>';
-                echo '<div><label for="user_is_active">Active status: </label>';
-                echo '<select name="user_is_active" id="user_is_active">';
-                echo '<option value="">All</option>';
-                echo '<option value="on"' . ($user_is_active === 'on' ? ' selected' : '') . '>Is Active</option>';
-                echo '<option value="off"' . ($user_is_active === 'off' ? ' selected' : '') . '>Not Active</option>';
-                echo '</select></div><br>';
-            echo '</div>';
-            echo '<div>';
-                echo '<div><label for="role">Role: </label>';
-                echo '<select name="role" id="role">';
-                echo '<option value="">All Roles</option>';
-                foreach (wp_roles()->roles as $role_key => $role) {
-                    $selected = ($selected_role === $role_key) ? 'selected' : '';
-                    echo '<option value="' . esc_attr($role_key) . '" ' . $selected . '>' . esc_html($role['name']) . '</option>';
-                }
-                echo '</select></div><br>';
-            echo '</div>';
-            echo '<div>';
-                echo '<input type="submit" value="Filter" class="button">';
-            echo '</div>';
-          
-        echo '</div>';
-        echo '</form>';
-
-       
-        
-
-        // Get users with pagination and role filter
-        $user_args = array(
-            'number' => $posts_per_page,
-            'offset' => ($paged - 1) * $posts_per_page
-        );
-
-        if (!empty($selected_role)) {
-            $user_args['role'] = $selected_role;
-        }
-
-        // Build meta query array for multiple filters with AND relation
-        $meta_queries = array();
-
-        // Add meta query for HSW alerts filter
-        if ($selected_hsw_alerts === 'on') {
-            $meta_queries[] = array(
-            'key' => $prefix . 'user_hsw_alerts',
-            'value' => 'on',
-            'compare' => '='
-            );
-        }
-
-        // Add meta query for finance alerts filter
-        if ($selected_finance_alerts === 'on') {
-            $meta_queries[] = array(
-            'key' => $prefix . 'user_finance_alerts',
-            'value' => 'on',
-            'compare' => '='
-            );
-        }
-
-        // Add meta query for HR alerts filter
-        if ($selected_hr_alerts === 'on') {
-            $meta_queries[] = array(
-            'key' => $prefix . 'user_hr_alerts',
-            'value' => 'on',
-            'compare' => '='
-            );
-        }
-
-        // Add meta query for is Staff filter
-        if ($user_is_staff === 'on') {
-            $meta_queries[] = array(
-            'key' => $prefix . 'user_is_staff',
-            'value' => 'on',
-            'compare' => '='
-            );
-        } else if ($user_is_staff === 'off') {
-            $meta_queries[] = array(
-            'relation' => 'OR',
-            array(
-                'key' => $prefix . 'user_is_staff',
-                'compare' => 'NOT EXISTS'
-            ),
-            array(
-                'key' => $prefix . 'user_is_staff',
-                'value' => 'off',
-                'compare' => '='
-            )
-            );
-        }
-
-        // Add meta query for is Active filter
-        if ($user_is_active === 'on') {
-            $meta_queries[] = array(
-            'key' => $prefix . 'user_is_active',
-            'value' => 'on',
-            'compare' => '='
-            );
-        } else if ($user_is_active === 'off') {
-            $meta_queries[] = array(
-            'relation' => 'OR',
-            array(
-                'key' => $prefix . 'user_is_active',
-                'compare' => 'NOT EXISTS'
-            ),
-            array(
-                'key' => $prefix . 'user_is_active',
-                'value' => 'off',
-                'compare' => '='
-            )
-            );
-        }
-
-        // Apply meta query if any filters are active
-        if (!empty($meta_queries)) {
-            if (count($meta_queries) > 1) {
-            $meta_queries['relation'] = 'AND';
+            $modules_data = array();
+            foreach ($modules as $module) {
+                $attached_resources = get_post_meta($module->ID, $prefix . 'module_attached_resources', true);
+                $modules_data[$attached_resources] = $module->ID;
             }
-            $user_args['meta_query'] = $meta_queries;
+
+            // Get users without any filters
+
+            $users = get_users();
+            $usersWithAccess = array();
+            $moduleId = '';
+
+
+            // Get all resource pages
+            $attached_document_pages = get_posts([
+                'post_type' => 'resource_page',
+                'post_status' => 'publish',
+                'numberposts' => -1,
+                'fields' => 'ids'
+            ]);
+
+
+            // Loop through users to check if they have access to the doc id
+            foreach ($users as $user) {
+                $docUserId = $user->ID;
+
+                $relevant_pages = [];
+                foreach ($attached_document_pages as $attached_page_id) {
+
+                    $attached_docs = get_post_meta($attached_page_id, $prefix . 'resource_attached_documents', true);
+
+                    if (!empty($attached_docs) && is_array($attached_docs)) {
+                        foreach ($attached_docs as $attached_doc) {
+
+                            if ($docId == $attached_doc) {
+
+                                $relevant_pages[] = $attached_page_id;
+                                if (in_array($modules_data[$attached_page_id] ?? '', $modules_data)) {
+                                    $moduleId = $modules_data[$attached_page_id];
+                                }
+                                break; // Found a match, no need to check other docs for this page
+                            }
+                        }
+                    }
+                }
+
+
+
+                // Check if user has access to any of the pages this document is attached to
+                foreach ($relevant_pages as $page_id) {
+
+
+                    if (user_has_page_access($docUserId, $page_id, 'resource_page')) {
+                        $usersWithAccess[] = $docUserId;
+                    }
+                }
+            }
+         
+            // Filter users to only those with access
+            $user_args = array(
+                'number' => $posts_per_page,
+                'offset' => ($paged - 1) * $posts_per_page,
+                'include' => $usersWithAccess
+            );
+            $users = get_users($user_args);
+        } else {
+            // Not a document alert                                         
+
+            // Get selected HSW alerts filter
+            echo '<form method="GET">';
+
+            echo '<input type="hidden" name="page" value="alerts">';
+            echo '<input type="hidden" name="_wpnonce" value="' . wp_create_nonce('alerts_filter_nonce') . '">';
+            echo '<h3>Filter users to send to:</h3>';
+            echo '<div style="display: flex; flex-wrap: wrap; gap: 20px;">';
+            echo '<div>';
+            echo '<div><input type="checkbox" name="hsw_alerts" id="hsw_alerts" value="on"' . ($selected_hsw_alerts === 'on' ? ' checked' : '') . '>';
+            echo '<label for="hsw_alerts">Recieve HSW alerts </label></div>';
+
+            echo '<div><input type="checkbox" name="finance_alerts" id="finance_alerts" value="on"' . ($selected_finance_alerts === 'on' ? ' checked' : '') . '>';
+            echo '<label for="finance_alerts">Recieve Finance alerts </label></div>';
+
+            echo '<div><input type="checkbox" name="hr_alerts" id="hr_alerts" value="on"' . ($selected_hr_alerts === 'on' ? ' checked' : '') . '>';
+            echo '<label for="hr_alerts">Recieve HR alerts </label></div><br>';
+            echo '</div>';
+            echo '<div>';
+            echo '<div><label for="user_is_staff">Staff status: </label>';
+            echo '<select name="user_is_staff" id="user_is_staff">';
+            echo '<option value="">All</option>';
+            echo '<option value="on"' . ($user_is_staff === 'on' ? ' selected' : '') . '>Is Staff</option>';
+            echo '<option value="off"' . ($user_is_staff === 'off' ? ' selected' : '') . '>Not Staff</option>';
+            echo '</select></div><br>';
+            echo '</div>';
+            echo '<div>';
+            echo '<div><label for="user_is_active">Active status: </label>';
+            echo '<select name="user_is_active" id="user_is_active">';
+            echo '<option value="">All</option>';
+            echo '<option value="on"' . ($user_is_active === 'on' ? ' selected' : '') . '>Is Active</option>';
+            echo '<option value="off"' . ($user_is_active === 'off' ? ' selected' : '') . '>Not Active</option>';
+            echo '</select></div><br>';
+            echo '</div>';
+            echo '<div>';
+            echo '<div><label for="role">Role: </label>';
+            echo '<select name="role" id="role">';
+            echo '<option value="">All Roles</option>';
+            foreach (wp_roles()->roles as $role_key => $role) {
+                $selected = ($selected_role === $role_key) ? 'selected' : '';
+                echo '<option value="' . esc_attr($role_key) . '" ' . $selected . '>' . esc_html($role['name']) . '</option>';
+            }
+            echo '</select></div><br>';
+            echo '</div>';
+            echo '<div>';
+            echo '<input type="submit" value="Filter" class="button">';
+            echo '</div>';
+
+            echo '</div>';
+            echo '</form>';
+
+
+
+
+            // Get users with pagination and role filter
+            $user_args = array(
+                'number' => $posts_per_page,
+                'offset' => ($paged - 1) * $posts_per_page
+            );
+
+            if (!empty($selected_role)) {
+                $user_args['role'] = $selected_role;
+            }
+
+            // Build meta query array for multiple filters with AND relation
+            $meta_queries = array();
+
+            // Add meta query for HSW alerts filter
+            if ($selected_hsw_alerts === 'on') {
+                $meta_queries[] = array(
+                    'key' => $prefix . 'user_hsw_alerts',
+                    'value' => 'on',
+                    'compare' => '='
+                );
+            }
+
+            // Add meta query for finance alerts filter
+            if ($selected_finance_alerts === 'on') {
+                $meta_queries[] = array(
+                    'key' => $prefix . 'user_finance_alerts',
+                    'value' => 'on',
+                    'compare' => '='
+                );
+            }
+
+            // Add meta query for HR alerts filter
+            if ($selected_hr_alerts === 'on') {
+                $meta_queries[] = array(
+                    'key' => $prefix . 'user_hr_alerts',
+                    'value' => 'on',
+                    'compare' => '='
+                );
+            }
+
+            // Add meta query for is Staff filter
+            if ($user_is_staff === 'on') {
+                $meta_queries[] = array(
+                    'key' => $prefix . 'user_is_staff',
+                    'value' => 'on',
+                    'compare' => '='
+                );
+            } else if ($user_is_staff === 'off') {
+                $meta_queries[] = array(
+                    'relation' => 'OR',
+                    array(
+                        'key' => $prefix . 'user_is_staff',
+                        'compare' => 'NOT EXISTS'
+                    ),
+                    array(
+                        'key' => $prefix . 'user_is_staff',
+                        'value' => 'off',
+                        'compare' => '='
+                    )
+                );
+            }
+
+            // Add meta query for is Active filter
+            if ($user_is_active === 'on') {
+                $meta_queries[] = array(
+                    'key' => $prefix . 'user_is_active',
+                    'value' => 'on',
+                    'compare' => '='
+                );
+            } else if ($user_is_active === 'off') {
+                $meta_queries[] = array(
+                    'relation' => 'OR',
+                    array(
+                        'key' => $prefix . 'user_is_active',
+                        'compare' => 'NOT EXISTS'
+                    ),
+                    array(
+                        'key' => $prefix . 'user_is_active',
+                        'value' => 'off',
+                        'compare' => '='
+                    )
+                );
+            }
+
+            // Apply meta query if any filters are active
+            if (!empty($meta_queries)) {
+                if (count($meta_queries) > 1) {
+                    $meta_queries['relation'] = 'AND';
+                }
+                $user_args['meta_query'] = $meta_queries;
+            }
+
+
+            $users = get_users($user_args);
         }
-
-
-        $users = get_users($user_args);
 
         // Get total user count for pagination
         $count_args = $user_args;
@@ -492,7 +573,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && !empty($_GET)) {
         }
         $comma_separated_emails = implode(', ', $email_addresses);
 
-?>
+    ?>
         <form method="get" action="" style="margin-top: 10px;">
             <input type="hidden" name="page" value="alerts">
             <input type="hidden" name="export_csv" value="1">
@@ -505,8 +586,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && !empty($_GET)) {
             <input type="hidden" name="_wpnonce" value="<?php echo wp_create_nonce('alerts_filter_nonce'); ?>">
             <input type="submit" value="Export as CSV" class="button button-secondary">
         </form><br>
-<?php
-      
+        <?php
+
+
         // Display users table
         echo '<table class="wp-list-table widefat fixed striped">';
         echo '<thead><tr><th>ID</th><th>Username</th><th>Email</th><th>Active</th><th>Staff</th><th>Role</th><th>Registration Date</th></tr></thead>';
@@ -514,8 +596,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && !empty($_GET)) {
 
         foreach ($users as $user) {
             $user_meta = get_user_meta($user->ID);
-            $is_active = isset($user_meta[$prefix . 'user_is_active'][0]) && $user_meta[$prefix . 'user_is_active'][0] == 'on' ? 'Yes' : 'No'; 
-             $is_staff = isset($user_meta[$prefix . 'user_is_staff'][0]) && $user_meta[$prefix . 'user_is_staff'][0] == 'on' ? 'Yes' : 'No'; 
+            $is_active = isset($user_meta[$prefix . 'user_is_active'][0]) && $user_meta[$prefix . 'user_is_active'][0] == 'on' ? 'Yes' : 'No';
+            $is_staff = isset($user_meta[$prefix . 'user_is_staff'][0]) && $user_meta[$prefix . 'user_is_staff'][0] == 'on' ? 'Yes' : 'No';
             //echo "<pre>";
             //var_dump($user_meta);
             // echo "</pre>";
@@ -523,7 +605,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && !empty($_GET)) {
             echo '<tr>';
             echo '<td>' . esc_html($user->ID) . '</td>';
             echo '<td>' . esc_html($user->user_login) . '</td>';
-            echo '<td>' . esc_html($user->user_email ) . '</td>';
+            echo '<td>' . esc_html($user->user_email) . '</td>';
             echo '<td>' . esc_html($is_active) . '</td>';
             echo '<td>' . esc_html($is_staff) . '</td>';
             echo '<td>' . esc_html($user_roles) . '</td>';
@@ -593,7 +675,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && !empty($_GET)) {
         ));
 
         foreach ($modules as $module) {
-            echo '<option value="' . esc_attr($module->ID) . '"' . selected($module_type, $module->post_name, false) . '>' . esc_html($module->post_title) . '</option>';
+            if ($docId && $moduleId && $module->ID != $moduleId) {
+                echo '<option value="' . esc_attr($module->ID) . '" selected="true">' . esc_html($module->post_title) . '</option>';
+            } else {
+                echo '<option value="' . esc_attr($module->ID) . '"' . selected($module_type, $module->post_name, false) . '>' . esc_html($module->post_title) . '</option>';
+            }
         }
         echo '<option value="general"' . selected($module_type, 'general', false) . '>General</option>';
         echo '</select>';
@@ -681,7 +767,7 @@ function infospace_export_users_report_csv()
         if (!current_user_can('manage_options')) {
             wp_die('You do not have permission to access this page.');
         }
-       
+
         infospace_export_users_report_csv_ftn();
         exit;
     }
@@ -690,7 +776,7 @@ function infospace_export_users_report_csv()
 function infospace_export_users_report_csv_ftn()
 {
     $prefix = 'theme_fields';
-    
+
     // Get the same filters used in the main query
     $selected_role = sanitize_text_field($_GET['role'] ?? '');
     $selected_hsw_alerts = sanitize_text_field($_GET['hsw_alerts'] ?? '');
@@ -768,7 +854,7 @@ function infospace_export_users_report_csv_ftn()
         $is_active = isset($user_meta[$prefix . 'user_is_active'][0]) && $user_meta[$prefix . 'user_is_active'][0] == 'on' ? 'Yes' : 'No';
         $is_staff = isset($user_meta[$prefix . 'user_is_staff'][0]) && $user_meta[$prefix . 'user_is_staff'][0] == 'on' ? 'Yes' : 'No';
         $user_roles = implode(', ', $user->roles);
-        
+
         fputcsv($output, array(
             $user->ID,
             $user->user_login,

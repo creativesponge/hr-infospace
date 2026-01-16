@@ -2,25 +2,26 @@
 
 // Documents
 add_filter('cmb2_meta_boxes', 'cmb2_document_metabox');
-function cmb2_document_metabox() {
+function cmb2_document_metabox()
+{
     global $prefix;
-    
+
     $document = new_cmb2_box([
-        'id'            => $prefix .'document_details',
+        'id'            => $prefix . 'document_details',
         'title'         => 'Document details',
         'object_types'  => ['document'],
         'context'       => 'normal',
         'priority'      => 'high',
         'show_names'    => true,
     ]);
-  $document->add_field([
-        'id'        => $prefix .'summary',
+    $document->add_field([
+        'id'        => $prefix . 'summary',
         'name'      => 'Summary',
         'desc'      => 'Short summary of the document',
         'type'      => 'textarea'
     ]);
     $document->add_field([
-        'id'        => $prefix .'keywords',
+        'id'        => $prefix . 'keywords',
         'name'      => 'Keywords',
         'desc'      => 'Comma-separated keywords',
         'type'      => 'textarea'
@@ -37,7 +38,7 @@ function cmb2_document_metabox() {
             'style' => 'width:100%'
         ],
     ]);*/
-// Not used as they are set in the resource page.
+    // Not used as they are set in the resource page.
     /*$document->add_field( array(
 		'name'    => __( 'Resource to show on (Not used as they are set in the resource page)', 'hrinfospace' ),
 		'desc'    => __( 'Drag a resource from the left column to the right column to attach them to this document.<br />You may rearrange the order of the posts in the right column by dragging and dropping.', 'hrinfospace' ),
@@ -74,7 +75,7 @@ function cmb2_document_metabox() {
         ],
 	) );*/
 
-    
+
     $document->add_field([
         'id'          => $prefix . 'document_files',
         'type'        => 'group',
@@ -101,7 +102,7 @@ function cmb2_document_metabox() {
         'name'      => 'Start Date',
         'desc'      => 'The date the document became effective',
         'type'      => 'text_date_timestamp',
-         'column'    => true,
+        'column'    => true,
         'sortable'  => true,
     ]);
 
@@ -110,7 +111,7 @@ function cmb2_document_metabox() {
         'name'      => 'End Date',
         'desc'      => 'The date the document is no longer valid',
         'type'      => 'text_date_timestamp',
-         'column'    => true,
+        'column'    => true,
         'sortable'  => true,
     ]);
 
@@ -126,41 +127,41 @@ function cmb2_document_metabox() {
     ]);
 
     // Add is active column to admin list view
-    add_filter('manage_document_posts_columns', function($columns) use ($prefix) {
+    add_filter('manage_document_posts_columns', function ($columns) use ($prefix) {
         $columns[$prefix . 'document_is_active'] = 'Active';
-         $columns[$prefix . 'document_url'] = 'Embed url';
+        $columns[$prefix . 'document_url'] = 'Embed url';
         return $columns;
     });
 
     // Make columns sortable
-    add_filter('manage_edit-document_sortable_columns', function($columns) use ($prefix) {
+    add_filter('manage_edit-document_sortable_columns', function ($columns) use ($prefix) {
         $columns[$prefix . 'document_url'] = $prefix . 'document_url';
         $columns[$prefix . 'document_is_active'] = $prefix . 'document_is_active';
         return $columns;
     });
 
     // Handle sorting
-    add_action('pre_get_posts', function($query) use ($prefix) {
+    add_action('pre_get_posts', function ($query) use ($prefix) {
         if (!is_admin() || !$query->is_main_query()) {
             return;
         }
 
         $orderby = $query->get('orderby');
-        
+
         if ($orderby == $prefix . 'document_is_active') {
             $query->set('meta_key', $prefix . 'document_is_active');
             $query->set('orderby', 'meta_value');
         }
     });
 
-    add_action('manage_document_posts_custom_column', function($column, $post_id) use ($prefix) {
+    add_action('manage_document_posts_custom_column', function ($column, $post_id) use ($prefix) {
         if ($column == $prefix . 'document_is_active') {
             $is_active = get_post_meta($post_id, $prefix . 'document_is_active', true);
             echo $is_active == 'on' ? '✓' : '✗';
         }
         if ($column == $prefix . 'document_url') {
             $attachedFilesArray = get_post_meta($post_id, $prefix . 'document_files', true);
-            $document_url  = isset($attachedFilesArray[0][$prefix . 'doc_uploaded_file_id']) ? get_site_url() . '/download-document/'. $attachedFilesArray[0][$prefix . 'doc_uploaded_file_id'] : '';
+            $document_url  = isset($attachedFilesArray[0][$prefix . 'doc_uploaded_file_id']) ? get_site_url() . '/download-document/' . $attachedFilesArray[0][$prefix . 'doc_uploaded_file_id'] : '';
             echo esc_url($document_url);
         }
     }, 10, 2);
@@ -168,19 +169,19 @@ function cmb2_document_metabox() {
     $document->add_group_field($prefix . 'document_files', [
         'id'        => $prefix . 'doc_uploaded_file',
         'name'      => 'Upload File',
-        'desc'      => 'Upload the document file' ,
+        'desc'      => 'Upload the document file',
         'type'      => 'file',
-       
+
         'options'   => [
             'url' => false, // Hide the text input for the URL
         ],
-         'column'    => true,
+        'column'    => true,
         'sortable'  => true,
-        
+
     ]);
 
     $document->add_group_field($prefix . 'document_files', [
-        'id'        => $prefix .'old_system_doc_file_id',
+        'id'        => $prefix . 'old_system_doc_file_id',
         'name'      => 'Old System ID',
         'desc'      => 'ID from the old system',
         'type'      => 'text_small',
@@ -190,8 +191,35 @@ function cmb2_document_metabox() {
         ],
     ]);
 
+    $documentAlerts = new_cmb2_box([
+        'id'            => $prefix . 'document_details_alerts',
+        'title'         => 'Alerts',
+        'object_types'  => ['document'],
+        'context'       => 'side',
+        'priority'      => 'low',
+        'show_names'    => true,
+    ]);
+    // link to alerts
+    $documentAlerts->add_field([
+        'id'        => $prefix . 'alerts_link',
+        'name'      => 'Send an alert for this document',
+      
+        //'desc'      => 'Send an alert notification for this document',
+        'type'      => 'title',
+        'render_row_cb' => function($field_args, $field) {
+            $post_id = isset($_GET['post']) ? intval($_GET['post']) : 0;
+            echo '<div class="cmb-row cmb-type-title">';
+            echo '<div class="cmb-th"><label for="' . $field->id() . '">' . $field->args('name') . '</label></div>';
+            echo '<div class="cmb-td">';
+            echo '<a href="/wp-admin/admin.php?page=alerts&doc_id=' . $post_id . '" class="button">Send alert</a>';
+            echo '</div></div>';
+        },
+        
+    ]);
+
+    // Side fields
     $documentSide = new_cmb2_box([
-        'id'            => $prefix .'document_details_side',
+        'id'            => $prefix . 'document_details_side',
         'title'         => 'Document info',
         'object_types'  => ['document'],
         'context'       => 'side',
@@ -200,35 +228,35 @@ function cmb2_document_metabox() {
     ]);
 
     $documentSide->add_field([
-        'id'        => $prefix .'is_new',
+        'id'        => $prefix . 'is_new',
         'name'      => 'Is New?',
         'desc'      => 'Mark as new document',
         'type'      => 'text_date_timestamp',
-         'column'    => true,
+        'column'    => true,
         'sortable'  => true,
     ]);
     $documentSide->add_field([
-        'id'        => $prefix .'is_updated',
+        'id'        => $prefix . 'is_updated',
         'name'      => 'Is Updated?',
         'desc'      => 'Mark as updated document',
         'type'      => 'text_date_timestamp',
-         'column'    => true,
+        'column'    => true,
         'sortable'  => true,
     ]);
     $documentSide->add_field([ //DELETE WHEN NOT NEEDED
-        'id'        => $prefix .'old_system_id',
+        'id'        => $prefix . 'old_system_id',
         'name'      => 'Old System ID',
         'desc'      => 'ID from the old system',
         'type'      => 'text_small',
         'attributes' => [
             //Uncomment once live 'readonly' => 'readonly',
-             'style' => 'display: none;'
+            'style' => 'display: none;'
         ]
     ]);
 
 
     $documentSide->add_field([
-        'id'        => $prefix .'sort_order',
+        'id'        => $prefix . 'sort_order',
         'name'      => 'Sort Order (From old system)',
         'desc'      => 'Order for sorting documents',
         'type'      => 'text_small',
@@ -237,8 +265,7 @@ function cmb2_document_metabox() {
             'min'  => 0,
             'style' => 'display: none;'
             //Uncomment once live 'readonly' => 'readonly',
-            
+
         ],
     ]);
-
 }

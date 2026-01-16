@@ -78,7 +78,6 @@ function get_user_profile_resources($userid): array
     return [];
 }
 
-
 // Check user has correct page permissions
 function user_has_page_access($userid, $page_id, $post_type): bool
 {
