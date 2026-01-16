@@ -101,14 +101,16 @@
       order: 3;
       margin: auto;
       margin-top: rem-calc(-40);
-      margin-bottom: rem-calc(60);
+      margin-bottom: rem-calc(-60);
     }
 
     @include breakpoint(large) {
       width: 64%;
-      margin-bottom: rem-calc(-60);
-      //margin-right: rem-calc(-160);
+      //margin-bottom: rem-calc(-60);
+      margin-bottom: rem-calc(-160);
+      margin-right: rem-calc(-60);
       margin-top: rem-calc(65);
+
     }
     @include breakpoint(xlarge) {
       margin-bottom: rem-calc(-220);
@@ -118,23 +120,27 @@
       margin: 0 auto;
 
       @include breakpoint(medium) {
-        //margin-left: rem-calc(30);
+         max-height: rem-calc(400);
+        margin-left: rem-calc(100);
         border-radius: 50%;
         //overflow: hidden;
         transform-origin: 0 50%;
         transform: scale(1.2);
+         width: auto;
       }
 
       @include breakpoint(large) {
         margin-left: rem-calc(50);
         transform: scale(1.2);
-        max-height: 86%;
-        width: auto;
+        //max-height: 86%;
+         max-height: rem-calc(500);
+       
       }
       @include breakpoint(xlarge) {
         transform: scale(1.54);
-        max-height: 88%;
-        width: auto;
+        //max-height: 88%;
+        max-height: rem-calc(560);
+        
       }
     }
   }
