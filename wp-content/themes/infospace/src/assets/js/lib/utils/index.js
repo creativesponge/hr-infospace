@@ -1602,10 +1602,10 @@ event.preventDefault();
 
   openPopups: function () {
     const loginButtons = document.querySelectorAll(
-      ".wp-block-button.is-login, .account-nav-right .is-login"
+      ".wp-block-button.is-login, .account-nav-right .is-login, span.is-login"
     );
     const registerButtons = document.querySelectorAll(
-      ".wp-block-button.is-register"
+      ".wp-block-button.is-register, span.is-register "
     );
     const loginPopup = document.getElementById("login-form-pop-up");
     const registerPopup = document.getElementById("register-form-pop-up");

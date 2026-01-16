@@ -28,6 +28,9 @@ $attributes['logged_out'] = isset($_REQUEST['logged_out']) && $_REQUEST['logged_
 
 // Set up login form
 //$args = array('redirect' => $_SESSION['redirect_url']);
+$args = array(
+    'label_username' => __('Email'),
+);
 
 // Check if user just updated password
 $attributes['password_updated'] = isset($_REQUEST['password']) && $_REQUEST['password'] == 'changed';

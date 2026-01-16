@@ -1,27 +1,27 @@
 /// Settings
-@import 'settings';
+@import "settings";
 
 // Blocks
-@import 'admin/blocks/page-banner-titles';
-@import 'admin/blocks/stats';
-@import 'admin/blocks/image-text';
-@import 'admin/blocks/accordion';
-@import 'admin/blocks/contact-form';
-@import 'admin/blocks/video';
-@import 'admin/blocks/google-map';
-@import 'admin/blocks/tabs';
-@import 'admin/blocks/testimonials';
-@import 'admin/blocks/team';
-@import 'admin/blocks/grey-background';
-@import 'admin/blocks/posts-list';
-@import 'admin/blocks/posts-list-filters';
-@import 'admin/blocks/posts-list-filters-ajax';
-@import 'admin/blocks/latest-posts';
-@import 'admin/blocks/small-blocks-container';
-@import 'admin/blocks/small-block';
-@import 'admin/blocks/share-block';
-@import 'admin/blocks/breadcrumbs';
-@import 'admin/blocks/logo-list';
+@import "admin/blocks/page-banner-titles";
+@import "admin/blocks/stats";
+@import "admin/blocks/image-text";
+@import "admin/blocks/accordion";
+@import "admin/blocks/contact-form";
+@import "admin/blocks/video";
+@import "admin/blocks/google-map";
+@import "admin/blocks/tabs";
+@import "admin/blocks/testimonials";
+@import "admin/blocks/team";
+@import "admin/blocks/grey-background";
+@import "admin/blocks/posts-list";
+@import "admin/blocks/posts-list-filters";
+@import "admin/blocks/posts-list-filters-ajax";
+@import "admin/blocks/latest-posts";
+@import "admin/blocks/small-blocks-container";
+@import "admin/blocks/small-block";
+@import "admin/blocks/share-block";
+@import "admin/blocks/breadcrumbs";
+@import "admin/blocks/logo-list";
 @import "admin/blocks/narrow-content";
 @import "admin/blocks/image-text-banner";
 @import "admin/blocks/image-text-carousel";
@@ -48,53 +48,76 @@
 @import "admin/blocks/page-contact";
 
 // Foundation
-@import 'foundation';
+@import "foundation";
 
 // Include custom styling
 .interface-interface-skeleton__content {
-  @import 'global/content';
-  
-  padding:rem-calc(20);
+  @import "global/content";
+
+  padding: rem-calc(20);
 }
 
-// Styles for Block editor 
+// Styles for Block editor
 .edit-post-visual-editor {
-    p,h1,h2,h4 {
-      color: $infospace-purple!important;
-    }
+  p,
+  h1,
+  h2,
+  h4 {
+    color: $infospace-purple !important;
+  }
   .wp-block {
     max-width: $global-width;
     font-family: $body-font-family;
     margin-left: auto;
     margin-right: auto;
     margin-bottom: rem-calc(20);
-
   }
   .wp-block-post-title.editor-post-title__input {
     color: $light-grey;
   }
 
-  @import 'global/typography';
-  @import 'components/buttons';
-
+  @import "global/typography";
+  @import "components/buttons";
 }
 
-.cmb2-id-theme-fieldsresource-slug, .cmb2-id-theme-fieldsresource-tree-id, .cmb2-id-theme-fieldsresource-right, .cmb2-id-theme-fieldsresource-parent-id, .cmb2-id-theme-fieldsresource-lft, .cmb2-id-theme-fieldsresource-level, .cmb2-id-theme-fieldssort-order, #theme_fieldspage_link_details_side, #theme_fieldsnewsletter_details_side, #theme_fieldsfavourite_details_side, .cmb2-id-theme-fieldsold-favourite-system-id, .cmb2-id-theme-fieldsold-user-system-id, .cmb2-id-theme-fieldsold-post-system-id, .cmb2-id-theme-fieldsold-resource-system-id, .cmb2-id-theme-fieldsold-system-id {
+.cmb2-id-theme-fieldsresource-slug,
+.cmb2-id-theme-fieldsresource-tree-id,
+.cmb2-id-theme-fieldsresource-right,
+.cmb2-id-theme-fieldsresource-parent-id,
+.cmb2-id-theme-fieldsresource-lft,
+.cmb2-id-theme-fieldsresource-level,
+.cmb2-id-theme-fieldssort-order,
+#theme_fieldspage_link_details_side,
+#theme_fieldsnewsletter_details_side,
+#theme_fieldsfavourite_details_side,
+.cmb2-id-theme-fieldsold-favourite-system-id,
+.cmb2-id-theme-fieldsold-user-system-id,
+.cmb2-id-theme-fieldsold-post-system-id,
+.cmb2-id-theme-fieldsold-resource-system-id,
+.cmb2-id-theme-fieldsold-system-id {
   display: none;
 }
 
-.fixed .column-categories, .fixed .column-rel, .fixed .column-response, .fixed .column-role, .fixed .column-tags
-
- {
-    width: auto;
+.fixed .column-categories,
+.fixed .column-rel,
+.fixed .column-response,
+.fixed .column-role,
+.fixed .column-tags {
+  width: auto;
 }
 
 .user-role-main {
-
   .wp-list-table {
     tfoot {
       display: none;
     }
   }
-
+  .user-user-login-wrap {
+    display: none;
+  }
+#wpadminbar #wp-admin-bar-user-info {
+   .username {
+      display: none;
+    }
+  }
 }

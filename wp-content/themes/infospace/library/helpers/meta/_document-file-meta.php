@@ -1,5 +1,42 @@
 <?php
+// Add checkbox for open access to attachments
+add_filter('cmb2_meta_boxes', 'cmb2_attachment_open_access_metabox');
+function cmb2_attachment_open_access_metabox()
+{
+    global $prefix;
 
+    $attachment = new_cmb2_box([
+        'id'            => $prefix . 'attachment_open_access',
+        'title'         => 'Access Settings',
+        'object_types'  => ['attachment'],
+        'context'       => 'side',
+        'priority'      => 'low',
+        'show_names'    => true,
+    ]);
+
+    $attachment->add_field([
+        'id'        => $prefix . 'open_access',
+        'name'      => 'Open Access',
+        'desc'      => 'Allow public access to this file',
+        'type'      => 'checkbox',
+    ]);
+    $attachment->add_field([
+        'id'        => $prefix . 'downloadUrl',
+        'name'      => 'Link for downloading the document',
+      
+        //'desc'      => 'Send an alert notification for this document',
+        'type'      => 'title',
+        'render_row_cb' => function($field_args, $field) {
+            $post_id = isset($_GET['post']) ? intval($_GET['post']) : 0;
+            echo '<div class="cmb-row cmb-type-title">';
+            echo '<div class="cmb-th"><label for="' . $field->id() . '">' . $field->args('name') . '</label></div>';
+            echo '<div class="cmb-td">';
+            echo '<a href="/download-document/' . $post_id . '">/download-document/' . $post_id . '</a>';
+            echo '</div></div>';
+        },
+        
+    ]);
+}
 // Document files
 /*
 add_filter('cmb2_meta_boxes', 'cmb2_document_file_metabox');

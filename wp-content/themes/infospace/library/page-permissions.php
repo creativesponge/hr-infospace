@@ -363,8 +363,10 @@ add_action('template_redirect', function () {
         //if (!current_user_can('main')) {
         //wp_die('You do not have permission to download this document.');
         //}
-
-        if (!user_has_access($doc_id)) {
+        $docMeta = theme_get_meta($doc_id);
+        $openAccess = isset($docMeta->open_access) ? $docMeta->open_access : 'off';
+      
+        if (!user_has_access($doc_id) && $openAccess !== 'on') {
             wp_die('You do not have permission to download this document');
         };
 

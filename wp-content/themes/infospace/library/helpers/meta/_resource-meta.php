@@ -124,6 +124,13 @@ function cmb2_page_metabox()
         ]
     ]);
 
+    $resourceSide->add_field([
+        'id'        => $prefix . 'resource_open_access',
+        'name'      => 'Make open access',
+        'desc'      => 'Check to make this resource openly accessible',
+        'type'      => 'checkbox',
+    ]);
+
 
 
     $resourceSide->add_field([

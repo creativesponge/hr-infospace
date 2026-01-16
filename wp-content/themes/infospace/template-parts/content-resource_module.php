@@ -907,8 +907,8 @@ $download_svg = ob_get_clean();
 			//$limited_content = implode(' ', array_slice($words, 0, 50));
 			//echo '<p>' . $limited_content . '...</p>';
 			echo '<div class="resource-module__login-prompt full-width">';
-			echo "Login or <a href='" . wp_login_url() . "'>register</a> to access this content.";
-				echo '</div>';
+			echo "<p><strong><span class=\"is-login\"><a href='" . home_url() . "'>Login</a></span> or <span class=\"is-register\"><a href='" . home_url() . "'>register</a></span> to access this content.</strong></p>";
+		echo '</div>';
 		} ?>
 
 		<?php edit_post_link(__('(Edit)', $namespace), '<span class="edit-link">', '</span>'); ?>

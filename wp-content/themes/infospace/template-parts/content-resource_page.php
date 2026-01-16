@@ -27,7 +27,8 @@ if (check_if_is_module_landing($post_id, $moduleMeta["attached_resources"])) {
 	$documentsTabText = $moduleMeta['module_id'] == 1738 ? 'Guidance & Forms' : 'Documents';
 	$siteGetInTouchText = isset($settings[$prefix . 'get_in_touch_text']) ? $settings[$prefix . 'get_in_touch_text'] : 'Can’t find what you need?';
 	$siteGetInTouchUrl = isset($settings[$prefix . 'get_in_touch_url']) ? $settings[$prefix . 'get_in_touch_url'] : '/contact/';
-
+	$pageMeata = theme_get_meta($post_id);
+	$openAccess = isset($pageMeata->resource_open_access) && $pageMeata->resource_open_access == 'on' ? $pageMeata->resource_open_access : 'off';
 
 	ob_start();
 	get_template_part('template-parts/svgs/_linkout');
@@ -47,6 +48,7 @@ if (check_if_is_module_landing($post_id, $moduleMeta["attached_resources"])) {
 	$attached_docs = get_post_meta($post_id, $prefix . 'resource_attached_documents', true);
 	$attached_docs_list = "";
 	$attached_policies_list = "";
+
 	if (!empty($attached_docs)) {
 
 		foreach ($attached_docs as $docId) {
@@ -63,7 +65,7 @@ if (check_if_is_module_landing($post_id, $moduleMeta["attached_resources"])) {
 			} else {
 				$fileDateLabel = '';
 			}
-	
+
 			if (!empty($doc_files)) {
 				foreach ($doc_files as $docFile) {
 
@@ -75,7 +77,7 @@ if (check_if_is_module_landing($post_id, $moduleMeta["attached_resources"])) {
 						// Skip this file as it is not currently active
 						continue;
 					}
-					
+
 
 
 					$filename = $docFile["theme_fieldsdoc_uploaded_file"];
@@ -111,9 +113,9 @@ if (check_if_is_module_landing($post_id, $moduleMeta["attached_resources"])) {
 
 					// Add to appropriate list based on taxonomy
 					if ($is_policy) {
-						$attached_policies_list .= '<li class="policy-doc"><a href="' . esc_url($doc_url) . '" data-download-name="' . esc_html($title) . '" data-download-id="' . esc_attr($docId) . '" rel="nofollow"><span>' . $file_svg . esc_html($title) . '</span><strong>'. $fileDateLabel . $favourite_svg . '</strong></a></li>';
+						$attached_policies_list .= '<li class="policy-doc"><a href="' . esc_url($doc_url) . '" data-download-name="' . esc_html($title) . '" data-download-id="' . esc_attr($docId) . '" rel="nofollow"><span>' . $file_svg . esc_html($title) . '</span><strong>' . $fileDateLabel . $favourite_svg . '</strong></a></li>';
 					} else {
-						$attached_docs_list .= '<li class="document-doc"><a href="' . esc_url($doc_url) . '" data-download-name="' . esc_html($title) . '" data-download-id="' . esc_attr($docId) . '" rel="nofollow"><span>' . $file_svg . esc_html($title) . '</span><strong>'. $fileDateLabel . $favourite_svg . '</strong></a></li>';
+						$attached_docs_list .= '<li class="document-doc"><a href="' . esc_url($doc_url) . '" data-download-name="' . esc_html($title) . '" data-download-id="' . esc_attr($docId) . '" rel="nofollow"><span>' . $file_svg . esc_html($title) . '</span><strong>' . $fileDateLabel . $favourite_svg . '</strong></a></li>';
 					}
 				}
 			}
@@ -127,7 +129,7 @@ if (check_if_is_module_landing($post_id, $moduleMeta["attached_resources"])) {
 	if (!empty($attached_links)) {
 		foreach ($attached_links as $linkId) {
 			$link_post = get_post($linkId);
-			
+
 			$link_meta = theme_get_meta($linkId);
 			$link_url = isset($link_meta->page_link_url) ? $link_meta->page_link_url : '';
 			$linkActive = isset($link_meta->page_link_is_active) ? $link_meta->page_link_is_active : 'off';
@@ -138,21 +140,21 @@ if (check_if_is_module_landing($post_id, $moduleMeta["attached_resources"])) {
 
 			// Create favoutite button
 
-					$button_class = '';
-					$button_text = 'Add to \'my resources\'';
+			$button_class = '';
+			$button_text = 'Add to \'my resources\'';
 
-					if (is_array($current_user_favourites) && in_array($linkId, $current_user_favourites)) {
-						$button_class .= ' add-to-favourites--filled';
-						$button_text = 'Remove from \'my resources\'';
-					}
-					ob_start();
+			if (is_array($current_user_favourites) && in_array($linkId, $current_user_favourites)) {
+				$button_class .= ' add-to-favourites--filled';
+				$button_text = 'Remove from \'my resources\'';
+			}
+			ob_start();
 
-					echo '<button class="add-to-favourites add-to-favourites--small' . esc_attr($button_class) . '" data-id="' . esc_attr($linkId) . '" data-name="' . esc_attr(get_the_title($linkId)) . '" data-type="' . esc_attr(get_post_type($linkId)) . '">';
-					get_template_part('template-parts/svgs/_favourite');
-					echo '<span class="show-for-sr">' . esc_html($button_text) . '</span>';
-					echo '</button>';
+			echo '<button class="add-to-favourites add-to-favourites--small' . esc_attr($button_class) . '" data-id="' . esc_attr($linkId) . '" data-name="' . esc_attr(get_the_title($linkId)) . '" data-type="' . esc_attr(get_post_type($linkId)) . '">';
+			get_template_part('template-parts/svgs/_favourite');
+			echo '<span class="show-for-sr">' . esc_html($button_text) . '</span>';
+			echo '</button>';
 
-					$favourite_svg = ob_get_clean();
+			$favourite_svg = ob_get_clean();
 
 			$attached_links_list .= '<li><a href="' . esc_url($link_url) . '" data-link-id="' . esc_attr($linkId) . '" target="_blank" rel="nofollow"><span>' . $linkout_svg . esc_html($title) . '</span>' . $favourite_svg . '</a></li>';
 		}
@@ -212,22 +214,25 @@ if (check_if_is_module_landing($post_id, $moduleMeta["attached_resources"])) {
 			<header class="resource-page__header full-width" style="background-color: <?php echo esc_html($moduleColour); ?>;">
 				<div class="resource-page__header-inner">
 					<h1 class="entry-title"><?php the_title(); ?></h1>
-					<?php // get_template_part('template-parts/add-to-favourites') ?>
+					<?php // get_template_part('template-parts/add-to-favourites') 
+					?>
 				</div>
 			</header>
 			<!--<div class="resource-page__box resource-page__box--green hide-for-medium">
-				<h3><?php //echo $siteGetInTouchText; ?></h3>
-				<a href="<?php //echo esc_url($siteGetInTouchUrl); ?>" class="button-link button-link--rev">Contact us</a>
+				<h3><?php //echo $siteGetInTouchText; 
+					?></h3>
+				<a href="<?php //echo esc_url($siteGetInTouchUrl); 
+							?>" class="button-link button-link--rev">Contact us</a>
 			</div>-->
 			<?php //var_dump(user_has_page_access(get_current_user_id(), $post_id, 'resource_page')); 
-			if (user_has_access($post_id)) { ?>
+			if (user_has_access($post_id) || $openAccess == 'on') { ?>
 				<div class="resource-page__grid">
 					<div class="resource-page__col1">
 						<?php
 						//echo "has access"; // The user has the "main" role, do redirects for main users
 						the_content();
 						get_template_part('template-parts/add-to-favourites');
-						if ((!empty($attached_docs_list) && $attached_docs_list !='')  || (!empty($attached_policies_list) && $attached_policies_list !='') || ( !empty($attached_links_list) && $attached_links_list !='')) {
+						if ((!empty($attached_docs_list) && $attached_docs_list != '')  || (!empty($attached_policies_list) && $attached_policies_list != '') || (!empty($attached_links_list) && $attached_links_list != '')) {
 						?><div class="resource-page__attachments tabbed-content">
 								<h2>Helpful resources</h2>
 								<ul class="resource-page__tabs tab-list tabbed-content__list" role="tablist">
@@ -245,7 +250,7 @@ if (check_if_is_module_landing($post_id, $moduleMeta["attached_resources"])) {
 										echo '</ul>';
 										echo '</div>';
 									}
-									
+
 									// Show a list of document attached to this page
 									if (!empty($attached_docs_list)) {
 										echo '<div class="resource-page__panel tabbed-content__panel active">';
@@ -256,7 +261,7 @@ if (check_if_is_module_landing($post_id, $moduleMeta["attached_resources"])) {
 										echo '</div>';
 									}
 
-									
+
 									//var_dump($taxonomies);
 									// Show a list of page_link attached to this page
 
@@ -275,7 +280,7 @@ if (check_if_is_module_landing($post_id, $moduleMeta["attached_resources"])) {
 					</div>
 					<div class="resource-page__col2">
 						<?php if (!empty($child_resources_list)) {
-							
+
 							echo '<div class="resource-page__box">';
 							echo '<h3 style="color: ' . esc_html($moduleColour) . ';">Also in this section</h3>';
 							echo '<ul class="child-resources">';
@@ -300,7 +305,7 @@ if (check_if_is_module_landing($post_id, $moduleMeta["attached_resources"])) {
 						</div>
 					</div>
 				</div>
-			<?php 
+			<?php
 				log_user_interaction(get_permalink(), $post_id, 10, 'Viewed page', get_the_title());
 			} else {
 				$content = get_the_content();
@@ -308,7 +313,7 @@ if (check_if_is_module_landing($post_id, $moduleMeta["attached_resources"])) {
 				$words = explode(' ', $content);
 				$limited_content = implode(' ', array_slice($words, 0, 50));
 				echo '<p>' . $limited_content . '...</p>';
-				echo "<p><strong>Login or <a href='" . wp_login_url() . "'>register</a> to access this content.</strong></p>";
+				echo "<p><strong><span class=\"is-login\"><a href='" . home_url() . "'>Login</a></span> or <span class=\"is-register\"><a href='" . home_url() . "'>register</a></span> to access this content.</strong></p>";
 			} ?>
 
 			<?php edit_post_link(__('(Edit)', $namespace), '<span class="edit-link">', '</span>'); ?>

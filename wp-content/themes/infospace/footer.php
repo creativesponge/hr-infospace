@@ -91,7 +91,7 @@ $footerClass = (isset($meta->grey_footer) && $meta->grey_footer == true) || $pos
 		<?php
 		$args = array(
 			'redirect' => home_url($_SERVER['REQUEST_URI']),
-			'label_username' => __('Username'),
+			'label_username' => __('Email'),
 			'label_password' => __('Password'),
 			'label_remember' => __('Remember Me'),
 			'label_log_in' => __('Log In'),

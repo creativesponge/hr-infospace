@@ -96,9 +96,9 @@
         padding-left: rem-calc(20);
         padding-bottom: rem-calc(5);
         &:hover {
-          position:relative;
+          position: relative;
           &:before {
-            content: '';
+            content: "";
             display: block;
             width: calc(100% - rem-calc(20));
             height: rem-calc(1);
@@ -218,6 +218,14 @@
             padding: rem-calc(8 0);
             @include breakpoint(large) {
               padding: rem-calc(12 0);
+            }
+          }
+          &.is-active {
+            a {
+              color: $white;
+              &:hover {
+                color: $infospace-orange;
+              }
             }
           }
           .user-greeting {
