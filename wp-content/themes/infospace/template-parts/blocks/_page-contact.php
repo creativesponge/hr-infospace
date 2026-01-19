@@ -12,7 +12,7 @@ $pageModuleMeta = get_current_module_meta($current_module_id_global);
 
 
 ?>
-<section class="page-contact full-width">
+<section class="page-contact full-width" id="page-contact">
 
 	<div class="page-contact__container">
 
