@@ -137,15 +137,15 @@ echo "<h1>Run daily cron functions</h1>";
 var_dump($modified_date->getTimestamp());
 
        // if ($modified_date->getTimestamp() === $one_year_ago->getTimestamp()) {
-            if ($modified_date->getTimestamp() === 1732060800) {
+            if ($modified_date->getTimestamp() === 1767830400) {
             //$admin_email = get_option('admin_email');
             $admin_email = "barry@creativesponge.co.uk"; // For testing purposes
             $subject = 'Document Modified One Year Ago';
             $message = '<p>The document "' . $document->post_title . '" (ID: ' . $document->ID . ') has not been updated for one year.</p>';
             $message = '<p>The document "' . $document->post_title . '" (ID: ' . $document->ID . ') has not been updated for one year.</p>';
             $message .= '<p>Please visit: <a href="https://www.infospace.org.uk/wp-admin/post.php?post=' . $document->ID . '&action=edit"></a> to review it.</p>';
-
-            wp_mail($admin_email, $subject, $message);
+            $headers = array('From: barry@creativesponge.co.uk');
+            wp_mail($admin_email, $subject, $message, $headers);
             echo "Notification email sent for Document ID: " . $document->ID . "<br>";
         }
     }
