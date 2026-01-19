@@ -142,9 +142,11 @@ var_dump($modified_date->getTimestamp());
             $admin_email = "barry@creativesponge.co.uk"; // For testing purposes
             $subject = 'Document Modified One Year Ago';
             $message = '<p>The document "' . $document->post_title . '" (ID: ' . $document->ID . ') has not been updated for one year.</p>';
-            $message = '<p>The document "' . $document->post_title . '" (ID: ' . $document->ID . ') has not been updated for one year.</p>';
-            $message .= '<p>Please visit: <a href="https://www.infospace.org.uk/wp-admin/post.php?post=' . $document->ID . '&action=edit"></a> to review it.</p>';
-            $headers = array('From: barry@creativesponge.co.uk');
+            $message .= '<p>Please visit: <a href="https://www.infospace.org.uk/wp-admin/post.php?post=' . $document->ID . '&action=edit">this link</a> to review it.</p>';
+            $headers = array(
+                'From: barry@creativesponge.co.uk',
+                'Content-Type: text/html; charset=UTF-8'
+            );
             wp_mail($admin_email, $subject, $message, $headers);
             echo "Notification email sent for Document ID: " . $document->ID . "<br>";
         }
