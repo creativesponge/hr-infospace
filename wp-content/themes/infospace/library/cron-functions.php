@@ -137,7 +137,7 @@ echo "<h1>Run daily cron functions</h1>";
 var_dump($modified_date->getTimestamp());
 
        // if ($modified_date->getTimestamp() === $one_year_ago->getTimestamp()) {
-            if ($modified_date->getTimestamp() === 1768521600) {
+            if ($modified_date->getTimestamp() === 1732060800) {
             //$admin_email = get_option('admin_email');
             $admin_email = "barry@creativesponge.co.uk"; // For testing purposes
             $subject = 'Document Modified One Year Ago';
