@@ -5,10 +5,11 @@ add_action('admin_menu', 'add_cron_functions_interface');
 function add_cron_functions_interface()
 {
     add_management_page('Run cron functions', 'Run cron functions', 'manage_options', 'import_cron_functions_page', 'cron_functions');
+    add_management_page('Run daily cron functions', 'Run daily cron functions', 'manage_options', 'import_daily_cron_functions_page', 'daily_cron_functions');
 }
 
 // Cron job
-function ewj_cron_schedules_cron_functions($schedules)
+function infospace_cron_schedules_cron_functions($schedules)
 {
     if (!isset($schedules["10min"])) {
         $schedules["10min"] = array(
@@ -18,7 +19,7 @@ function ewj_cron_schedules_cron_functions($schedules)
     }
     return $schedules;
 }
-add_filter('cron_schedules', 'ewj_cron_schedules_cron_functions');
+add_filter('cron_schedules', 'infospace_cron_schedules_cron_functions');
 
 
 register_activation_hook(__FILE__, 'do_cron_functions');
@@ -89,6 +90,63 @@ function cron_functions()
         } else {
             update_post_meta($document->ID, $prefix . 'document_is_active', '');
             echo "Document ID: " . $document->ID . " (" . $document->post_title . ") is not active.<br>";
+        }
+    }
+}
+
+// Daily cron job
+function infospace_cron_schedules_daily($schedules)
+{
+    if (!isset($schedules["daily"])) {
+        $schedules["daily"] = array(
+            'interval' => 24 * 60 * 60,
+            'display' => __('Once daily')
+        );
+    }
+    return $schedules;
+}
+add_filter('cron_schedules', 'infospace_cron_schedules_daily');
+
+register_activation_hook(__FILE__, 'do_daily_cron');
+do_daily_cron();
+function do_daily_cron()
+{
+    if (!wp_next_scheduled('run_daily_cron')) {
+        wp_schedule_event(time(), 'daily', 'run_daily_cron');
+    }
+}
+
+add_action('run_daily_cron', 'daily_cron_functions');
+
+function daily_cron_functions()
+{
+echo "<h1>Run daily cron functions</h1>";
+    // Set the document as active based on whether it has active docs attached
+    // Get all the documents
+    $documents = get_posts(array(
+        'post_type' => 'document',
+        'numberposts' => -1,
+    ));
+
+    foreach ($documents as $document) {
+        // Check if modified exactly one year ago and send an email to admin
+        $today = new DateTime();
+        $modified_date = new DateTime(get_the_modified_date('Y-m-d', $document->ID));
+        $one_year_ago = clone $today;
+        $one_year_ago->sub(new DateInterval('P1Y'));
+var_dump($modified_date->getTimestamp());
+
+       // if ($modified_date->getTimestamp() === $one_year_ago->getTimestamp()) {
+            if ($modified_date->getTimestamp() === 1768521600) {
+            //$admin_email = get_option('admin_email');
+            $admin_email = "barry@creativesponge.co.uk"; // For testing purposes
+            $subject = 'Document Modified One Year Ago';
+            $message = '<p>The document "' . $document->post_title . '" (ID: ' . $document->ID . ') has not been updated for one year.</p>';
+            $message = '<p>The document "' . $document->post_title . '" (ID: ' . $document->ID . ') has not been updated for one year.</p>';
+            $message .= '<p>Please visit: <a href="https://www.infospace.org.uk/wp-admin/post.php?post=' . $document->ID . '&action=edit"></a> to review it.</p>';
+
+            wp_mail($admin_email, $subject, $message);
+            echo "Notification email sent for Document ID: " . $document->ID . "<br>";
         }
     }
 }
