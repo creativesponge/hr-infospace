@@ -5,7 +5,7 @@ add_action('admin_menu', 'add_cron_functions_interface');
 function add_cron_functions_interface()
 {
     add_management_page('Run cron functions', 'Run cron functions', 'manage_options', 'import_cron_functions_page', 'cron_functions');
-    add_management_page('Run daily cron functions', 'Run daily cron functions', 'manage_options', 'import_daily_cron_functions_page', 'daily_cron_functions');
+    //add_management_page('Run daily cron functions', 'Run daily cron functions', 'manage_options', 'import_daily_cron_functions_page', 'daily_cron_functions');
 }
 
 // Cron job
@@ -120,7 +120,8 @@ add_action('run_daily_cron', 'daily_cron_functions');
 
 function daily_cron_functions()
 {
-echo "<h1>Run daily cron functions</h1>";
+    global $prefix;
+    echo "<h1>Run daily cron functions</h1>";
     // Set the document as active based on whether it has active docs attached
     // Get all the documents
     $documents = get_posts(array(
@@ -129,17 +130,21 @@ echo "<h1>Run daily cron functions</h1>";
     ));
 
     foreach ($documents as $document) {
+
+        $page_id = get_document_page($document->ID);
+        $module_id = get_page_module($page_id);
+        $module_email = get_post_meta($module_id, $prefix . 'module_email_address', true) ?: "EHRpolicy@norfolk.gov.uk";
+
         // Check if modified exactly one year ago and send an email to admin
         $today = new DateTime();
         $modified_date = new DateTime(get_the_modified_date('Y-m-d', $document->ID));
         $one_year_ago = clone $today;
         $one_year_ago->sub(new DateInterval('P1Y'));
-var_dump($modified_date->getTimestamp());
 
-       // if ($modified_date->getTimestamp() === $one_year_ago->getTimestamp()) {
-            if ($modified_date->getTimestamp() === 1767830400) {
+        //if ($modified_date->getTimestamp() === $one_year_ago->getTimestamp()) {
+        if ($modified_date->getTimestamp() === 1767830400) {
             //$admin_email = get_option('admin_email');
-            $admin_email = "barry@creativesponge.co.uk"; // For testing purposes
+            $module_email = "barry@creativesponge.co.uk"; // For testing purposes
             $subject = 'Document Modified One Year Ago';
             $message = '<p>The document "' . $document->post_title . '" (ID: ' . $document->ID . ') has not been updated for one year.</p>';
             $message .= '<p>Please visit: <a href="https://www.infospace.org.uk/wp-admin/post.php?post=' . $document->ID . '&action=edit">this link</a> to review it.</p>';
@@ -147,7 +152,7 @@ var_dump($modified_date->getTimestamp());
                 'From: barry@creativesponge.co.uk',
                 'Content-Type: text/html; charset=UTF-8'
             );
-            wp_mail($admin_email, $subject, $message, $headers);
+            wp_mail($module_email, $subject, $message, $headers);
             echo "Notification email sent for Document ID: " . $document->ID . "<br>";
         }
     }

@@ -113,7 +113,7 @@ if (check_if_is_module_landing($post_id, $moduleMeta["attached_resources"])) {
 
 					// Add to appropriate list based on taxonomy
 					if ($is_policy) {
-						$attached_policies_list .= '<li class="policy-doc"><a href="' . esc_url($doc_url) . '" data-download-name="' . esc_html($title) . '" data-download-id="' . esc_attr($docId) . '" rel="nofollow"><span>' . $file_svg . esc_html($title) . '</span><strong>' . $fileDateLabel . $favourite_svg . '</strong></a></li>';
+						$attached_policies_list .= '<li class="policy-doc"><a href="' . esc_url($doc_url) . '" data-download-name="' . esc_html($title) . '" data-download-id="' . esc_attr($docId) . '" rel="nofollow"><span>' . $file_svg . esc_html($title) . '</span><strong>' . $fileDateLabel . $favourite_svg .  '</strong></a></li>';
 					} else {
 						$attached_docs_list .= '<li class="document-doc"><a href="' . esc_url($doc_url) . '" data-download-name="' . esc_html($title) . '" data-download-id="' . esc_attr($docId) . '" rel="nofollow"><span>' . $file_svg . esc_html($title) . '</span><strong>' . $fileDateLabel . $favourite_svg . '</strong></a></li>';
 					}

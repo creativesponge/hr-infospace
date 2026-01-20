@@ -346,6 +346,81 @@ function return_users_pages_with_access(): array
     return $user_attached_pages;
 }
 
+//Get the page a document is attached to using it's id
+function get_document_page($document_id)
+{
+    global $prefix;
+    $all_pages = get_posts([
+        'post_type' => 'resource_page',
+        'post_status' => 'publish',
+        'numberposts' => -1,
+        'fields' => 'ids'
+    ]);     
+
+    foreach ($all_pages as $page_id) {
+        $attached_docs = get_post_meta($page_id, $prefix . 'resource_attached_documents', true);
+
+        if (!empty($attached_docs) && is_array($attached_docs)) {
+            foreach ($attached_docs as $attached_doc) {
+                if ($attached_doc == $document_id) {
+                    return $page_id;
+                }
+            }
+        }
+    }
+    return null;
+}
+
+// Get the module a page is attached to using it's id
+function get_page_module($page_id)
+{
+    global $prefix;
+    $all_modules = get_posts([
+        'post_type' => 'module',
+        'post_status' => 'publish',
+        'numberposts' => -1,
+        'fields' => 'ids'
+    ]);     
+
+    foreach ($all_modules as $module_id) {
+        $attached_page = get_post_meta($module_id, $prefix . 'module_attached_resources', true);
+
+        if (!empty($attached_page))  {
+           
+                if ($attached_page == $page_id) {
+                    
+                    return $module_id;
+                }
+                
+                // Get all descendant pages of $attached_page recursively
+                $descendant_pages = [];
+                $pages_to_check = [$attached_page];
+
+                while (!empty($pages_to_check)) {
+                    $current_page = array_shift($pages_to_check);
+                    
+                    $children = get_posts([
+                        'post_type' => 'resource_page',
+                        'post_parent' => $current_page,
+                        'post_status' => 'publish',
+                        'numberposts' => -1,
+                        'fields' => 'ids'
+                    ]);
+
+                    $descendant_pages = array_merge($descendant_pages, $children);
+                    $pages_to_check = array_merge($pages_to_check, $children);
+                }
+
+                // Check if page_id matches any descendant
+                if (in_array($page_id, $descendant_pages)) {
+                    return $module_id;
+                }
+            
+        }
+    }
+    return null;
+}
+
 // Restrict file access
 
 // 1. Add rewrite rule for the endpoint
