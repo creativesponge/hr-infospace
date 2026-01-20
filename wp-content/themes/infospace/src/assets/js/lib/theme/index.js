@@ -42,6 +42,7 @@ var sitespecific = {
     utils.ajaxFavourites();
     utils.target_clicks();
 
+
     image_text_carousel.init();
     google_map.init();
     tabs_container.init();

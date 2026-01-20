@@ -109,4 +109,24 @@ wp.domReady(() => {
     wp.blocks.unregisterBlockStyle("core/button", "fill");
     wp.blocks.unregisterBlockStyle("core/button", "outline");
   }
+
+  // In #createuser form hide username field
+  const createUserForm = document.querySelector(".user-role-main #createuser");
+  if (createUserForm) {
+    const firstRow = createUserForm.querySelector(".form-table tr");
+    if (firstRow) {
+      firstRow.style.display = "none";
+    }
+  }
+
+  // in createUserForm set the value in the #user_login field to be "user" plus a unix timestamp
+  if (createUserForm) {
+    const userLoginField = createUserForm.querySelector("#user_login");
+    if (userLoginField) {
+      const timestamp = Math.floor(Date.now() / 1000);
+      userLoginField.value = "user" + timestamp;
+    }
+  }
 });
+
+

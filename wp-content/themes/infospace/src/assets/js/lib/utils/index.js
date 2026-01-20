@@ -55,7 +55,7 @@ var utils = {
           xhr.open("POST", ajax_object.ajax_url, true);
           xhr.setRequestHeader(
             "Content-type",
-            "application/x-www-form-urlencoded; charset=UTF-8"
+            "application/x-www-form-urlencoded; charset=UTF-8",
           );
           xhr.onload = function () {
             form.classList.remove("submitting");
@@ -134,7 +134,7 @@ var utils = {
             if (data.message == "No events found") {
               content.insertAdjacentHTML(
                 "beforeend",
-                '<h6 class="no-results"><div class="grid-container "><span><p>There are currently no events to show</p></span></div></h6>'
+                '<h6 class="no-results"><div class="grid-container "><span><p>There are currently no events to show</p></span></div></h6>',
               );
             } else {
               content.insertAdjacentHTML("beforeend", data.message);
@@ -163,7 +163,7 @@ var utils = {
      */
     function getActiveFilters() {
       const activeLinks = document.querySelectorAll(
-        ".nav-filter--cats .active a"
+        ".nav-filter--cats .active a",
       );
       const activeLinksArray = [];
       activeLinks.forEach((link) => {
@@ -298,7 +298,7 @@ var utils = {
     }
 
     const allTermsElement = document.querySelector(
-      '#posts-container-async a[data-term="all-terms"]'
+      '#posts-container-async a[data-term="all-terms"]',
     );
 
     let pageType = "post";
@@ -407,7 +407,7 @@ var utils = {
               file_name: fileName,
               nonce: ajaxVarsDownloads.downloadsnonce,
             }),
-          }
+          },
         ).catch((error) => {
           console.error("Error logging download click:", error);
         });
@@ -447,7 +447,7 @@ var utils = {
               file_name: fileName,
               nonce: ajaxVarsNewsletters.newslettersnonce,
             }),
-          }
+          },
         ).catch((error) => {
           console.error("Error logging download click:", error);
         });
@@ -508,7 +508,7 @@ var utils = {
     offCanvas[0].insertAdjacentElement("afterend", overlay);
 
     var toggle = document.querySelectorAll(
-      ".mobile-menu-toggle, .js-off-canvas-overlay"
+      ".mobile-menu-toggle, .js-off-canvas-overlay",
     );
 
     for (var i = 0; i < toggle.length; i++) {
@@ -607,7 +607,7 @@ var utils = {
 
   accountDropDownMenu: function () {
     var menuItems = document.querySelectorAll(
-      ".site-navigation li.menu-item-has-children"
+      ".site-navigation li.menu-item-has-children",
     );
 
     Array.prototype.forEach.call(menuItems, function (el, i) {
@@ -706,7 +706,7 @@ var utils = {
   dropDownMenu: function () {
     // Top level
     var menuItems = document.querySelectorAll(
-      ".module-menu ul.module-menu__toplevel > li"
+      ".module-menu ul.module-menu__toplevel > li",
     );
 
     Array.prototype.forEach.call(menuItems, function (el, i) {
@@ -847,7 +847,7 @@ event.preventDefault();
 
     // Third level and beyond
     var subMenuItems = document.querySelectorAll(
-      ".module-menu ul.module-menu__submenu li"
+      ".module-menu ul.module-menu__submenu li",
     );
 
     Array.prototype.forEach.call(subMenuItems, function (el, i) {
@@ -913,14 +913,14 @@ event.preventDefault();
         if (!tabs_group) return;
 
         let totalItems = tabs_group.querySelectorAll(
-          ".tabbed-content__panel"
+          ".tabbed-content__panel",
         ).length;
 
         let tabsList = tabs_group.getElementsByClassName(
-          "tabbed-content__list"
+          "tabbed-content__list",
         )[0];
         let tabspanels = tabs_group.getElementsByClassName(
-          "tabbed-content__panel"
+          "tabbed-content__panel",
         );
 
         if (!tabsList || !tabspanels || tabspanels.length === 0) return;
@@ -975,10 +975,10 @@ event.preventDefault();
             "click",
             function (e) {
               let navList = tabs_group.querySelectorAll(
-                ".tabbed-content__list li"
+                ".tabbed-content__list li",
               );
               let linkItem = tabs_group.querySelectorAll(
-                ".tabbed-content__list li a"
+                ".tabbed-content__list li a",
               );
 
               e.preventDefault();
@@ -1039,7 +1039,7 @@ event.preventDefault();
                 listLink.setAttribute("aria-selected", "true");
               }
             },
-            false
+            false,
           );
         });
 
@@ -1137,7 +1137,7 @@ event.preventDefault();
 
         // Initial setup
         setTabStyling();
-      }
+      },
     );
   },
 
@@ -1175,7 +1175,7 @@ event.preventDefault();
             let bgSpan = tabs_group.querySelector(".tab-list__outline");
             if (activeTab && bgSpan) {
               let activeTabIndex = Array.from(tabs_group.children).indexOf(
-                activeTab.parentNode
+                activeTab.parentNode,
               );
               let activeTabWidth = activeTab.offsetWidth;
 
@@ -1221,7 +1221,7 @@ event.preventDefault();
 
         // Check on window resize
         window.addEventListener("resize", checkScreenAndInitialize);
-      }
+      },
     );
 
     // Module Tab Lists
@@ -1257,7 +1257,7 @@ event.preventDefault();
             let bgSpan = tabs_group.querySelector(".tab-list__outline");
             if (activeTab && bgSpan) {
               let activeTabIndex = Array.from(tabs_group.children).indexOf(
-                activeTab.parentNode
+                activeTab.parentNode,
               );
               let activeTabWidth = activeTab.offsetWidth;
 
@@ -1303,7 +1303,7 @@ event.preventDefault();
 
         // Check on window resize
         window.addEventListener("resize", checkScreenAndInitialize);
-      }
+      },
     );
   },
 
@@ -1351,10 +1351,10 @@ event.preventDefault();
         const breakpointChecker = function () {
           if (breakpoint.matches === true) {
             const teasers = carousel.querySelectorAll(
-              ".resource-module__news-teaser h3"
+              ".resource-module__news-teaser h3",
             );
             const descriptions = carousel.querySelectorAll(
-              ".resource-module__news-teaser p.news-excerpt"
+              ".resource-module__news-teaser p.news-excerpt",
             );
 
             if (mobileSwiper !== undefined) mobileSwiper.destroy(true, true);
@@ -1370,10 +1370,10 @@ event.preventDefault();
           // After carousel is initiated, equalize h2 heights
           if (carousel) {
             const teasers = carousel.querySelectorAll(
-              ".resource-module__news-teaser h3"
+              ".resource-module__news-teaser h3",
             );
             const descriptions = carousel.querySelectorAll(
-              ".resource-module__news-teaser p.news-excerpt"
+              ".resource-module__news-teaser p.news-excerpt",
             );
 
             if (teasers.length > 0) {
@@ -1430,14 +1430,14 @@ event.preventDefault();
         breakpoint.addEventListener("change", breakpointChecker);
         // kickstart
         breakpointChecker();
-      }
+      },
     );
   },
 
   target_clicks: function () {
     //If .module-teaser__target is clicked, go to the link
     const moduleTeaserTargets = document.querySelectorAll(
-      ".x-large-teaser__target, .large-teaser__target, .module-panel__news-grid-featured-post,.resource-module__news-teaser"
+      ".x-large-teaser__target, .large-teaser__target, .module-panel__news-grid-featured-post,.resource-module__news-teaser",
     );
 
     moduleTeaserTargets.forEach(function (moduleTeaserTarget) {
@@ -1458,7 +1458,7 @@ event.preventDefault();
     [].forEach.call(searchForm, function (form, index) {
       var keywordElements = form.getElementsByClassName("searchform__keyword");
       var datafetchElements = form.getElementsByClassName(
-        "searchform__datafetch"
+        "searchform__datafetch",
       );
 
       if (keywordElements[0]) {
@@ -1467,7 +1467,7 @@ event.preventDefault();
           xhr.open("POST", autoComplete.autocomplete_ajax_url);
           xhr.setRequestHeader(
             "Content-Type",
-            "application/x-www-form-urlencoded"
+            "application/x-www-form-urlencoded",
           );
 
           xhr.onreadystatechange = function () {
@@ -1525,7 +1525,7 @@ event.preventDefault();
         favouriteFormData.append("post_title", postTitle);
         favouriteFormData.append(
           "favourite_nonce",
-          favouriteData.favourite_nonce
+          favouriteData.favourite_nonce,
         );
 
         fetch(favouriteData.favourites_ajax_url, {
@@ -1547,7 +1547,7 @@ event.preventDefault();
               if (data.data.action === "added") {
                 // Update all instances of .add-to-favourites on the page
                 const allFavouriteButtons = document.querySelectorAll(
-                  '.add-to-favourites[data-id="' + postId + '"]'
+                  '.add-to-favourites[data-id="' + postId + '"]',
                 );
                 allFavouriteButtons.forEach((btn) => {
                   btn.classList.add("add-to-favourites--filled");
@@ -1562,7 +1562,7 @@ event.preventDefault();
                 });
               } else {
                 const allFavouriteButtons = document.querySelectorAll(
-                  '.add-to-favourites[data-id="' + postId + '"]'
+                  '.add-to-favourites[data-id="' + postId + '"]',
                 );
                 allFavouriteButtons.forEach((btn) => {
                   btn.classList.remove("add-to-favourites--filled");
@@ -1591,7 +1591,7 @@ event.preventDefault();
   keyToggle: function () {
     // Toggle the key
     const keyMobileElements = document.querySelectorAll(
-      ".search-results__key-mobile h3"
+      ".search-results__key-mobile h3",
     );
     keyMobileElements.forEach(function (h3) {
       h3.addEventListener("click", function () {
@@ -1602,10 +1602,10 @@ event.preventDefault();
 
   openPopups: function () {
     const loginButtons = document.querySelectorAll(
-      ".wp-block-button.is-login, .account-nav-right .is-login, span.is-login"
+      ".wp-block-button.is-login, .account-nav-right .is-login, span.is-login",
     );
     const registerButtons = document.querySelectorAll(
-      ".wp-block-button.is-register, span.is-register "
+      ".wp-block-button.is-register, span.is-register ",
     );
     const loginPopup = document.getElementById("login-form-pop-up");
     const registerPopup = document.getElementById("register-form-pop-up");
@@ -1638,10 +1638,10 @@ event.preventDefault();
     if (loginPopup && registerPopup) {
       const closeButtons = [
         ...loginPopup.querySelectorAll(
-          ".form-pop-up__close, .form-pop-up__overlay"
+          ".form-pop-up__close, .form-pop-up__overlay",
         ),
         ...registerPopup.querySelectorAll(
-          ".form-pop-up__close, .form-pop-up__overlay"
+          ".form-pop-up__close, .form-pop-up__overlay",
         ),
       ];
       closeButtons.forEach((button) => {
@@ -1666,10 +1666,10 @@ event.preventDefault();
           // Check if the cookie "survey_popup_shown" is set
           const surveyId = surveyPopup.dataset.surveyid || "default";
           const showCountCookie = this.getCookie(
-            "survey_popup_count_" + surveyId
+            "survey_popup_count_" + surveyId,
           );
           const lastShownCookie = this.getCookie(
-            "survey_popup_last_shown_" + surveyId
+            "survey_popup_last_shown_" + surveyId,
           );
 
           let showCount = showCountCookie ? parseInt(showCountCookie) : 0;
@@ -1690,7 +1690,7 @@ event.preventDefault();
                 .on("submit:response", function (response) {
                   // Check if this is our form by comparing form elements
                   const formElement = document.getElementById(
-                    "nf-form-" + response.data.form_id + "-cont"
+                    "nf-form-" + response.data.form_id + "-cont",
                   );
                   if (surveyPopup.contains(formElement)) {
                     surveyPopup.classList.remove("form-pop-up--open-delay");
@@ -1709,8 +1709,6 @@ event.preventDefault();
 
             // Fallback: Standard form submit event (in case it's not Ninja Forms or as backup)
             surveyForm.addEventListener("submit", function (e) {
-  
-
               surveyPopup.classList.remove("form-pop-up--open-delay");
               setTimeout(() => {
                 surveyPopup.classList.remove("form-pop-up--open");
@@ -1721,7 +1719,7 @@ event.preventDefault();
 
             // Alternative: Listen for click on submit button
             const submitButton = surveyForm.querySelector(
-              'input[type="submit"], button[type="submit"], .nf-element.submit-button input'
+              'input[type="submit"], button[type="submit"], .nf-element.submit-button input',
             );
             if (submitButton) {
               submitButton.addEventListener("click", function () {
@@ -1777,7 +1775,7 @@ event.preventDefault();
 
         const closeButtons = [
           ...surveyPopup.querySelectorAll(
-            ".form-pop-up__close, .form-pop-up__overlay"
+            ".form-pop-up__close, .form-pop-up__overlay",
           ),
         ];
         closeButtons.forEach((button) => {
@@ -1792,6 +1790,7 @@ event.preventDefault();
       }
     });
   },
+  
   // For ajax loading
   getCookie: function (cname) {
     var name = cname + "=";
@@ -1808,6 +1807,7 @@ event.preventDefault();
     }
     return "";
   },
+
 };
 
 export default utils;

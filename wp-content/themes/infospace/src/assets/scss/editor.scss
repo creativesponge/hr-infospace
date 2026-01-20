@@ -116,8 +116,21 @@
   .user-user-login-wrap {
     display: none;
   }
-#wpadminbar #wp-admin-bar-user-info {
-   .username {
+  #wpadminbar #wp-admin-bar-user-info {
+    .username {
+      display: none;
+    }
+  }
+
+  #the-list {
+    .column-username {
+      img + strong  a {
+        display: none;
+      }
+    }
+  }
+  #username{
+    a {
       display: none;
     }
   }
