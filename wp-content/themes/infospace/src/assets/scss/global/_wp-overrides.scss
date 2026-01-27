@@ -160,22 +160,11 @@ figure.wp-block-table {
       background-size: auto 80px;
     }
   }
-  
 }
 .wp-login-logo {
   background-size: auto 80px;
 }
-input[type="submit"]#wp-submit {
-  line-height: 1.2em;
-  color: $black;
-  margin-top: rem-calc(15);
-  @include breakpoint(medium) {
-    margin-top: rem-calc(5);
-  }
-  @include breakpoint(large) {
-    padding: rem-calc(16 75 15 34);
-  }
-}
+
 .login {
   //background: $white;
   background: $light-grey;
@@ -225,12 +214,45 @@ input[type="submit"]#wp-submit {
     display: block;
     text-align: center;
   }
-  .message, .notice, .success {
+  .message,
+  .notice,
+  .success {
     margin-left: rem-calc(25);
     margin-right: rem-calc(25);
     box-shadow: none;
     border-left-width: rem-calc(8);
   }
+
+  input[type="submit"]#wp-submit {
+    line-height: 1.2em;
+    color: $black;
+    margin-top: rem-calc(15);
+    @include breakpoint(medium) {
+      margin-top: rem-calc(5);
+    }
+    @include breakpoint(large) {
+      padding: rem-calc(16 75 15 34);
+    }
+    &:hover {
+      color: $white;
+    }
+  }
 }
 
-
+.itsec-2fa {
+  input[type="submit"]#submit {
+    line-height: 1.2em;
+    color: $black;
+    margin-top: rem-calc(15);
+    margin-bottom: rem-calc(10);
+    @include breakpoint(medium) {
+      margin-top: rem-calc(5);
+    }
+    @include breakpoint(large) {
+      padding: rem-calc(16 75 15 34);
+    }
+    &:hover {
+      color: $white;
+    }
+  }
+}
