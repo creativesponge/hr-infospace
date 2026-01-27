@@ -241,18 +241,8 @@ figure.wp-block-table {
 
 #itsec-2fa {
   input[type="submit"]#submit {
-    line-height: 1.2em;
-    color: $black;
-    margin-top: rem-calc(15);
+    
     margin-bottom: rem-calc(10);
-    @include breakpoint(medium) {
-      margin-top: rem-calc(5);
-    }
-    @include breakpoint(large) {
-      padding: rem-calc(16 75 15 34);
-    }
-    &:hover {
-      color: $white;
-    }
+   
   }
 }
