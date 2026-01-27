@@ -209,17 +209,17 @@ function theme_register_theme_options_metabox()
 		'type'    => 'file',
 	));
 
-	$theme_options->add_field(array(
-		'name' => 'Privacy document',
-		'type' => 'title',
-		'id'   => $prefix . 'privacy_document_title'
-	));
-	$theme_options->add_field(array(
-		'name'    => esc_html__('Privacy document', 'cmb2'),
-		'desc'    => esc_html__('Upload a file containing the privacy document', 'cmb2'),
-		'id'      => $prefix . 'privacy_document',
-		'type'    => 'file',
-	));
+	//$theme_options->add_field(array(
+		//'name' => 'Privacy document',
+		//'type' => 'title',
+		//'id'   => $prefix . 'privacy_document_title'
+	//));
+	//$theme_options->add_field(array(
+		//'name'    => esc_html__('Privacy document', 'cmb2'),
+		//'desc'    => esc_html__('Upload a file containing the privacy document', 'cmb2'),
+		//'id'      => $prefix . 'privacy_document',
+		//'type'    => 'file',
+	//));
 
 	$theme_options->add_field(array(
 		'name' => 'Resources section',
