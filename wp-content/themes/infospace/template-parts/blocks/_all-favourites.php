@@ -247,6 +247,7 @@ $current_user_favourites = isset($_SESSION['current_user_favourite_ids']) ? $_SE
 
         echo '</div>';
         ?>
+        <button class="button-back" style="background-color: <?php echo $moduleColour; ?>" onclick="history.back()">Back</button>
     </div>
 
 </section>
