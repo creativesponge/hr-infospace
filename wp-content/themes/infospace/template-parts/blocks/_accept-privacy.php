@@ -1,9 +1,9 @@
 <?php if (is_user_logged_in()) : ?>
     <?php global $settings;
     global  $prefix;
-    $privacyDocId = isset($settings[$prefix . 'privacy_document_id']) ? $settings[$prefix . 'privacy_document_id'] : '';
+    //$privacyDocId = isset($settings[$prefix . 'privacy_document_id']) ? $settings[$prefix . 'privacy_document_id'] : '';
     $current_user = wp_get_current_user();
-    $privacyDocUrl = '/download-document/' . $privacyDocId;
+    //$privacyDocUrl = '/download-document/' . $privacyDocId;
     ?>
     <?php $block_attributes = get_query_var('attributes'); ?>
     <?php $block_content = get_query_var('content'); ?>
@@ -17,9 +17,9 @@
         </header>
         <div class="account-settings__content">
 
-            <?php if ($privacyDocUrl): ?>
-                <p>Please <a href="<?php echo esc_url($privacyDocUrl); ?>" target="_blank" rel="noopener noreferrer">click here</a> to view our Privacy Policy in line with GDPR. The policy includes information on how we store, manage and use your personal data.</p>
-            <?php endif; ?>
+            <?php //if ($privacyDocUrl): ?>
+                <p>Please <a href="/privacy-policy/" target="_blank" rel="noopener noreferrer">click here</a> to view our Privacy Policy in line with GDPR. The policy includes information on how we store, manage and use your personal data.</p>
+            <?php //endif; ?>
 
 
             <?php

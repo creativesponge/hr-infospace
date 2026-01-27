@@ -2,12 +2,8 @@
 <?php $block_content = get_query_var('content'); ?>
 
 <div class="site-map">
-    <?php global $settings;
-    global  $prefix;
-    $privacyDocId = isset($settings[$prefix . 'privacy_document_id']) ? $settings[$prefix . 'privacy_document_id'] : '';
-    $current_user = wp_get_current_user();
+    <?php 
 
-    $privacyDocUrl = '/download-document/' . $privacyDocId;
     ?>
     <?php $block_attributes = get_query_var('attributes'); ?>
 
