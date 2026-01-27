@@ -591,7 +591,7 @@ $docId = isset($_GET['doc_id']) ? intval($_GET['doc_id']) : 0;
 
         // Display users table
         echo '<table class="wp-list-table widefat fixed striped">';
-        echo '<thead><tr><th>ID</th><th>Username</th><th>Email</th><th>Active</th><th>Staff</th><th>Role</th><th>Registration Date</th></tr></thead>';
+        echo '<thead><tr><th>ID</th><th>First Name</th><th>Last name</th><th>Email</th><th>Active</th><th>Staff</th><th>Role</th><th>Registration Date</th></tr></thead>';
         echo '<tbody>';
 
         foreach ($users as $user) {
@@ -604,7 +604,8 @@ $docId = isset($_GET['doc_id']) ? intval($_GET['doc_id']) : 0;
             $user_roles = implode(', ', $user->roles);
             echo '<tr>';
             echo '<td>' . esc_html($user->ID) . '</td>';
-            echo '<td>' . esc_html($user->user_login) . '</td>';
+            echo '<td>' . esc_html($user->first_name) . '</td>';
+            echo '<td>' . esc_html($user->last_name) . '</td>';
             echo '<td>' . esc_html($user->user_email) . '</td>';
             echo '<td>' . esc_html($is_active) . '</td>';
             echo '<td>' . esc_html($is_staff) . '</td>';
@@ -847,7 +848,7 @@ function infospace_export_users_report_csv_ftn()
     header('Expires: 0');
 
     $output = fopen('php://output', 'w');
-    fputcsv($output, array('ID', 'Username', 'Email', 'Active', 'Staff', 'Role', 'Registration Date', 'Expiry Date', 'Organisation name'));
+    fputcsv($output, array('ID', 'First name', 'Last name', 'Email', 'Active', 'Staff', 'Role', 'Registration Date', 'Expiry Date', 'Organisation name'));
 
     foreach ($users as $user) {
         $user_meta = get_user_meta($user->ID);
@@ -857,7 +858,8 @@ function infospace_export_users_report_csv_ftn()
 
         fputcsv($output, array(
             $user->ID,
-            $user->user_login,
+            $user->first_name,
+            $user->last_name,
             $user->user_email,
             $is_active,
             $is_staff,
