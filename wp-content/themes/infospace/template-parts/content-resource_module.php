@@ -682,7 +682,12 @@ $download_svg = ob_get_clean();
 						echo '<p class="newsletter-date show-for-large">Updated on: ' . $updatedDate . '</p>';
 
 						echo '<div class="module-panel__content-bottom">';
-						echo '<a href="' . esc_url($doc_url) . '" rel="nofollow" class="download-link hide-for-large">Download ' . $download_svg . '</a>';
+						if ($attached_documents_link) {
+							echo '<a href="' . esc_url($attached_documents_link) . '" data-newsletter-name="' . esc_html($newsletterTitle) . '" data-newsletter-id="' . esc_attr($newsletterID) . '" rel="nofollow" class="download-link download-link--out hide-for-large" target="_blank">View ' . $linkout_svg . '</a>';
+						} else {
+							echo '<a href="' . esc_url($doc_url) . '"  data-newsletter-name="' . esc_html($newsletterTitle) . '" data-newsletter-id="' . esc_attr($newsletterID) . '" rel="nofollow" class="download-link hide-for-large">Download ' . $download_svg . '</a>';
+						}
+
 						echo '<a href="' . get_permalink(1932) . '" rel="nofollow" class="arrow-link" style="color: ' . esc_html($moduleMeta['module_color']) . ';">View all</a>';
 						echo '</div>';
 
