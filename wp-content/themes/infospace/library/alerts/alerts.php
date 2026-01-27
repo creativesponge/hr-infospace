@@ -10,7 +10,7 @@ function add_alerts_admin_page()
     add_menu_page(
         'Alerts',
         'Alerts',
-        'manage_options',
+        'edit_posts',
         'alerts',
         'alerts_page_callback',
         'dashicons-warning',
@@ -24,7 +24,7 @@ function alerts_page_callback()
 {
 
     // Check user capabilities
-    if (!current_user_can('manage_options')) {
+    if (!current_user_can('manage_options') && !current_user_can('hr_editor') && !current_user_can('finance_editor') && !current_user_can('hsw_editor')) {
         wp_die(__('You do not have sufficient permissions to access this page.'));
     }
 
@@ -765,7 +765,7 @@ add_action('admin_init', 'infospace_export_users_report_csv');
 function infospace_export_users_report_csv()
 {
     if (isset($_GET['export_csv']) && $_GET['export_csv'] == '1' && isset($_GET['page']) && $_GET['page'] == 'alerts') {
-        if (!current_user_can('manage_options')) {
+       if (!current_user_can('manage_options') && !current_user_can('hr_editor') && !current_user_can('finance_editor') && !current_user_can('hsw_editor')) {
             wp_die('You do not have permission to access this page.');
         }
 

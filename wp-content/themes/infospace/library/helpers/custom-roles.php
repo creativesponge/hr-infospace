@@ -237,14 +237,12 @@ function restrict_finance_editor_access($query)
             global $pagenow;
             global $finance_page;
             // Restrict to edit.php (post list) for resource_page only
-            if ($pagenow == 'edit.php' && (!isset($_GET['post_type']) || ($_GET['post_type'] !== 'resource_page') && $_GET['post_type'] != 'document') && $_GET['post_type'] != 'page_link') {
-                if (!isset($_GET['post_type']) || $_GET['post_type'] !== 'page') {
-                    wp_redirect(admin_url('edit.php?post_type=resource_page'));
-                    exit;
-                }
+            if ($pagenow == 'edit.php' && isset($_GET['post_type']) && !in_array($_GET['post_type'], ['resource_page', 'document', 'page_link', 'post', 'page'])) {
+                wp_redirect(admin_url('edit.php?post_type=resource_page'));
+                exit;
             }
 
-            // Restrict resource_page access to page ID 4611 and its children
+            // Restrict resource_page access to page ID $finance_page and its children
             if ($pagenow == 'edit.php' && isset($_GET['post_type']) && $_GET['post_type'] == 'resource_page') {
                 $children = get_posts(array(
                     'post_type' => 'resource_page',
@@ -279,7 +277,8 @@ function hide_admin_menus_for_finance_editor()
         remove_menu_page('edit.php?post_type=module'); // Module
         remove_menu_page('edit.php?post_type=newsletter'); // Newsletter
         remove_menu_page('edit.php?post_type=enquiry'); // Enquiry
-        remove_menu_page('edit.php?post_type=page'); // Pages
+        //remove_menu_page('edit.php?post_type=page'); // Pages
+        remove_menu_page('edit.php?post_type=survey'); // Surveys
         remove_menu_page('edit.php?post_type=favourite'); // Favourite
         remove_menu_page('admin.php?page=theme_options'); // Theme Options
         remove_menu_page('admin.php?page=wpseo_workouts'); // SEO Workouts
@@ -352,11 +351,9 @@ function restrict_hr_editor_access($query)
             global $pagenow;
             global $hr_page;
             // Restrict to edit.php (post list) for resource_page only
-            if ($pagenow == 'edit.php' && (!isset($_GET['post_type']) || ($_GET['post_type'] !== 'resource_page') && $_GET['post_type'] != 'document') && $_GET['post_type'] != 'page_link') {
-                if (!isset($_GET['post_type']) || $_GET['post_type'] !== 'page') {
-                    wp_redirect(admin_url('edit.php?post_type=resource_page'));
-                    exit;
-                }
+            if ($pagenow == 'edit.php' && isset($_GET['post_type']) && !in_array($_GET['post_type'], ['resource_page', 'document', 'page_link', 'post', 'page'])) {
+                wp_redirect(admin_url('edit.php?post_type=resource_page'));
+                exit;
             }
 
             // Restrict resource_page access to page ID $hr_page and its children
@@ -394,7 +391,8 @@ function hide_admin_menus_for_hr_editor()
         remove_menu_page('edit.php?post_type=module'); // Module
         remove_menu_page('edit.php?post_type=newsletter'); // Newsletter
         remove_menu_page('edit.php?post_type=enquiry'); // Enquiry
-        remove_menu_page('edit.php?post_type=page'); // Pages
+        // remove_menu_page('edit.php?post_type=page'); // Pages
+        remove_menu_page('edit.php?post_type=survey'); // Surveys
         remove_menu_page('edit.php?post_type=favourite'); // Favourite
         remove_menu_page('admin.php?page=theme_options'); // Theme Options
         remove_menu_page('admin.php?page=wpseo_workouts'); // SEO Workouts
@@ -466,11 +464,9 @@ function restrict_hsw_editor_access($query)
             global $pagenow;
             global $hsafety_page;
             // Restrict to edit.php (post list) for resource_page only
-            if ($pagenow == 'edit.php' && (!isset($_GET['post_type']) || ($_GET['post_type'] !== 'resource_page') && $_GET['post_type'] != 'document') && $_GET['post_type'] != 'page_link') {
-                if (!isset($_GET['post_type']) || $_GET['post_type'] !== 'page') {
-                    wp_redirect(admin_url('edit.php?post_type=resource_page'));
-                    exit;
-                }
+            if ($pagenow == 'edit.php' && isset($_GET['post_type']) && !in_array($_GET['post_type'], ['resource_page', 'document', 'page_link', 'post', 'page'])) {
+                wp_redirect(admin_url('edit.php?post_type=resource_page'));
+                exit;
             }
 
             // Restrict resource_page access to page ID $hsafety_page and its children
@@ -508,7 +504,8 @@ function hide_admin_menus_for_hsw_editor()
         remove_menu_page('edit.php?post_type=module'); // Module
         remove_menu_page('edit.php?post_type=newsletter'); // Newsletter
         remove_menu_page('edit.php?post_type=enquiry'); // Enquiry
-        remove_menu_page('edit.php?post_type=page'); // Pages
+        // remove_menu_page('edit.php?post_type=page'); // Pages
+        remove_menu_page('edit.php?post_type=survey'); // Surveys
         remove_menu_page('edit.php?post_type=favourite'); // Favourite
         remove_menu_page('admin.php?page=theme_options'); // Theme Options
         remove_menu_page('admin.php?page=wpseo_workouts'); // SEO Workouts
