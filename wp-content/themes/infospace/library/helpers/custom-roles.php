@@ -14,7 +14,6 @@ function add_edit_own_created_users_capability()
     if ($role) {
         $role->add_cap('edit_own_created_users');
         $role->add_cap('delete_own_created_users');
-    
     }
 }
 
@@ -85,7 +84,7 @@ function add_custom_roles()
             'Employee',
             array(
                 'read' => false,
-                
+
             )
         );
     }
@@ -124,7 +123,7 @@ function add_custom_roles()
 function hide_wordpress_news_for_main_role()
 {
     $user = wp_get_current_user();
-    
+
     if (in_array('main', $user->roles)) {
         remove_meta_box('dashboard_primary', 'dashboard', 'side');
         remove_meta_box('dashboard_activity', 'dashboard', 'normal');
@@ -173,11 +172,11 @@ add_filter('editable_roles', 'wpse_293133_filter_editable_roles', 21);
 function restrict_user_creation_before_add($errors, $sanitized_user_data, $user_data)
 {
     global $prefix;
-    
+
     if (in_array('main', wp_get_current_user()->roles)) {
         // Check the role being assigned to the new user
         $role = isset($_POST['role']) ? $_POST['role'] : 'subscriber';
-        
+
         if ($role === 'individual') {
             // Get users created by the current user with 'individual' role
             $args = array(
@@ -187,7 +186,7 @@ function restrict_user_creation_before_add($errors, $sanitized_user_data, $user_
             );
             $created_users = get_users($args);
             $user_count = count($created_users);
-            
+
             if ($user_count >= 6) {
                 $errors->add('too_many_individual_users', __('You cannot create more than 6 individual users. Please remove an existing user to add a new one.', 'hrinfospace'));
             }
@@ -204,9 +203,9 @@ function restrict_user_creation_before_add($errors, $sanitized_user_data, $user_
             if ($user_count >= 1) {
                 $errors->add('too_many_employee_users', __('You cannot create more than 1 employee user', 'hrinfospace'));
             }
-        }*/ 
+        }*/
     }
-    
+
     return $errors;
 }
 
@@ -236,7 +235,7 @@ function restrict_finance_editor_access($query)
 
         if (in_array('finance_editor', $user->roles)) {
             global $pagenow;
-
+            global $finance_page;
             // Restrict to edit.php (post list) for resource_page only
             if ($pagenow == 'edit.php' && (!isset($_GET['post_type']) || ($_GET['post_type'] !== 'resource_page') && $_GET['post_type'] != 'document') && $_GET['post_type'] != 'page_link') {
                 if (!isset($_GET['post_type']) || $_GET['post_type'] !== 'page') {
@@ -249,11 +248,11 @@ function restrict_finance_editor_access($query)
             if ($pagenow == 'edit.php' && isset($_GET['post_type']) && $_GET['post_type'] == 'resource_page') {
                 $children = get_posts(array(
                     'post_type' => 'resource_page',
-                    'post_parent' => 4611,
+                    'post_parent' => $finance_page,
                     'numberposts' => -1,
                     'fields' => 'ids'
                 ));
-                $allowed_ids = array_merge([4611], $children);
+                $allowed_ids = array_merge([$finance_page], $children);
                 $query->set('post__in', $allowed_ids);
             }
         }
@@ -269,8 +268,8 @@ function hide_admin_menus_for_finance_editor()
     if (in_array('finance_editor', $user->roles)) {
         // Remove all menu items except the ones they should access
         remove_menu_page('index.php'); // Dashboard
-        remove_menu_page('edit.php'); // Posts
-        remove_menu_page('upload.php'); // Media (keep if needed)
+        //remove_menu_page('edit.php'); // Posts
+        //remove_menu_page('upload.php'); // Media (keep if needed)
         remove_menu_page('edit-comments.php'); // Comments
         remove_menu_page('themes.php'); // Appearance
         remove_menu_page('plugins.php'); // Plugins
@@ -298,7 +297,7 @@ function restrict_finance_editor_post_access()
 
     if (in_array('finance_editor', $user->roles)) {
         global $pagenow;
-
+        global $finance_page;
         if (($pagenow == 'post.php' || $pagenow == 'post-new.php') && isset($_GET['resource_page'])) {
             $post_id = intval($_GET['post']);
             $post = get_post($post_id);
@@ -311,7 +310,7 @@ function restrict_finance_editor_post_access()
 
                 // Allow page ID 4611 and its children
                 if ($post->post_type == 'resource_page') {
-                    if ($post_id == 4611 || $post->post_parent == 4611 || is_child_of_page($post_id, 4611)) {
+                    if ($post_id == $finance_page || $post->post_parent == $finance_page || is_child_of_page($post_id, $finance_page)) {
                         return;
                     }
                 }
@@ -351,7 +350,7 @@ function restrict_hr_editor_access($query)
 
         if (in_array('hr_editor', $user->roles)) {
             global $pagenow;
-
+            global $hr_page;
             // Restrict to edit.php (post list) for resource_page only
             if ($pagenow == 'edit.php' && (!isset($_GET['post_type']) || ($_GET['post_type'] !== 'resource_page') && $_GET['post_type'] != 'document') && $_GET['post_type'] != 'page_link') {
                 if (!isset($_GET['post_type']) || $_GET['post_type'] !== 'page') {
@@ -360,15 +359,15 @@ function restrict_hr_editor_access($query)
                 }
             }
 
-            // Restrict resource_page access to page ID 4594 and its children
+            // Restrict resource_page access to page ID $hr_page and its children
             if ($pagenow == 'edit.php' && isset($_GET['post_type']) && $_GET['post_type'] == 'resource_page') {
                 $children = get_posts(array(
                     'post_type' => 'resource_page',
-                    'post_parent' => 4594,
+                    'post_parent' => $hr_page,
                     'numberposts' => -1,
                     'fields' => 'ids'
                 ));
-                $allowed_ids = array_merge([4594], $children);
+                $allowed_ids = array_merge([$hr_page], $children);
                 $query->set('post__in', $allowed_ids);
             }
         }
@@ -384,8 +383,8 @@ function hide_admin_menus_for_hr_editor()
     if (in_array('hr_editor', $user->roles)) {
         // Remove all menu items except the ones they should access
         remove_menu_page('index.php'); // Dashboard
-        remove_menu_page('edit.php'); // Posts
-        remove_menu_page('upload.php'); // Media (keep if needed)
+        //remove_menu_page('edit.php'); // Posts
+        //remove_menu_page('upload.php'); // Media (keep if needed)
         remove_menu_page('edit-comments.php'); // Comments
         remove_menu_page('themes.php'); // Appearance
         remove_menu_page('plugins.php'); // Plugins
@@ -413,7 +412,7 @@ function restrict_hr_editor_post_access()
 
     if (in_array('hr_editor', $user->roles)) {
         global $pagenow;
-
+        global $hr_page;
         if (($pagenow == 'post.php' || $pagenow == 'post-new.php') && isset($_GET['resource_page'])) {
             $post_id = intval($_GET['post']);
             $post = get_post($post_id);
@@ -424,9 +423,9 @@ function restrict_hr_editor_post_access()
                     //return;
                 }
 
-                // Allow page ID 4594 and its children
+                // Allow page ID $hr_page and its children
                 if ($post->post_type == 'resource_page') {
-                    if ($post_id == 4594 || $post->post_parent == 4594 || is_child_of_page($post_id, 4594)) {
+                    if ($post_id == $hr_page || $post->post_parent == $hr_page || is_child_of_page($post_id, $hr_page)) {
                         return;
                     }
                 }
@@ -465,7 +464,7 @@ function restrict_hsw_editor_access($query)
 
         if (in_array('hsw_editor', $user->roles)) {
             global $pagenow;
-
+            global $hsafety_page;
             // Restrict to edit.php (post list) for resource_page only
             if ($pagenow == 'edit.php' && (!isset($_GET['post_type']) || ($_GET['post_type'] !== 'resource_page') && $_GET['post_type'] != 'document') && $_GET['post_type'] != 'page_link') {
                 if (!isset($_GET['post_type']) || $_GET['post_type'] !== 'page') {
@@ -474,15 +473,15 @@ function restrict_hsw_editor_access($query)
                 }
             }
 
-            // Restrict resource_page access to page ID 4536 and its children
+            // Restrict resource_page access to page ID $hsafety_page and its children
             if ($pagenow == 'edit.php' && isset($_GET['post_type']) && $_GET['post_type'] == 'resource_page') {
                 $children = get_posts(array(
                     'post_type' => 'resource_page',
-                    'post_parent' => 4536,
+                    'post_parent' => $hsafety_page,
                     'numberposts' => -1,
                     'fields' => 'ids'
                 ));
-                $allowed_ids = array_merge([4536], $children);
+                $allowed_ids = array_merge([$hsafety_page], $children);
                 $query->set('post__in', $allowed_ids);
             }
         }
@@ -498,8 +497,8 @@ function hide_admin_menus_for_hsw_editor()
     if (in_array('hsw_editor', $user->roles)) {
         // Remove all menu items except the ones they should access
         remove_menu_page('index.php'); // Dashboard
-        remove_menu_page('edit.php'); // Posts
-        remove_menu_page('upload.php'); // Media (keep if needed)
+        //remove_menu_page('edit.php'); // Posts
+        //remove_menu_page('upload.php'); // Media (keep if needed)
         remove_menu_page('edit-comments.php'); // Comments
         remove_menu_page('themes.php'); // Appearance
         remove_menu_page('plugins.php'); // Plugins
@@ -527,7 +526,7 @@ function restrict_hsw_editor_post_access()
 
     if (in_array('hsw_editor', $user->roles)) {
         global $pagenow;
-
+        global $hsafety_page;
         if (($pagenow == 'post.php' || $pagenow == 'post-new.php') && isset($_GET['resource_page'])) {
             $post_id = intval($_GET['post']);
             $post = get_post($post_id);
@@ -538,9 +537,9 @@ function restrict_hsw_editor_post_access()
                     //return;
                 }
 
-                // Allow page ID 4536 and its children
+                // Allow page ID $hsafety_page and its children
                 if ($post->post_type == 'resource_page') {
-                    if ($post_id == 4536 || $post->post_parent == 4536 || is_child_of_page($post_id, 4536)) {
+                    if ($post_id == $hsafety_page || $post->post_parent == $hsafety_page || is_child_of_page($post_id, $hsafety_page)) {
                         return;
                     }
                 }
@@ -553,4 +552,3 @@ function restrict_hsw_editor_post_access()
     }
 }
 add_action('admin_init', 'restrict_hsw_editor_post_access');
-
