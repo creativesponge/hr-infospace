@@ -555,7 +555,7 @@ button[type="submit"].button--search {
 
 input[type="submit"],
 button[type="submit"],
-#wp-submit, .itsec-2fa #submit {
+#wp-submit, #itsec-2fa #submit {
   text-decoration: none;
   background-color: $infospace-orange;
   border-radius: 2em;
