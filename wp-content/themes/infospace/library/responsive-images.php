@@ -17,7 +17,7 @@ add_image_size( 'fplarge', 1200 );
 add_image_size( 'fpxlarge', 1400 );
 add_image_size( 'smallsquare', 300, 300, true );
 add_image_size( 'service', 448, 503 , true );
-add_image_size( 'servicemob', 560, 320, true );
+add_image_size( 'servicemob', 280, 160, true );
 add_image_size( 'servicetab', 232, 306, true );
 add_image_size( 'modulebanner', 923, 362, true );
 add_image_size( 'modulemob', 224, 448, true );
