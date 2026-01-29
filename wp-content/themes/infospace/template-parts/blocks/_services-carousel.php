@@ -9,7 +9,8 @@
 ?>
 
 
-<section class="services-carousel-list">
+<section class="services-carousel-list full-width">
+  <div class="services-carousel-list__container">
 <?php if (isset($blockHeading)) {
         echo "<h2>" . $blockHeading . "</h2>";
     } ?>
@@ -35,5 +36,6 @@
     L 70, 10
     L 60, 0
     Z" class="arrow" transform="translate(100, 100) rotate(180)"></path></svg></button>
+</div>
 </div>
 </section>

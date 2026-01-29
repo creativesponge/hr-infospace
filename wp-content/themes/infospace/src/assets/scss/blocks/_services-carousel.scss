@@ -1,7 +1,8 @@
 .services-carousel-list {
   margin-bottom: rem-calc(40);
-
+ padding: rem-calc(0 20);
   @include breakpoint(medium) {
+    padding: rem-calc(0 30);
     margin-bottom: rem-calc(40);
   }
 
@@ -12,11 +13,18 @@
    
     margin-left: rem-calc(67);
   }
+
+ 
   h2 {
     display: none;
     @include breakpoint(medium) {
       display: block;
     }
+  }
+  &__container {
+    max-width: $global-width;
+    margin: 0 auto;
+   
   }
   .flickity-viewport {
     overflow: visible !important;
