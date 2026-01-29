@@ -36,6 +36,21 @@ function my_login_logo_url()
     return home_url();
 }
 
+// Change login form text from "Username or Email Address" to "Email Address"
+add_filter('gettext', 'change_login_username_label', 20, 3);
+function change_login_username_label($translated_text, $text, $domain)
+{
+    if (!is_admin() && $domain == 'default') {
+        if ($text == 'Username or Email Address') {
+            $translated_text = 'Email Address';
+        }
+        if ($text == 'Unknown email address. Check again or try your username.') {
+            $translated_text = 'Unknown email address. Check again';
+        }
+    }
+    return $translated_text;
+}
+
 
 /**
  * Login process
