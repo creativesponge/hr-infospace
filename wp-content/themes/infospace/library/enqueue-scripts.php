@@ -42,7 +42,7 @@ if ( ! function_exists( 'startertheme_scripts' ) ) :
 		// wp_enqueue_script( 'jquery-migrate' );
 
 		// Enqueue Foundation scripts
-		wp_enqueue_script( 'foundation', get_stylesheet_directory_uri() . '/dist/assets/js/' . startertheme_asset_path( 'app.js' ), array(), '2.10.16, true );
+		wp_enqueue_script( 'foundation', get_stylesheet_directory_uri() . '/dist/assets/js/' . startertheme_asset_path( 'app.js' ), array(), '2.10.16', true );
 
 		// Enqueue FontAwesome from CDN. Uncomment the line below if you need FontAwesome.
 		//wp_enqueue_script( 'fontawesome', 'https://use.fontawesome.com/5016a31c8c.js', array(), '4.7.0', true );
