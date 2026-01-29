@@ -215,12 +215,44 @@ add_filter('user_profile_update_errors', 'restrict_user_creation_before_add', 10
 // Create finance editor role with editor capabilities but restricted to resource_page post type
 function create_finance_editor_role()
 {
+
+    remove_role('editor');
+    // Remove Yoast SEO roles
+    remove_role('wpseo_manager');
+    remove_role('wpseo_editor');
+
     // Remove the role if it already exists to avoid conflicts
     remove_role('finance_editor');
 
     // Get editor role capabilities
-    $editor = get_role('editor');
-    $editor_caps = $editor->capabilities;
+    $editor_caps = array(
+        'read' => true,
+        'delete_others_pages' => true,
+        'delete_others_posts' => true,
+        'delete_pages' => true,
+        'delete_posts' => true,
+        'delete_private_pages' => true,
+        'delete_private_posts' => true,
+        'delete_published_pages' => true,
+        'delete_published_posts' => true,
+        'edit_others_pages' => true,
+        'edit_others_posts' => true,
+        'edit_pages' => true,
+        'edit_posts' => true,
+        'edit_private_pages' => true,
+        'edit_private_posts' => true,
+        'edit_published_pages' => true,
+        'edit_published_posts' => true,
+        'manage_categories' => true,
+        'manage_links' => true,
+        'moderate_comments' => true,
+        'publish_pages' => true,
+        'publish_posts' => true,
+        'read_private_pages' => true,
+        'read_private_posts' => true,
+        'upload_files' => true,
+    );
+    $editor_caps = $editor_caps;
 
     // Add the finance editor role with editor capabilities
     add_role('finance_editor', 'Finance Editor', $editor_caps);
@@ -331,10 +363,36 @@ function create_hr_editor_role()
 {
     // Remove the role if it already exists to avoid conflicts
     remove_role('hr_editor');
-
+    $editor_caps = array(
+        'read' => true,
+        'delete_others_pages' => true,
+        'delete_others_posts' => true,
+        'delete_pages' => true,
+        'delete_posts' => true,
+        'delete_private_pages' => true,
+        'delete_private_posts' => true,
+        'delete_published_pages' => true,
+        'delete_published_posts' => true,
+        'edit_others_pages' => true,
+        'edit_others_posts' => true,
+        'edit_pages' => true,
+        'edit_posts' => true,
+        'edit_private_pages' => true,
+        'edit_private_posts' => true,
+        'edit_published_pages' => true,
+        'edit_published_posts' => true,
+        'manage_categories' => true,
+        'manage_links' => true,
+        'moderate_comments' => true,
+        'publish_pages' => true,
+        'publish_posts' => true,
+        'read_private_pages' => true,
+        'read_private_posts' => true,
+        'upload_files' => true,
+    );
     // Get editor role capabilities
-    $editor = get_role('editor');
-    $editor_caps = $editor->capabilities;
+
+    $editor_caps = $editor_caps;
 
     // Add the HR editor role with editor capabilities
     add_role('hr_editor', 'HR Editor', $editor_caps);
@@ -444,10 +502,36 @@ function create_hsw_editor_role()
 {
     // Remove the role if it already exists to avoid conflicts
     remove_role('hsw_editor');
-
+    $editor_caps = array(
+        'read' => true,
+        'delete_others_pages' => true,
+        'delete_others_posts' => true,
+        'delete_pages' => true,
+        'delete_posts' => true,
+        'delete_private_pages' => true,
+        'delete_private_posts' => true,
+        'delete_published_pages' => true,
+        'delete_published_posts' => true,
+        'edit_others_pages' => true,
+        'edit_others_posts' => true,
+        'edit_pages' => true,
+        'edit_posts' => true,
+        'edit_private_pages' => true,
+        'edit_private_posts' => true,
+        'edit_published_pages' => true,
+        'edit_published_posts' => true,
+        'manage_categories' => true,
+        'manage_links' => true,
+        'moderate_comments' => true,
+        'publish_pages' => true,
+        'publish_posts' => true,
+        'read_private_pages' => true,
+        'read_private_posts' => true,
+        'upload_files' => true,
+    );
     // Get editor role capabilities
-    $editor = get_role('editor');
-    $editor_caps = $editor->capabilities;
+    //$editor = get_role('editor');
+    $editor_caps = $editor_caps;
 
     // Add the HSW editor role with editor capabilities
     add_role('hsw_editor', 'HSW Editor', $editor_caps);
