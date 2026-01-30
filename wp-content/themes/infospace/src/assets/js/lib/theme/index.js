@@ -41,6 +41,7 @@ var sitespecific = {
     utils.openPopups();
     utils.ajaxFavourites();
     utils.target_clicks();
+    utils.addViewPasswordToggle();
 
 
     image_text_carousel.init();

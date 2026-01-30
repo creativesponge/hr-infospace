@@ -89,7 +89,7 @@ $bannerClass = (isset($meta->white_banner) && $meta->white_banner == true) ? ' h
 			border-bottom-color: <?php echo esc_html($moduleColour); ?>;
 		}
 
-		.dropdown.menu>li.is-active>a:after {
+		.header__top-bar .dropdown.menu>li.is-active>a:after {
 			background: <?php echo esc_html($moduleColour); ?>;
 		}
 

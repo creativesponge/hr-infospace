@@ -85,7 +85,10 @@ $attributes['errors'] = $errors;
                 <?php endif; ?>
 
                 <?php wp_login_form($args); ?>
-                 <a href="<?php echo site_url('/forgot-password/'); ?>" class="forgot-password-link">Forgotten your password?</a>
+
+              
+
+                <a href="<?php echo site_url('/forgot-password/'); ?>" class="forgot-password-link">Forgotten your password?</a>
 
             </div>
             <?php get_template_part('template-parts/svgs/_globe') ?>

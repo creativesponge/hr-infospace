@@ -1,20 +1,16 @@
 .services-carousel-list {
   margin-bottom: rem-calc(40);
- padding: rem-calc(0 20);
+  padding: rem-calc(0 20);
+  overflow: hidden;
   @include breakpoint(medium) {
     padding: rem-calc(0 30);
     margin-bottom: rem-calc(40);
   }
 
-  @include breakpoint(large) {
-    //margin-bottom: rem-calc(140);
-  }
   @include breakpoint(xlarge) {
-   
     margin-left: rem-calc(67);
   }
 
- 
   h2 {
     display: none;
     @include breakpoint(medium) {
@@ -24,7 +20,6 @@
   &__container {
     max-width: $global-width;
     margin: 0 auto;
-   
   }
   .flickity-viewport {
     overflow: visible !important;
@@ -56,7 +51,7 @@
     .services-slide {
       filter: blur(5px);
       .services-slide__container {
-        transform: scale(0.90);
+        transform: scale(0.9);
         transition: all 0.5s ease-in-out;
       }
       &.is-selected {
@@ -80,7 +75,6 @@
         height: rem-calc(20);
       }
       &.button--previous {
-
         svg {
           transform: rotate(180deg);
         }

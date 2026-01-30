@@ -1790,7 +1790,68 @@ event.preventDefault();
       }
     });
   },
-  
+
+  addViewPasswordToggle: function () {
+
+    // Ensure dashicons are loaded
+    if (!document.querySelector('link[href*="dashicons"]')) {
+      const dashiconsCSS = document.createElement("link");
+      dashiconsCSS.rel = "stylesheet";
+      dashiconsCSS.href = "/wp-includes/css/dashicons.min.css";
+      document.head.appendChild(dashiconsCSS);
+    }
+
+
+    const passwordFields = document.querySelectorAll('input[type="password"]');
+    console.log("Password fields found:", passwordFields.length);
+
+    passwordFields.forEach(function(passwordField) {
+      // Create wrapper div
+      const wrapper = document.createElement("div");
+      wrapper.className = "password-field-wrapper";
+
+      // Wrap the password field
+      passwordField.parentNode.insertBefore(wrapper, passwordField);
+      wrapper.appendChild(passwordField);
+
+      // Create the toggle button
+      const showPasswordButton = document.createElement("button");
+      showPasswordButton.type = "button";
+      showPasswordButton.className =
+        "button button-secondary wp-hide-pw hide-if-no-js";
+      showPasswordButton.setAttribute("data-toggle", "0");
+      showPasswordButton.setAttribute("aria-label", "Show password");
+
+      const dashicon = document.createElement("span");
+      dashicon.className = "dashicons dashicons-visibility";
+      dashicon.setAttribute("aria-hidden", "true");
+
+      showPasswordButton.appendChild(dashicon);
+      wrapper.appendChild(showPasswordButton);
+
+      console.log("Password toggle button created and added");
+
+      // Toggle password visibility
+      showPasswordButton.addEventListener("click", function () {
+        const isVisible = this.getAttribute("data-toggle") === "1";
+
+        if (isVisible) {
+          // Hide password
+          passwordField.type = "password";
+          this.setAttribute("data-toggle", "0");
+          this.setAttribute("aria-label", "Show password");
+          dashicon.className = "dashicons dashicons-visibility";
+        } else {
+          // Show password
+          passwordField.type = "text";
+          this.setAttribute("data-toggle", "1");
+          this.setAttribute("aria-label", "Hide password");
+          dashicon.className = "dashicons dashicons-hidden";
+        }
+      });
+    });
+  },
+
   // For ajax loading
   getCookie: function (cname) {
     var name = cname + "=";
@@ -1806,8 +1867,7 @@ event.preventDefault();
       }
     }
     return "";
-  },
-
+  }
 };
 
 export default utils;

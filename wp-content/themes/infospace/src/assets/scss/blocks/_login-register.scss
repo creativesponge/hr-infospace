@@ -15,6 +15,57 @@
     padding: rem-calc(60);
   }
 
+  // Password field wrapper and toggle button styles
+  .password-field-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+
+    input[type="password"],
+    input[type="text"] {
+      padding-right: rem-calc(50);
+      width: 100%;
+    }
+
+    .wp-hide-pw {
+      position: absolute;
+      right: rem-calc(3);
+      top: 37%;
+      transform: translateY(-50%);
+      border: none;
+      background: transparent;
+      outline: none;
+      cursor: pointer;
+      width: rem-calc(40);
+      height: rem-calc(40);
+      margin: 0;
+      padding: rem-calc(2 4);
+      font-size: rem-calc(16);
+      line-height: 1.125;
+      color: #646970;
+      border-radius: rem-calc(4);
+      z-index: 10;
+
+      &:hover,
+      &:focus {
+        background: #f0f0f1;
+        color: #135e96;
+      }
+
+      .dashicons {
+        width: rem-calc(20);
+        height: rem-calc(20);
+        font-size: rem-calc(20);
+        line-height: 1;
+      }
+    }
+  }
+
+  // Hide the button when JavaScript is disabled
+  .no-js .wp-hide-pw {
+    display: none;
+  }
+
   &__container {
     padding: 0;
 
@@ -214,10 +265,10 @@
 }
 
 .forgot-password-link {
-  color:$dark-grey;
+  color: $dark-grey;
   @include breakpoint(medium) {
-    display:block;
-      margin-top: rem-calc(-1.4em);
-      max-width: 50%;
-    }
+    display: block;
+    margin-top: rem-calc(-1.4em);
+    max-width: 50%;
+  }
 }
