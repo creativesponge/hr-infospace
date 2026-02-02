@@ -245,8 +245,9 @@ figure.wp-block-table {
     padding: rem-calc(5 60 5 34);
   }
 }
-.login-register, .form-pop-up__content,.account-settings__left  {
-  /* Alternative approach - wrap the password field */
+
+.login-register, .form-pop-up__content, .account-settings__left, .change-password {
+
   .password-field-wrapper {
     position: relative;
     display: inline-block;

@@ -153,6 +153,7 @@ require_once dirname(__FILE__) . '/library/stats/stats-downloads.php';
 require_once dirname(__FILE__) . '/library/stats/stats-page-views.php';
 require_once dirname(__FILE__) . '/library/stats/stats-newsletters.php';
 require_once dirname(__FILE__) . '/library/stats/stats-logins.php';
+require_once dirname(__FILE__) . '/library/stats/stats-establishment.php';
 
 
 /** Alerts */

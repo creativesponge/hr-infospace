@@ -24,7 +24,7 @@ function document_report_page_callback()
     // Cache documents and modules queries
     static $documents = null;
     static $modules = null;
-    
+
     if ($documents === null) {
         $documents = get_posts(array(
             'post_type' => 'document',
@@ -35,7 +35,7 @@ function document_report_page_callback()
             'fields' => 'ids' // Only get IDs first
         ));
     }
-    
+
     if ($modules === null) {
         $modules = get_posts(array(
             'post_type' => 'module',
@@ -56,27 +56,27 @@ function document_report_page_callback()
 
     // Buffer output for better performance
     ob_start();
-    ?>
+?>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <div class="wrap">
         <h1>Document Report</h1>
         <br><br>
-        
+
         <form method="get" action="">
             <input type="hidden" name="page" value="document-report">
-            
+
             <label for="start_date">Start Date:&nbsp;</label>
             <input type="date" name="start_date" id="start_date" value="<?php echo esc_attr($start_date); ?>">
-            
+
             &nbsp;&nbsp;<label for="end_date">End Date:&nbsp;</label>
             <input type="date" name="end_date" id="end_date" value="<?php echo esc_attr($end_date); ?>">
-            
+
             <br><br>
-            
+
             <label for="document_id">Document:&nbsp;</label>
             <select name="document_id" id="document_id">
                 <option value="">All Documents</option>
-                <?php 
+                <?php
                 foreach ($documents as $doc_id) {
                     $doc_title = get_the_title($doc_id);
                     $selected = ($document_id == $doc_id) ? ' selected' : '';
@@ -84,13 +84,13 @@ function document_report_page_callback()
                 }
                 ?>
             </select>
-            
+
             <br><br><br><br>
-            
+
             <label for="module_id">Module:&nbsp;</label>
             <select name="module_id" id="module_id">
                 <option value="">All Modules</option>
-                <?php 
+                <?php
                 foreach ($modules as $mod_id) {
                     $mod_title = get_the_title($mod_id);
                     $selected = ($module_id == $mod_id) ? ' selected' : '';
@@ -98,15 +98,15 @@ function document_report_page_callback()
                 }
                 ?>
             </select>
-            
+
             <br><br>
-            
+
             <label for="sort_order">Sort by Downloads:&nbsp;</label>
             <select name="sort_order" id="sort_order">
-                <option value="DESC"<?php echo ($sort_order === 'DESC') ? ' selected' : ''; ?>>Highest to Lowest</option>
-                <option value="ASC"<?php echo ($sort_order === 'ASC') ? ' selected' : ''; ?>>Lowest to Highest</option>
+                <option value="DESC" <?php echo ($sort_order === 'DESC') ? ' selected' : ''; ?>>Highest to Lowest</option>
+                <option value="ASC" <?php echo ($sort_order === 'ASC') ? ' selected' : ''; ?>>Lowest to Highest</option>
             </select>
-            
+
             <br><br>
             <input type="submit" value="Filter" class="button button-primary">
         </form>
@@ -124,77 +124,32 @@ function document_report_page_callback()
 
         <?php
         // Get report data
-        $report_data = get_document_report_data($start_date, $end_date, $document_id, $module_id, $sort_order);
-        
+        $report_data = get_document_report_data($start_date, $end_date, $document_id, $module_id, $sort_order, $users = null);
+
         if ($report_data) {
             $report_title = ($sort_order === 'DESC') ? 'Top 40 Most Popular Documents' : 'Top 40 Least Popular Documents';
-            ?>
-            <h2><?php echo esc_html($report_title); ?></h2>
-            <table class="widefat fixed striped">
-                <thead>
-                    <tr>
-                        <th>Object ID</th>
-                        <th>Name</th>
-                        <th>Unique Download Count</th>
-                        <th>Total Download Count</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($report_data as $row): ?>
-                    <tr>
-                        <td><?php echo esc_html($row->object_id); ?></td>
-                        <td><?php echo esc_html($row->repr); ?></td>
-                        <td><?php echo esc_html($row->unique_downloads); ?></td>
-                        <td><?php echo esc_html($row->access_count); ?></td>
-                    </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-
+        ?>
             <?php
-            // Prepare chart data
-            $chart_data = array(array('Document Name', 'Total Downloads', 'Unique Downloads'));
-            foreach ($report_data as $row) {
-                $chart_data[] = array($row->repr, intval($row->access_count), intval($row->unique_downloads));
-            }
-            ?>
+            // Display the report table and chart
+            display_document_report_table_and_chart($report_data, $report_title);
 
-            <div id="document-chart" style="width: 100%; height: 400px; margin-top: 20px;"></div>
-            <script>
-                google.charts.load("current", {"packages":["corechart"]});
-                google.charts.setOnLoadCallback(drawChart);
-                
-                function drawChart() {
-                    var data = google.visualization.arrayToDataTable(<?php echo wp_json_encode($chart_data); ?>);
-                    
-                    var options = {
-                        title: "Document Download Statistics",
-                        hAxes: {0: {title: "Downloads"}},
-                        vAxes: {0: {title: "Documents"}},
-                        series: {
-                            0: {color: "#1f77b4", name: "Total Downloads"},
-                            1: {color: "#ff7f0e", name: "Unique Downloads"}
-                        }
-                    };
-                    
-                    var chart = new google.visualization.BarChart(document.getElementById("document-chart"));
-                    chart.draw(data, options);
-                }
-            </script>
-            <?php
+
+            ?>
+        <?php
         } else {
             echo '<p>No document access data found for the selected criteria.</p>';
         }
         ?>
     </div>
-    <?php
+<?php
     echo ob_get_clean();
 }
 
 // Separate function for database queries
-function get_document_report_data($start_date, $end_date, $document_id, $module_id, $sort_order) {
+function get_document_report_data($start_date, $end_date, $document_id, $module_id, $sort_order, $users = null)
+{ 
     global $wpdb, $prefix;
-    
+
     $where_conditions = array("content_type_id = 12");
     $where_params = array();
 
@@ -216,7 +171,8 @@ function get_document_report_data($start_date, $end_date, $document_id, $module_
     if ($module_id) {
         $attached_page_id = get_post_meta($module_id, $prefix . 'module_attached_resources', true);
         if ($attached_page_id) {
-            function get_all_child_pages($parent_id) {
+            function get_all_child_pages($parent_id)
+            {
                 $child_pages = get_posts(array(
                     'post_type' => 'resource_page',
                     'post_parent' => $parent_id,
@@ -224,23 +180,23 @@ function get_document_report_data($start_date, $end_date, $document_id, $module_
                     'post_status' => 'publish',
                     'fields' => 'ids'
                 ));
-                
+
                 $all_pages = $child_pages;
-                
+
                 foreach ($child_pages as $child_id) {
                     $all_pages = array_merge($all_pages, get_all_child_pages($child_id));
                 }
-                
+
                 return $all_pages;
             }
 
             $child_pages = get_all_child_pages($attached_page_id);
             $page_ids = array_merge(array($attached_page_id), $child_pages);
 
-         
+
             $attached_document_ids = array();
 
-            
+
             foreach ($page_ids as $page_id) {
                 $documents = get_post_meta($page_id, $prefix . 'resource_attached_documents', true);
                 if ($documents) {
@@ -256,11 +212,22 @@ function get_document_report_data($start_date, $end_date, $document_id, $module_
                 $attached_document_ids = array_unique(array_filter(array_map('intval', $attached_document_ids)));
                 $where_conditions[] = "object_id IN (" . implode(',', $attached_document_ids) . ")";
             }
+
+            
+            
         }
+        
     }
 
+    if ($users && is_array($users) && !empty($users)) {
+                $user_ids = array_unique(array_filter(array_map('intval', $users)));
+                if ($user_ids) {
+                    $where_conditions[] = "user_id IN (" . implode(',', $user_ids) . ")";
+                }
+            }
+
     $where_clause = "WHERE " . implode(" AND ", $where_conditions);
-    
+
     $query = $wpdb->prepare("
         SELECT object_id, repr, 
                COUNT(*) as access_count,
@@ -284,7 +251,7 @@ function infospace_export_document_report_csv()
         if (!current_user_can('manage_options')) {
             wp_die('You do not have permission to access this page.');
         }
-        
+
         infospace_export_document_report_csv_ftn();
         exit;
     }
@@ -320,3 +287,81 @@ function infospace_export_document_report_csv_ftn()
 
     fclose($output);
 }
+
+function display_document_report_table_and_chart($report_data, $report_title)
+{
+    if (empty($report_data)) {
+        echo '<p>No data available for the selected criteria.</p>';
+        return;
+    }
+?>
+    <h2><?php echo esc_html($report_title); ?></h2>
+    <table class="widefat fixed striped">
+        <thead>
+            <tr>
+                <th>Object ID</th>
+                <th>Name</th>
+                <th>Unique Download Count</th>
+                <th>Total Download Count</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($report_data as $row): ?>
+                <tr>
+                    <td><?php echo esc_html($row->object_id); ?></td>
+                    <td><?php echo esc_html($row->repr); ?></td>
+                    <td><?php echo esc_html($row->unique_downloads); ?></td>
+                    <td><?php echo esc_html($row->access_count); ?></td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+
+    <?php
+    // Prepare chart data
+    $chart_data = array(array('Document Name', 'Total Downloads', 'Unique Downloads'));
+    foreach ($report_data as $row) {
+        $chart_data[] = array($row->repr, intval($row->access_count), intval($row->unique_downloads));
+    }
+    ?>
+
+    <div id="document-chart-downloads" style="width: 100%; height: 400px; margin-top: 20px;"></div>
+    <script>
+        google.charts.load("current", {
+            "packages": ["corechart"]
+        });
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable(<?php echo wp_json_encode($chart_data); ?>);
+
+            var options = {
+                title: "Document Download Statistics",
+                hAxes: {
+                    0: {
+                        title: "Downloads"
+                    }
+                },
+                vAxes: {
+                    0: {
+                        title: "Documents"
+                    }
+                },
+                series: {
+                    0: {
+                        color: "#1f77b4",
+                        name: "Total Downloads"
+                    },
+                    1: {
+                        color: "#ff7f0e",
+                        name: "Unique Downloads"
+                    }
+                }
+            };
+
+            var chart = new google.visualization.BarChart(document.getElementById("document-chart-downloads"));
+            chart.draw(data, options);
+        }
+    </script>
+<?php
+} ?>

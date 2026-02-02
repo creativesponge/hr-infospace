@@ -15,6 +15,76 @@ function cmb2_user_metabox()
         //'priority'      => 'high',
         'show_names'    => true,
     ]);
+    // Add a field for the establishment report button
+    $user->add_field([
+        'id'   => $prefix . 'user_establishment_report_title',
+        'name' => 'Reports',
+        'type' => 'title',
+        'show_on_cb' => function () {
+            global $prefix;
+
+            // Get user ID from various sources
+            $user_id = null;
+            if (isset($_GET['user_id'])) {
+                $user_id = intval($_GET['user_id']);
+            } elseif (isset($GLOBALS['user_id'])) {
+                $user_id = $GLOBALS['user_id'];
+            }
+
+            if (!$user_id) {
+                return false;
+            }
+
+            $user = get_user_by('id', $user_id);
+            if (!$user) {
+                return false;
+            }
+
+            $created_by = get_user_meta($user_id, $prefix . 'user_created_by', true);
+            $is_main_user = in_array('main', $user->roles);
+            $show_establishment = $is_main_user || !empty($created_by);
+
+            // Generate report buttons
+            $buttons = [];
+            if ($show_establishment) {
+                $buttons[] = sprintf(
+                    '<a href="%s" class="button button-primary">View Establishment Report</a>',
+                    esc_url(admin_url('admin.php?page=establishment-report&user_id=' . $user_id))
+                );
+            }
+            $buttons[] = sprintf(
+                '<a href="%s" class="button button-primary">View Individual Report</a>',
+                esc_url(admin_url('admin.php?page=establishment-report&user_id=' . $user_id . '&type=individual'))
+            );
+
+            if (!empty($buttons)) {
+                echo '<p>' . implode('</p><p>', $buttons) . '</p>';
+            }
+
+            return $is_main_user;
+        }
+    ]);
+
+    // Add Establishment Report column to admin list view
+    add_filter('manage_users_columns', function ($columns) use ($prefix) {
+        $columns['establishment_report'] = 'Reports';
+        return $columns;
+    });
+
+    // Display Establishment Report column content
+    add_action('manage_users_custom_column', function ($output, $column, $user_id) use ($prefix) {
+        if ($column == 'establishment_report') {
+            $user = get_user_by('id', $user_id);
+            if ($user && in_array('main', $user->roles)) {
+                return '<a href="/wp-admin/admin.php?page=establishment-report&user_id=' . $user_id . '&type=establishment" class="button button-small">Establishment</a><br><a href="/wp-admin/admin.php?page=establishment-report&user_id=' . $user_id . '" class="button button-small">individual</a>';
+            } else {
+                return '<a href="/wp-admin/admin.php?page=establishment-report&user_id=' . $user_id . '&type=individual" class="button button-small">individual</a>';
+            }
+            return '-';
+        }
+        return $output;
+    }, 10, 3);
+
     $user->add_field([
         'id'        => $prefix . 'user_organisation',
         'name'      => 'School/Academy',

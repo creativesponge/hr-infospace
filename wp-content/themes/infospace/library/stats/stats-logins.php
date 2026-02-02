@@ -23,6 +23,7 @@ function login_report_page_callback()
 
     // Cache documents and modules queries
     static $Login = null;
+    //static $users = null;
     /*static $modules = null;
     
     
@@ -88,80 +89,15 @@ function login_report_page_callback()
 
         <?php
         // Get report data
-        $report_data = get_login_report_data($start_date, $end_date, $sort_order);
+        $report_data = get_login_report_data($start_date, $end_date, $sort_order, $users = null);
 
         if ($report_data) {
             $report_title = ($sort_order === 'DESC') ? 'Top 40 Most Logged In Users' : 'Top 40 Least Logged In Users';
         ?>
-            <h2><?php echo esc_html($report_title); ?></h2>
-            <table class="widefat fixed striped">
-                <thead>
-                    <tr>
-                        <th>Object ID</th>
-                        <th>Name</th>
-                        <th>Unique Login Count</th>
-                        <th>Total Login Count</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($report_data as $row): ?>
-
-                        <tr>
-                            <td><?php echo esc_html($row->object_id); ?></td>
-                            <td><?php echo esc_html($row->repr); ?></td>
-                            <td><?php echo esc_html($row->unique_logins); ?></td>
-                            <td><?php echo esc_html($row->access_count); ?></td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-
             <?php
-            // Prepare chart data
-            $chart_data = array(array('Document Name', 'Total Logins', 'Unique Logins'));
-            foreach ($report_data as $row) {
-                $chart_data[] = array($row->repr, intval($row->access_count), intval($row->unique_logins));
-            }
+            display_login_report_table_and_chart($report_data, $report_title);
+
             ?>
-
-            <div id="document-chart" style="width: 100%; height: 400px; margin-top: 20px;"></div>
-            <script>
-                google.charts.load("current", {
-                    "packages": ["corechart"]
-                });
-                google.charts.setOnLoadCallback(drawChart);
-
-                function drawChart() {
-                    var data = google.visualization.arrayToDataTable(<?php echo wp_json_encode($chart_data); ?>);
-
-                    var options = {
-                        title: "Login Statistics",
-                        hAxes: {
-                            0: {
-                                title: "Logins"
-                            }
-                        },
-                        vAxes: {
-                            0: {
-                                title: "Login"
-                            }
-                        },
-                        series: {
-                            0: {
-                                color: "#1f77b4",
-                                name: "Total Logins"
-                            },
-                            1: {
-                                color: "#ff7f0e",
-                                name: "Unique Logins"
-                            }
-                        }
-                    };
-
-                    var chart = new google.visualization.BarChart(document.getElementById("document-chart"));
-                    chart.draw(data, options);
-                }
-            </script>
         <?php
         } else {
             echo '<p>No login access data found for the selected criteria.</p>';
@@ -173,9 +109,9 @@ function login_report_page_callback()
 }
 
 // Separate function for database queries
-function get_login_report_data($start_date, $end_date, $sort_order)
+function get_login_report_data($start_date, $end_date, $sort_order, $users = null)
 {
-    global $wpdb, $prefix;
+    global $wpdb;
 
     $where_conditions = array("content_type_id = 14");
     $where_params = array();
@@ -189,54 +125,14 @@ function get_login_report_data($start_date, $end_date, $sort_order)
         $where_conditions[] = "DATE(created) <= %s";
         $where_params[] = $end_date;
     }
-    /*
-    if ($module_id) {
-        $attached_page_id = get_post_meta($module_id, $prefix . 'module_attached_resources', true);
-        if ($attached_page_id) {
-            function get_all_child_pages($parent_id) {
-                $child_pages = get_posts(array(
-                    'post_type' => 'resource_page',
-                    'post_parent' => $parent_id,
-                    'posts_per_page' => -1,
-                    'post_status' => 'publish',
-                    'fields' => 'ids'
-                ));
-                
-                $all_pages = $child_pages;
-                
-                foreach ($child_pages as $child_id) {
-                    $all_pages = array_merge($all_pages, get_all_child_pages($child_id));
-                }
-                
-                return $all_pages;
-            }
 
-            $child_pages = get_all_child_pages($attached_page_id);
-            $page_ids = array_merge(array($attached_page_id), $child_pages);
-
-            if ($page_ids) {
-                $page_ids = array_unique(array_filter(array_map('intval', $page_ids)));
-                
-                // Get users that have any of the page IDs in their attached resource pages meta field
-                $user_ids_array = array();
-                $users = get_users(array(
-                    'fields' => 'ids'
-                ));
-                
-                foreach ($users as $user_ids) {
-                    $attached_pages = get_post_meta($user_ids, $prefix . 'user_attached_resource_pages', true);
-                    if (is_array($attached_pages) && array_intersect($attached_pages, $page_ids)) {
-                         $user_ids_array[] = $user_ids;
-                    }
-                }
-                
-                if ($user_ids_array) {
-                    $where_conditions[] = "object_id IN (" . implode(',', array_map('intval', $user_ids_array)) . ")";
-                }
-            }
+    if ($users && is_array($users) && !empty($users)) {
+        $user_ids = array_unique(array_filter(array_map('intval', $users)));
+        if ($user_ids) {
+            $where_conditions[] = "user_id IN (" . implode(',', $user_ids) . ")";
         }
     }
-*/
+
     $where_clause = "WHERE " . implode(" AND ", $where_conditions);
 
     $query = $wpdb->prepare("
@@ -252,6 +148,85 @@ function get_login_report_data($start_date, $end_date, $sort_order)
 
     return $wpdb->get_results($query);
 }
+
+function display_login_report_table_and_chart($report_data, $report_title)
+{
+    if (empty($report_data)) {
+        echo '<p>No data available for the selected criteria.</p>';
+        return;
+    }
+?>
+    <h2><?php echo esc_html($report_title); ?></h2>
+    <table class="widefat fixed striped">
+        <thead>
+            <tr>
+                <th>Object ID</th>
+                <th>Name</th>
+                <th>Unique Login Count</th>
+                <th>Total Login Count</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($report_data as $row): ?>
+                <tr>
+                    <td><?php echo esc_html($row->object_id); ?></td>
+                    <td><?php echo esc_html($row->repr); ?></td>
+                    <td><?php echo esc_html($row->unique_logins); ?></td>
+                    <td><?php echo esc_html($row->access_count); ?></td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+
+    <?php
+    // Prepare chart data
+    $chart_data = array(array('Document Name', 'Total Logins', 'Unique Logins'));
+    foreach ($report_data as $row) {
+        $chart_data[] = array($row->repr, intval($row->access_count), intval($row->unique_logins));
+    }
+    ?>
+
+    <div id="document-chart" style="width: 100%; height: 400px; margin-top: 20px;"></div>
+    <script>
+        google.charts.load("current", {
+            "packages": ["corechart"]
+        });
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable(<?php echo wp_json_encode($chart_data); ?>);
+
+            var options = {
+                title: "Login Statistics",
+                hAxes: {
+                    0: {
+                        title: "Logins"
+                    }
+                },
+                vAxes: {
+                    0: {
+                        title: "Login"
+                    }
+                },
+                series: {
+                    0: {
+                        color: "#1f77b4",
+                        name: "Total Logins"
+                    },
+                    1: {
+                        color: "#ff7f0e",
+                        name: "Unique Logins"
+                    }
+                }
+            };
+
+            var chart = new google.visualization.BarChart(document.getElementById("document-chart"));
+            chart.draw(data, options);
+        }
+    </script>
+<?php
+}
+
 
 // Handle CSV export
 add_action('admin_init', 'infospace_export_login_report_csv');
@@ -275,7 +250,8 @@ function infospace_export_login_report_csv_ftn()
     $sort_order = ($_GET['sort_order'] ?? 'DESC') === 'ASC' ? 'ASC' : 'DESC';
     $start_date = sanitize_text_field($_GET['start_date'] ?? '');
     $end_date = sanitize_text_field($_GET['end_date'] ?? '');
-    $results = get_login_report_data($start_date, $end_date, $sort_order);
+    $users = null;
+    $results = get_login_report_data($start_date, $end_date, $sort_order, $users);
 
     $filename = 'login_report_' . date('Y-m-d_H-i-s') . '.csv';
     header('Content-Type: text/csv');

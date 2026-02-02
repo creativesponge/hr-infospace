@@ -399,7 +399,3 @@ function auto_generate_username_from_email( $data, $update, $userdata ) {
     
     return $data;
 }
-
-
-
-
