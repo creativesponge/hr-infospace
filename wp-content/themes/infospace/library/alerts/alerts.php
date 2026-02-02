@@ -50,7 +50,7 @@ $docId = isset($_GET['doc_id']) ? intval($_GET['doc_id']) : 0;
     $alert_subject = $docId ? get_the_title($docId) . ' has been updated' : '';
     $module_type = '';
     
-    echo '<div class="wrap">';
+    echo '<div class="wrap alerts-admin-page">';
     echo '<h1>Alerts</h1>';
     echo "<br>";
 
@@ -414,7 +414,7 @@ $docId = isset($_GET['doc_id']) ? intval($_GET['doc_id']) : 0;
             echo '<input type="hidden" name="_wpnonce" value="' . wp_create_nonce('alerts_filter_nonce') . '">';
             echo '<h3>Filter users to send to:</h3>';
             echo '<div style="display: flex; flex-wrap: wrap; gap: 20px;">';
-            echo '<div>';
+            echo '<div class="alert-filters" style="margin-right: 20px;">';
             echo '<div><input type="checkbox" name="hsw_alerts" id="hsw_alerts" value="on"' . ($selected_hsw_alerts === 'on' ? ' checked' : '') . '>';
             echo '<label for="hsw_alerts">Recieve HSW alerts </label></div>';
 

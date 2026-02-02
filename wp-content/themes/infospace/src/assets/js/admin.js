@@ -1,6 +1,5 @@
 // Import custom modules and init
 
-
 import stats from "./lib/admin/blocks/stats/index.js";
 import stat from "./lib/admin/blocks/stat/index.js";
 import image_text from "./lib/admin/blocks/image-text/index.js";
@@ -127,6 +126,29 @@ wp.domReady(() => {
       userLoginField.value = "user" + timestamp;
     }
   }
+
+  // Get .alert-filters checkboxes and select a corresponding value in the #module_type select dropdown
+  const alertsAdminPage = document.querySelector(".alerts-admin-page");
+  if (!alertsAdminPage) {
+    return;
+  }
+
+  const alertFilters = alertsAdminPage.querySelectorAll(".alert-filters div");
+  const moduleTypeSelect = document.querySelector("#module_type");
+
+  if (!moduleTypeSelect) {
+    return;
+  }
+
+  alertFilters.forEach((checkboxDiv, index) => {
+    const checkbox = checkboxDiv.querySelector("input[type='checkbox']");
+    if (!checkbox) {
+      return;
+    }
+    checkbox.addEventListener("change", () => {
+      moduleTypeSelect.selectedIndex = checkbox.checked ? index + 1 : 0;
+    });
+  });
+
+
 });
-
-
