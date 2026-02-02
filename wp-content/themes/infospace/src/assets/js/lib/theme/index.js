@@ -58,7 +58,7 @@ var sitespecific = {
     modules_list.init();
     icon_list.init();
     benefit_carousel.init();
-    contact_form.init();
+    //contact_form.init();
     
     // Ready to rock!
     document.body.classList.add("ready");
