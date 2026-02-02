@@ -377,3 +377,25 @@ function custom_new_user_notification_email($wp_new_user_notification_email, $us
 add_filter('wp_new_user_notification_email', 'custom_new_user_notification_email', 10, 3);
 
 
+// Auto generate username during registration
+add_action( 'wp_pre_insert_user_data', 'auto_generate_username_from_email', 10, 4 );
+function auto_generate_username_from_email( $data, $update, $userdata ) {
+    // Only for new user creation (not updates)
+    if ( $update || empty( $userdata['user_email'] ) ) {
+        return $data;
+    }
+    
+    // If no username provided or empty, generate one from timestamp
+    if ( empty( $data['user_login'] ) ) {
+        $username = 'user-' . time();
+        
+        // Ensure username is unique (unlikely but safer)
+        while ( username_exists( $username ) ) {
+            $username = 'user-' . time();
+        }
+        
+        $data['user_login'] = $username;
+    }
+    
+    return $data;
+}
