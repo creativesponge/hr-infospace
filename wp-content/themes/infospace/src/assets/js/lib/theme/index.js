@@ -14,6 +14,7 @@ import login_register from "./blocks/login-register/index.js";
 import modules_list from "./blocks/modules-list/index.js";
 import icon_list from "./blocks/icon-list/index.js";
 import benefit_carousel from "./blocks/benefit-carousel/index.js";
+import contact_form from "./blocks/contact-form/index.js";
 
 var sitespecific = {
   themename: function () {
@@ -43,7 +44,6 @@ var sitespecific = {
     utils.target_clicks();
     utils.addViewPasswordToggle();
 
-
     image_text_carousel.init();
     google_map.init();
     tabs_container.init();
@@ -58,7 +58,8 @@ var sitespecific = {
     modules_list.init();
     icon_list.init();
     benefit_carousel.init();
-
+    contact_form.init();
+    
     // Ready to rock!
     document.body.classList.add("ready");
   },

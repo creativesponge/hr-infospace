@@ -110,7 +110,6 @@
       margin-bottom: rem-calc(-160);
       margin-right: rem-calc(-60);
       margin-top: rem-calc(65);
-
     }
     @include breakpoint(xlarge) {
       margin-bottom: rem-calc(-220);
@@ -120,27 +119,25 @@
       margin: 0 auto;
 
       @include breakpoint(medium) {
-         max-height: rem-calc(400);
+        max-height: rem-calc(400);
         margin-left: rem-calc(100);
         border-radius: 50%;
         //overflow: hidden;
         transform-origin: 0 50%;
         transform: scale(1.2);
-         width: auto;
+        width: auto;
       }
 
       @include breakpoint(large) {
         margin-left: rem-calc(50);
         transform: scale(1.2);
         //max-height: 86%;
-         max-height: rem-calc(500);
-       
+        max-height: rem-calc(500);
       }
       @include breakpoint(xlarge) {
         transform: scale(1.54);
         //max-height: 88%;
         max-height: rem-calc(560);
-        
       }
     }
   }
@@ -178,6 +175,18 @@
 
     .contact__confirm {
       margin-bottom: 1em;
+      &--error-message {
+        display: none;
+      }
+      &--error {
+        .contact__confirm--error-message {
+          display: block;
+          color: red;
+          margin-top: rem-calc(10);
+          margin-bottom: rem-calc(10);
+          padding-left: rem-calc(30);
+        }
+      }
     }
 
     .contact__thanks,
@@ -241,18 +250,17 @@
     }
   }
   .checkmark-container {
-  &:hover input ~ .checkmark {
-    background-color: $medium-grey;
-  }
+    &:hover input ~ .checkmark {
+      background-color: $medium-grey;
+    }
 
-  .checkmark {
-    background: $white;
-    border: none;
-    &::after {
-      left: rem-calc(8);
-      width: rem-calc(8.5);
+    .checkmark {
+      background: $white;
+      border: none;
+      &::after {
+        left: rem-calc(8);
+        width: rem-calc(8.5);
+      }
     }
   }
 }
-}
-

@@ -102,9 +102,14 @@ $pageModuleMeta = get_current_module_meta($current_module_id_global);
 
 			<div class="contact__confirm">
 				<label class="checkmark-container">
-					<input type="checkbox" name="contact_check" class="check-submit contact__check" required>
+					<input type="checkbox" name="contact_check" class="check-submit contact__check">
 					<span class="checkmark"></span>I consent to the collection and storage of the data entered via the above form, for the purpose of replying to my enquiry. Please view our <a target="_blank" href="/privacy-policy">privacy policy</a>
 				</label>
+				<div class="contact__confirm--error-message">
+					Please confirm your consent to proceed.
+				</div>
+
+				
 			</div>
 
 			<button type="submit">Send</button>
