@@ -73,6 +73,7 @@ function handle_ajax_user_registration()
     $message .= "Federation/Trust: $federation_trust<br>";
     $message .= "DFE Number: $dfe_number<br>";
     $message .= "Email: $user_email</p>";
+    $message .= "<p><a href='" . admin_url('user-edit.php?user_id=' . $user_id) . "'>View User Profile</a></p>";
     $headers[] = 'Content-Type: text/html; charset=UTF-8';
     $headers[] = "From: Registration form <" . $admin_email . ">";
 
