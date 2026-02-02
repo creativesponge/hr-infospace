@@ -72,9 +72,12 @@ function handle_ajax_user_registration()
     $message .= "School/Academy: $organisation_name\n";
     $message .= "Federation/Trust: $federation_trust\n";
     $message .= "DFE Number: $dfe_number\n";
-    $message .= "Email: $user_email\n"; 
-    //wp_new_user_notification($user_id, null, 'both');
+    $message .= "Email: $user_email\n";
+    $headers[] = 'Content-Type: text/html; charset=UTF-8';
+    $headers[] = "From: Registration form <" . $admin_email . ">";
 
-    wp_mail($admin_email, $subject, $message);
+    //wp_new_user_notification($user_id, null, 'both');
+    
+    wp_mail($admin_email, $subject, $message, $headers);
     wp_send_json_success(array('message' => 'Your account has been created successfully. You will receive an email with your login details shortly.'));
 }

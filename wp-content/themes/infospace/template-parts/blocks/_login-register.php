@@ -16,13 +16,7 @@
 
 //get_header();
 
-if (!isset($_SERVER['HTTP_REFERER']) && !isset($_SESSION['redirect_url'])) {
-    // Referrer provided, store in session in the case of a failed login
-    //$_SESSION['redirect_url'] = $_SERVER['HTTP_REFERER'];
-} elseif (!isset($_SESSION['redirect_url'])) {
-    // No referrer or URL stored in session, redirect to home
-    //$_SESSION['redirect_url'] = site_url();
-}
+
 // Check if user just logged out
 $attributes['logged_out'] = isset($_REQUEST['logged_out']) && $_REQUEST['logged_out'] == true;
 
