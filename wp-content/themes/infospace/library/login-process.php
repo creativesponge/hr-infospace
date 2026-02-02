@@ -179,3 +179,17 @@ function enforce_terms_acceptance()
     }
 }
 
+// record stats on user login 
+add_action('wp_login', 'record_user_login_stats', 10, 2);
+function record_user_login_stats($user_login, $user)
+{
+    global $prefix;
+    $user_id = $user->ID;
+    $user_name = $user->display_name;
+    $user_login = $user->user_login;
+
+    log_user_interaction($user_login, $user_id, 14, 'Logged in', $user_name);
+
+    // Update last login date for hr_alerts
+    update_user_meta($user_id, $prefix . 'user_last_login', time());
+}
