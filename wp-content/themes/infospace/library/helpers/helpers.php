@@ -399,3 +399,14 @@ function auto_generate_username_from_email( $data, $update, $userdata ) {
     
     return $data;
 }
+
+
+// Change the description text on the email field when editing a user in admin
+function custom_change_email_admin_text($translated_text, $text, $domain)
+{
+    if ($text === 'If you change this, an email will be sent at your new address to confirm it. <strong>The new address will not become active until confirmed.</strong>') {
+        $translated_text = 'If you change this, an email will be sent to your new address to confirm it. <strong>The new address will not become active until confirmed.</strong>';
+    }
+    return $translated_text;
+}
+add_filter('gettext', 'custom_change_email_admin_text', 10, 3);
