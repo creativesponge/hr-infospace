@@ -144,7 +144,7 @@ require_once dirname(__FILE__) . '/library/module-filters.php';
 require_once dirname(__FILE__) . '/library/autocomplete.php';
 require_once dirname(__FILE__) . '/library/favourite.php';
 require_once dirname(__FILE__) . '/library/handle_user_registration.php';
-//require_once dirname(__FILE__) . '/library/login-process.php';
+require_once dirname(__FILE__) . '/library/login-process.php';
 
 
 /** Stats */
