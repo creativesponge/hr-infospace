@@ -319,19 +319,30 @@ function cmb2_user_metabox()
         return $output;
     }, 10, 3);
 
-    $user->add_field([
-        'id'        => $prefix . 'user_is_staff',
+ $user->add_field([
+        'id'        => $prefix . 'user_is_internal',
         'name'      => 'Internal',
-        'desc'      => 'Check if this user is a staff member',
+        'desc'      => 'Check if this user is an internal staff member',
         'type'      => 'checkbox',
-        //'attributes' => [
-            //'disabled' => 'disabled',
-            //'style' => 'color: #999; background-color: #f5f5f5;'
-       //],
         'show_on_cb' => function () {
             return current_user_can('administrator');
         }
     ]);
+
+    $user->add_field([
+        'id'        => $prefix . 'user_is_staff',
+        'name'      => 'Staff status (Not used)',
+        'desc'      => 'Check if this user is a staff member',
+        'type'      => 'checkbox',
+        'attributes' => [
+            'disabled' => 'disabled',
+            'style' => 'color: #999; background-color: #f5f5f5;'
+       ],
+        'show_on_cb' => function () {
+            return current_user_can('administrator');
+        }
+    ]);
+    
     $user->add_field([
         'id'        => $prefix . 'user_is_super_user',
         'name'      => 'Is Super User (Not used)',
@@ -505,13 +516,13 @@ add_action('manage_users_custom_column', function ($output, $column, $user_id) u
 
 // Add Is Staff column to admin list view
 add_filter('manage_users_columns', function ($columns) use ($prefix) {
-    $columns[$prefix . 'user_is_staff'] = 'Internal';
+    $columns[$prefix . 'user_is_internal'] = 'Internal';
     return $columns;
 });
 
 // Make Is Staff column sortable
 add_filter('manage_users_sortable_columns', function ($columns) use ($prefix) {
-    $columns[$prefix . 'user_is_staff'] = $prefix . 'user_is_staff';
+    $columns[$prefix . 'user_is_internal'] = $prefix . 'user_is_internal';
     return $columns;
 });
 
@@ -523,16 +534,16 @@ add_action('pre_get_users', function ($query) use ($prefix) {
 
     $orderby = $query->get('orderby');
 
-    if ($orderby == $prefix . 'user_is_staff') {
-        $query->set('meta_key', $prefix . 'user_is_staff');
+    if ($orderby == $prefix . 'user_is_internal') {
+        $query->set('meta_key', $prefix . 'user_is_internal');
         $query->set('orderby', 'meta_value');
     }
 });
 
 // Display Is Staff column content
 add_action('manage_users_custom_column', function ($output, $column, $user_id) use ($prefix) {
-    if ($column == $prefix . 'user_is_staff') {
-        $is_staff = get_user_meta($user_id, $prefix . 'user_is_staff', true);
+    if ($column == $prefix . 'user_is_internal') {
+        $is_staff = get_user_meta($user_id, $prefix . 'user_is_internal', true);
         return $is_staff == 'on' ? '✓' : '✗';
     }
     return $output;
