@@ -26,8 +26,9 @@
     margin: 0 auto 0 auto;
     max-width: $global-width;
     border-radius: rem-calc(20);
-    padding: rem-calc(30 20 20 20);
+    padding: rem-calc(30 8 20 8);
     @include breakpoint(medium) {
+      padding: rem-calc(30 20 20 20);
       border-radius: rem-calc(30);
     }
     @include breakpoint(large) {
@@ -48,7 +49,7 @@
 }
 
 .icon-list-item {
-  padding: rem-calc(20 15);
+  padding: rem-calc(20 8);
   align-items: center;
   text-align: center;
   justify-content: center;
@@ -56,6 +57,7 @@
   flex-basis: 50%;
   @include breakpoint(medium) {
     flex-basis: 33.33%;
+    padding: rem-calc(20 15);
   }
   @include breakpoint(large) {
     margin-bottom: rem-calc(0);
@@ -74,7 +76,10 @@
   }
 
   h3 {
-    font-size: rem-calc(18);
+    font-size: rem-calc(14);
     font-weight: 600;
+    @include breakpoint(medium) {
+      font-size: rem-calc(18);
+    }
   }
 }
