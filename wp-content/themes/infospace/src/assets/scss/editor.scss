@@ -136,6 +136,9 @@
   }
 }
 
-.button.cmb2-attached-posts-search-button {
+.wp-core-ui .button.cmb2-attached-posts-search-button {
   display: none;
+}
+.attached-posts-wrap a {
+  pointer-events: none;
 }
