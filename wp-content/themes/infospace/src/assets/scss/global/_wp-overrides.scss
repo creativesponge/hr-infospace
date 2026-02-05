@@ -305,7 +305,9 @@ figure.wp-block-table {
 }
 
 .itsec-screen__actions {
-  .button-link.itsec-screen__actions--skip {
-    display:none;
+  .button-link {
+    .itsec-provider__action--disable, .itsec-screen__actions--skip {
+      display:none;
+    }
   }
 }
