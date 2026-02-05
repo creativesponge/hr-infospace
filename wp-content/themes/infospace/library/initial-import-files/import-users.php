@@ -200,7 +200,7 @@ foreach ($userData as $userRecord) {
             // Attach the resource to the post
             // Get existing attached resources array
             $existingResources = get_user_meta($post_id, $prefix . 'user_attached_resource_pages', true);
-            var_dump($post_id);
+          //  var_dump($post_id);
             if (!is_array($existingResources)) {
                 $existingResources = array($existingResources);
                 //$existingResources = array();

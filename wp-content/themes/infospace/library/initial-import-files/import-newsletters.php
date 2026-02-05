@@ -145,7 +145,7 @@ foreach ($newsletterData as $newsletterRecord) {
 
 
         $file_url =  dirname(__DIR__) . '/' . $file_path; // Replace with your actual base URL
-        var_dump($file_url);
+      // var_dump($file_url);
         // Download the file
         if (file_exists($file_url)) {
             $file_name = basename($file_path);
