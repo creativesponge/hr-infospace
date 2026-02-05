@@ -118,7 +118,7 @@ add_filter('login_redirect', 'infospace_login_redirect');
 function infospace_login_redirect()
 {
     // Don't redirect if updating account settings or if updated parameter is present
-    if (isset($_GET['updated']) || (isset($_POST['action']) && $_POST['action'] !== 'itsec-2fa')) {
+    if (isset($_GET['updated']) || (isset($_POST['action']) && $_POST['action'] !== 'itsec-2fa'&& $_POST['action'] !== 'itsec-2fa-on-board')) {
         return false; // Don't redirect
     }
     
