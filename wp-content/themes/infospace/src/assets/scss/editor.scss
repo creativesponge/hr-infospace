@@ -124,13 +124,21 @@
 
   #the-list {
     .column-username {
-      img + strong  a {
+      img + strong a {
         display: none;
       }
     }
   }
-  #username{
+  #username {
     a {
+      display: none;
+    }
+  }
+  &.user-edit-php {
+    #two-factor-user-options,
+    #two-factor-user-options + p,
+    .two-factor-methods-table,
+    #itsec-profile-root > div {
       display: none;
     }
   }
