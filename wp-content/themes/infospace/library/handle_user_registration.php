@@ -68,7 +68,7 @@ function handle_ajax_user_registration()
     $admin_email = 'barry@creativesponge.co.uk';
     //$admin_email = 'ehrpolicy@norfolkgov.uk';
     $subject = 'New User Registration';
-    $message = "<h1>New user registration for $first_name $last_name needs approving:</h1>";
+    $message = "<p><strong>New user registration for $first_name $last_name needs approving:</strong></p>";
     $message .= "<p>School/Academy: $organisation_name<br>";
     $message .= "Federation/Trust: $federation_trust<br>";
     $message .= "DFE Number: $dfe_number<br>";

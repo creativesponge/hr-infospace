@@ -50,7 +50,7 @@ function cmb2_page_metabox()
             'show_thumbnails' => true, // Show thumbnails on the left
             'filter_boxes'    => true, // Show a text box for filtering the results
             'query_args'      => array(
-                'posts_per_page' => 10,
+                'posts_per_page' => -1,
                 'post_type'      => 'document',
                 'meta_query'     => array(
                     array(
