@@ -25,11 +25,11 @@ $attachmentIdMob = (array_key_exists('attachmentIdMob', $block_attributes)) ? $b
 		<?php if ($imageId) { ?>
 			<div class="image-text-banner__image">
 				<?php if ($imageId) { 
-				echo wp_get_attachment_image($imageId, 'fplarge', '', ["class" => "show-for-medium"]); 		
+				echo wp_get_attachment_image($imageId, 'fplarge', '', ["class" => "show-for-medium", "fetchpriority" => "high"]); 		
 					
 			} ?>
 			<?php if ($attachmentIdMob) { 
-				echo wp_get_attachment_image($attachmentIdMob, 'fplarge', '', ["class" => "hide-for-medium"]);			
+				echo wp_get_attachment_image($attachmentIdMob, 'fplarge', '', ["class" => "hide-for-medium", "fetchpriority" => "high"]);			
 			} ?>
 				
 			</div>
