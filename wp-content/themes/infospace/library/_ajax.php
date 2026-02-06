@@ -56,13 +56,14 @@ function theme_contact_form()
         $message = sanitize_text_field($filtered_data['contact_message']);
         $check = $filtered_data['contact_check'] ? 'Yes' : "No";
 
-       $current_module_id_global = isset($_SESSION['current_module_id']) ? $_SESSION['current_module_id'] : '';
-       $moduleMeta = theme_get_meta($current_module_id_global);
+        $current_module_id_global = isset($_SESSION['current_module_id']) ? $_SESSION['current_module_id'] : '';
+        $moduleMeta = theme_get_meta($current_module_id_global);
         // set default email
         $defaultAdminEmail =  empty($settings[$prefix . 'email']) ? get_option('admin_email') : $settings[$prefix . 'email'];
         // get module email if set
         //$admin_email = isset($moduleMeta->module_email_address) ? $moduleMeta->module_email_address : $defaultAdminEmail;
-        $admin_email = 'barry@creativesponge.co.uk';
+        $from_email = 'barry@creativesponge.co.uk';
+        $admin_email = 'ehrpolicy@norfolkgov.uk';
 
         // add prefix for meta
         $meta = [];
@@ -104,7 +105,7 @@ function theme_contact_form()
 
 
         $headers[] = 'Content-Type: text/html; charset=UTF-8';
-        $headers[] = "From: " . $name . " <" . $admin_email . ">";
+        $headers[] = "From: " . $name . " <" . $from_email . ">";
 
         $subject = 'Website enquiry from: ' . $name;
 

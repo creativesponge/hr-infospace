@@ -145,6 +145,7 @@ function daily_cron_functions()
         if ($modified_date->getTimestamp() === 1767830400) {
             //$admin_email = get_option('admin_email');
             $module_email = "barry@creativesponge.co.uk"; // For testing purposes
+            //$module_email = "ehrpolicy@norfolkgov.uk";
             $subject = 'Document Modified One Year Ago';
             $message = '<p>The document "' . $document->post_title . '" (ID: ' . $document->ID . ') has not been updated for one year.</p>';
             $message .= '<p>Please visit: <a href="https://www.infospace.org.uk/wp-admin/post.php?post=' . $document->ID . '&action=edit">this link</a> to review it.</p>';

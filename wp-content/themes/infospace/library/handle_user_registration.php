@@ -65,8 +65,8 @@ function handle_ajax_user_registration()
 
     // Send notification email to infospace admin
     //$admin_email = get_option('admin_email');
-    $admin_email = 'barry@creativesponge.co.uk';
-    //$admin_email = 'ehrpolicy@norfolkgov.uk';
+    //$admin_email = 'barry@creativesponge.co.uk';
+    $admin_email = 'ehrpolicy@norfolkgov.uk';
     $subject = 'New User Registration';
     $message = "<p><strong>New user registration for $first_name $last_name needs approving:</strong></p>";
     $message .= "<p>School/Academy: $organisation_name<br>";
