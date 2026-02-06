@@ -25,7 +25,7 @@ $attachmentIdMob = (array_key_exists('attachmentIdMob', $block_attributes)) ? $b
 		<?php if ($imageId) { ?>
 			<div class="image-text-banner__image">
 				<?php if ($imageId) { 
-				echo wp_get_attachment_image($imageId, 'fplarge', '', ["class" => "show-for-medium"]); 			
+				echo wp_get_attachment_image($imageId, 'fplarge', '', ["class" => "show-for-medium", "sizes" => "(max-width: 1200px) 100vw, 1200px"]); 			
 			} ?>
 			<?php if ($attachmentIdMob) { 
 				echo wp_get_attachment_image($attachmentIdMob, 'fplarge', '', ["class" => "hide-for-medium"]);			
