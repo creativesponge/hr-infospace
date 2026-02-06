@@ -409,5 +409,3 @@ function custom_change_email_admin_text($translated_text, $text, $domain)
     return $translated_text;
 }
 add_filter('gettext', 'custom_change_email_admin_text', 10, 3);
-
-add_filter('wp_calculate_image_sizes', '__return_false');
