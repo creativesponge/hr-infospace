@@ -4,7 +4,7 @@ function add_reporting_admin_page() {
     add_menu_page(
         'Reporting',
         'Reporting',
-        'manage_options',
+        'edit_posts',
         'reporting',
         'reporting_page_callback',
         'dashicons-chart-bar',

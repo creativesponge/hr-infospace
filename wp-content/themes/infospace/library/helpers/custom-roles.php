@@ -269,7 +269,7 @@ function restrict_finance_editor_access($query)
             global $pagenow;
             global $finance_page;
             // Restrict to edit.php (post list) for resource_page only
-            if ($pagenow == 'edit.php' && isset($_GET['post_type']) && !in_array($_GET['post_type'], ['resource_page', 'document', 'page_link', 'post', 'page'])) {
+            if ($pagenow == 'edit.php' && isset($_GET['post_type']) && !in_array($_GET['post_type'], ['resource_page', 'document', 'page_link', 'newsletter',  'post', 'page'])) {
                 wp_redirect(admin_url('edit.php?post_type=resource_page'));
                 exit;
             }
@@ -307,7 +307,7 @@ function hide_admin_menus_for_finance_editor()
         remove_menu_page('tools.php'); // Tools
         remove_menu_page('options-general.php'); // Settings
         remove_menu_page('edit.php?post_type=module'); // Module
-        remove_menu_page('edit.php?post_type=newsletter'); // Newsletter
+       // remove_menu_page('edit.php?post_type=newsletter'); // Newsletter
         remove_menu_page('edit.php?post_type=enquiry'); // Enquiry
         //remove_menu_page('edit.php?post_type=page'); // Pages
         remove_menu_page('edit.php?post_type=survey'); // Surveys
@@ -335,8 +335,8 @@ function restrict_finance_editor_post_access()
 
             if ($post) {
                 // Allow resource_page post type
-                if ($post->post_type == 'resource_page') {
-                    //return;
+                if ($post->post_type == 'newsletter') {
+                    return;
                 }
 
                 // Allow page ID 4611 and its children
@@ -409,7 +409,7 @@ function restrict_hr_editor_access($query)
             global $pagenow;
             global $hr_page;
             // Restrict to edit.php (post list) for resource_page only
-            if ($pagenow == 'edit.php' && isset($_GET['post_type']) && !in_array($_GET['post_type'], ['resource_page', 'document', 'page_link', 'post', 'page'])) {
+            if ($pagenow == 'edit.php' && isset($_GET['post_type']) && !in_array($_GET['post_type'], ['resource_page', 'document', 'page_link', 'newsletter',  'post', 'page'])) {
                 wp_redirect(admin_url('edit.php?post_type=resource_page'));
                 exit;
             }
@@ -447,7 +447,7 @@ function hide_admin_menus_for_hr_editor()
         remove_menu_page('tools.php'); // Tools
         remove_menu_page('options-general.php'); // Settings
         remove_menu_page('edit.php?post_type=module'); // Module
-        remove_menu_page('edit.php?post_type=newsletter'); // Newsletter
+        //remove_menu_page('edit.php?post_type=newsletter'); // Newsletter
         remove_menu_page('edit.php?post_type=enquiry'); // Enquiry
         // remove_menu_page('edit.php?post_type=page'); // Pages
         remove_menu_page('edit.php?post_type=survey'); // Surveys
@@ -475,8 +475,8 @@ function restrict_hr_editor_post_access()
 
             if ($post) {
                 // Allow resource_page post type
-                if ($post->post_type == 'resource_page') {
-                    //return;
+                if ($post->post_type == 'newsletter') {
+                    return;
                 }
 
                 // Allow page ID $hr_page and its children
@@ -548,7 +548,7 @@ function restrict_hsw_editor_access($query)
             global $pagenow;
             global $hsafety_page;
             // Restrict to edit.php (post list) for resource_page only
-            if ($pagenow == 'edit.php' && isset($_GET['post_type']) && !in_array($_GET['post_type'], ['resource_page', 'document', 'page_link', 'post', 'page'])) {
+            if ($pagenow == 'edit.php' && isset($_GET['post_type']) && !in_array($_GET['post_type'], ['resource_page', 'document', 'page_link',  'newsletter', 'post', 'page'])) {
                 wp_redirect(admin_url('edit.php?post_type=resource_page'));
                 exit;
             }
@@ -586,7 +586,7 @@ function hide_admin_menus_for_hsw_editor()
         remove_menu_page('tools.php'); // Tools
         remove_menu_page('options-general.php'); // Settings
         remove_menu_page('edit.php?post_type=module'); // Module
-        remove_menu_page('edit.php?post_type=newsletter'); // Newsletter
+       // remove_menu_page('edit.php?post_type=newsletter'); // Newsletter
         remove_menu_page('edit.php?post_type=enquiry'); // Enquiry
         // remove_menu_page('edit.php?post_type=page'); // Pages
         remove_menu_page('edit.php?post_type=survey'); // Surveys
@@ -614,8 +614,8 @@ function restrict_hsw_editor_post_access()
 
             if ($post) {
                 // Allow resource_page post type
-                if ($post->post_type == 'resource_page') {
-                    //return;
+                if ($post->post_type == 'newsletter') {
+                    return;
                 }
 
                 // Allow page ID $hsafety_page and its children

@@ -110,6 +110,7 @@ var page_banner_titles = {
           const onRemoveImageMob = () => {
             setAttributes({
               backgroundImageMob: undefined,
+              attachmentIdMob: undefined,
             });
           };
 
@@ -128,7 +129,7 @@ var page_banner_titles = {
                   </Button>
                   <p class="size-square">
                     {" "}
-                    (Ideal size is 640 x 910 pixels at 72dpi)
+                    (Ideal size is 640 x 400 pixels at 72dpi)
                   </p>
                 </div>
               );
@@ -140,7 +141,7 @@ var page_banner_titles = {
                   </Button>
                   <p class="size-square">
                     {" "}
-                    (Ideal size is 640 x 910 pixels at 72dpi)
+                    (Ideal size is 640 x 400 pixels at 72dpi)
                   </p>
                 </div>
               );
