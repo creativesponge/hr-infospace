@@ -82,11 +82,14 @@
     img {
       //display: none;
       border-top-right-radius: rem-calc(20);
+      object-fit: cover;
+      height:100%;
+      width: 100%;
       @include breakpoint(medium) {
         display: block;
-        height: 100%;
-        width: 100%;
-        object-fit: cover;
+        //height: 100%;
+       // width: 100%;
+       //object-fit: cover;
         border-top-right-radius: rem-calc(30);
       }
       @include breakpoint(large) {
