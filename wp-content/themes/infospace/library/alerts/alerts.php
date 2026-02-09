@@ -44,12 +44,16 @@ function alerts_page_callback()
         return;
     }
 
-$docId = isset($_GET['doc_id']) ? intval($_GET['doc_id']) : 0;
+    $docId = isset($_GET['doc_id']) ? intval($_GET['doc_id']) : 0;
 
     $alert_content = '';
     $alert_subject = $docId ? get_the_title($docId) . ' has been updated' : '';
     $module_type = '';
-    
+
+    global $finance_module_id;
+    global $hr_module_id;
+    global $hsw_module_id;
+
     echo '<div class="wrap alerts-admin-page">';
     echo '<h1>Alerts</h1>';
     echo "<br>";
@@ -320,6 +324,21 @@ $docId = isset($_GET['doc_id']) ? intval($_GET['doc_id']) : 0;
         $selected_finance_alerts = isset($_GET['finance_alerts']) ? sanitize_text_field($_GET['finance_alerts']) : '';
         $selected_hr_alerts = isset($_GET['hr_alerts']) ? sanitize_text_field($_GET['hr_alerts']) : '';
 
+        // Ensure role restriction flag exists in this scope
+        $current_user = wp_get_current_user();
+        $roles = (array) $current_user->roles;
+        $restricted_alert = '';
+        if (in_array('finance_editor', $roles, true)) {
+            $restricted_alert = 'finance';
+            $selected_finance_alerts = 'on';
+        } elseif (in_array('hr_editor', $roles, true)) {
+            $restricted_alert = 'hr';
+            $selected_hr_alerts = 'on';
+        } elseif (in_array('hsw_editor', $roles, true)) {
+            $restricted_alert = 'hsw';
+            $selected_hsw_alerts = 'on';
+        }
+
         // Get staff filter
         $user_is_staff = isset($_GET['user_is_staff']) ? sanitize_text_field($_GET['user_is_staff']) : '';
 
@@ -396,7 +415,7 @@ $docId = isset($_GET['doc_id']) ? intval($_GET['doc_id']) : 0;
                     }
                 }
             }
-         
+
             // Filter users to only those with access
             $user_args = array(
                 'number' => $posts_per_page,
@@ -415,14 +434,25 @@ $docId = isset($_GET['doc_id']) ? intval($_GET['doc_id']) : 0;
             echo '<h3>Filter users to send to:</h3>';
             echo '<div style="display: flex; flex-wrap: wrap; gap: 20px;">';
             echo '<div class="alert-filters" style="margin-right: 20px;">';
-            echo '<div><input type="checkbox" name="hsw_alerts" id="hsw_alerts" value="on"' . ($selected_hsw_alerts === 'on' ? ' checked' : '') . '>';
-            echo '<label for="hsw_alerts">Recieve HSW alerts </label></div>';
+            if ($restricted_alert === 'hsw') {
+                echo '<input type="hidden" name="hsw_alerts" value="on">';
+                echo '<div><strong>Recieve HSW alerts</strong></div><br>';
+            } elseif ($restricted_alert === 'finance') {
+                echo '<input type="hidden" name="finance_alerts" value="on">';
+                echo '<div><strong>Recieve Finance alerts</strong></div><br>';
+            } elseif ($restricted_alert === 'hr') {
+                echo '<input type="hidden" name="hr_alerts" value="on">';
+                echo '<div><strong>Recieve HR alerts</strong></div><br>';
+            } else {
+                echo '<div><input type="checkbox" name="hsw_alerts" id="hsw_alerts" value="on"' . ($selected_hsw_alerts === 'on' ? ' checked' : '') . '>';
+                echo '<label for="hsw_alerts">Recieve HSW alerts </label></div>';
 
-            echo '<div><input type="checkbox" name="finance_alerts" id="finance_alerts" value="on"' . ($selected_finance_alerts === 'on' ? ' checked' : '') . '>';
-            echo '<label for="finance_alerts">Recieve Finance alerts </label></div>';
+                echo '<div><input type="checkbox" name="finance_alerts" id="finance_alerts" value="on"' . ($selected_finance_alerts === 'on' ? ' checked' : '') . '>';
+                echo '<label for="finance_alerts">Recieve Finance alerts </label></div>';
 
-            echo '<div><input type="checkbox" name="hr_alerts" id="hr_alerts" value="on"' . ($selected_hr_alerts === 'on' ? ' checked' : '') . '>';
-            echo '<label for="hr_alerts">Recieve HR alerts </label></div><br>';
+                echo '<div><input type="checkbox" name="hr_alerts" id="hr_alerts" value="on"' . ($selected_hr_alerts === 'on' ? ' checked' : '') . '>';
+                echo '<label for="hr_alerts">Recieve HR alerts </label></div><br>';
+            }
             echo '</div>';
             echo '<div>';
             echo '<div><label for="user_is_staff">Staff status: </label>';
@@ -664,26 +694,50 @@ $docId = isset($_GET['doc_id']) ? intval($_GET['doc_id']) : 0;
         echo '<input type="hidden" name="email_addresses" value="' . esc_attr($comma_separated_emails) . '">';
         // Module content types select
         echo '<table class="form-table">';
-        echo '<tr>';
-        echo '<th scope="row"><label for="module_type">Module </label></th>';
-        echo '<td>';
-        echo '<select name="module_type" id="module_type" required>';
-        echo '<option value="">Select Module</option>';
-        $modules = get_posts(array(
-            'post_type' => 'module',
-            'post_status' => 'publish',
-            'numberposts' => -1
-        ));
 
-        foreach ($modules as $module) {
-            if ($docId && $moduleId && $module->ID != $moduleId) {
-                echo '<option value="' . esc_attr($module->ID) . '" selected="true">' . esc_html($module->post_title) . '</option>';
+
+        if ($restricted_alert === 'hsw') {
+            echo '<input type="hidden" name="module_type" value="' . $hsw_module_id . '">';
+        } elseif ($restricted_alert === 'finance') {
+            echo '<input type="hidden" name="module_type" value="' . $finance_module_id . '">';
+        } elseif ($restricted_alert === 'hr') {
+            echo '<input type="hidden" name="module_type" value="' . $hr_module_id . '">';
+        } else {
+
+            if ($selected_hsw_alerts === 'on') {
+                $selected_module_id = $hsw_module_id;
+            } elseif ($selected_finance_alerts === 'on') {
+                $selected_module_id = $finance_module_id;
+            } elseif ($selected_hr_alerts === 'on') {
+                $selected_module_id = $hr_module_id;
             } else {
-                echo '<option value="' . esc_attr($module->ID) . '"' . selected($module_type, $module->post_name, false) . '>' . esc_html($module->post_title) . '</option>';
+                $selected_module_id = '';
             }
+            $selected_finance_alerts = sanitize_text_field($_GET['finance_alerts'] ?? '');
+            $selected_hr_alerts = sanitize_text_field($_GET['hr_alerts'] ?? '');
+
+
+            echo '<tr>';
+            echo '<th scope="row"><label for="module_type">Email template</label></th>';
+            echo '<td>';
+            echo '<select name="module_type" id="module_type" required>';
+            echo '<option value="">Select template</option>';
+            $modules = get_posts(array(
+                'post_type' => 'module',
+                'post_status' => 'publish',
+                'numberposts' => -1
+            ));
+
+            foreach ($modules as $module) {
+                if ($docId && $moduleId && $module->ID != $moduleId || $module->ID == $selected_module_id) {
+                    echo '<option value="' . esc_attr($module->ID) . '" selected="true">' . esc_html($module->post_title) . '</option>';
+                } else {
+                    echo '<option value="' . esc_attr($module->ID) . '"' . selected($module_type, $module->post_name, false) . '>' . esc_html($module->post_title) . '</option>';
+                }
+            }
+            echo '<option value="general"' . selected($module_type, 'general', false) . '>General</option>';
+            echo '</select>';
         }
-        echo '<option value="general"' . selected($module_type, 'general', false) . '>General</option>';
-        echo '</select>';
         echo '</td>';
         echo '</tr>';
 
@@ -765,7 +819,7 @@ add_action('admin_init', 'infospace_export_users_report_csv');
 function infospace_export_users_report_csv()
 {
     if (isset($_GET['export_csv']) && $_GET['export_csv'] == '1' && isset($_GET['page']) && $_GET['page'] == 'alerts') {
-       if (!current_user_can('manage_options') && !current_user_can('hr_editor') && !current_user_can('finance_editor') && !current_user_can('hsw_editor')) {
+        if (!current_user_can('manage_options') && !current_user_can('hr_editor') && !current_user_can('finance_editor') && !current_user_can('hsw_editor')) {
             wp_die('You do not have permission to access this page.');
         }
 

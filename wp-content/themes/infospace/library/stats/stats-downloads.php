@@ -6,7 +6,7 @@ function add_document_report_submenu()
         'reporting',
         'Document Report',
         'Document Report',
-        'manage_options',
+        'access_module_admin_page',
         'document-report',
         'document_report_page_callback'
     );
@@ -52,6 +52,20 @@ function document_report_page_callback()
     $end_date = sanitize_text_field($_GET['end_date'] ?? '');
     $document_id = intval($_GET['document_id'] ?? 0);
     $module_id = intval($_GET['module_id'] ?? 0);
+    global $finance_module_id, $hr_module_id, $hsw_module_id;
+    $current_user = wp_get_current_user();
+    $roles = (array) $current_user->roles;
+    $restricted_module_id = 0;
+    if (in_array('finance_editor', $roles, true)) {
+        $restricted_module_id = intval($finance_module_id);
+    } elseif (in_array('hr_editor', $roles, true)) {
+        $restricted_module_id = intval($hr_module_id);
+    } elseif (in_array('hsw_editor', $roles, true)) {
+        $restricted_module_id = intval($hsw_module_id);
+    }
+    if ($restricted_module_id) {
+        $module_id = $restricted_module_id;
+    }
     $sort_order = ($_GET['sort_order'] ?? 'DESC') === 'ASC' ? 'ASC' : 'DESC';
 
     // Buffer output for better performance
@@ -88,16 +102,22 @@ function document_report_page_callback()
             <br><br><br><br>
 
             <label for="module_id">Module:&nbsp;</label>
-            <select name="module_id" id="module_id">
-                <option value="">All Modules</option>
-                <?php
-                foreach ($modules as $mod_id) {
-                    $mod_title = get_the_title($mod_id);
-                    $selected = ($module_id == $mod_id) ? ' selected' : '';
-                    echo '<option value="' . esc_attr($mod_id) . '"' . $selected . '>' . esc_html($mod_title) . '</option>';
-                }
-                ?>
-            </select>
+            <?php if ($restricted_module_id): ?>
+                <?php $module_title = get_the_title($restricted_module_id); ?>
+                <input type="hidden" name="module_id" value="<?php echo esc_attr($restricted_module_id); ?>">
+                <span><?php echo $module_title ? esc_html($module_title) : 'Module ' . esc_html($restricted_module_id); ?></span>
+            <?php else: ?>
+                <select name="module_id" id="module_id">
+                    <option value="">All Modules</option>
+                    <?php
+                    foreach ($modules as $mod_id) {
+                        $mod_title = get_the_title($mod_id);
+                        $selected = ($module_id == $mod_id) ? ' selected' : '';
+                        echo '<option value="' . esc_attr($mod_id) . '"' . $selected . '>' . esc_html($mod_title) . '</option>';
+                    }
+                    ?>
+                </select>
+            <?php endif; ?>
 
             <br><br>
 
@@ -147,7 +167,7 @@ function document_report_page_callback()
 
 // Separate function for database queries
 function get_document_report_data($start_date, $end_date, $document_id, $module_id, $sort_order, $users = null)
-{ 
+{
     global $wpdb, $prefix;
 
     $where_conditions = array("content_type_id = 12");
@@ -212,32 +232,29 @@ function get_document_report_data($start_date, $end_date, $document_id, $module_
                 $attached_document_ids = array_unique(array_filter(array_map('intval', $attached_document_ids)));
                 $where_conditions[] = "object_id IN (" . implode(',', $attached_document_ids) . ")";
             }
-
-            
-            
         }
-        
     }
 
     if ($users && is_array($users) && !empty($users)) {
-                $user_ids = array_unique(array_filter(array_map('intval', $users)));
-                if ($user_ids) {
-                    $where_conditions[] = "user_id IN (" . implode(',', $user_ids) . ")";
-                }
-            }
+        $user_ids = array_unique(array_filter(array_map('intval', $users)));
+        if ($user_ids) {
+            $where_conditions[] = "user_id IN (" . implode(',', $user_ids) . ")";
+        }
+    }
 
     $where_clause = "WHERE " . implode(" AND ", $where_conditions);
 
-    $query = $wpdb->prepare("
-        SELECT object_id, repr, 
-               COUNT(*) as access_count,
-               COUNT(DISTINCT ip_address) as unique_downloads
-        FROM {$wpdb->prefix}user_logs
-        {$where_clause}
-        GROUP BY object_id
-        ORDER BY access_count {$sort_order}
-        LIMIT 40
-    ", $where_params);
+   $query_sql = "
+       SELECT object_id, repr, 
+              COUNT(*) as access_count,
+              COUNT(DISTINCT ip_address) as unique_downloads
+       FROM {$wpdb->prefix}user_logs
+       {$where_clause}
+       GROUP BY object_id
+       ORDER BY access_count {$sort_order}
+       LIMIT 40
+    ";
+    $query = $where_params ? $wpdb->prepare($query_sql, $where_params) : $query_sql;
 
     return $wpdb->get_results($query);
 }
@@ -263,6 +280,20 @@ function infospace_export_document_report_csv_ftn()
     $end_date = sanitize_text_field($_GET['end_date'] ?? '');
     $document_id = intval($_GET['document_id'] ?? 0);
     $module_id = intval($_GET['module_id'] ?? 0);
+    global $finance_module_id, $hr_module_id, $hsw_module_id;
+    $current_user = wp_get_current_user();
+    $roles = (array) $current_user->roles;
+    $restricted_module_id = 0;
+    if (in_array('finance_editor', $roles, true)) {
+        $restricted_module_id = intval($finance_module_id);
+    } elseif (in_array('hr_editor', $roles, true)) {
+        $restricted_module_id = intval($hr_module_id);
+    } elseif (in_array('hsw_editor', $roles, true)) {
+        $restricted_module_id = intval($hsw_module_id);
+    }
+    if ($restricted_module_id) {
+        $module_id = $restricted_module_id;
+    }
     $sort_order = ($_GET['sort_order'] ?? 'DESC') === 'ASC' ? 'ASC' : 'DESC';
 
     $results = get_document_report_data($start_date, $end_date, $document_id, $module_id, $sort_order);

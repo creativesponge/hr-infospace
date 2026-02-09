@@ -254,6 +254,9 @@ function create_finance_editor_role()
     );
     $editor_caps = $editor_caps;
 
+    // Add custom capability for accessing reports
+    $editor_caps['access_module_admin_page'] = true;
+    
     // Add the finance editor role with editor capabilities
     add_role('finance_editor', 'Finance Editor', $editor_caps);
 }
@@ -283,6 +286,16 @@ function restrict_finance_editor_access($query)
                     'fields' => 'ids'
                 ));
                 $allowed_ids = array_merge([$finance_page], $children);
+
+                // Also allow posts where current user is the author
+                $user_posts = get_posts(array(
+                    'post_type' => 'resource_page',
+                    'author' => get_current_user_id(),
+                    'numberposts' => -1,
+                    'fields' => 'ids'
+                ));
+                $allowed_ids = array_merge($allowed_ids, $user_posts);
+
                 $query->set('post__in', $allowed_ids);
             }
         }
@@ -307,7 +320,7 @@ function hide_admin_menus_for_finance_editor()
         remove_menu_page('tools.php'); // Tools
         remove_menu_page('options-general.php'); // Settings
         remove_menu_page('edit.php?post_type=module'); // Module
-       // remove_menu_page('edit.php?post_type=newsletter'); // Newsletter
+        // remove_menu_page('edit.php?post_type=newsletter'); // Newsletter
         remove_menu_page('edit.php?post_type=enquiry'); // Enquiry
         //remove_menu_page('edit.php?post_type=page'); // Pages
         remove_menu_page('edit.php?post_type=survey'); // Surveys
@@ -394,6 +407,9 @@ function create_hr_editor_role()
 
     $editor_caps = $editor_caps;
 
+    // Add custom capability for accessing reports
+    $editor_caps['access_module_admin_page'] = true;
+
     // Add the HR editor role with editor capabilities
     add_role('hr_editor', 'HR Editor', $editor_caps);
 }
@@ -423,8 +439,16 @@ function restrict_hr_editor_access($query)
                     'fields' => 'ids'
                 ));
                 $allowed_ids = array_merge([$hr_page], $children);
-                $query->set('post__in', $allowed_ids);
             }
+            // Restrict post editing access to page ID $hr_page and its children// Also allow posts where current user is the author
+            $user_posts = get_posts(array(
+                'post_type' => 'resource_page',
+                'author' => get_current_user_id(),
+                'numberposts' => -1,
+                'fields' => 'ids'
+            ));
+            $allowed_ids = array_merge($allowed_ids, $user_posts);
+            $query->set('post__in', $allowed_ids);
         }
     }
 }
@@ -533,6 +557,9 @@ function create_hsw_editor_role()
     //$editor = get_role('editor');
     $editor_caps = $editor_caps;
 
+    // Add custom capability for accessing reports
+    $editor_caps['access_module_admin_page'] = true;
+
     // Add the HSW editor role with editor capabilities
     add_role('hsw_editor', 'HSW Editor', $editor_caps);
 }
@@ -562,8 +589,19 @@ function restrict_hsw_editor_access($query)
                     'fields' => 'ids'
                 ));
                 $allowed_ids = array_merge([$hsafety_page], $children);
-                $query->set('post__in', $allowed_ids);
+                
             }
+
+            // Also allow posts where current user is the author
+                $user_posts = get_posts(array(
+                    'post_type' => 'resource_page',
+                    'author' => get_current_user_id(),
+                    'numberposts' => -1,
+                    'fields' => 'ids'
+                ));
+                $allowed_ids = array_merge($allowed_ids, $user_posts);
+
+                $query->set('post__in', $allowed_ids);
         }
     }
 }
@@ -586,7 +624,7 @@ function hide_admin_menus_for_hsw_editor()
         remove_menu_page('tools.php'); // Tools
         remove_menu_page('options-general.php'); // Settings
         remove_menu_page('edit.php?post_type=module'); // Module
-       // remove_menu_page('edit.php?post_type=newsletter'); // Newsletter
+        // remove_menu_page('edit.php?post_type=newsletter'); // Newsletter
         remove_menu_page('edit.php?post_type=enquiry'); // Enquiry
         // remove_menu_page('edit.php?post_type=page'); // Pages
         remove_menu_page('edit.php?post_type=survey'); // Surveys
@@ -633,3 +671,13 @@ function restrict_hsw_editor_post_access()
     }
 }
 add_action('admin_init', 'restrict_hsw_editor_post_access');
+
+// Grant report access capability to administrator role
+function grant_admin_report_access()
+{
+    $admin_role = get_role('administrator');
+    if ($admin_role) {
+        $admin_role->add_cap('access_module_admin_page');
+    }
+}
+add_action('init', 'grant_admin_report_access');

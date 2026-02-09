@@ -6,7 +6,7 @@ function add_login_report_submenu()
         'reporting',
         'Login Report',
         'Login Report',
-        'manage_options',
+        'access_module_admin_page',
         'login-report',
         'login_report_page_callback'
     );

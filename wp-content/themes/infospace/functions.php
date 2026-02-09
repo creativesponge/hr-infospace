@@ -20,6 +20,10 @@ $site_url = get_site_url();
 
 $resource_pages = array(1786, 1581, 1585, 1932);
 
+$finance_module_id =1736;
+$hr_module_id =1577;
+$hsw_module_id =1738;
+
 if ($site_url == 'https://hr-infospace:8890' || $site_url == 'https://localhost:3000') {
     // dev
     $finance_page = 1737;

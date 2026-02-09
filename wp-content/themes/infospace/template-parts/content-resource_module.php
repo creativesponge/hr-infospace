@@ -704,7 +704,8 @@ $download_svg = ob_get_clean();
 
 			<?php
 			// Show the most recent 'updates log' custom post type
-			if (!empty($updatesLog)  && $moduleMeta['module_id'] == 1577) {
+			global $hr_module_id;
+			if (!empty($updatesLog)  && $moduleMeta['module_id'] == $hr_module_id) {
 				echo '<div class="module-panel module-panel--log">';
 				echo '<div class="module-panel__header" style="background-color: ' . esc_html($moduleMeta['module_color']) . ';">';
 				echo '<h2>Updates log</h2>';
