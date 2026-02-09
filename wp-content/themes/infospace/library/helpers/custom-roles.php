@@ -256,7 +256,7 @@ function create_finance_editor_role()
 
     // Add custom capability for accessing reports
     $editor_caps['access_module_admin_page'] = true;
-    
+
     // Add the finance editor role with editor capabilities
     add_role('finance_editor', 'Finance Editor', $editor_caps);
 }
@@ -279,14 +279,24 @@ function restrict_finance_editor_access($query)
 
             // Restrict resource_page access to page ID $finance_page and its children
             if ($pagenow == 'edit.php' && isset($_GET['post_type']) && $_GET['post_type'] == 'resource_page') {
-                $children = get_posts(array(
-                    'post_type' => 'resource_page',
-                    'post_parent' => $finance_page,
-                    'numberposts' => -1,
-                    'fields' => 'ids'
-                ));
-                $allowed_ids = array_merge([$finance_page], $children);
+                $allowed_ids = array($finance_page);
+                $this_page = $finance_page;
 
+                while ($this_page) {
+                    $children = get_posts(array(
+                        'post_type' => 'resource_page',
+                        'post_parent' => $this_page,
+                        'numberposts' => -1,
+                        'fields' => 'ids'
+                    ));
+                    
+                    if (empty($children)) {
+                        break;
+                    }
+                    
+                    $allowed_ids = array_merge($allowed_ids, $children);
+                    $this_page = reset($children);
+                }
                 // Also allow posts where current user is the author
                 $user_posts = get_posts(array(
                     'post_type' => 'resource_page',
@@ -432,23 +442,35 @@ function restrict_hr_editor_access($query)
 
             // Restrict resource_page access to page ID $hr_page and its children
             if ($pagenow == 'edit.php' && isset($_GET['post_type']) && $_GET['post_type'] == 'resource_page') {
-                $children = get_posts(array(
+               $allowed_ids = array($hr_page);
+                $this_page = $hr_page;
+
+                while ($this_page) {
+                    $children = get_posts(array(
+                        'post_type' => 'resource_page',
+                        'post_parent' => $this_page,
+                        'numberposts' => -1,
+                        'fields' => 'ids'
+                    ));
+                    
+                    if (empty($children)) {
+                        break;
+                    }
+                    
+                    $allowed_ids = array_merge($allowed_ids, $children);
+                    $this_page = reset($children);
+                }
+
+                // Also allow posts where current user is the author
+                $user_posts = get_posts(array(
                     'post_type' => 'resource_page',
-                    'post_parent' => $hr_page,
+                    'author' => get_current_user_id(),
                     'numberposts' => -1,
                     'fields' => 'ids'
                 ));
-                $allowed_ids = array_merge([$hr_page], $children);
+                $allowed_ids = array_merge($allowed_ids, $user_posts);
+                $query->set('post__in', $allowed_ids);
             }
-            // Restrict post editing access to page ID $hr_page and its children// Also allow posts where current user is the author
-            $user_posts = get_posts(array(
-                'post_type' => 'resource_page',
-                'author' => get_current_user_id(),
-                'numberposts' => -1,
-                'fields' => 'ids'
-            ));
-            $allowed_ids = array_merge($allowed_ids, $user_posts);
-            $query->set('post__in', $allowed_ids);
         }
     }
 }
@@ -582,17 +604,26 @@ function restrict_hsw_editor_access($query)
 
             // Restrict resource_page access to page ID $hsafety_page and its children
             if ($pagenow == 'edit.php' && isset($_GET['post_type']) && $_GET['post_type'] == 'resource_page') {
-                $children = get_posts(array(
-                    'post_type' => 'resource_page',
-                    'post_parent' => $hsafety_page,
-                    'numberposts' => -1,
-                    'fields' => 'ids'
-                ));
-                $allowed_ids = array_merge([$hsafety_page], $children);
-                
-            }
+                $allowed_ids = array($hsafety_page);
+                $this_page = $hsafety_page;
 
-            // Also allow posts where current user is the author
+                while ($this_page) {
+                    $children = get_posts(array(
+                        'post_type' => 'resource_page',
+                        'post_parent' => $this_page,
+                        'numberposts' => -1,
+                        'fields' => 'ids'
+                    ));
+                    
+                    if (empty($children)) {
+                        break;
+                    }
+                    
+                    $allowed_ids = array_merge($allowed_ids, $children);
+                    $this_page = reset($children);
+                }
+
+                // Also allow posts where current user is the author
                 $user_posts = get_posts(array(
                     'post_type' => 'resource_page',
                     'author' => get_current_user_id(),
@@ -602,6 +633,7 @@ function restrict_hsw_editor_access($query)
                 $allowed_ids = array_merge($allowed_ids, $user_posts);
 
                 $query->set('post__in', $allowed_ids);
+            }
         }
     }
 }
