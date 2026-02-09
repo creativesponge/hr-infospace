@@ -15,17 +15,40 @@
     border-bottom-right-radius: rem-calc(50);
   }
   &:first-child {
-    margin-top: calc(-1em - rem-calc(60));
+    //margin-top: calc(-1em - rem-calc(60));
     @include breakpoint(large) {
-      margin-top: calc(-3em - rem-calc(98));
+      //  margin-top: calc(-3em - rem-calc(98));
     }
   }
+  .panel-header {
+    &__inner {
+      min-height: 0;
+    }
+    &__content {
+      padding: rem-calc(0 0 20 0);
+      @include breakpoint(medium) {
+        padding: rem-calc(30 0 50 0);
+      }
+      @include breakpoint(large) {
+        padding: rem-calc(40 0 80 35);
+      }
+      @include breakpoint(xlarge) {
+        padding: rem-calc(50 0 90 0);
+      }
+    }
+
+    h1 {
+      margin-bottom: 0;
+    }
+  }
+
   &__container {
     padding: 0;
 
     display: flex;
     flex-direction: column;
-
+    position: relative;
+    z-index: 1;
     @include breakpoint(medium) {
       flex-direction: row;
     }
@@ -38,21 +61,21 @@
   &__content {
     order: 2;
     //color:$black;
-    padding: rem-calc(30 20 0 20);
+    padding: rem-calc(0 20 0 20);
     @include breakpoint(medium) {
-      padding: rem-calc(70 30 30 30);
+      padding: rem-calc(0 30 30 30);
       width: 40%;
       display: flex;
       justify-content: flex-end;
     }
 
     @include breakpoint(large) {
-      padding: rem-calc(200 40 0 67);
+      padding: rem-calc(0 40 0 67);
       width: 36%;
     }
 
     @include breakpoint(xlarge) {
-      padding: rem-calc(200 60 0 67);
+      padding: rem-calc(0 60 0 67);
     }
     a {
       color: $infospace-black;
@@ -64,27 +87,18 @@
     h2 {
       font-size: rem-calc(12);
       margin-bottom: 1.2em;
-      margin-top: 1.3em;
+      margin-top: 1em;
       color: $infospace-black;
       @include breakpoint(medium) {
         font-size: rem-calc(14);
         margin-bottom: 1.9em;
-        margin-top: 1.9em;
+        margin-top: 1em;
       }
 
       @include breakpoint(large) {
         font-size: rem-calc(18);
 
         margin-bottom: 1.2em;
-      }
-    }
-    h1 {
-      margin-bottom: 1.6em;
-      @include breakpoint(medium) {
-        margin-bottom: 1.9em;
-      }
-      @include breakpoint(large) {
-        margin-bottom: 1.6em;
       }
     }
   }
@@ -99,8 +113,9 @@
     @include breakpoint(medium) {
       width: 60%;
       order: 3;
+      text-align: left;
       margin: auto;
-      margin-top: rem-calc(-40);
+      margin-top: rem-calc(-120);
       margin-bottom: rem-calc(-60);
     }
 
@@ -109,33 +124,35 @@
       //margin-bottom: rem-calc(-60);
       margin-bottom: rem-calc(-160);
       margin-right: rem-calc(-60);
-      margin-top: rem-calc(65);
+      margin-top: rem-calc(-150);
     }
     @include breakpoint(xlarge) {
       margin-bottom: rem-calc(-220);
-      margin-top: rem-calc(65);
+      margin-top: rem-calc(-200);
+      //margin-right: rem-calc(-60);
     }
     img {
       margin: 0 auto;
 
       @include breakpoint(medium) {
         max-height: rem-calc(400);
-        margin-left: rem-calc(100);
+        margin-left: rem-calc(40);
         border-radius: 50%;
         //overflow: hidden;
         transform-origin: 0 50%;
-        transform: scale(1.2);
+        transform: scale(1.6);
         width: auto;
       }
 
       @include breakpoint(large) {
         margin-left: rem-calc(50);
-        transform: scale(1.2);
+        transform: scale(1.7);
         //max-height: 86%;
         max-height: rem-calc(500);
       }
       @include breakpoint(xlarge) {
-        transform: scale(1.54);
+        transform: scale(2);
+        margin-left: 0;
         //max-height: 88%;
         max-height: rem-calc(560);
       }
@@ -143,6 +160,8 @@
   }
   &__form {
     max-width: $global-width;
+    position: relative;
+    z-index: 3;
     margin-left: auto;
     margin-right: auto;
     position: relative;
@@ -260,6 +279,38 @@
       &::after {
         left: rem-calc(8);
         width: rem-calc(8.5);
+      }
+    }
+  }
+
+  &--has-module-color {
+    .contact-form__image {
+      
+      img {
+        //margin: 0 auto;
+
+        @include breakpoint(medium) {
+          max-height: rem-calc(280);
+          margin-left: rem-calc(120);
+          //border-radius: 50%;
+          //overflow: hidden;
+          //transform-origin: 0 50%;
+          //transform: scale(1.6);
+          //width: auto;
+        }
+
+        @include breakpoint(large) {
+          margin-left: rem-calc(120);
+          //;;transform: scale(1.7);
+          //max-height: 86%;
+          max-height: rem-calc(410);
+        }
+        @include breakpoint(xlarge) {
+        
+       
+          //max-height: 88%;
+           max-height: rem-calc(560);
+        }
       }
     }
   }

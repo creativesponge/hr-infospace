@@ -9,16 +9,37 @@ $imageId = (array_key_exists('attachmentId', $block_attributes)) ? $block_attrib
 $attachmentIdMob = (array_key_exists('attachmentIdMob', $block_attributes)) ? $block_attributes['attachmentIdMob'] : $imageId;
 $current_module_id_global = isset($_SESSION['current_module_id']) ? $_SESSION['current_module_id'] : '';
 $pageModuleMeta = get_current_module_meta($current_module_id_global);
+$full_meta = theme_get_meta($current_module_id_global);
+// Ensure $moduleMeta is an array
+if (!is_array($pageModuleMeta)) {
+	$pageModuleMeta = array();
+}
 
+$moduleColour = isset($pageModuleMeta['module_color']) ? $pageModuleMeta['module_color'] : '';
+$has_module_class = !empty($moduleColour) ? ' contact-form--has-module-color' : '';
 
 ?>
-<section class="contact-form full-width">
 
+<section class="contact-form account-settings full-width<?php echo esc_attr($has_module_class); ?>">
+	<header class="panel-header full-width show-for-medium" style="background: <?php echo esc_html($moduleColour); ?>;">
+		<div class="panel-header__inner">
+			<div class="panel-header__content">
+				<?php echo $block_content; ?>
+			</div>
+		</div>
+	</header>
 	<div class="contact-form__container">
 
 		<div class="contact-form__content">
+
 			<div class="contact-form__text">
-				<?php echo $block_content; ?>
+				<header class="panel-header full-width hide-for-medium" style="background: <?php echo esc_html($moduleColour); ?>;">
+					<div class="panel-header__inner">
+						<div class="panel-header__content">
+							<?php echo $block_content; ?>
+						</div>
+					</div>
+				</header>
 				<?php
 				// Loop through modules post type to get contact information
 				$modules_query = new WP_Query(array(
@@ -38,11 +59,11 @@ $pageModuleMeta = get_current_module_meta($current_module_id_global);
 							<div class="module-contact">
 								<?php echo '<h2><strong>' . get_the_title() . '</strong></h2>'; ?>
 								<p><?php if ($phone) : ?>
-									 <?php echo esc_html($phone); ?>
-								<?php endif; ?>
-								<?php if ($email) : ?>
-									<br/><a href="mailto:<?php echo esc_attr($email); ?>"><?php echo esc_html($email); ?></a>
-								<?php endif; ?>
+										<?php echo esc_html($phone); ?>
+									<?php endif; ?>
+									<?php if ($email) : ?>
+										<br /><a href="mailto:<?php echo esc_attr($email); ?>"><?php echo esc_html($email); ?></a>
+									<?php endif; ?>
 								</p>
 							</div>
 				<?php endif;
@@ -50,7 +71,7 @@ $pageModuleMeta = get_current_module_meta($current_module_id_global);
 					wp_reset_postdata();
 				endif;
 				?>
-				
+
 			</div>
 		</div>
 		<?php if ($imageId) { ?>
@@ -109,7 +130,7 @@ $pageModuleMeta = get_current_module_meta($current_module_id_global);
 					Please confirm your consent to proceed.
 				</div>
 
-				
+
 			</div>
 
 			<button type="submit">Send</button>
