@@ -269,8 +269,11 @@ function restrict_finance_editor_access($query)
         $user = wp_get_current_user();
 
         if (in_array('finance_editor', $user->roles)) {
+
             global $pagenow;
             global $finance_page;
+            global $prefix;
+
             // Restrict to edit.php (post list) for resource_page only
             if ($pagenow == 'edit.php' && isset($_GET['post_type']) && !in_array($_GET['post_type'], ['resource_page', 'document', 'page_link', 'newsletter',  'post', 'page'])) {
                 wp_redirect(admin_url('edit.php?post_type=resource_page'));
@@ -289,11 +292,11 @@ function restrict_finance_editor_access($query)
                         'numberposts' => -1,
                         'fields' => 'ids'
                     ));
-                    
+
                     if (empty($children)) {
                         break;
                     }
-                    
+
                     $allowed_ids = array_merge($allowed_ids, $children);
                     $this_page = reset($children);
                 }
@@ -307,6 +310,52 @@ function restrict_finance_editor_access($query)
                 $allowed_ids = array_merge($allowed_ids, $user_posts);
 
                 $query->set('post__in', $allowed_ids);
+            }
+
+            // Restrict document access to documents attached to page ID $finance_page and its children
+            if ($pagenow == 'edit.php' && isset($_GET['post_type']) && $_GET['post_type'] == 'document') {
+                $allowed_docs = array();
+                $this_page = $finance_page;
+
+                while ($this_page) {
+                    $children = get_posts(array(
+                        'post_type' => 'resource_page',
+                        'post_parent' => $this_page,
+                        'numberposts' => -1,
+                        'fields' => 'ids'
+                    ));
+
+                    if (empty($children)) {
+                        break;
+                    }
+
+                    // Get attached documents from custom field
+                    foreach ($children as $child_id) {
+                        $docs = get_post_meta($child_id, $prefix . 'resource_attached_documents', false);
+                        echo $child_id;
+                        if (is_array($docs) && !empty($docs)) {
+                            $docs = array_values($docs[0] ?? []);
+                        }
+
+                        $allowed_docs = array_merge($allowed_docs, $docs);
+                    }
+
+                    $this_page = reset($children);
+                }
+
+                $allowed_docs = array_unique($allowed_docs);
+
+
+                // Also allow docs where current user is the author
+                $user_posts = get_posts(array(
+                    'post_type' => 'document',
+                    'author' => get_current_user_id(),
+                    'numberposts' => -1,
+                    'fields' => 'ids'
+                ));
+                $allowed_docs = array_merge($allowed_docs, $user_posts);
+
+                $query->set('post__in', $allowed_docs);
             }
         }
     }
@@ -434,6 +483,8 @@ function restrict_hr_editor_access($query)
         if (in_array('hr_editor', $user->roles)) {
             global $pagenow;
             global $hr_page;
+            global $prefix;
+
             // Restrict to edit.php (post list) for resource_page only
             if ($pagenow == 'edit.php' && isset($_GET['post_type']) && !in_array($_GET['post_type'], ['resource_page', 'document', 'page_link', 'newsletter',  'post', 'page'])) {
                 wp_redirect(admin_url('edit.php?post_type=resource_page'));
@@ -442,7 +493,7 @@ function restrict_hr_editor_access($query)
 
             // Restrict resource_page access to page ID $hr_page and its children
             if ($pagenow == 'edit.php' && isset($_GET['post_type']) && $_GET['post_type'] == 'resource_page') {
-               $allowed_ids = array($hr_page);
+                $allowed_ids = array($hr_page);
                 $this_page = $hr_page;
 
                 while ($this_page) {
@@ -452,11 +503,11 @@ function restrict_hr_editor_access($query)
                         'numberposts' => -1,
                         'fields' => 'ids'
                     ));
-                    
+
                     if (empty($children)) {
                         break;
                     }
-                    
+
                     $allowed_ids = array_merge($allowed_ids, $children);
                     $this_page = reset($children);
                 }
@@ -470,6 +521,52 @@ function restrict_hr_editor_access($query)
                 ));
                 $allowed_ids = array_merge($allowed_ids, $user_posts);
                 $query->set('post__in', $allowed_ids);
+            }
+
+            // Restrict document access to documents attached to page ID $hr_page and its children
+            if ($pagenow == 'edit.php' && isset($_GET['post_type']) && $_GET['post_type'] == 'document') {
+                $allowed_docs = array();
+                $this_page = $hr_page;
+
+                while ($this_page) {
+                    $children = get_posts(array(
+                        'post_type' => 'resource_page',
+                        'post_parent' => $this_page,
+                        'numberposts' => -1,
+                        'fields' => 'ids'
+                    ));
+
+                    if (empty($children)) {
+                        break;
+                    }
+
+                    // Get attached documents from custom field
+                    foreach ($children as $child_id) {
+                        $docs = get_post_meta($child_id, $prefix . 'resource_attached_documents', false);
+                        echo $child_id;
+                        if (is_array($docs) && !empty($docs)) {
+                            $docs = array_values($docs[0] ?? []);
+                        }
+
+                        $allowed_docs = array_merge($allowed_docs, $docs);
+                    }
+
+                    $this_page = reset($children);
+                }
+
+                $allowed_docs = array_unique($allowed_docs);
+
+
+                // Also allow docs where current user is the author
+                $user_posts = get_posts(array(
+                    'post_type' => 'document',
+                    'author' => get_current_user_id(),
+                    'numberposts' => -1,
+                    'fields' => 'ids'
+                ));
+                $allowed_docs = array_merge($allowed_docs, $user_posts);
+
+                $query->set('post__in', $allowed_docs);
             }
         }
     }
@@ -596,6 +693,8 @@ function restrict_hsw_editor_access($query)
         if (in_array('hsw_editor', $user->roles)) {
             global $pagenow;
             global $hsafety_page;
+            global $prefix;
+            
             // Restrict to edit.php (post list) for resource_page only
             if ($pagenow == 'edit.php' && isset($_GET['post_type']) && !in_array($_GET['post_type'], ['resource_page', 'document', 'page_link',  'newsletter', 'post', 'page'])) {
                 wp_redirect(admin_url('edit.php?post_type=resource_page'));
@@ -614,11 +713,11 @@ function restrict_hsw_editor_access($query)
                         'numberposts' => -1,
                         'fields' => 'ids'
                     ));
-                    
+
                     if (empty($children)) {
                         break;
                     }
-                    
+
                     $allowed_ids = array_merge($allowed_ids, $children);
                     $this_page = reset($children);
                 }
@@ -633,6 +732,52 @@ function restrict_hsw_editor_access($query)
                 $allowed_ids = array_merge($allowed_ids, $user_posts);
 
                 $query->set('post__in', $allowed_ids);
+            }
+
+            // Restrict document access to documents attached to page ID $hsafety_page and its children
+            if ($pagenow == 'edit.php' && isset($_GET['post_type']) && $_GET['post_type'] == 'document') {
+                $allowed_docs = array();
+                $this_page = $hsafety_page;
+
+                while ($this_page) {
+                    $children = get_posts(array(
+                        'post_type' => 'resource_page',
+                        'post_parent' => $this_page,
+                        'numberposts' => -1,
+                        'fields' => 'ids'
+                    ));
+
+                    if (empty($children)) {
+                        break;
+                    }
+
+                    // Get attached documents from custom field
+                    foreach ($children as $child_id) {
+                        $docs = get_post_meta($child_id, $prefix . 'resource_attached_documents', false);
+                        echo $child_id;
+                        if (is_array($docs) && !empty($docs)) {
+                            $docs = array_values($docs[0] ?? []);
+                        }
+
+                        $allowed_docs = array_merge($allowed_docs, $docs);
+                    }
+
+                    $this_page = reset($children);
+                }
+
+                $allowed_docs = array_unique($allowed_docs);
+
+
+                // Also allow docs where current user is the author
+                $user_posts = get_posts(array(
+                    'post_type' => 'document',
+                    'author' => get_current_user_id(),
+                    'numberposts' => -1,
+                    'fields' => 'ids'
+                ));
+                $allowed_docs = array_merge($allowed_docs, $user_posts);
+
+                $query->set('post__in', $allowed_docs);
             }
         }
     }
