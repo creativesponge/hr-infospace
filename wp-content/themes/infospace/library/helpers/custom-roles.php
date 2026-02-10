@@ -755,6 +755,63 @@ function restrict_hr_editor_access($query)
 
                 $query->set('post__in', $allowed_links);
             }
+
+            // Restrict newsletter access to attached to page ID $finance_page and its children
+            if ($pagenow == 'edit.php' && isset($_GET['post_type']) && $_GET['post_type'] == 'newsletter') {
+                $allowed_newsletters = array();
+                $this_page = $hr_page;
+
+                $allowed_resources = array($this_page);
+
+                // Get all the allowed resource pages
+                while ($this_page) {
+                    // get from child pages
+                    $children = get_posts(array(
+                        'post_type' => 'resource_page',
+                        'post_parent' => $this_page,
+                        'numberposts' => -1,
+                        'fields' => 'ids'
+                    ));
+
+                    if (empty($children)) {
+                        break;
+                    }
+
+                    $allowed_resources = array_merge($allowed_resources, $children);
+
+                    $this_page = reset($children);
+                }
+
+                $allowed_resources = array_unique($allowed_resources);
+                $allowed_newsletters_query = array();
+                // get the newsletters attached to the resources
+                $newsletters = get_posts(array(
+                    'post_type' => 'newsletter',
+                    'numberposts' => -1,
+                    'fields' => 'ids'
+                ));
+                $allowed_newsletters_query = array_merge($allowed_newsletters_query, $newsletters);
+
+                foreach ($newsletters as $newsletter_id) {
+                    $attached_resources = get_post_meta($newsletter_id, $prefix . 'newsletter_attached_resource_pages', true);
+                    if (is_array($attached_resources) && array_intersect($attached_resources, $allowed_resources)) {
+                        $allowed_newsletters[] = $newsletter_id;
+                    }
+                }
+
+                $allowed_newsletters = array_unique($allowed_newsletters);
+
+                // Also allow docs where current user is the author
+                $user_posts = get_posts(array(
+                    'post_type' => 'newsletter',
+                    'author' => get_current_user_id(),
+                    'numberposts' => -1,
+                    'fields' => 'ids'
+                ));
+
+                $allowed_newsletters = array_merge($allowed_newsletters, $user_posts);
+                $query->set('post__in', $allowed_newsletters);
+            }
         }
     }
 }
@@ -1028,6 +1085,63 @@ function restrict_hsw_editor_access($query)
                 $allowed_links = array_merge($allowed_links, $user_posts);
 
                 $query->set('post__in', $allowed_links);
+            }
+
+            // Restrict newsletter access to attached to page ID $finance_page and its children
+            if ($pagenow == 'edit.php' && isset($_GET['post_type']) && $_GET['post_type'] == 'newsletter') {
+                $allowed_newsletters = array();
+                $this_page = $hsafety_page;
+
+                $allowed_resources = array($this_page);
+
+                // Get all the allowed resource pages
+                while ($this_page) {
+                    // get from child pages
+                    $children = get_posts(array(
+                        'post_type' => 'resource_page',
+                        'post_parent' => $this_page,
+                        'numberposts' => -1,
+                        'fields' => 'ids'
+                    ));
+
+                    if (empty($children)) {
+                        break;
+                    }
+
+                    $allowed_resources = array_merge($allowed_resources, $children);
+
+                    $this_page = reset($children);
+                }
+
+                $allowed_resources = array_unique($allowed_resources);
+                $allowed_newsletters_query = array();
+                // get the newsletters attached to the resources
+                $newsletters = get_posts(array(
+                    'post_type' => 'newsletter',
+                    'numberposts' => -1,
+                    'fields' => 'ids'
+                ));
+                $allowed_newsletters_query = array_merge($allowed_newsletters_query, $newsletters);
+
+                foreach ($newsletters as $newsletter_id) {
+                    $attached_resources = get_post_meta($newsletter_id, $prefix . 'newsletter_attached_resource_pages', true);
+                    if (is_array($attached_resources) && array_intersect($attached_resources, $allowed_resources)) {
+                        $allowed_newsletters[] = $newsletter_id;
+                    }
+                }
+
+                $allowed_newsletters = array_unique($allowed_newsletters);
+
+                // Also allow docs where current user is the author
+                $user_posts = get_posts(array(
+                    'post_type' => 'newsletter',
+                    'author' => get_current_user_id(),
+                    'numberposts' => -1,
+                    'fields' => 'ids'
+                ));
+
+                $allowed_newsletters = array_merge($allowed_newsletters, $user_posts);
+                $query->set('post__in', $allowed_newsletters);
             }
         }
     }
