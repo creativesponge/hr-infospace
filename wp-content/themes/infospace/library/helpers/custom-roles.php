@@ -318,6 +318,15 @@ function restrict_finance_editor_access($query)
                 $this_page = $finance_page;
 
                 while ($this_page) {
+
+                    // Get the attached documents on the main page first
+                    $main_docs = get_post_meta($this_page, $prefix . 'resource_attached_documents', false);
+                    if (is_array($main_docs) && !empty($main_docs)) {
+                        $main_docs = array_values($main_docs[0] ?? []);
+                    }
+                    $allowed_docs = array_merge($allowed_docs, $main_docs);
+
+                    // Get attached documents from child pages
                     $children = get_posts(array(
                         'post_type' => 'resource_page',
                         'post_parent' => $this_page,
@@ -332,7 +341,7 @@ function restrict_finance_editor_access($query)
                     // Get attached documents from custom field
                     foreach ($children as $child_id) {
                         $docs = get_post_meta($child_id, $prefix . 'resource_attached_documents', false);
-                        echo $child_id;
+
                         if (is_array($docs) && !empty($docs)) {
                             $docs = array_values($docs[0] ?? []);
                         }
@@ -356,6 +365,118 @@ function restrict_finance_editor_access($query)
                 $allowed_docs = array_merge($allowed_docs, $user_posts);
 
                 $query->set('post__in', $allowed_docs);
+            }
+
+            // Restrict web link access to documents attached to page ID $finance_page and its children
+            if ($pagenow == 'edit.php' && isset($_GET['post_type']) && $_GET['post_type'] == 'page_link') {
+                $allowed_links = array();
+                $this_page = $finance_page;
+
+                //get the links on the main page first
+                $main_links = get_post_meta($this_page, $prefix . 'resource_attached_links', false);
+                if (is_array($main_links) && !empty($main_links)) {
+                    $main_links = array_values($main_links[0] ?? []);
+                }
+                $allowed_links = array_merge($allowed_links, $main_links);
+
+                while ($this_page) {
+
+                    // get from child pages
+                    $children = get_posts(array(
+                        'post_type' => 'resource_page',
+                        'post_parent' => $this_page,
+                        'numberposts' => -1,
+                        'fields' => 'ids'
+                    ));
+
+                    if (empty($children)) {
+                        break;
+                    }
+
+                    // Get attached links from custom field
+                    foreach ($children as $child_id) {
+                        $links = get_post_meta($child_id, $prefix . 'resource_attached_links', false);
+                        //var_dump($links);
+                        if (is_array($links) && !empty($links)) {
+                            $links = array_values($links[0] ?? []);
+                        }
+
+                        $allowed_links = array_merge($allowed_links, $links);
+                    }
+
+                    $this_page = reset($children);
+                }
+
+                $allowed_links = array_unique($allowed_links);
+                //var_dump($allowed_links);
+
+                // Also allow docs where current user is the author
+                $user_posts = get_posts(array(
+                    'post_type' => 'page_link',
+                    'author' => get_current_user_id(),
+                    'numberposts' => -1,
+                    'fields' => 'ids'
+                ));
+                $allowed_links = array_merge($allowed_links, $user_posts);
+
+                $query->set('post__in', $allowed_links);
+            }
+
+            // Restrict newsletter access to attached to page ID $finance_page and its children
+            if ($pagenow == 'edit.php' && isset($_GET['post_type']) && $_GET['post_type'] == 'newsletter') {
+                $allowed_newsletters = array();
+                $this_page = $finance_page;
+
+                $allowed_resources = array($this_page);
+
+                // Get all the allowed resource pages
+                while ($this_page) {
+                    // get from child pages
+                    $children = get_posts(array(
+                        'post_type' => 'resource_page',
+                        'post_parent' => $this_page,
+                        'numberposts' => -1,
+                        'fields' => 'ids'
+                    ));
+
+                    if (empty($children)) {
+                        break;
+                    }
+
+                    $allowed_resources = array_merge($allowed_resources, $children);
+
+                    $this_page = reset($children);
+                }
+
+                $allowed_resources = array_unique($allowed_resources);
+                $allowed_newsletters_query = array();
+                // get the newsletters attached to the resources
+                $newsletters = get_posts(array(
+                    'post_type' => 'newsletter',
+                    'numberposts' => -1,
+                    'fields' => 'ids'
+                ));
+                $allowed_newsletters_query = array_merge($allowed_newsletters_query, $newsletters);
+
+                foreach ($newsletters as $newsletter_id) {
+                    $attached_resources = get_post_meta($newsletter_id, $prefix . 'newsletter_attached_resource_pages', true);
+                    if (is_array($attached_resources) && array_intersect($attached_resources, $allowed_resources)) {
+                        $allowed_newsletters[] = $newsletter_id;
+                    }
+                }
+
+                $allowed_newsletters = array_unique($allowed_newsletters);
+
+                // Also allow docs where current user is the author
+                $user_posts = get_posts(array(
+                    'post_type' => 'newsletter',
+                    'author' => get_current_user_id(),
+                    'numberposts' => -1,
+                    'fields' => 'ids'
+                ));
+
+                $allowed_newsletters = array_merge($allowed_newsletters, $user_posts);
+                $query->set('post__in', $allowed_newsletters);
             }
         }
     }
@@ -401,6 +522,7 @@ function restrict_finance_editor_post_access()
     if (in_array('finance_editor', $user->roles)) {
         global $pagenow;
         global $finance_page;
+
         if (($pagenow == 'post.php' || $pagenow == 'post-new.php') && isset($_GET['resource_page'])) {
             $post_id = intval($_GET['post']);
             $post = get_post($post_id);
@@ -497,6 +619,7 @@ function restrict_hr_editor_access($query)
                 $this_page = $hr_page;
 
                 while ($this_page) {
+
                     $children = get_posts(array(
                         'post_type' => 'resource_page',
                         'post_parent' => $this_page,
@@ -529,6 +652,15 @@ function restrict_hr_editor_access($query)
                 $this_page = $hr_page;
 
                 while ($this_page) {
+
+                    // Get the attached documents on the main page first
+                    $main_docs = get_post_meta($this_page, $prefix . 'resource_attached_documents', false);
+                    if (is_array($main_docs) && !empty($main_docs)) {
+                        $main_docs = array_values($main_docs[0] ?? []);
+                    }
+                    $allowed_docs = array_merge($allowed_docs, $main_docs);
+
+                    // Get attached documents from child pages
                     $children = get_posts(array(
                         'post_type' => 'resource_page',
                         'post_parent' => $this_page,
@@ -543,7 +675,7 @@ function restrict_hr_editor_access($query)
                     // Get attached documents from custom field
                     foreach ($children as $child_id) {
                         $docs = get_post_meta($child_id, $prefix . 'resource_attached_documents', false);
-                        echo $child_id;
+
                         if (is_array($docs) && !empty($docs)) {
                             $docs = array_values($docs[0] ?? []);
                         }
@@ -567,6 +699,61 @@ function restrict_hr_editor_access($query)
                 $allowed_docs = array_merge($allowed_docs, $user_posts);
 
                 $query->set('post__in', $allowed_docs);
+            }
+
+            // Restrict web link access to documents attached to page ID $finance_page and its children
+            if ($pagenow == 'edit.php' && isset($_GET['post_type']) && $_GET['post_type'] == 'page_link') {
+                $allowed_links = array();
+                $this_page = $hr_page;
+
+                //get the links on the main page first
+                $main_links = get_post_meta($this_page, $prefix . 'resource_attached_links', false);
+                if (is_array($main_links) && !empty($main_links)) {
+                    $main_links = array_values($main_links[0] ?? []);
+                }
+                $allowed_links = array_merge($allowed_links, $main_links);
+
+                while ($this_page) {
+
+                    // get from child pages
+                    $children = get_posts(array(
+                        'post_type' => 'resource_page',
+                        'post_parent' => $this_page,
+                        'numberposts' => -1,
+                        'fields' => 'ids'
+                    ));
+
+                    if (empty($children)) {
+                        break;
+                    }
+
+                    // Get attached links from custom field
+                    foreach ($children as $child_id) {
+                        $links = get_post_meta($child_id, $prefix . 'resource_attached_links', false);
+                        //var_dump($links);
+                        if (is_array($links) && !empty($links)) {
+                            $links = array_values($links[0] ?? []);
+                        }
+
+                        $allowed_links = array_merge($allowed_links, $links);
+                    }
+
+                    $this_page = reset($children);
+                }
+
+                $allowed_links = array_unique($allowed_links);
+                //var_dump($allowed_links);
+
+                // Also allow docs where current user is the author
+                $user_posts = get_posts(array(
+                    'post_type' => 'page_link',
+                    'author' => get_current_user_id(),
+                    'numberposts' => -1,
+                    'fields' => 'ids'
+                ));
+                $allowed_links = array_merge($allowed_links, $user_posts);
+
+                $query->set('post__in', $allowed_links);
             }
         }
     }
@@ -694,7 +881,7 @@ function restrict_hsw_editor_access($query)
             global $pagenow;
             global $hsafety_page;
             global $prefix;
-            
+
             // Restrict to edit.php (post list) for resource_page only
             if ($pagenow == 'edit.php' && isset($_GET['post_type']) && !in_array($_GET['post_type'], ['resource_page', 'document', 'page_link',  'newsletter', 'post', 'page'])) {
                 wp_redirect(admin_url('edit.php?post_type=resource_page'));
@@ -740,6 +927,14 @@ function restrict_hsw_editor_access($query)
                 $this_page = $hsafety_page;
 
                 while ($this_page) {
+                    // Get the attached documents on the main page first
+                    $main_docs = get_post_meta($this_page, $prefix . 'resource_attached_documents', false);
+                    if (is_array($main_docs) && !empty($main_docs)) {
+                        $main_docs = array_values($main_docs[0] ?? []);
+                    }
+                    $allowed_docs = array_merge($allowed_docs, $main_docs);
+
+                    // Get attached documents from child pages
                     $children = get_posts(array(
                         'post_type' => 'resource_page',
                         'post_parent' => $this_page,
@@ -754,7 +949,7 @@ function restrict_hsw_editor_access($query)
                     // Get attached documents from custom field
                     foreach ($children as $child_id) {
                         $docs = get_post_meta($child_id, $prefix . 'resource_attached_documents', false);
-                        echo $child_id;
+
                         if (is_array($docs) && !empty($docs)) {
                             $docs = array_values($docs[0] ?? []);
                         }
@@ -778,6 +973,61 @@ function restrict_hsw_editor_access($query)
                 $allowed_docs = array_merge($allowed_docs, $user_posts);
 
                 $query->set('post__in', $allowed_docs);
+            }
+
+            // Restrict web link access to documents attached to page ID $finance_page and its children
+            if ($pagenow == 'edit.php' && isset($_GET['post_type']) && $_GET['post_type'] == 'page_link') {
+                $allowed_links = array();
+                $this_page = $hsafety_page;
+
+                //get the links on the main page first
+                $main_links = get_post_meta($this_page, $prefix . 'resource_attached_links', false);
+                if (is_array($main_links) && !empty($main_links)) {
+                    $main_links = array_values($main_links[0] ?? []);
+                }
+                $allowed_links = array_merge($allowed_links, $main_links);
+
+                while ($this_page) {
+
+                    // get from child pages
+                    $children = get_posts(array(
+                        'post_type' => 'resource_page',
+                        'post_parent' => $this_page,
+                        'numberposts' => -1,
+                        'fields' => 'ids'
+                    ));
+
+                    if (empty($children)) {
+                        break;
+                    }
+
+                    // Get attached links from custom field
+                    foreach ($children as $child_id) {
+                        $links = get_post_meta($child_id, $prefix . 'resource_attached_links', false);
+
+                        if (is_array($links) && !empty($links)) {
+                            $links = array_values($links[0] ?? []);
+                        }
+
+                        $allowed_links = array_merge($allowed_links, $links);
+                    }
+
+                    $this_page = reset($children);
+                }
+
+                $allowed_links = array_unique($allowed_links);
+                //var_dump($allowed_links);
+
+                // Also allow docs where current user is the author
+                $user_posts = get_posts(array(
+                    'post_type' => 'page_link',
+                    'author' => get_current_user_id(),
+                    'numberposts' => -1,
+                    'fields' => 'ids'
+                ));
+                $allowed_links = array_merge($allowed_links, $user_posts);
+
+                $query->set('post__in', $allowed_links);
             }
         }
     }
