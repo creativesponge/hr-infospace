@@ -792,14 +792,14 @@ $download_svg = ob_get_clean();
 						}
 					}
 					$child_attached_doc_ids = array_unique($child_attached_doc_ids);
-					//var_dump($child_attached_doc_ids);
+				
 					if (!in_array($docID, $child_attached_doc_ids)) {
 
 						continue;
 					}
 
 					$updated_meta = theme_get_meta($docID);
-					//var_dump($updated_meta);
+
 					if (!empty($updated_meta->is_updated)) {
 						$updatedDate = date('d/m/Y', $updated_meta->is_updated);
 					} elseif (!empty($updated_meta->is_new)) {
@@ -809,21 +809,16 @@ $download_svg = ob_get_clean();
 					}
 					$startDate = isset($updated_meta->start_date) ? $updated_meta->start_date : '';
 					$endDate = isset($updated_meta->end_date) ? $updated_meta->end_date : '';
-					//$attached_resources = isset($updated_meta->newsletter_attached_resource_pages) ? $updated_meta->newsletter_attached_resource_pages : '';
 					$attached_documents_list = isset($updated_meta->document_files) ? $updated_meta->document_files : '';
-					//var_dump($attached_documents_list[0]['theme_fieldsdoc_uploaded_file_id']);
-					//$attached_documents = '';
-					//$docId = '';
-
-
+				
 					if (!empty($endDate) && ($endDate < time())) {
 						continue;
 					}
+
 					// Check start date
 					if (!empty($startDate) && ($startDate > time())) {
 						continue;
 					}
-
 
 					$doc_url = '';
 

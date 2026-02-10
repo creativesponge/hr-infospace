@@ -207,6 +207,22 @@ if (check_if_is_module_landing($post_id, $moduleMeta["attached_resources"])) {
 	<article id="post-<?php echo $post_id; ?>" <?php post_class(); ?>>
 
 		<div class="entry-content resource-page">
+			<?php if (is_user_logged_in()) : ?>
+		<div class="module-tabs">
+			
+				<?php
+			get_template_part(
+				'template-parts/module-switcher',
+				null,
+				array(
+					'module_id' => $moduleMeta['module_id'] ?? null,
+					'post_id' => $moduleMeta['attached_resources'],
+					'attached_resources' => $moduleMeta['attached_resources'] ?? null,
+					'module_colour' => $moduleMeta['module_color'] ?? null,
+				)
+			); ?>
+		</div>
+		<?php endif; ?>
 			<div class="yoast-breadcrumbs">
 				<?php echo do_shortcode('[wpseo_breadcrumb]'); ?>
 

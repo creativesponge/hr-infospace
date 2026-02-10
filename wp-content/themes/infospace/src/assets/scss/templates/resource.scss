@@ -257,6 +257,14 @@
       background: $infospace-orange;
     }
   }
+
+  .module-tabs {
+    text-align: center;
+    .tab-list {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  } 
 }
 
 .document-label--new {

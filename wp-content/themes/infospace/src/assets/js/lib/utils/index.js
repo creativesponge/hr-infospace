@@ -1229,7 +1229,9 @@ event.preventDefault();
       document.querySelectorAll(".module-tabs .tab-list"),
 
       function (tabs_group) {
+       
         if (!tabs_group) return;
+        
         let activeItems = tabs_group.querySelectorAll("li.active");
         // Only proceed if screen width is under 1024px
         function checkScreenAndInitialize() {
