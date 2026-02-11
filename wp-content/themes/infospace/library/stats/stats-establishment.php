@@ -1,10 +1,10 @@
 <?php
 // Add admin menu for Establishment report
 
-function add_establishment_report_submenu()
-{
+// Register the page but do not add it to the admin menu
+function register_establishment_report_page() {
     add_submenu_page(
-        'reporting',
+        null, // No parent slug, so it won't appear in the menu
         'Establishment Report',
         'Establishment Report',
         'manage_options',
@@ -12,7 +12,7 @@ function add_establishment_report_submenu()
         'establishment_report_page_callback'
     );
 }
-add_action('admin_menu', 'add_establishment_report_submenu');
+add_action('admin_menu', 'register_establishment_report_page');
 
 function establishment_report_page_callback()
 {
