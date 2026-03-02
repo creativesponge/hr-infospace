@@ -552,6 +552,7 @@ function hide_admin_menus_for_finance_editor()
         remove_menu_page('tools.php'); // Tools
         remove_menu_page('options-general.php'); // Settings
         remove_menu_page('edit.php?post_type=module'); // Module
+        remove_menu_page('edit.php?post_type=page'); // Pages
         // remove_menu_page('edit.php?post_type=newsletter'); // Newsletter
         remove_menu_page('edit.php?post_type=enquiry'); // Enquiry
         //remove_menu_page('edit.php?post_type=page'); // Pages
@@ -886,6 +887,7 @@ function hide_admin_menus_for_hr_editor()
         remove_menu_page('tools.php'); // Tools
         remove_menu_page('options-general.php'); // Settings
         remove_menu_page('edit.php?post_type=module'); // Module
+        remove_menu_page('edit.php?post_type=page'); // Pages
         //remove_menu_page('edit.php?post_type=newsletter'); // Newsletter
         remove_menu_page('edit.php?post_type=enquiry'); // Enquiry
         // remove_menu_page('edit.php?post_type=page'); // Pages
@@ -1217,6 +1219,7 @@ function hide_admin_menus_for_hsw_editor()
         remove_menu_page('tools.php'); // Tools
         remove_menu_page('options-general.php'); // Settings
         remove_menu_page('edit.php?post_type=module'); // Module
+        remove_menu_page('edit.php?post_type=page'); // Pages
         // remove_menu_page('edit.php?post_type=newsletter'); // Newsletter
         remove_menu_page('edit.php?post_type=enquiry'); // Enquiry
         // remove_menu_page('edit.php?post_type=page'); // Pages
