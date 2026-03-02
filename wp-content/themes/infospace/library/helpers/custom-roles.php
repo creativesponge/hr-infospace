@@ -1369,3 +1369,16 @@ function hide_yoast_sidebar_for_users()
     }
 }
 add_action('admin_head', 'hide_yoast_sidebar_for_users');
+
+/**
+ * Allow a custom role or capability to access Ninja Forms Submissions
+ */
+add_filter( 'ninja_forms_admin_parent_menu_capabilities', 'custom_nf_access_capabilities' ); // Main Menu
+add_filter( 'ninja_forms_admin_all_forms_capabilities', 'custom_nf_access_capabilities' );   // Dashboard Submenu
+add_filter( 'ninja_forms_admin_submissions_capabilities', 'custom_nf_access_capabilities' ); // Submissions Submenu
+
+function custom_nf_access_capabilities( $cap ) {
+    // Replace 'edit_posts' with the capability your custom role has, 
+    // or use the custom role name itself (e.g., 'editor' or 'my_custom_role').
+    return 'infospace_editor'; 
+}
