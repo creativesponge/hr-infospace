@@ -107,6 +107,10 @@ wp.domReady(() => {
     // button
     wp.blocks.unregisterBlockStyle("core/button", "fill");
     wp.blocks.unregisterBlockStyle("core/button", "outline");
+
+    // unregister block variations
+    wp.blocks.unregisterBlockVariation("core/heading", "stretchy-heading");
+    wp.blocks.unregisterBlockVariation("core/paragraph", "stretchy-paragraph");
   }
 
   // In #createuser form hide username field
@@ -149,6 +153,4 @@ wp.domReady(() => {
       moduleTypeSelect.selectedIndex = checkbox.checked ? index + 1 : 0;
     });
   });
-
-
 });

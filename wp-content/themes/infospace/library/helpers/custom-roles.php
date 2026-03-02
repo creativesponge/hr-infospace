@@ -211,6 +211,58 @@ function restrict_user_creation_before_add($errors, $sanitized_user_data, $user_
 
 add_filter('user_profile_update_errors', 'restrict_user_creation_before_add', 10, 3);
 
+// Create infospace editor role with editor capabilities but restricted to resource_page post type
+function create_infospace_editor_role()
+{
+
+    // Remove the role if it already exists to avoid conflicts
+    remove_role('infospace_editor');
+
+    // Get editor role capabilities
+    $editor_caps = array(
+        'read' => true,
+        'delete_others_pages' => true,
+        'delete_others_posts' => true,
+        'delete_pages' => true,
+        'delete_posts' => true,
+        'delete_private_pages' => true,
+        'delete_private_posts' => true,
+        'delete_published_pages' => true,
+        'delete_published_posts' => true,
+        'edit_others_pages' => true,
+        'edit_others_posts' => true,
+        'edit_pages' => true,
+        'edit_posts' => true,
+        'edit_private_pages' => true,
+        'edit_private_posts' => true,
+        'edit_published_pages' => true,
+        'edit_published_posts' => true,
+        'manage_categories' => true,
+        'manage_links' => true,
+        'moderate_comments' => true,
+        'publish_pages' => true,
+        'publish_posts' => true,
+        'read_private_pages' => true,
+        'read_private_posts' => true,
+        'upload_files' => true,
+        'access_module_admin_page' => true,
+        'edit_users' => true,
+        'list_users' => true,
+        'promote_users' => true,
+        'create_users' => true,
+        'delete_users' => true,
+        'view_theme_options' => true,
+
+    );
+    $editor_caps = $editor_caps;
+
+    // Add custom capability for accessing reports
+    $editor_caps['access_module_admin_page'] = true;
+
+    // Add the infospace editor role with editor capabilities
+    add_role('infospace_editor', 'Infospace Editor', $editor_caps);
+}
+add_action('init', 'create_infospace_editor_role');
 
 // Create finance editor role with editor capabilities but restricted to resource_page post type
 function create_finance_editor_role()
@@ -1213,12 +1265,104 @@ function restrict_hsw_editor_post_access()
 }
 add_action('admin_init', 'restrict_hsw_editor_post_access');
 
-// Grant report access capability to administrator role
-function grant_admin_report_access()
+// Grant module admin access capability to administrator role
+function grant_admin_module_admin_access()
 {
     $admin_role = get_role('administrator');
     if ($admin_role) {
         $admin_role->add_cap('access_module_admin_page');
     }
 }
-add_action('init', 'grant_admin_report_access');
+add_action('init', 'grant_admin_module_admin_access');
+
+// If the user role is hr_editor, finance_editor, or hsw_editor, only allow the blocks core/paragraph and core/heading
+function restrict_block_editor_blocks($allowed_blocks, $post)
+{
+    $user = wp_get_current_user();
+
+    if (in_array('hr_editor', $user->roles) || in_array('hsw_editor', $user->roles) || in_array('finance_editor', $user->roles)) {
+        return array(
+            'core/paragraph',
+            'core/heading',
+            'core/list',
+            //'core/image',
+            //'core/file',
+            //'core/quote',
+            //'core/html',
+            //'core/embed',
+            //'core/separator',
+            //'core/spacer',
+        );
+    }
+
+    return $allowed_blocks;
+}
+add_filter('allowed_block_types', 'restrict_block_editor_blocks', 10, 2);
+
+add_action('after_setup_theme', 'remove_core_patterns');
+function remove_core_patterns()
+{
+    remove_theme_support('core-block-patterns');
+}
+
+add_action('admin_head', 'hide_patterns_tab_css');
+function hide_patterns_tab_css()
+{
+    echo '<style>
+    .block-editor-tabbed-sidebar__tab[aria-controls*="patterns"],
+    .block-editor-tabbed-sidebar__tab[aria-controls*="media"] {
+      display: none !important;
+    }
+      .block-editor-tabbed-sidebar__tab[aria-controls*="view"] {
+
+      margin-right: 60px !important;
+      }
+  </style>';
+}
+
+function remove_yoast_metabox_for_users()
+{
+    if (!current_user_can('administrator') && !current_user_can('infospace_editor')) {
+        remove_meta_box('wpseo_meta', 'post', 'normal');
+        remove_meta_box('wpseo_meta', 'page', 'normal');
+        remove_meta_box('wpseo_meta', 'resource_page', 'normal');
+    }
+}
+add_action('add_meta_boxes', 'remove_yoast_metabox_for_users', 100000);
+
+function hide_yoast_menu_for_users()
+{
+    if (!current_user_can('administrator') && !current_user_can('infospace_editor')) {
+        remove_menu_page('wpseo_dashboard');
+        remove_menu_page('wpseo_titles');
+        remove_menu_page('wpseo_social');
+        remove_menu_page('wpseo_tools');
+        remove_menu_page('wpseo_search_console');
+        remove_menu_page('wpseo_advanced');
+        remove_menu_page('wpseo_workouts');
+    }
+}
+add_action('admin_menu', 'hide_yoast_menu_for_users', 100);
+
+// also remove yoast from sidebar
+function hide_yoast_sidebar_for_users()
+{
+    if (!current_user_can('administrator') && !current_user_can('infospace_editor')) {
+        echo '<style>
+        #toplevel_page_wpseo_dashboard,
+        #toplevel_page_wpseo_titles,
+        #toplevel_page_wpseo_social,        
+
+
+        #toplevel_page_wpseo_tools,
+        #toplevel_page_wpseo_search_console,
+        #toplevel_page_wpseo_advanced,
+        #toplevel_page_wpseo_workouts,
+        #wp-admin-bar-wpseo-menu,
+        .yoast-seo-sidebar-panel {
+            display: none !important;
+        }
+        </style>';
+    }
+}
+add_action('admin_head', 'hide_yoast_sidebar_for_users');

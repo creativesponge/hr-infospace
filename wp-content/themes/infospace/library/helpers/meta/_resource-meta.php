@@ -84,8 +84,8 @@ function cmb2_page_metabox()
     ));
 
     $resource->add_field(array(
-        'name'    => __('Resources shown', 'hrinfospace'),
-        'desc'    => __('Drag resource from the left column to the right column to attach them to this resource.<br />You may rearrange the order of the posts in the right column by dragging and dropping.', 'hrinfospace'),
+        'name'    => __('Landing pages shown', 'hrinfospace'),
+        'desc'    => __('Drag landing pages from the left column to the right column to attach them to this resource.<br />You may rearrange the order of the posts in the right column by dragging and dropping.', 'hrinfospace'),
         'id'      => $prefix . 'resource_attached_resources',
         'type'    => 'custom_attached_posts',
         'column'  => true, // Output in the admin post-listing as a custom column. https://github.com/CMB2/CMB2/wiki/Field-Parameters#column

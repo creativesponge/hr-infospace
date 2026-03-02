@@ -257,7 +257,7 @@ $footerClass = (isset($meta->grey_footer) && $meta->grey_footer == true) || $pos
 			//$meta_fields = get_post_meta($survey->ID);
 
 	?>
-			<?php if ($ninjaFormId && $surveyActive && isset($meta->survey_attached_resource_pages) && is_array($meta->survey_attached_resource_pages) && !empty($meta->survey_attached_resource_pages)) : ?>
+			<?php if ($ninjaFormId && $surveyActive && isset($meta->survey_attached_resource_pages) && is_array($meta->survey_attached_s) && !empty($meta->survey_attached_s)) : ?>
 				<?php
 				if (is_array($meta->survey_attached_resource_pages)) {
 					$hasAccess = false;

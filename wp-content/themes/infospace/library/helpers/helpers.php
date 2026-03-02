@@ -409,3 +409,45 @@ function custom_change_email_admin_text($translated_text, $text, $domain)
     return $translated_text;
 }
 add_filter('gettext', 'custom_change_email_admin_text', 10, 3);
+
+// Rename "posts" to news in admin menu
+function rename_posts_to_news_in_admin_menu()
+{
+    global $menu;
+    foreach ($menu as $key => $value) {
+        if ($value[0] === 'Posts') {
+            $menu[$key][0] = 'News';
+        }               
+    }
+}
+add_action('admin_menu', 'rename_posts_to_news_in_admin_menu');
+
+// Rename pages to "Top Pages" in admin menu
+function rename_pages_to_top_pages_in_admin_menu()
+{
+    global $menu;
+    foreach ($menu as $key => $value) {
+        if ($value[0] === 'Pages') {
+            $menu[$key][0] = 'Top Pages';
+        }               
+    }
+}
+add_action('admin_menu', 'rename_pages_to_top_pages_in_admin_menu');
+
+// Add a new capability called view_theme_options and give it to administrators
+
+function add_view_theme_options_capability() {
+    $role = get_role( 'administrator' );
+    if ( $role && ! $role->has_cap( 'view_theme_options' ) ) {
+        $role->add_cap( 'view_theme_options' );
+    }
+}
+add_action( 'init', 'add_view_theme_options_capability' );
+
+// Remove tools form the admin menu for user role 'view_theme_options'
+function remove_tools_menu_for_view_theme_options() {
+    if ( current_user_can( 'view_theme_options' ) && ! current_user_can( 'administrator' ) ) {
+        remove_menu_page( 'tools.php' );
+    }
+}
+add_action( 'admin_menu', 'remove_tools_menu_for_view_theme_options', 999 );

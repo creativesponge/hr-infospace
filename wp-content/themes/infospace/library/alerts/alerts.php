@@ -8,8 +8,8 @@ if (!defined('ABSPATH')) {
 function add_alerts_admin_page()
 {
     add_menu_page(
-        'Alerts',
-        'Alerts',
+        'Email Alerts',
+        'Email Alerts',
         'edit_posts',
         'alerts',
         'alerts_page_callback',
@@ -24,7 +24,7 @@ function alerts_page_callback()
 {
 
     // Check user capabilities
-    if (!current_user_can('manage_options') && !current_user_can('hr_editor') && !current_user_can('finance_editor') && !current_user_can('hsw_editor')) {
+    if (!current_user_can('manage_options') && !current_user_can('hr_editor') && !current_user_can('finance_editor') && !current_user_can('hsw_editor') && !current_user_can('infospace_editor')) {
         wp_die(__('You do not have sufficient permissions to access this page.'));
     }
 
@@ -55,7 +55,7 @@ function alerts_page_callback()
     global $hsw_module_id;
 
     echo '<div class="wrap alerts-admin-page">';
-    echo '<h1>Alerts</h1>';
+    echo '<h1>Email alerts</h1>';
     echo "<br>";
 
 
