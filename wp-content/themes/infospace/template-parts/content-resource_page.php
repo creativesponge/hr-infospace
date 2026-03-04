@@ -191,7 +191,9 @@ if (check_if_is_module_landing($post_id, $moduleMeta["attached_resources"])) {
 
 	if (!empty($child_resources)) {
 		foreach ($child_resources as $child_resource) {
-			if (user_has_access($child_resource->ID)) {
+			$pageMeata = theme_get_meta($child_resource->ID);
+			
+			if (user_has_access($child_resource->ID) || (isset($pageMeata->resource_open_access) && $pageMeata->resource_open_access == 'on')) {
 				$child_url = get_permalink($child_resource->ID);
 				$child_resources_list .= '<li class="side-link"><a href="' . esc_url($child_url) . '">' . esc_html($child_resource->post_title) . '</a></li>';
 			}
