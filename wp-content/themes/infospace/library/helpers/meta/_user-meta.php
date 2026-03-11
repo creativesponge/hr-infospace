@@ -91,7 +91,7 @@ function cmb2_user_metabox()
         //'desc'      => 'Short summary of the document',
         'type'      => 'text',
         'show_on_cb' => function () {
-            return current_user_can('administrator') || current_user_can('main');
+            return current_user_can('administrator') || current_user_can('main') || current_user_can('infospace_editor');
         }
     ]);
     $user->add_field([
@@ -100,7 +100,8 @@ function cmb2_user_metabox()
         //'desc'      => 'Short summary of the document',
         'type'      => 'text',
         'show_on_cb' => function () {
-            return current_user_can('administrator') || current_user_can('main');
+            
+            return current_user_can('administrator') || current_user_can('main') || current_user_can('infospace_editor');
         }
     ]);
     $user->add_field([
@@ -109,7 +110,7 @@ function cmb2_user_metabox()
         'desc'      => 'Department for Education number',
         'type'      => 'text',
         'show_on_cb' => function () {
-            return current_user_can('administrator') || current_user_can('main');
+            return current_user_can('administrator') || current_user_can('main') || current_user_can('infospace_editor');
         }
     ]);
     $user->add_field([
@@ -118,7 +119,7 @@ function cmb2_user_metabox()
         'desc'      => 'The date the user no longer has access',
         'type'      => 'text_date_timestamp',
         'show_on_cb' => function () {
-            return current_user_can('administrator');
+            return current_user_can('administrator') || current_user_can('infospace_editor');
         }
     ]);
     $user->add_field([
@@ -127,7 +128,7 @@ function cmb2_user_metabox()
         'desc'      => 'Check to activate this user',
         'type'      => 'checkbox',
         'show_on_cb' => function () {
-            return current_user_can('administrator');
+            return current_user_can('administrator') || current_user_can('infospace_editor');
         }
     ]);
     // Add is active column to admin list view
@@ -173,7 +174,7 @@ function cmb2_user_metabox()
         'type'      => 'checkbox',
         'show_on_cb' => function () {
             global $hr_page;
-            return (current_user_can('administrator') || current_user_can('main') || current_user_can('individual')) && (user_has_access($hr_page) || user_has_module_access($hr_page));
+            return (current_user_can('administrator') || current_user_can('main') || current_user_can('individual') || current_user_can('infospace_editor')) && (user_has_access($hr_page) || user_has_module_access($hr_page));
         }
     ]);
     $user->add_field([
@@ -183,7 +184,7 @@ function cmb2_user_metabox()
         'type'      => 'checkbox',
         'show_on_cb' => function () {
             global $finance_page;
-            return (current_user_can('administrator') || current_user_can('main') || current_user_can('individual')) && (user_has_access($finance_page) || user_has_module_access($finance_page));
+            return (current_user_can('administrator') || current_user_can('main') || current_user_can('individual') || current_user_can('infospace_editor')) && (user_has_access($finance_page) || user_has_module_access($finance_page));
         }
     ]);
     $user->add_field([
@@ -193,7 +194,7 @@ function cmb2_user_metabox()
         'type'      => 'checkbox',
         'show_on_cb' => function () {
             global $hsafety_page;
-            return (current_user_can('administrator') || current_user_can('main') || current_user_can('individual')) && (user_has_access($hsafety_page) || user_has_module_access($hsafety_page));
+            return (current_user_can('administrator') || current_user_can('main') || current_user_can('individual') || current_user_can('infospace_editor')) && (user_has_access($hsafety_page) || user_has_module_access($hsafety_page));
         }
     ]);
     $user->add_field([
@@ -202,7 +203,7 @@ function cmb2_user_metabox()
         'desc'      => 'Check to confirm acceptance of terms for this user',
         'type'      => 'checkbox',
         'show_on_cb' => function () {
-            return current_user_can('administrator');
+            return current_user_can('administrator') || current_user_can('infospace_editor');
         }
     ]);
     $user->add_field([
@@ -211,7 +212,7 @@ function cmb2_user_metabox()
         'desc'      => 'Uncheck to force a password change for this user',
         'type'      => 'checkbox',
         'show_on_cb' => function () {
-            return current_user_can('administrator');
+            return current_user_can('administrator') || current_user_can('infospace_editor');
         }
     ]);
     $user->add_field([
@@ -220,7 +221,7 @@ function cmb2_user_metabox()
         'desc'      => 'Check to confirm acceptance of privacy policy for this user',
         'type'      => 'checkbox',
         'show_on_cb' => function () {
-            return current_user_can('administrator');
+            return current_user_can('administrator') || current_user_can('infospace_editor');
         }
     ]);
     $user->add_field([
@@ -229,7 +230,7 @@ function cmb2_user_metabox()
         'desc'      => 'Check to exclude this user from reports',
         'type'      => 'checkbox',
         'show_on_cb' => function () {
-            return current_user_can('administrator');
+            return current_user_can('administrator') || current_user_can('infospace_editor');
         }
     ]);
 
@@ -325,7 +326,7 @@ function cmb2_user_metabox()
         'desc'      => 'Check if this user is an internal staff member',
         'type'      => 'checkbox',
         'show_on_cb' => function () {
-            return current_user_can('administrator');
+            return current_user_can('administrator') || current_user_can('infospace_editor');
         }
     ]);
 
@@ -339,7 +340,7 @@ function cmb2_user_metabox()
             'style' => 'color: #999; background-color: #f5f5f5;'
        ],
         'show_on_cb' => function () {
-            return current_user_can('administrator');
+            return current_user_can('administrator') || current_user_can('infospace_editor');
         }
     ]);
     
@@ -353,7 +354,7 @@ function cmb2_user_metabox()
             'style' => 'color: #999; background-color: #f5f5f5;'
         ],
         'show_on_cb' => function () {
-            return current_user_can('administrator');
+            return current_user_can('administrator') || current_user_can('infospace_editor');
         }
     ]);
     $user->add_field([
@@ -371,7 +372,7 @@ function cmb2_user_metabox()
             'main'       => 'Main'
         ],
         'show_on_cb' => function () {
-            return current_user_can('administrator');
+            return current_user_can('administrator') || current_user_can('infospace_editor');
         }
     ]);
 
@@ -391,7 +392,7 @@ function cmb2_user_metabox()
             ), // override the get_posts args
         ),
         'show_on_cb' => function () {
-            return current_user_can('administrator');
+            return current_user_can('administrator') || current_user_can('infospace_editor');
         }
     ));
 
@@ -411,7 +412,7 @@ function cmb2_user_metabox()
             ), // override the get_posts args
         ),
         'show_on_cb' => function () {
-            return current_user_can('administrator');
+            return current_user_can('administrator') || current_user_can('infospace_editor');
         }
     ));
 
@@ -420,7 +421,7 @@ function cmb2_user_metabox()
         'name' => 'Admin',
         'type' => 'title',
         'show_on_cb' => function () {
-            return current_user_can('administrator');
+            return current_user_can('administrator') || current_user_can('infospace_editor');
         }
     ]);
 
@@ -435,7 +436,7 @@ function cmb2_user_metabox()
             'style' => 'display: none;'
         ],
         'show_on_cb' => function () {
-            return current_user_can('administrator');
+            return current_user_can('administrator') || current_user_can('infospace_editor');
         }
     ]);
     $user->add_field([
@@ -456,7 +457,7 @@ function cmb2_user_metabox()
         //'readonly' => 'readonly',
         // ],
         'show_on_cb' => function () {
-            return current_user_can('administrator');
+            return current_user_can('administrator') || current_user_can('infospace_editor');
         }
     ]);
 
@@ -471,7 +472,7 @@ function cmb2_user_metabox()
             'style' => 'display: none;'
         ],
         'show_on_cb' => function () {
-            return current_user_can('administrator');
+            return current_user_can('administrator') || current_user_can('infospace_editor');
         }
     ]);
 }
