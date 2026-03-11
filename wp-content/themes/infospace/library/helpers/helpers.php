@@ -467,7 +467,7 @@ add_filter('retrieve_password_message', function($message, $key, $user_login, $u
     );
 
     $custom  = "Hi {$user_data->user_firstname},\n\n";
-    $custom .= "We received a request to reset your password.\n";
+    $custom .= "We have received a request to reset your password.\n";
     $custom .= "Use the link below to choose a new one:\n\n";
     $custom .= $reset_url . "\n\n";
     $custom .= "If you did not request this, you can ignore this email.\n";
