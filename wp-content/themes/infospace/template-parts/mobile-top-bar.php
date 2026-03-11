@@ -14,6 +14,14 @@ $moduleName = get_the_title($current_module_id_global);
 $moduleMeta = get_current_module_meta($current_module_id_global);
 $moduleColour = isset($moduleMeta['module_color']) ? $moduleMeta['module_color'] : '';
 $attachedResource = $moduleMeta["attached_resources"];
+$moduleRealMeta = theme_get_meta($current_module_id_global ?? null);
+if (isset($moduleRealMeta->module_phone_number)) {
+	$sitePhone = $moduleRealMeta->module_phone_number;
+}
+if (isset($moduleRealMeta->module_email_address)) {
+	$siteEmail = $moduleRealMeta->module_email_address;
+}
+
 ?>
 <div class="off-canvas__top-bar">
 	<a href="<?php echo esc_url(home_url('/')); ?>" aria-label="Home link" class="off-canvas__logo">
