@@ -451,3 +451,26 @@ function remove_tools_menu_for_view_theme_options() {
     }
 }
 add_action( 'admin_menu', 'remove_tools_menu_for_view_theme_options', 999 );
+
+
+
+// Change password reset email subject
+add_filter('retrieve_password_title', function($title, $user_login, $user_data) {
+    return 'Reset your HR Infospace password';
+}, 10, 3);
+
+// Change password reset email body
+add_filter('retrieve_password_message', function($message, $key, $user_login, $user_data) {
+    $reset_url = network_site_url(
+        "wp-login.php?action=rp&key={$key}&login=" . rawurlencode($user_login),
+        'login'
+    );
+
+    $custom  = "Hi {$user_login},\n\n";
+    $custom .= "We received a request to reset your password.\n";
+    $custom .= "Use the link below to choose a new one:\n\n";
+    $custom .= $reset_url . "\n\n";
+    $custom .= "If you did not request this, you can ignore this email.\n";
+
+    return $custom;
+}, 10, 4);
