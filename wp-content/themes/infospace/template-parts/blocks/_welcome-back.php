@@ -31,13 +31,7 @@ $user_email = isset($_GET['useremail']) ? sanitize_email($_GET['useremail']) : '
 
             <div id="welcome-back-message"></div>
         </form>
-        <h4>Need help?</h4>
-        <p>If you experience any problems accessing your account or creating a new password, our team will be happy to help.</p>
-        <p>Please contact the InfoSpace support team:</p>
-        <p>Email: <a href="mailto:EHRpolicy@norfolk.gov.uk">EHRpolicy@norfolk.gov.uk</a></p>
-        <p>Telephone: +44 (0)1603 307760</p>
-        <p>Alternatively, you can use the Contact Us form and a member of the team will respond as soon as possible.</p>
-
+        
         <?php
         if (isset($_POST['reset_password']) && wp_verify_nonce($_POST['forgot_password_nonce_field'], 'forgot_password_nonce')) {
             $user_email = sanitize_email($_POST['user_email']);
@@ -45,7 +39,7 @@ $user_email = isset($_GET['useremail']) ? sanitize_email($_GET['useremail']) : '
             if (email_exists($user_email)) {
                 $reset_result = retrieve_password($user_email);
                 if (is_wp_error($reset_result)) {
-                    echo '<div class="error-message">Error: ' . $reset_result->get_error_message() . '</div>';
+                    echo '<div class="error-message">' . $reset_result->get_error_message() . '</div>';
                 } else {
                     echo '<div class="success-message">Password reset email sent successfully!</div>';
                 }
@@ -54,6 +48,12 @@ $user_email = isset($_GET['useremail']) ? sanitize_email($_GET['useremail']) : '
             }
         }
         ?>
+<h4>Need help?</h4>
+        <p>If you experience any problems accessing your account or creating a new password, our team will be happy to help.</p>
+        <p>Please contact the InfoSpace support team:</p>
+        <p>Email: <a href="mailto:EHRpolicy@norfolk.gov.uk">EHRpolicy@norfolk.gov.uk</a></p>
+        <p>Telephone: +44 (0)1603 307760</p>
+        <p>Alternatively, you can use the Contact Us form and a member of the team will respond as soon as possible.</p>
 
 
     </div>
