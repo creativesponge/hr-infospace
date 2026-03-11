@@ -1,0 +1,10 @@
+.welcome-back {
+  margin-right: auto;
+  .form-group {
+    margin-bottom: rem-calc(20);
+  }
+  #welcome-back-form,
+  p {
+    max-width: rem-calc(600);
+  }
+}
