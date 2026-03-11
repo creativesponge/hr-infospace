@@ -23,7 +23,7 @@ if (check_if_is_module_landing($post_id, $moduleMeta["attached_resources"])) {
 	global $namespace;
 	global $settings;
 	$user = wp_get_current_user();
-	$policiesTabText = $moduleMeta['module_id'] == 1738 ? 'Compliance code' : 'Policies';
+	$policiesTabText = $moduleMeta['module_id'] == 1738 ? 'Compliance Code/Policy' : 'Policies';
 	$documentsTabText = $moduleMeta['module_id'] == 1738 ? 'Guidance & Forms' : 'Documents';
 	$siteGetInTouchText = isset($settings[$prefix . 'get_in_touch_text']) ? $settings[$prefix . 'get_in_touch_text'] : 'Can’t find what you need?';
 	$siteGetInTouchUrl = isset($settings[$prefix . 'get_in_touch_url']) ? $settings[$prefix . 'get_in_touch_url'] : '/contact/';
@@ -252,7 +252,7 @@ if (check_if_is_module_landing($post_id, $moduleMeta["attached_resources"])) {
 						get_template_part('template-parts/add-to-favourites');
 						if ((!empty($attached_docs_list) && $attached_docs_list != '')  || (!empty($attached_policies_list) && $attached_policies_list != '') || (!empty($attached_links_list) && $attached_links_list != '')) {
 						?><div class="resource-page__attachments tabbed-content">
-								<h2>Helpful resources</h2>
+								<!--<h2>Helpful resources</h2>-->
 								<ul class="resource-page__tabs tab-list tabbed-content__list" role="tablist">
 
 								</ul>
