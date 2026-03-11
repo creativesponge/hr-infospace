@@ -30,7 +30,7 @@ function cmb2_user_profile_metabox()
             ), // override the get_posts args
         ),
         'show_on_cb' => function () {
-            return current_user_can('administrator');
+            return current_user_can('administrator') || current_user_can('infospace_editor');
         }
     ));
 
