@@ -265,7 +265,7 @@ add_action('admin_init', 'infospace_export_document_report_csv');
 function infospace_export_document_report_csv()
 {
     if (isset($_GET['export_csv']) && $_GET['export_csv'] == '1' && isset($_GET['page']) && $_GET['page'] == 'document-report') {
-        if (!current_user_can('manage_options')) {
+        if (!current_user_can('access_module_admin_page')) {
             wp_die('You do not have permission to access this page.');
         }
 

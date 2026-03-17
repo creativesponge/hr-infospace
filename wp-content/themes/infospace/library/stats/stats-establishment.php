@@ -7,7 +7,7 @@ function register_establishment_report_page() {
         null, // No parent slug, so it won't appear in the menu
         'Establishment Report',
         'Establishment Report',
-        'manage_options',
+        'access_module_admin_page',
         'establishment-report',
         'establishment_report_page_callback'
     );

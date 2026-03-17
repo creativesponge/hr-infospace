@@ -819,7 +819,7 @@ add_action('admin_init', 'infospace_export_users_report_csv');
 function infospace_export_users_report_csv()
 {
     if (isset($_GET['export_csv']) && $_GET['export_csv'] == '1' && isset($_GET['page']) && $_GET['page'] == 'alerts') {
-        if (!current_user_can('manage_options') && !current_user_can('hr_editor') && !current_user_can('finance_editor') && !current_user_can('hsw_editor')) {
+        if (!current_user_can('manage_options') && !current_user_can('hr_editor') && !current_user_can('finance_editor') && !current_user_can('hsw_editor') && !current_user_can('infospace_editor')) {
             wp_die('You do not have permission to access this page.');
         }
 

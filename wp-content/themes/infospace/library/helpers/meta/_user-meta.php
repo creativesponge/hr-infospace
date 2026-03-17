@@ -549,4 +549,105 @@ add_action('manage_users_custom_column', function ($output, $column, $user_id) u
     }
     return $output;
 }, 10, 3);
+// Add user_organisation column to admin list view
+add_filter('manage_users_columns', function ($columns) use ($prefix) {
+    $columns[$prefix . 'user_organisation'] = 'School/Academy';
+    return $columns;
+});
+
+// Make user_organisation column sortable
+add_filter('manage_users_sortable_columns', function ($columns) use ($prefix) {
+    $columns[$prefix . 'user_organisation'] = $prefix . 'user_organisation';
+    return $columns;
+});
+
+// Handle user_organisation sorting
+add_action('pre_get_users', function ($query) use ($prefix) {
+    if (!is_admin()) {
+        return;
+    }
+
+    $orderby = $query->get('orderby');
+
+    if ($orderby == $prefix . 'user_organisation') {
+        $query->set('meta_key', $prefix . 'user_organisation');
+        $query->set('orderby', 'meta_value');
+    }
+});
+
+// Display user_organisation column content
+add_action('manage_users_custom_column', function ($output, $column, $user_id) use ($prefix) {
+    if ($column == $prefix . 'user_organisation') {
+        return get_user_meta($user_id, $prefix . 'user_organisation', true);
+    }
+    return $output;
+}, 10, 3);
+// Add user_federation_trust column to admin list view
+add_filter('manage_users_columns', function ($columns) use ($prefix) {
+    $columns[$prefix . 'user_federation_trust'] = 'Federation/Trust';
+    return $columns;
+});
+
+// Make user_federation_trust column sortable
+add_filter('manage_users_sortable_columns', function ($columns) use ($prefix) {
+    $columns[$prefix . 'user_federation_trust'] = $prefix . 'user_federation_trust';
+    return $columns;
+});
+
+// Handle user_federation_trust sorting
+add_action('pre_get_users', function ($query) use ($prefix) {
+    if (!is_admin()) {
+        return;
+    }
+
+    $orderby = $query->get('orderby');
+
+    if ($orderby == $prefix . 'user_federation_trust') {
+        $query->set('meta_key', $prefix . 'user_federation_trust');
+        $query->set('orderby', 'meta_value');
+    }
+});
+
+// Display user_federation_trust column content
+add_action('manage_users_custom_column', function ($output, $column, $user_id) use ($prefix) {
+    if ($column == $prefix . 'user_federation_trust') {
+        return get_user_meta($user_id, $prefix . 'user_federation_trust', true);
+    }
+    return $output;
+}, 10, 3);
+
+// Add user_dfe_number column to admin list view
+add_filter('manage_users_columns', function ($columns) use ($prefix) {
+    $columns[$prefix . 'user_dfe_number'] = 'DFE Number';
+    return $columns;
+});
+
+// Make user_dfe_number column sortable
+add_filter('manage_users_sortable_columns', function ($columns) use ($prefix) {
+    $columns[$prefix . 'user_dfe_number'] = $prefix . 'user_dfe_number';
+    return $columns;
+});
+
+// Handle user_dfe_number sorting
+add_action('pre_get_users', function ($query) use ($prefix) {
+    if (!is_admin()) {
+        return;
+    }
+
+    $orderby = $query->get('orderby');
+
+    if ($orderby == $prefix . 'user_dfe_number') {
+        $query->set('meta_key', $prefix . 'user_dfe_number');
+        $query->set('orderby', 'meta_value');
+    }
+});
+
+// Display user_dfe_number column content
+add_action('manage_users_custom_column', function ($output, $column, $user_id) use ($prefix) {
+    if ($column == $prefix . 'user_dfe_number') {
+        return get_user_meta($user_id, $prefix . 'user_dfe_number', true);
+    }
+    return $output;
+}, 10, 3);
+
 
