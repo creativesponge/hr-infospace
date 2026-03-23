@@ -63,7 +63,6 @@ function handle_ajax_user_registration()
     update_user_meta($user_id, $prefix . 'user_organisation', sanitize_text_field($organisation_name));
     update_user_meta($user_id, $prefix . 'user_federation_trust', sanitize_text_field($_POST['user_federation_trust']));
     update_user_meta($user_id, $prefix . 'user_dfe_number', sanitize_text_field($dfe_number));
-    update_user_meta( $user_id, '_itsec_require_2fa', true );
 
     // Send notification email to infospace admin
     //$admin_email = get_option('admin_email');
