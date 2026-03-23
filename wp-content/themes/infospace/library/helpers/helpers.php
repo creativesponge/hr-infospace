@@ -474,3 +474,9 @@ add_filter('retrieve_password_message', function($message, $key, $user_login, $u
 
     return $custom;
 }, 10, 4);
+
+
+add_action('user_register', 'require_2fa_on_user_creation');
+function require_2fa_on_user_creation($user_id) {
+    update_user_meta($user_id, '_two_factor_enabled_providers', array('Two_Factor_Email'));
+}
