@@ -142,12 +142,11 @@
           }
         }
       }
-    }
-    &--submitted {
-      form {
+      &.form-pop-up--register--submitted {
         display: none;
       }
     }
+
     input[type="submit"] {
       background-color: $infospace-green;
       &:hover {
@@ -165,7 +164,7 @@
 
   &--survey {
     .form-pop-up__content {
-      overflow:scroll;
+      overflow: scroll;
       max-height: 80vh;
     }
   }
