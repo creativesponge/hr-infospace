@@ -13,14 +13,14 @@ if (isset($_POST['reset_password']) && wp_verify_nonce($_POST['forgot_password_n
         $reset_result = retrieve_password($user_email);
         if (is_wp_error($reset_result)) {
             $result_message = '<div class="error-message">' . $reset_result->get_error_message() . '</div>';
-            $result_class = 'welcome-back--error-message';
+            $result_class = ' welcome-back--error-message';
         } else {
             $result_message = '<div class="success-message">Password reset email sent successfully!</div>';
-            $result_class = 'welcome-back--success-message';
+            $result_class = ' welcome-back--success-message';
         }
     } else {
         $result_message = '<div class="error-message">Email address not found.</div>';
-        $result_class = 'welcome-back--error-message';
+        $result_class = ' welcome-back--error-message';
     }
 }
 ?>
