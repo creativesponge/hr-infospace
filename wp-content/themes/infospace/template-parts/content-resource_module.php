@@ -19,6 +19,7 @@ $child_pages = get_module_child_pages($post_id);
 $child_pages[] = $post_id;
 $policiesTabText = $moduleMeta['module_id'] == 1738 ? 'Compliance code' : 'Policies';
 $documentsTabText = $moduleMeta['module_id'] == 1738 ? 'Guidance & Forms' : 'Documents';
+$latestNewsletterText = $moduleMeta['module_id'] == 1736 ? 'Finance Focus' : 'Latest Newsletter';
 
 // updates file
 $updatesLog = isset($settings[$prefix . 'updates_log_file']) ? $settings[$prefix . 'updates_log_file'] : '';
@@ -663,7 +664,7 @@ $download_svg = ob_get_clean();
 						echo '<div class="module-panel module-panel--newsletter">';
 
 						echo '<div class="module-panel__header" style="background-color: ' . esc_html($moduleMeta['module_color']) . ';">';
-						echo '<h2>Latest Newsletter</h2>';
+						echo '<h2>'.$latestNewsletterText.'</h2>';
 						echo '</div>';
 
 						echo '<div class="module-panel__content">';
