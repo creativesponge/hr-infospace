@@ -3,11 +3,12 @@ const welcome_back = {
     this.welcome_back_ftn();
   },
   welcome_back_ftn: function () {
-    const welcome_back_form = document.querySelectorAll('#welcome-back-form');
+    const welcome_back = document.querySelectorAll('.welcome-back');
+    const welcome_back_form = welcome_back.querySelectorAll('#welcome-back-form');
     welcome_back_form.forEach((form) => {
       form.addEventListener('submit', (e) => {
        
-        form.classList.add('welcome-back-form--submitted');
+        welcome_back.classList.add('welcome-back-form--submitted');
       });
     });
   },
