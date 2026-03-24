@@ -10,4 +10,9 @@
   &--submitted {
     display: none;
   }
+  &--success-message {
+    form {
+      display: none;
+    }
+  }
 }

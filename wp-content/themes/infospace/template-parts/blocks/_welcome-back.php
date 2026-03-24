@@ -3,6 +3,7 @@
 <?php
 $user_email = isset($_GET['useremail']) ? sanitize_email($_GET['useremail']) : '';
 $result_message = '';
+$result_class = '';
 ?>
 <?php
 if (isset($_POST['reset_password']) && wp_verify_nonce($_POST['forgot_password_nonce_field'], 'forgot_password_nonce')) {
@@ -12,11 +13,14 @@ if (isset($_POST['reset_password']) && wp_verify_nonce($_POST['forgot_password_n
         $reset_result = retrieve_password($user_email);
         if (is_wp_error($reset_result)) {
             $result_message = '<div class="error-message">' . $reset_result->get_error_message() . '</div>';
+            $result_class = 'welcome-back--error-message';
         } else {
             $result_message = '<div class="success-message">Password reset email sent successfully!</div>';
+            $result_class = 'welcome-back--success-message';
         }
     } else {
         $result_message = '<div class="error-message">Email address not found.</div>';
+        $result_class = 'welcome-back--error-message';
     }
 }
 ?>
@@ -29,7 +33,7 @@ if (isset($_POST['reset_password']) && wp_verify_nonce($_POST['forgot_password_n
             </div>
         </div>
     </header>
-    <div class="account-settings__content welcome-back">
+    <div class="account-settings__content welcome-back<?php echo $result_class; ?>">
         <?php //global $settings;
         //global  $prefix;
         // $current_user = wp_get_current_user();
