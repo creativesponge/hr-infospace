@@ -1,4 +1,5 @@
-.account-settings, .infospace_page {
+.account-settings,
+.infospace_page {
   margin-bottom: rem-calc(40);
   background: $light-grey;
   border-bottom-left-radius: rem-calc(20);
@@ -184,6 +185,9 @@
   }
   .success-message {
     font-weight: bold;
-    color:$black;
+    color: $black;
+    @include breakpoint(large) {
+      font-size: rem-calc(26);
+    }
   }
 }

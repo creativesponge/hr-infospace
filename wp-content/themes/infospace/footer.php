@@ -209,6 +209,7 @@ $footerClass = (isset($meta->grey_footer) && $meta->grey_footer == true) || $pos
 							if (data.success) {
 								messageDiv.innerHTML = '<div class="registration-success"><h3>Registration Successful!</h3><p>' + data.data.message + '</p></div>';
 								form.reset();
+								form.classList.add('form-pop-up--register--submitted');
 							} else {
 								messageDiv.innerHTML = '<div class="registration-error">' + data.data.message + '</div>';
 							}

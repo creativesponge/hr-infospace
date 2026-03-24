@@ -15,6 +15,8 @@ import modules_list from "./blocks/modules-list/index.js";
 import icon_list from "./blocks/icon-list/index.js";
 import benefit_carousel from "./blocks/benefit-carousel/index.js";
 import contact_form from "./blocks/contact-form/index.js";
+import welcome_back from "./blocks/welcome-back/index.js";
+
 
 var sitespecific = {
   themename: function () {
@@ -59,6 +61,7 @@ var sitespecific = {
     icon_list.init();
     benefit_carousel.init();
     //contact_form.init();
+    welcome_back.init();
     
     // Ready to rock!
     document.body.classList.add("ready");

@@ -143,6 +143,11 @@
         }
       }
     }
+    &--submitted {
+      form {
+        display: none;
+      }
+    }
     input[type="submit"] {
       background-color: $infospace-green;
       &:hover {
