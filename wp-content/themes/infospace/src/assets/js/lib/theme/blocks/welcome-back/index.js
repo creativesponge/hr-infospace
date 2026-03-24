@@ -8,7 +8,7 @@ const welcome_back = {
     welcome_back_form.forEach((form) => {
       form.addEventListener('submit', (e) => {
        
-        welcome_back.classList.add('welcome-back-form--submitted');
+        welcome_back.classList.add('welcome-back--submitted');
       });
     });
   },

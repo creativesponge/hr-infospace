@@ -1,7 +1,26 @@
 <?php $block_content = get_query_var('content'); ?>
 <?php $current_user = wp_get_current_user(); ?>
-<?php 
-$user_email = isset($_GET['useremail']) ? sanitize_email($_GET['useremail']) : '';?>
+<?php
+$user_email = isset($_GET['useremail']) ? sanitize_email($_GET['useremail']) : '';
+$result_message = '';
+?>
+<?php
+if (isset($_POST['reset_password']) && wp_verify_nonce($_POST['forgot_password_nonce_field'], 'forgot_password_nonce')) {
+    $user_email = sanitize_email($_POST['user_email']);
+
+    if (email_exists($user_email)) {
+        $reset_result = retrieve_password($user_email);
+        if (is_wp_error($reset_result)) {
+            $result_message = '<div class="error-message">' . $reset_result->get_error_message() . '</div>';
+        } else {
+            $result_message = '<div class="success-message">Password reset email sent successfully!</div>';
+        }
+    } else {
+        $result_message = '<div class="error-message">Email address not found.</div>';
+    }
+}
+?>
+
 <section class="account-settings full-width">
     <header class="panel-header full-width">
         <div class="panel-header__inner">
@@ -29,26 +48,13 @@ $user_email = isset($_GET['useremail']) ? sanitize_email($_GET['useremail']) : '
                 <button type="submit" name="reset_password">Reset Password</button>
             </div>
 
-            <div id="welcome-back-message"></div>
+            
         </form>
-        
-        <?php
-        if (isset($_POST['reset_password']) && wp_verify_nonce($_POST['forgot_password_nonce_field'], 'forgot_password_nonce')) {
-            $user_email = sanitize_email($_POST['user_email']);
 
-            if (email_exists($user_email)) {
-                $reset_result = retrieve_password($user_email);
-                if (is_wp_error($reset_result)) {
-                    echo '<div class="error-message">' . $reset_result->get_error_message() . '</div>';
-                } else {
-                    echo '<div class="success-message">Password reset email sent successfully!</div>';
-                }
-            } else {
-                echo '<div class="error-message">Email address not found.</div>';
-            }
-        }
+        <?php
+        echo $result_message;
         ?>
-<h4>Need help?</h4>
+        <h4>Need help?</h4>
         <p>If you experience any problems accessing your account or creating a new password, our team will be happy to help.</p>
         <p>Please contact the InfoSpace support team:</p>
         <p>Email: <a href="mailto:EHRpolicy@norfolk.gov.uk">EHRpolicy@norfolk.gov.uk</a></p>
