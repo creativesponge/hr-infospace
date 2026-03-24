@@ -202,22 +202,26 @@ $footerClass = (isset($meta->grey_footer) && $meta->grey_footer == true) || $pos
 							method: 'POST',
 							body: formData
 						})
-						.then(response => response.json())
-						.then(data => {
+						.then(function(response) {
+							return response.json();
+						})
+						.then(function(data) {
 							const messageDiv = document.getElementById('registration-messages');
 
 							if (data.success) {
 								messageDiv.innerHTML = '<div class="registration-success"><h3>Registration Successful!</h3><p>' + data.data.message + '</p></div>';
 								form.reset();
+								console.log(form);
+								console.log('runs');
 								form.classList.add('form-pop-up--register--submitted');
 							} else {
 								messageDiv.innerHTML = '<div class="registration-error">' + data.data.message + '</div>';
 							}
 						})
-						.catch(error => {
+						.catch(function(error) {
 							document.getElementById('registration-messages').innerHTML = '<div class="registration-error"><p>An error occurred. Please try again.</p></div>';
 						})
-						.finally(() => {
+						.finally(function() {
 							// Re-enable submit button
 							submitBtn.value = originalText;
 							submitBtn.disabled = false;
