@@ -242,7 +242,7 @@ h4 {
   color: $black;
   font-size: rem-calc(14);
   @include breakpoint(medium) {
-    font-size: rem-calc(168);
+    font-size: rem-calc(16);
   }
   @include breakpoint(large) {
     font-size: rem-calc(20);
