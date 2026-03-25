@@ -200,7 +200,7 @@ function user_has_module_access($post_id): bool
         return false;
     }
     // Check if user is in an allowed role
-    $allowed_roles = ['main', 'individual', 'employee', 'administrator', 'editor', 'infospace_editor'];
+    $allowed_roles = ['main', 'individual', 'employee', 'administrator', 'editor', 'infospace_editor', 'hsw_editor', 'hr_editor', 'finance_editor'];
     if (!array_intersect($allowed_roles, (array) $user->roles)) {
         return false;
     }

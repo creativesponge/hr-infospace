@@ -80,7 +80,7 @@ var welcome_back = {
               <p>Show welcome back message</p>
               <div className="welcome-back-container">
                 <div className="welcome-back__pre">
-                  <InnerBlocks />
+                  <InnerBlocks template={TEMPLATE} />
                 </div>
               
               </div>
