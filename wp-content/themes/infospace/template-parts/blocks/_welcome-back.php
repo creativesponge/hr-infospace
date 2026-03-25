@@ -1,9 +1,12 @@
+<?php $block_attributes = get_query_var('attributes'); ?>
 <?php $block_content = get_query_var('content'); ?>
 <?php $current_user = wp_get_current_user(); ?>
 <?php
 $user_email = isset($_GET['useremail']) ? sanitize_email($_GET['useremail']) : '';
 $result_message = '';
 $result_class = '';
+$after_text = (array_key_exists('afterText', $block_attributes)) ? wpautop(sanitize_text_field($block_attributes['afterText'])) : '';
+
 ?>
 <?php
 if (isset($_POST['reset_password']) && wp_verify_nonce($_POST['forgot_password_nonce_field'], 'forgot_password_nonce')) {
@@ -39,7 +42,14 @@ if (isset($_POST['reset_password']) && wp_verify_nonce($_POST['forgot_password_n
         // $current_user = wp_get_current_user();
         ?>
         <?php $block_attributes = get_query_var('attributes'); ?>
-        <?php echo $block_content; ?>
+        <div class="welcome-back__before-text">
+            <?php echo $block_content; ?>
+        </div>
+        <?php if ($after_text) : ?>
+                <div class="welcome-back__after-text">
+                    <?php echo $after_text; ?>
+                </div>
+            <?php endif; ?>
         <form id="welcome-back-form" method="post" action="">
             <?php wp_nonce_field('forgot_password_nonce', 'forgot_password_nonce_field'); ?>
 

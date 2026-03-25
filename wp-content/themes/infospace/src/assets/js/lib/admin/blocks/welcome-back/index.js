@@ -15,7 +15,7 @@ var welcome_back = {
 
       const { __ } = wp.i18n; // Import __() from wp.i18n
       const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
-      const { InnerBlocks } = wp.blockEditor;
+      const { InnerBlocks, RichText } = wp.blockEditor;
 
       /**
        * Custom SVG path
@@ -63,7 +63,11 @@ var welcome_back = {
         title: __("Welcome Back"), // Block title.
         icon: MyIcon, // Block icon from Dashicons → https://developer.wordpress.org/resource/dashicons/.
         category: "theme-specific", // Block category — Group blocks together based on common traits E.g. common, formatting, layout widgets, embed.
-        attributes: {},
+        attributes: {
+          afterText: {
+            type: "string",
+          },
+        },
         /**
          * The edit function describes the structure of your block in the context of the editor.
          * This represents what the editor will render when the block is used.
@@ -77,7 +81,19 @@ var welcome_back = {
             <div className={className}>
               <p>Show welcome back message</p>
               <div className="welcome-back-container">
-                <InnerBlocks />
+                <div className="welcome-back__pre">
+                  <InnerBlocks />
+                </div>
+                <div className="welcome-back__after">
+                  <RichText
+                    onChange={(content) =>
+                      setAttributes({ afterText: content })
+                    }
+                    value={attributes.afterText}
+                    placeholder="Enter the text to show after submission"
+                    className="welcome-back__after-text"
+                  />
+                </div>
               </div>
             </div>
           );

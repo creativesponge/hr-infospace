@@ -10,9 +10,19 @@
   &--submitted {
     display: none;
   }
+  &__after-text {
+    display:none;
+  }
   &--success-message {
     form {
       display: none;
     }
+    .welcome-back__before-text {
+      display:none;
+    }
+    .welcome-back__after-text {
+      display:block;
+    }
   }
+  
 }
