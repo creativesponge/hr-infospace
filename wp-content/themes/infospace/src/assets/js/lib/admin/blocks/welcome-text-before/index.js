@@ -1,49 +1,43 @@
-var welcome_back = {
+var welcome_text_before = {
   init: function () {
-    this.welcome_back();
+    this.welcomeTextBefore();
   },
-  welcome_back: function () {
+  welcomeTextBefore: function () {
     /**
-     * BLOCK: Welcome back
+     * BLOCK: Welcome text before
      *
      * Registering a basic block with Gutenberg.
      * Simple block, renders and saves the same content without any interactivity.
      */
-
     if (document.body.classList.contains("block-editor-page")) {
       // check if is a gutenberg page
-
       const { __ } = wp.i18n; // Import __() from wp.i18n
       const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
       const { InnerBlocks } = wp.blockEditor;
-
       /**
        * Custom SVG path
        */
 
       const MyIcon = () => (
         <svg
-          id="b258f051-34b2-4cb4-8fc1-acaf9d66218a"
-          data-name="Layer 1"
+          id="uuid-26632871-21a4-4faf-9856-b8f7aaccbfeb"
+          data-name="a0e25ff0-08dc-4c8d-bb19-3a4ec433f28c"
           xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 22 8"
+          width="9.6"
+          height="12.1"
+          viewBox="0 0 9.6 12.1"
         >
-          <rect x="12" width="10" height="2" fill="#fff" />
-          <polygon points="22 0 12 0 12 2 22 2 22 0 22 0" fill="#555d65" />
-          <rect width="10" height="2" fill="#fff" />
-          <polygon points="10 0 0 0 0 2 10 2 10 0 10 0" fill="#555d65" />
-          <rect x="12" y="3" width="10" height="2" fill="#fff" />
-          <polygon points="22 3 12 3 12 5 22 5 22 3 22 3" fill="#555d65" />
-          <rect y="3" width="10" height="2" fill="#fff" />
-          <polygon points="10 3 0 3 0 5 10 5 10 3 10 3" fill="#555d65" />
-          <rect y="6" width="7" height="2" fill="#fff" />
-          <polygon points="7 6 0 6 0 8 7 8 7 6 7 6" fill="#555d65" />
+          <rect width="6.9" height="1.8" fill="#555d65" />
+          <rect y="3" width="9.6" height="1.6" fill="#555d65" />
+          <rect y="5.5" width="9.6" height="1.6" fill="#555d65" />
+          <rect y="8" width="9.6" height="1.6" fill="#555d65" />
+          <rect y="10.5" width="9.6" height="1.6" fill="#555d65" />
         </svg>
       );
 
       const TEMPLATE = [
-        ["theme/welcome-text-before", {}, []],
-        ["theme/welcome-text-after", {}, []],
+        ["core/heading", { level: 2, placeholder: "Enter heading" }, []],
+        ["core/paragraph", {}, []],
       ];
       /**
        * Register: aa Gutenberg Block.
@@ -58,14 +52,12 @@ var welcome_back = {
        * @return {?WPBlock}          The block, if it has been successfully
        *                             registered; otherwise `undefined`.
        */
-      registerBlockType("theme/welcome-back", {
+      registerBlockType("theme/welcome-text-before", {
         // Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
-        title: __("Welcome Back"), // Block title.
+        title: __("Welcome Text Before"), // Block title.
         icon: MyIcon, // Block icon from Dashicons → https://developer.wordpress.org/resource/dashicons/.
         category: "theme-specific", // Block category — Group blocks together based on common traits E.g. common, formatting, layout widgets, embed.
-        attributes: {
-         
-        },
+        parent: ["theme/welcome-back"],
         /**
          * The edit function describes the structure of your block in the context of the editor.
          * This represents what the editor will render when the block is used.
@@ -77,12 +69,8 @@ var welcome_back = {
         edit: function ({ attributes, className, setAttributes }) {
           return (
             <div className={className}>
-              <p>Show welcome back message</p>
-              <div className="welcome-back-container">
-                <div className="welcome-back__pre">
-                  <InnerBlocks />
-                </div>
-              
+              <div className="welcome-text-before-container">
+                <InnerBlocks template={TEMPLATE} />
               </div>
             </div>
           );
@@ -104,4 +92,4 @@ var welcome_back = {
   },
 };
 
-export default welcome_back;
+export default welcome_text_before;

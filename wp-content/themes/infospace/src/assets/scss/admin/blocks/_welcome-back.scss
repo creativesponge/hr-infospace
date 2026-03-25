@@ -15,6 +15,37 @@
   }
   .welcome-back__after {
     background: $light-grey;
-    padding:20px;
+    padding: 20px;
   }
+}
+
+.wp-block-theme-welcome-text-before {
+  padding: 30px!important;
+  border: 6px solid #eee;
+  &:before {
+    content: "Text for before submission";
+    display: block;
+    position:absolute;
+    left:0;
+    top:0;
+    font-size: 12px;
+    font-weight: 600;
+    padding: rem-calc(5)!important;
+    background: #eee;
+  };
+}
+.wp-block-theme-welcome-text-after {
+  padding: 30px!important;
+  border: 6px solid #eee;
+  &:before {
+    content: "Text for after submission";
+    display: block;
+    position:absolute;
+    left:0;
+    top:0;
+    font-size: 12px;
+    font-weight: 600;
+    padding: rem-calc(5)!important;
+    background: #eee;
+  };
 }

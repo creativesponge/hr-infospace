@@ -42,14 +42,10 @@ if (isset($_POST['reset_password']) && wp_verify_nonce($_POST['forgot_password_n
         // $current_user = wp_get_current_user();
         ?>
         <?php $block_attributes = get_query_var('attributes'); ?>
-        <div class="welcome-back__before-text">
+        
             <?php echo $block_content; ?>
-        </div>
-        <?php if ($after_text) : ?>
-                <div class="welcome-back__after-text">
-                    <?php echo $after_text; ?>
-                </div>
-            <?php endif; ?>
+        
+       
         <form id="welcome-back-form" method="post" action="">
             <?php wp_nonce_field('forgot_password_nonce', 'forgot_password_nonce_field'); ?>
 

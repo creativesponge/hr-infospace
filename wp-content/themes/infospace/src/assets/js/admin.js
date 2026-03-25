@@ -48,6 +48,9 @@ import globe_cta from "./lib/admin/blocks/globe-cta/index.js";
 import page_contact from "./lib/admin/blocks/page-contact/index.js";
 import custom_login from "./lib/admin/blocks/custom-login/index.js";
 import welcome_back from "./lib/admin/blocks/welcome-back/index.js";
+import welcome_text_before from "./lib/admin/blocks/welcome-text-before/index.js";
+import welcome_text_after from "./lib/admin/blocks/welcome-text-after/index.js";
+
 
 stats.init();
 stat.init();
@@ -98,6 +101,8 @@ globe_cta.init();
 page_contact.init();
 custom_login.init();
 welcome_back.init();
+welcome_text_before.init();
+welcome_text_after.init();
 
 // Remove default block styles
 wp.domReady(() => {

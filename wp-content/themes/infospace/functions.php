@@ -138,6 +138,8 @@ require_once dirname(__FILE__) . '/library/blocks/_globe-cta.php';
 require_once dirname(__FILE__) . '/library/blocks/_page-contact.php';
 require_once dirname(__FILE__) . '/library/blocks/_custom-login.php';
 require_once dirname(__FILE__) . '/library/blocks/_welcome-back.php';
+require_once dirname(__FILE__) . '/library/blocks/_welcome-text-before.php';
+require_once dirname(__FILE__) . '/library/blocks/_welcome-text-after.php';
 
 
 /** Infospace functions */
