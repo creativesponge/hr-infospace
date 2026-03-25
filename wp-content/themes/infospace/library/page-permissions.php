@@ -226,7 +226,7 @@ function user_has_module_access($post_id): bool
         return false;
     }
 
-    $allowed_child_roles = ['individual', 'employee'];
+    $allowed_child_roles = ['individual', 'employee', 'hsw_editor', 'hr_editor', 'finance_editor'];
     if (array_intersect($allowed_child_roles, (array) $user->roles)) {
 
         $created_by = get_user_meta($user->ID, $prefix . 'user_created_by', true);
