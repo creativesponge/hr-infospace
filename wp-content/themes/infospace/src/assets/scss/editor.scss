@@ -162,3 +162,9 @@
   
 }
 
+.quick-edit-row .inline-edit-author {
+  + .inline-edit-group {
+    display: none;
+  }
+}
+
