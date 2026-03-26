@@ -25,9 +25,56 @@ function cmb2_post_metabox()
         'name'   => 'Featured',
         'desc'   => 'Mark this post as featured',
         'type'   => 'checkbox',
-        
-        
+
+
     ]);
+
+    //Hide the attached resources field for news posts as they don't have any resources to attach and it was causing confusion for editors
+    $current_user = wp_get_current_user();
+    $user_role = !empty($current_user->roles) ? $current_user->roles[0] : '';
+    $queryArgs = array(
+        'posts_per_page' => -1,
+        'post_type'      => 'resource_page',
+        'post_parent' => 0,
+    );
+
+    if ($user_role === 'finance_editor') {
+        global $finance_module_id;
+
+        $financeResources = get_module_child_pages_using_module_id($finance_module_id);
+        $queryArgs = array(
+            'posts_per_page' => -1,
+            'post_type'      => 'resource_page',
+            'post_parent' => 0,
+            'post__in' => $financeResources
+        );
+    }
+    
+    if ($user_role === 'hsw_editor') {
+        global $hsw_module_id;
+
+        $hswResources = get_module_child_pages_using_module_id($hsw_module_id);
+        $queryArgs = array(
+            'posts_per_page' => -1,
+            'post_type'      => 'resource_page',
+            'post_parent' => 0,
+            'post__in' => $hswResources
+        );
+    }
+
+    if ($user_role === 'hr_editor') {
+        global $hr_module_id;
+
+        $hrResources = get_module_child_pages_using_module_id($hr_module_id);
+        $queryArgs = array(
+            'posts_per_page' => -1,
+            'post_type'      => 'resource_page',
+            'post_parent' => 0,
+            'post__in' => $hrResources
+        );
+    }
+
+
     $post->add_field(array(
         'name'    => __('Available to users attached to', 'hrinfospace'),
         'desc'    => __('Drag page from the left column to the right column to attach them to this post.<br />You may rearrange the order of the pages in the right column by dragging and dropping.', 'hrinfospace'),
@@ -37,11 +84,7 @@ function cmb2_post_metabox()
         'options' => array(
             'show_thumbnails' => true, // Show thumbnails on the left
             'filter_boxes'    => true, // Show a text box for filtering the results
-            'query_args'      => array(
-                'posts_per_page' => -1,
-                'post_type'      => 'resource_page',
-                'post_parent' => 0,
-            ), // override the get_posts args
+            'query_args'      => $queryArgs, // override the get_posts args
         ),
     ));
 
@@ -57,7 +100,7 @@ function cmb2_post_metabox()
     ]);
 
 
-    
+
     $postSide->add_field([
         'id'        => $prefix . 'post_start_date',
         'name'      => 'Start Date',
@@ -80,31 +123,31 @@ function cmb2_post_metabox()
         'type'      => 'text',
         'attributes' => [
             //'readonly' => 'readonly',
-             'style' => 'display: none;'
+            'style' => 'display: none;'
         ]
     ]);
-   $postSide->add_field([
+    $postSide->add_field([
         'id'        => $prefix . 'post_slug',
         'name'      => 'Slug',
         'desc'      => 'The slug from old site',
         'type'      => 'text',
         'attributes' => [
             //'readonly' => 'readonly',
-             'style' => 'display: none;'
+            'style' => 'display: none;'
         ]
 
     ]);
 
 
 
-    add_filter('manage_post_posts_columns', function($columns) use ($prefix) {
+    add_filter('manage_post_posts_columns', function ($columns) use ($prefix) {
         $columns[$prefix . 'post_featured'] = __('Featured', 'hrinfospace');
         $columns[$prefix . 'post_start_date'] = __('Start Date', 'hrinfospace');
         $columns[$prefix . 'post_end_date'] = __('End Date', 'hrinfospace');
         return $columns;
     });
 
-    add_action('manage_post_posts_custom_column', function($column, $post_id) use ($prefix) {
+    add_action('manage_post_posts_custom_column', function ($column, $post_id) use ($prefix) {
         if ($column === $prefix . 'post_featured') {
             $value = get_post_meta($post_id, $prefix . 'post_featured', true);
             echo (!empty($value) && ($value === 'on' || $value === '1' || $value === 1)) ? '✔' : '';

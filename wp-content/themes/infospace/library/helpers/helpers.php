@@ -480,3 +480,34 @@ add_action('user_register', 'require_2fa_on_user_creation');
 function require_2fa_on_user_creation($user_id) {
     update_user_meta($user_id, '_two_factor_enabled_providers', array('Two_Factor_Email'));
 }
+
+add_action('admin_footer', 'pure_js_trash_confirm');
+function pure_js_trash_confirm() {
+    ?>
+    <?php
+    $current_user = wp_get_current_user();
+    $allowed_roles = ['hsw_editor', 'hr_editor', 'finance_editor'];
+    $user_has_role = array_intersect($allowed_roles, $current_user->roles);
+    
+    if ($user_has_role) :
+    ?>
+    <script type="text/javascript">
+    document.addEventListener('click', function (event) {
+        // Target the 'Trash' link in the list or the 'Move to Trash' button in the editor
+        var isTrashLink =  event.target.closest('.row-actions .trash a');
+
+        if (isTrashLink) {
+            var confirmed = confirm("Are you sure you want to move this to the bin?");
+            if (!confirmed) {
+                event.preventDefault();
+                event.stopImmediatePropagation(); // Stops other scripts from running
+                return false;
+            }
+        }
+    }, true); // Use 'true' for the capture phase to intercept the click early
+    </script>
+    <?php
+    endif;
+    ?>
+    <?php
+}

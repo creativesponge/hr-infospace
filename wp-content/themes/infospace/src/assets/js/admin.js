@@ -51,7 +51,6 @@ import welcome_back from "./lib/admin/blocks/welcome-back/index.js";
 import welcome_text_before from "./lib/admin/blocks/welcome-text-before/index.js";
 import welcome_text_after from "./lib/admin/blocks/welcome-text-after/index.js";
 
-
 stats.init();
 stat.init();
 image_text.init();
@@ -160,4 +159,5 @@ wp.domReady(() => {
       moduleTypeSelect.selectedIndex = checkbox.checked ? index + 1 : 0;
     });
   });
+
 });

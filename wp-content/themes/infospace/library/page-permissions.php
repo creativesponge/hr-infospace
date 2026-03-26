@@ -235,7 +235,6 @@ function user_has_module_access($post_id): bool
             //return $user_attached_pages;
             // Check if this user has access
             if (check_module_is_parent_of_attached_page($user_attached_pages, $post_id) || in_array($post_id, $user_attached_pages)) {
-
                 return true;
             }
             //return $user_attached_pages;

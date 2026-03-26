@@ -63,6 +63,52 @@ function cmb2_newsletter_metabox()
         'desc'      => 'Short summary of the newsletter',
         'type'      => 'textarea'
     ]);
+
+    //Hide the attached resources field for news posts as they don't have any resources to attach and it was causing confusion for editors
+    $current_user = wp_get_current_user();
+    $user_role = !empty($current_user->roles) ? $current_user->roles[0] : '';
+    $queryArgs = array(
+        'posts_per_page' => -1,
+        'post_type'      => 'resource_page',
+        'post_parent' => 0,
+    );
+
+    if ($user_role === 'finance_editor') {
+        global $finance_module_id;
+
+        $financeResources = get_module_child_pages_using_module_id($finance_module_id);
+        $queryArgs = array(
+            'posts_per_page' => -1,
+            'post_type'      => 'resource_page',
+            'post_parent' => 0,
+            'post__in' => $financeResources
+        );
+    }
+    
+    if ($user_role === 'hsw_editor') {
+        global $hsw_module_id;
+
+        $hswResources = get_module_child_pages_using_module_id($hsw_module_id);
+        $queryArgs = array(
+            'posts_per_page' => -1,
+            'post_type'      => 'resource_page',
+            'post_parent' => 0,
+            'post__in' => $hswResources
+        );
+    }
+
+    if ($user_role === 'hr_editor') {
+        global $hr_module_id;
+
+        $hrResources = get_module_child_pages_using_module_id($hr_module_id);
+        $queryArgs = array(
+            'posts_per_page' => -1,
+            'post_type'      => 'resource_page',
+            'post_parent' => 0,
+            'post__in' => $hrResources
+        );
+    }
+
     $newsletter->add_field(array(
         'name'    => __('Available to users attached to', 'hrinfospace'),
         'desc'    => __('Drag page from the left column to the right column to attach them to this newsletter.<br />You may rearrange the order of the resources in the right column by dragging and dropping.', 'hrinfospace'),
@@ -72,11 +118,7 @@ function cmb2_newsletter_metabox()
         'options' => array(
             'show_thumbnails' => true, // Show thumbnails on the left
             'filter_boxes'    => true, // Show a text box for filtering the results
-            'query_args'      => array(
-                'posts_per_page' => -1,
-                'post_type'      => 'resource_page',
-                'post_parent' => 0,
-            ), // override the get_posts args
+            'query_args'      => $queryArgs, // override the get_posts args
         ),
     ));
 

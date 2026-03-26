@@ -26,18 +26,251 @@ function cmb2_page_metabox()
         'desc'      => 'Comma-separated keywords',
         'type'      => 'textarea'
     ]);
-    /*$resource->add_field([
-        'id'        => $prefix .'resource_related_documents',
-        'name'      => 'Documents shown',
-        'desc'      => 'Select one or more document to show',
-        'type'      => 'post_search_text',
-        'post_type' => 'document',
-        'multiple'  => true,
-        'select_type' => 'select',
-        'attributes'  => [
-            'style' => 'width:100%'
-        ],
-    ]);*/
+
+    //Hide the attached resources field for news posts as they don't have any resources to attach and it was causing confusion for editors
+    $current_user = wp_get_current_user();
+    $user_role = !empty($current_user->roles) ? $current_user->roles[0] : '';
+
+    $docQueryArgs =
+        array(
+            'posts_per_page' => 1000,
+            'post_type'      => 'document',
+            'meta_query'     => array(
+                array(
+                    'key'     => $prefix . 'document_is_active',
+                    'value'   => 'on',
+                    'compare' => 'LIKE',
+                    'orderby' => 'title',
+                    'order'   => 'ASC',
+                )
+
+            )
+        );
+
+    $linkQueryArgs = array(
+        'posts_per_page' => -1,
+        'post_type'      => 'page_link',
+        'orderby' => 'title',
+        'order'   => 'ASC',
+    );
+
+    $queryArgs = array(
+        'posts_per_page' => -1,
+        'post_type'      => 'resource_page',
+        'orderby' => 'title',
+        'order'   => 'ASC',
+    );
+
+    if ($user_role === 'finance_editor') {
+        global $finance_module_id;
+
+        $financeResources = get_module_child_pages_using_module_id($finance_module_id);
+
+        //Resources query args
+        $queryArgs = array(
+            'posts_per_page' => -1,
+            'post_type'      => 'resource_page',
+            'orderby' => 'title',
+            'order'   => 'ASC',
+            'post__in' => $financeResources
+        );
+
+        //Document query args
+        $financeDocuments = [];
+        foreach ($financeResources as $resource_id) {
+            $documents = get_post_meta($resource_id, $prefix . 'resource_attached_documents', true);
+            if ($documents) {
+                $financeDocuments = array_merge($financeDocuments, (array) $documents);
+            }
+        }
+        // Include documents created by the finance editor themselves as well in case they haven't attached them to a resource yet
+        $financeDocuments = array_merge($financeDocuments, get_posts([
+            'posts_per_page' => -1,
+            'post_type'      => 'document',
+            'author'         => $current_user->ID,
+            'fields'         => 'ids',
+        ]));
+
+        $docQueryArgs = array(
+            'posts_per_page' => 1000,
+            'post_type'      => 'document',
+            'meta_query'     => array(
+                array(
+                    'key'     => $prefix . 'document_is_active',
+                    'value'   => 'on',
+                    'compare' => 'LIKE',
+                    'orderby' => 'title',
+                    'order'   => 'ASC',
+                )
+            ),
+            'post__in' => $financeDocuments
+
+        );
+
+        //Link query args
+        $financeLinks = [];
+        foreach ($financeResources as $resource_id) {
+            $links = get_post_meta($resource_id, $prefix . 'resource_attached_links', true);
+            if ($links) {
+                $financeLinks = array_merge($financeLinks, (array) $links);
+            }
+        }
+        $financeLinks = array_merge($financeLinks, get_posts([
+            'posts_per_page' => -1,
+            'post_type'      => 'page_link',
+            'author'         => $current_user->ID,
+            'fields'         => 'ids',
+        ]));
+
+        $linkQueryArgs = array(
+            'posts_per_page' => 1000,
+            'post_type'      => 'page_link',
+            'orderby' => 'title',
+            'order'   => 'ASC',
+            'post__in' => $financeLinks
+        );
+    }
+
+    if ($user_role === 'hsw_editor') {
+        global $hsw_module_id;
+
+        $hswResources = get_module_child_pages_using_module_id($hsw_module_id);
+
+        //Resources query args
+        $queryArgs = array(
+            'posts_per_page' => -1,
+            'post_type'      => 'resource_page',
+            'orderby' => 'title',
+            'order'   => 'ASC',
+            'post__in' => $hswResources
+        );
+
+        //Document query args
+        $hswDocuments = [];
+        foreach ($hswResources as $resource_id) {
+            $documents = get_post_meta($resource_id, $prefix . 'resource_attached_documents', true);
+            if ($documents) {
+                $hswDocuments = array_merge($hswDocuments, (array) $documents);
+            }
+        }
+        // Include documents created by the HSW editor themselves as well in case they haven't attached them to a resource yet
+        $hswDocuments = array_merge($hswDocuments, get_posts([
+            'posts_per_page' => -1,
+            'post_type'      => 'document',
+            'author'         => $current_user->ID,
+            'fields'         => 'ids',
+        ]));
+
+        $docQueryArgs = array(
+            'posts_per_page' => 1000,
+            'post_type'      => 'document',
+            'meta_query'     => array(
+                array(
+                    'key'     => $prefix . 'document_is_active',
+                    'value'   => 'on',
+                    'compare' => 'LIKE',
+                    'orderby' => 'title',
+                    'order'   => 'ASC',
+                )
+            ),
+            'post__in' => $hswDocuments
+
+        );
+
+        //Link query args
+        $hswLinks = [];
+        foreach ($hswResources as $resource_id) {
+            $links = get_post_meta($resource_id, $prefix . 'resource_attached_links', true);
+            if ($links) {
+                $hswLinks = array_merge($hswLinks, (array) $links);
+            }
+        }
+        $hswLinks = array_merge($hswLinks, get_posts([
+            'posts_per_page' => -1,
+            'post_type'      => 'page_link',
+            'author'         => $current_user->ID,
+            'fields'         => 'ids',
+        ]));
+
+        $linkQueryArgs = array(
+            'posts_per_page' => 1000,
+            'post_type'      => 'page_link',
+            'orderby' => 'title',
+            'order'   => 'ASC',
+            'post__in' => $hswLinks
+        );
+    }
+
+    if ($user_role === 'hr_editor') {
+        global $hr_module_id;
+
+        $hrResources = get_module_child_pages_using_module_id($hr_module_id);
+
+        //Resources query args
+        $queryArgs = array(
+            'posts_per_page' => -1,
+            'post_type'      => 'resource_page',
+            'orderby' => 'title',
+            'order'   => 'ASC',
+            'post__in' => $hrResources
+        );
+
+        //Document query args
+        $hrDocuments = [];
+        foreach ($hrResources as $resource_id) {
+            $documents = get_post_meta($resource_id, $prefix . 'resource_attached_documents', true);
+            if ($documents) {
+                $hrDocuments = array_merge($hrDocuments, (array) $documents);
+            }
+        }
+        // Include documents created by the HR editor themselves as well in case they haven't attached them to a resource yet
+        $hrDocuments = array_merge($hrDocuments, get_posts([
+            'posts_per_page' => -1,
+            'post_type'      => 'document',
+            'author'         => $current_user->ID,
+            'fields'         => 'ids',
+        ]));
+
+        $docQueryArgs = array(
+            'posts_per_page' => 1000,
+            'post_type'      => 'document',
+            'meta_query'     => array(
+                array(
+                    'key'     => $prefix . 'document_is_active',
+                    'value'   => 'on',
+                    'compare' => 'LIKE',
+                    'orderby' => 'title',
+                    'order'   => 'ASC',
+                )
+            ),
+            'post__in' => $hrDocuments
+
+        );
+
+        //Link query args
+        $hrLinks = [];
+        foreach ($hrResources as $resource_id) {
+            $links = get_post_meta($resource_id, $prefix . 'resource_attached_links', true);
+            if ($links) {
+                $hrLinks = array_merge($hrLinks, (array) $links);
+            }
+        }
+        $hrLinks = array_merge($hrLinks, get_posts([
+            'posts_per_page' => -1,
+            'post_type'      => 'page_link',
+            'author'         => $current_user->ID,
+            'fields'         => 'ids',
+        ]));
+
+        $linkQueryArgs = array(
+            'posts_per_page' => 1000,
+            'post_type'      => 'page_link',
+            'orderby' => 'title',
+            'order'   => 'ASC',
+            'post__in' => $hrLinks
+        );
+    }
+
 
     $resource->add_field(array(
         'name'    => __('Documents shown', 'hrinfospace'),
@@ -49,19 +282,7 @@ function cmb2_page_metabox()
         'options' => array(
             'show_thumbnails' => false, // Show thumbnails on the left
             'filter_boxes'    => true, // Show a text box for filtering the results
-            'query_args'      => array(
-                'posts_per_page' => 1000,
-                'post_type'      => 'document',
-                'meta_query'     => array(
-                    array(
-                        'key'     => $prefix . 'document_is_active',
-                        'value'   => 'on',
-                        'compare' => 'LIKE',
-                        'orderby' => 'title',
-                        'order'   => 'ASC',
-                    )
-                )
-            ), // override the get_posts args
+            'query_args'      => $docQueryArgs, // override the get_posts args
         ),
     ));
 
@@ -74,14 +295,11 @@ function cmb2_page_metabox()
         'options' => array(
             'show_thumbnails' => false, // Show thumbnails on the left
             'filter_boxes'    => true, // Show a text box for filtering the results
-            'query_args'      => array(
-                'posts_per_page' => -1,
-                'post_type'      => 'page_link',
-                'orderby' => 'title',
-                'order'   => 'ASC',
-            ), // override the get_posts args
+            'query_args'      => $linkQueryArgs, // override the get_posts args
         ),
     ));
+
+
 
     $resource->add_field(array(
         'name'    => __('Landing pages shown', 'hrinfospace'),
@@ -92,12 +310,7 @@ function cmb2_page_metabox()
         'options' => array(
             'show_thumbnails' => false, // Show thumbnails on the left
             'filter_boxes'    => true, // Show a text box for filtering the results
-            'query_args'      => array(
-                'posts_per_page' => -1,
-                'post_type'      => 'resource_page',
-                'orderby' => 'title',
-                'order'   => 'ASC',
-            ), // override the get_posts args
+            'query_args'      => $queryArgs, // override the get_posts args
         ),
     ));
 
@@ -120,7 +333,7 @@ function cmb2_page_metabox()
         'type'      => 'text',
         'attributes' => [
             //'readonly' => 'readonly',
-             'style' => 'display: none;'
+            'style' => 'display: none;'
         ]
     ]);
 

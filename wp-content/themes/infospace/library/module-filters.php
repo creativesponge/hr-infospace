@@ -64,7 +64,7 @@ function get_module_child_pages($parent_id, $visited = array()): array
         $currentModuleMeta = get_current_module_meta(null);
         $landingPageId = $currentModuleMeta['attached_resources'] ?? 0;
     } else {
-        $landingPageId = $parent_id;
+        $landingPageId = (int) $parent_id;
     }
 
     // Prevent infinite recursion
