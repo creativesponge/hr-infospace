@@ -167,4 +167,12 @@
     display: none;
   }
 }
+.inline-edit-status {
+  + label {
+    display: none!important;
+  }
+}
+.editor-change-status__password-fieldset, .editor-post-sticky__checkbox-control {
+  display: none!important;
+}
 
