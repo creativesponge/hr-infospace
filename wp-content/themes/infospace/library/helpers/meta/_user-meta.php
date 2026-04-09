@@ -116,6 +116,7 @@ function cmb2_user_metabox()
             'name'      => 'Access End Date',
             'desc'      => 'The date the user no longer has access',
             'type'      => 'text_date_timestamp',
+            'date_format' => 'd/m/Y',
         ]);
         $user->add_field([
             'id'        => $prefix . 'user_is_active',

@@ -102,6 +102,7 @@ function cmb2_document_metabox()
         'name'      => 'Start Date',
         'desc'      => 'The date the document became effective',
         'type'      => 'text_date_timestamp',
+        'date_format' => 'd/m/Y',
         'column'    => true,
         'sortable'  => true,
     ]);
@@ -111,6 +112,7 @@ function cmb2_document_metabox()
         'name'      => 'End Date',
         'desc'      => 'The date the document is no longer valid',
         'type'      => 'text_date_timestamp',
+        'date_format' => 'd/m/Y',
         'column'    => true,
         'sortable'  => true,
     ]);
@@ -232,6 +234,7 @@ function cmb2_document_metabox()
         'name'      => 'Is New?',
         'desc'      => 'Mark as new document',
         'type'      => 'text_date_timestamp',
+        'date_format' => 'd/m/Y',
         'column'    => true,
         'sortable'  => true,
     ]);
@@ -240,6 +243,7 @@ function cmb2_document_metabox()
         'name'      => 'Is Updated?',
         'desc'      => 'Mark as updated document',
         'type'      => 'text_date_timestamp',
+        'date_format' => 'd/m/Y',
         'column'    => true,
         'sortable'  => true,
     ]);

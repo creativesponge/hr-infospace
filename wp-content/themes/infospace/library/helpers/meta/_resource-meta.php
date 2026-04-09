@@ -360,6 +360,7 @@ function cmb2_page_metabox()
         'name'      => 'End Date',
         'desc'      => 'The date the document is no longer valid',
         'type'      => 'text_date_timestamp',
+        'date_format' => 'd/m/Y',
         'column'    => true,
         'sortable'  => true,
     ]);

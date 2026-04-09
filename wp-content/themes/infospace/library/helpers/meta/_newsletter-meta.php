@@ -19,13 +19,15 @@ function cmb2_newsletter_metabox()
         'id'        => $prefix . 'newsletter_date',
         'name'      => 'Date',
         'desc'      => 'The date of the newsletter',
-        'type'      => 'text_date_timestamp'
+        'type'      => 'text_date_timestamp',
+        'date_format' => 'd/m/Y',
     ]);
     $newsletter->add_field([
         'id'        => $prefix . 'newsletter_start_date',
         'name'      => 'Start Date',
         'desc'      => 'The date the document became effective',
         'type'      => 'text_date_timestamp',
+        'date_format' => 'd/m/Y',
         'column'    => true,
         'sortable'  => true,
     ]);
@@ -35,6 +37,7 @@ function cmb2_newsletter_metabox()
         'name'      => 'End Date',
         'desc'      => 'The date the document is no longer valid',
         'type'      => 'text_date_timestamp',
+        'date_format' => 'd/m/Y',
         'column'    => true,
         'sortable'  => true,
     ]);
