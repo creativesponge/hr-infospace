@@ -6,6 +6,10 @@ function cmb2_user_metabox()
 {
     global $prefix;
 
+    $can_manage_admin_fields = current_user_can('administrator') || current_user_can('infospace_editor');
+    $can_manage_organisation_fields = $can_manage_admin_fields || current_user_can('main');
+    $can_manage_alert_fields = $can_manage_organisation_fields || current_user_can('individual');
+
 
     $user = new_cmb2_box([
         'id'            => $prefix . 'user_page_details',
@@ -85,52 +89,41 @@ function cmb2_user_metabox()
         return $output;
     }, 10, 3);
 
-    $user->add_field([
-        'id'        => $prefix . 'user_organisation',
-        'name'      => 'School/Academy',
-        //'desc'      => 'Short summary of the document',
-        'type'      => 'text',
-        'show_on_cb' => function () {
-            return current_user_can('administrator') || current_user_can('main') || current_user_can('infospace_editor');
-        }
-    ]);
-    $user->add_field([
-        'id'        => $prefix . 'user_federation_trust',
-        'name'      => 'Federation/Trust',
-        //'desc'      => 'Short summary of the document',
-        'type'      => 'text',
-        'show_on_cb' => function () {
-            
-            return current_user_can('administrator') || current_user_can('main') || current_user_can('infospace_editor');
-        }
-    ]);
-    $user->add_field([
-        'id'        => $prefix . 'user_dfe_number',
-        'name'      => 'DFE Number',
-        'desc'      => 'Department for Education number',
-        'type'      => 'text',
-        'show_on_cb' => function () {
-            return current_user_can('administrator') || current_user_can('main') || current_user_can('infospace_editor');
-        }
-    ]);
-    $user->add_field([
-        'id'        => $prefix . 'user_end_date',
-        'name'      => 'Access End Date',
-        'desc'      => 'The date the user no longer has access',
-        'type'      => 'text_date_timestamp',
-        'show_on_cb' => function () {
-            return current_user_can('administrator') || current_user_can('infospace_editor');
-        }
-    ]);
-    $user->add_field([
-        'id'        => $prefix . 'user_is_active',
-        'name'      => 'Is Active',
-        'desc'      => 'Check to activate this user',
-        'type'      => 'checkbox',
-        'show_on_cb' => function () {
-            return current_user_can('administrator') || current_user_can('infospace_editor');
-        }
-    ]);
+    if ($can_manage_organisation_fields) {
+        $user->add_field([
+            'id'        => $prefix . 'user_organisation',
+            'name'      => 'School/Academy',
+            //'desc'      => 'Short summary of the document',
+            'type'      => 'text',
+        ]);
+        $user->add_field([
+            'id'        => $prefix . 'user_federation_trust',
+            'name'      => 'Federation/Trust',
+            //'desc'      => 'Short summary of the document',
+            'type'      => 'text',
+        ]);
+        $user->add_field([
+            'id'        => $prefix . 'user_dfe_number',
+            'name'      => 'DFE Number',
+            'desc'      => 'Department for Education number',
+            'type'      => 'text',
+        ]);
+    }
+
+    if ($can_manage_admin_fields) {
+        $user->add_field([
+            'id'        => $prefix . 'user_end_date',
+            'name'      => 'Access End Date',
+            'desc'      => 'The date the user no longer has access',
+            'type'      => 'text_date_timestamp',
+        ]);
+        $user->add_field([
+            'id'        => $prefix . 'user_is_active',
+            'name'      => 'Is Active',
+            'desc'      => 'Check to activate this user',
+            'type'      => 'checkbox',
+        ]);
+    }
     // Add is active column to admin list view
     add_filter('manage_users_columns', function ($columns) use ($prefix) {
         $columns[$prefix . 'user_is_active'] = 'Active';
@@ -167,72 +160,63 @@ function cmb2_user_metabox()
     }, 10, 3);
 
 
-    $user->add_field([
-        'id'        => $prefix . 'user_hr_alerts',
-        'name'      => 'Receive HR alerts',
-        'desc'      => 'Check to activate HR alerts for this user',
-        'type'      => 'checkbox',
-        'show_on_cb' => function () {
-            global $hr_page;
-            return (current_user_can('administrator') || current_user_can('main') || current_user_can('individual') || current_user_can('infospace_editor')) && (user_has_access($hr_page) || user_has_module_access($hr_page));
+    if ($can_manage_alert_fields) {
+        global $hr_page, $finance_page, $hsafety_page;
+
+        if (user_has_access($hr_page) || user_has_module_access($hr_page)) {
+            $user->add_field([
+                'id'        => $prefix . 'user_hr_alerts',
+                'name'      => 'Receive HR alerts',
+                'desc'      => 'Check to activate HR alerts for this user',
+                'type'      => 'checkbox',
+            ]);
         }
-    ]);
-    $user->add_field([
-        'id'        => $prefix . 'user_finance_alerts',
-        'name'      => 'Receive finance alerts',
-        'desc'      => 'Check to activate finance alerts for this user',
-        'type'      => 'checkbox',
-        'show_on_cb' => function () {
-            global $finance_page;
-            return (current_user_can('administrator') || current_user_can('main') || current_user_can('individual') || current_user_can('infospace_editor')) && (user_has_access($finance_page) || user_has_module_access($finance_page));
+
+        if (user_has_access($finance_page) || user_has_module_access($finance_page)) {
+            $user->add_field([
+                'id'        => $prefix . 'user_finance_alerts',
+                'name'      => 'Receive finance alerts',
+                'desc'      => 'Check to activate finance alerts for this user',
+                'type'      => 'checkbox',
+            ]);
         }
-    ]);
-    $user->add_field([
-        'id'        => $prefix . 'user_hsw_alerts',
-        'name'      => 'Receive H,S&W alerts',
-        'desc'      => 'Check to activate H,S&W alerts for this user',
-        'type'      => 'checkbox',
-        'show_on_cb' => function () {
-            global $hsafety_page;
-            return (current_user_can('administrator') || current_user_can('main') || current_user_can('individual') || current_user_can('infospace_editor')) && (user_has_access($hsafety_page) || user_has_module_access($hsafety_page));
+
+        if (user_has_access($hsafety_page) || user_has_module_access($hsafety_page)) {
+            $user->add_field([
+                'id'        => $prefix . 'user_hsw_alerts',
+                'name'      => 'Receive H,S&W alerts',
+                'desc'      => 'Check to activate H,S&W alerts for this user',
+                'type'      => 'checkbox',
+            ]);
         }
-    ]);
-    $user->add_field([
-        'id'        => $prefix . 'user_accepted_terms',
-        'name'      => 'Accepted terms',
-        'desc'      => 'Check to confirm acceptance of terms for this user',
-        'type'      => 'checkbox',
-        'show_on_cb' => function () {
-            return current_user_can('administrator') || current_user_can('infospace_editor');
-        }
-    ]);
-    $user->add_field([
-        'id'        => $prefix . 'user_changed_password',
-        'name'      => 'Changed password',
-        'desc'      => 'Uncheck to force a password change for this user',
-        'type'      => 'checkbox',
-        'show_on_cb' => function () {
-            return current_user_can('administrator') || current_user_can('infospace_editor');
-        }
-    ]);
-    $user->add_field([
-        'id'        => $prefix . 'user_accepted_privacy_policy',
-        'name'      => 'Accepted privacy policy',
-        'desc'      => 'Check to confirm acceptance of privacy policy for this user',
-        'type'      => 'checkbox',
-        'show_on_cb' => function () {
-            return current_user_can('administrator') || current_user_can('infospace_editor');
-        }
-    ]);
-    $user->add_field([
-        'id'        => $prefix . 'user_exclude_from_reports',
-        'name'      => 'Exclude from reports',
-        'desc'      => 'Check to exclude this user from reports',
-        'type'      => 'checkbox',
-        'show_on_cb' => function () {
-            return current_user_can('administrator') || current_user_can('infospace_editor');
-        }
-    ]);
+    }
+
+    if ($can_manage_admin_fields) {
+        $user->add_field([
+            'id'        => $prefix . 'user_accepted_terms',
+            'name'      => 'Accepted terms',
+            'desc'      => 'Check to confirm acceptance of terms for this user',
+            'type'      => 'checkbox',
+        ]);
+        $user->add_field([
+            'id'        => $prefix . 'user_changed_password',
+            'name'      => 'Changed password',
+            'desc'      => 'Uncheck to force a password change for this user',
+            'type'      => 'checkbox',
+        ]);
+        $user->add_field([
+            'id'        => $prefix . 'user_accepted_privacy_policy',
+            'name'      => 'Accepted privacy policy',
+            'desc'      => 'Check to confirm acceptance of privacy policy for this user',
+            'type'      => 'checkbox',
+        ]);
+        $user->add_field([
+            'id'        => $prefix . 'user_exclude_from_reports',
+            'name'      => 'Exclude from reports',
+            'desc'      => 'Check to exclude this user from reports',
+            'type'      => 'checkbox',
+        ]);
+    }
 
     // Add HR Alerts column to admin list view
     add_filter('manage_users_columns', function ($columns) use ($prefix) {
@@ -320,161 +304,133 @@ function cmb2_user_metabox()
         return $output;
     }, 10, 3);
 
- $user->add_field([
-        'id'        => $prefix . 'user_is_internal',
-        'name'      => 'Internal',
-        'desc'      => 'Check if this user is an internal staff member',
-        'type'      => 'checkbox',
-        'show_on_cb' => function () {
-            return current_user_can('administrator') || current_user_can('infospace_editor');
-        }
-    ]);
+    if ($can_manage_admin_fields) {
+        $user->add_field([
+            'id'        => $prefix . 'user_is_internal',
+            'name'      => 'Internal',
+            'desc'      => 'Check if this user is an internal staff member',
+            'type'      => 'checkbox',
+        ]);
 
-    $user->add_field([
-        'id'        => $prefix . 'user_is_staff',
-        'name'      => 'Staff status (Not used)',
-        'desc'      => 'Check if this user is a staff member',
-        'type'      => 'checkbox',
-        'attributes' => [
-            'disabled' => 'disabled',
-            'style' => 'color: #999; background-color: #f5f5f5;'
-       ],
-        'show_on_cb' => function () {
-            return current_user_can('administrator') || current_user_can('infospace_editor');
-        }
-    ]);
-    
-    $user->add_field([
-        'id'        => $prefix . 'user_is_super_user',
-        'name'      => 'Is Super User (Not used)',
-        'desc'      => 'Check if this user is a super user',
-        'type'      => 'checkbox',
-        'attributes' => [
-            'disabled' => 'disabled',
-            'style' => 'color: #999; background-color: #f5f5f5;'
-        ],
-        'show_on_cb' => function () {
-            return current_user_can('administrator') || current_user_can('infospace_editor');
-        }
-    ]);
-    $user->add_field([
-        'id'      => $prefix . 'user_group',
-        'name'    => 'User Group (Not used)',
-        'desc'    => 'Select the group of the user',
-        'type'    => 'select',
-        'attributes' => [
-            'disabled' => 'disabled',
-            'style' => 'color: #999; background-color: #f5f5f5;'
-        ],
-        'options' => [
-            'individual' => 'Individual',
-            'employee'   => 'Employee',
-            'main'       => 'Main'
-        ],
-        'show_on_cb' => function () {
-            return current_user_can('administrator') || current_user_can('infospace_editor');
-        }
-    ]);
+        $user->add_field([
+            'id'        => $prefix . 'user_is_staff',
+            'name'      => 'Staff status (Not used)',
+            'desc'      => 'Check if this user is a staff member',
+            'type'      => 'checkbox',
+            'attributes' => [
+                'disabled' => 'disabled',
+                'style' => 'color: #999; background-color: #f5f5f5;'
+           ],
+        ]);
+        
+        $user->add_field([
+            'id'        => $prefix . 'user_is_super_user',
+            'name'      => 'Is Super User (Not used)',
+            'desc'      => 'Check if this user is a super user',
+            'type'      => 'checkbox',
+            'attributes' => [
+                'disabled' => 'disabled',
+                'style' => 'color: #999; background-color: #f5f5f5;'
+            ],
+        ]);
+        $user->add_field([
+            'id'      => $prefix . 'user_group',
+            'name'    => 'User Group (Not used)',
+            'desc'    => 'Select the group of the user',
+            'type'    => 'select',
+            'attributes' => [
+                'disabled' => 'disabled',
+                'style' => 'color: #999; background-color: #f5f5f5;'
+            ],
+            'options' => [
+                'individual' => 'Individual',
+                'employee'   => 'Employee',
+                'main'       => 'Main'
+            ],
+        ]);
 
 
-    $user->add_field(array(
-        'name'    => __('Front end access profile', 'hrinfospace'),
-        'desc'    => __('Drag profile from the left column to the right column to attach them to this user.<br />You may rearrange the order of the profile in the right column by dragging and dropping.', 'hrinfospace'),
-        'id'      => $prefix . 'user_attached_user_profile',
-        'type'    => 'custom_attached_posts',
-        'column'  => true, // Output in the admin post-listing as a custom column. https://github.com/CMB2/CMB2/wiki/Field-Parameters#column
-        'options' => array(
-            'show_thumbnails' => true, // Show thumbnails on the left
-            'filter_boxes'    => true, // Show a text box for filtering the results
-            'query_args'      => array(
-                'posts_per_page' => 10,
-                'post_type'      => 'user_profile',
-            ), // override the get_posts args
-        ),
-        'show_on_cb' => function () {
-            return current_user_can('administrator') || current_user_can('infospace_editor');
-        }
-    ));
+        $user->add_field(array(
+            'name'    => __('Front end access profile', 'hrinfospace'),
+            'desc'    => __('Drag profile from the left column to the right column to attach them to this user.<br />You may rearrange the order of the profile in the right column by dragging and dropping.', 'hrinfospace'),
+            'id'      => $prefix . 'user_attached_user_profile',
+            'type'    => 'custom_attached_posts',
+            'column'  => true, // Output in the admin post-listing as a custom column. https://github.com/CMB2/CMB2/wiki/Field-Parameters#column
+            'options' => array(
+                'show_thumbnails' => true, // Show thumbnails on the left
+                'filter_boxes'    => true, // Show a text box for filtering the results
+                'query_args'      => array(
+                    'posts_per_page' => 10,
+                    'post_type'      => 'user_profile',
+                ), // override the get_posts args
+            ),
+        ));
 
 
-    $user->add_field(array(
-        'name'    => __('User page permissions', 'hrinfospace'),
-        'desc'    => __('Drag a page from the left column to the right column to attach them to this user.<br />You may rearrange the order of the resources in the right column by dragging and dropping.', 'hrinfospace'),
-        'id'      => $prefix . 'user_attached_resource_pages',
-        'type'    => 'custom_attached_posts',
-        'column'  => true, // Output in the admin post-listing as a custom column. https://github.com/CMB2/CMB2/wiki/Field-Parameters#column
-        'options' => array(
-            'show_thumbnails' => true, // Show thumbnails on the left
-            'filter_boxes'    => true, // Show a text box for filtering the results
-            'query_args'      => array(
-                'posts_per_page' => -1,
-                'post_type'      => 'resource_page',
-            ), // override the get_posts args
-        ),
-        'show_on_cb' => function () {
-            return current_user_can('administrator') || current_user_can('infospace_editor');
-        }
-    ));
+        $user->add_field(array(
+            'name'    => __('User page permissions', 'hrinfospace'),
+            'desc'    => __('Drag a page from the left column to the right column to attach them to this user.<br />You may rearrange the order of the resources in the right column by dragging and dropping.', 'hrinfospace'),
+            'id'      => $prefix . 'user_attached_resource_pages',
+            'type'    => 'custom_attached_posts',
+            'column'  => true, // Output in the admin post-listing as a custom column. https://github.com/CMB2/CMB2/wiki/Field-Parameters#column
+            'options' => array(
+                'show_thumbnails' => true, // Show thumbnails on the left
+                'filter_boxes'    => true, // Show a text box for filtering the results
+                'query_args'      => array(
+                    'posts_per_page' => -1,
+                    'post_type'      => 'resource_page',
+                ), // override the get_posts args
+            ),
+        ));
 
-    $user->add_field([
-        'id'   => $prefix . 'user_admin_title',
-        'name' => 'Admin',
-        'type' => 'title',
-        'show_on_cb' => function () {
-            return current_user_can('administrator') || current_user_can('infospace_editor');
-        }
-    ]);
+        $user->add_field([
+            'id'   => $prefix . 'user_admin_title',
+            'name' => 'Admin',
+            'type' => 'title',
+        ]);
 
 
-    $user->add_field([
-        'id'        => $prefix . 'old_user_system_id',
-        'name'      => 'Old System ID',
-        'desc'      => 'ID from the old system',
-        'type'      => 'text',
-        'attributes' => [
+        $user->add_field([
+            'id'        => $prefix . 'old_user_system_id',
+            'name'      => 'Old System ID',
+            'desc'      => 'ID from the old system',
+            'type'      => 'text',
+            'attributes' => [
+                //'readonly' => 'readonly',
+                'style' => 'display: none;'
+            ],
+        ]);
+        $user->add_field([
+            'id'        => $prefix . 'user_created_by',
+            'name'      => 'Created By',
+            'desc'      => 'User who created this record',
+            'type'      => 'text',
+            'column'    => true, // Output in the admin user-listing as a custom column
+            'display_cb' => function ($field_args, $field) {
+                $user_id = $field->value();
+                if ($user_id) {
+                    $user = get_user_by('id', $user_id);
+                    return $user ? $user->display_name : $user_id;
+                }
+                return '';
+            },
+            //'attributes' => [
             //'readonly' => 'readonly',
-            'style' => 'display: none;'
-        ],
-        'show_on_cb' => function () {
-            return current_user_can('administrator') || current_user_can('infospace_editor');
-        }
-    ]);
-    $user->add_field([
-        'id'        => $prefix . 'user_created_by',
-        'name'      => 'Created By',
-        'desc'      => 'User who created this record',
-        'type'      => 'text',
-        'column'    => true, // Output in the admin user-listing as a custom column
-        'display_cb' => function ($field_args, $field) {
-            $user_id = $field->value();
-            if ($user_id) {
-                $user = get_user_by('id', $user_id);
-                return $user ? $user->display_name : $user_id;
-            }
-            return '';
-        },
-        //'attributes' => [
-        //'readonly' => 'readonly',
-        // ],
-        'show_on_cb' => function () {
-            return current_user_can('administrator') || current_user_can('infospace_editor');
-        }
-    ]);
+            // ],
+        ]);
 
-    $user->add_field([
-        'id'        => $prefix . 'user_last_login',
-        'name'      => 'Last Login',
-        'desc'      => 'The last time this user logged in',
-        'type'      => 'text_date_timestamp',
-        'date_format' => 'd/m/Y',
-        'attributes' => [
-            //'readonly' => 'readonly',
-            'style' => 'display: none;'
-        ],
-        'show_on_cb' => function () {
-            return current_user_can('administrator') || current_user_can('infospace_editor');
-        }
-    ]);
+        $user->add_field([
+            'id'        => $prefix . 'user_last_login',
+            'name'      => 'Last Login',
+            'desc'      => 'The last time this user logged in',
+            'type'      => 'text_date_timestamp',
+            'date_format' => 'd/m/Y',
+            'attributes' => [
+                //'readonly' => 'readonly',
+                'style' => 'display: none;'
+            ],
+        ]);
+    }
 }
 
 // Add Last Login column to admin list view
