@@ -512,7 +512,7 @@ function pure_js_trash_confirm() {
     <?php
 }
 
-
+// add custom fields to admin user search
 add_action('pre_user_query', function($query) {
     global $wpdb;
 

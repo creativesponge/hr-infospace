@@ -479,7 +479,7 @@ function restrict_finance_editor_access($query)
                 $allowed_newsletters = array();
                 $this_page = $finance_page;
 
-                $allowed_newsletters = array($this_page);
+                $allowed_resources = array($this_page);
 
                 // Get all the allowed resource pages
                 while ($this_page) {
