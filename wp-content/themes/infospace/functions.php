@@ -31,9 +31,9 @@ if ($site_url == 'https://hr-infospace:8890' || $site_url == 'https://localhost:
     $hsafety_page = 1739;
 } else {
     // live
-    $finance_page = 5054;
-    $hr_page = 5022;
-    $hsafety_page = 4907;
+    $finance_page = 5227;
+    $hr_page = 5197;
+    $hsafety_page = 5082;
 }
 
 
