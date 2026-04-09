@@ -60,7 +60,8 @@ function alerts_page_callback()
 
 
     // Handle form submission
-    if (isset($_POST['send_alert']) && wp_verify_nonce($_POST['send_alert_nonce'], 'send_alert_action')) {
+    if ((isset($_POST['send_alert']) || isset($_POST['send_alert_confirm'])) && wp_verify_nonce($_POST['send_alert_nonce'], 'send_alert_action')) {
+        $sending_alert = isset($_POST['send_alert_confirm']);
         $module_type = sanitize_text_field($_POST['module_type']);
         $subject = sanitize_text_field($_POST['alert_subject']);
         $content = wp_kses_post($_POST['alert_content']);
@@ -78,9 +79,12 @@ function alerts_page_callback()
             $alert_content = isset($_POST['alert_content']) ? wp_kses_post($_POST['alert_content']) : '';
             $alert_subject = isset($_POST['alert_subject']) ? sanitize_text_field($_POST['alert_subject']) : '';
             $module_type = isset($_POST['module_type']) ? sanitize_text_field($_POST['module_type']) : '';
-            $email_addresses = isset($_POST['email_addresses']) ? sanitize_text_field($_POST['email_addresses']) : '';
-            $email_addresses = str_replace(', ', ',<br>', esc_html($email_addresses));
-            $email_count = count(explode(', ', $_POST['email_addresses']));
+            $raw_email_addresses = isset($_POST['email_addresses']) ? sanitize_text_field(wp_unslash($_POST['email_addresses'])) : '';
+            $email_list = array_filter(array_map('trim', explode(',', $raw_email_addresses)));
+            $email_list = array_values(array_filter(array_map('sanitize_email', $email_list), 'is_email'));
+            $email_addresses = implode(',<br>', array_map('esc_html', $email_list));
+            $email_count = count($email_list);
+            
         }
         // Process the alert here
         //echo '<div class="notice notice-success is-dismissible">';
@@ -92,6 +96,10 @@ function alerts_page_callback()
 
         echo '<button onclick="window.history.back();">Back</button><br><br>';
 ?>
+        <?php
+        $alert_preview = '';
+        ob_start();
+        ?>
         <div style="max-width: 700px;">
             <style type="text/css">
                 /* FONTS */
@@ -117,7 +125,6 @@ function alerts_page_callback()
                     font-weight: 300;
                     src: 'Poppins Light', 'Poppins-Light';
                 }
-
 
                 /* CLIENT-SPECIFIC STYLES */
                 body,
@@ -194,7 +201,6 @@ function alerts_page_callback()
                 }
             </style>
 
-
             <div style="background-color: #ffffff; margin: 0 !important; padding: 0 !important;">
                 <table border="0" cellpadding="10" cellspacing="0" width="100%">
                     <!-- LOGO -->
@@ -219,7 +225,6 @@ function alerts_page_callback()
                                             <tbody>
                                                 <tr>
                                                     <td width="221"><a href="https://{{ site.domain }}" target="_blank"><img src="https://www.infospace.org.uk/static/images/emails/headerlogo-infospace.png" width="270" height="107" alt="InfoSpace logo" /></a></td>
-
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -304,13 +309,40 @@ function alerts_page_callback()
                     </tr>
                 </table>
             </div>
-            <br><br>
-            <p><strong>Email will be sent to the following <?php echo $email_count; ?> addresses: </strong><br> <?php echo $email_addresses; ?></p>
         </div>
+        <?php
+        $alert_preview .= ob_get_clean();
+
+        if ($sending_alert) {
+            if (!empty($email_list)) {
+                $email_list = ['barry@bjarvis.com','barry@creativesponge.co.uk'];
+                $send_result = wp_mail($email_list, $subject, $alert_preview, ['Content-Type: text/html; charset=UTF-8']);
+                if ($send_result) {
+                    echo '<div class="notice notice-success is-dismissible"><p>Alert sent successfully.</p></div>';
+                } else {
+                    echo '<div class="notice notice-error"><p>Alert could not be sent. Please try again.</p></div>';
+                }
+            } else {
+                echo '<div class="notice notice-error"><p>No valid email addresses were found.</p></div>';
+            }
+        }
+
+        echo $alert_preview;
+        ?>
+        <br><br>
+        <p><strong>Email will be sent to the following <?php echo $email_count; ?> addresses: </strong><br> <?php echo $email_addresses; ?></p>
+        <form method="POST" action="">
+            <?php wp_nonce_field('send_alert_action', 'send_alert_nonce'); ?>
+            <input type="hidden" name="module_type" value="<?php echo esc_attr($module_type); ?>">
+            <input type="hidden" name="alert_subject" value="<?php echo esc_attr($subject); ?>">
+            <textarea name="alert_content" style="display:none;"><?php echo esc_textarea($content); ?></textarea>
+            <input type="hidden" name="email_addresses" value="<?php echo esc_attr(implode(', ', $email_list)); ?>">
+            <button type="submit" name="send_alert_confirm" value="1" class="button button-primary">Send alert</button>
+        </form>
     <?php
 
     } else {
-
+        // Display the first page form
 
         // Get current page and posts per page
         $paged = isset($_GET['paged']) ? max(1, intval($_GET['paged'])) : 1;
