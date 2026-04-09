@@ -65,8 +65,8 @@ function handle_ajax_user_registration()
     update_user_meta($user_id, $prefix . 'user_dfe_number', sanitize_text_field($dfe_number));
 
     // Send notification email to infospace admin
-    //$admin_email = get_option('admin_email');
-    //$admin_email = 'barry@creativesponge.co.uk';
+
+    $from_email = 'info@ehr.norfolk.gov.uk';
     $admin_email = 'ehrpolicy@norfolkgov.uk';
     $subject = 'New User Registration';
     $message = "<p><strong>New user registration for $first_name $last_name needs approving:</strong></p>";
@@ -77,7 +77,7 @@ function handle_ajax_user_registration()
     $message .= "<p><a href='" . admin_url('user-edit.php?user_id=' . $user_id) . "'>View User Profile</a></p>";
     
     $headers[] = 'Content-Type: text/html; charset=UTF-8';
-    $headers[] = "From: Registration form <" . $admin_email . ">";
+    $headers[] = "From: Registration form <" . $from_email . ">";
 
     //wp_new_user_notification($user_id, null, 'both');
     

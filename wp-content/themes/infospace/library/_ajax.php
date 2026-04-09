@@ -62,7 +62,7 @@ function theme_contact_form()
         $defaultAdminEmail =  empty($settings[$prefix . 'email']) ? get_option('admin_email') : $settings[$prefix . 'email'];
         // get module email if set
         //$admin_email = isset($moduleMeta->module_email_address) ? $moduleMeta->module_email_address : $defaultAdminEmail;
-        $from_email = 'barry@creativesponge.co.uk';
+        $from_email = 'info@ehr.norfolk.gov.uk';
         $admin_email = 'ehrpolicy@norfolkgov.uk';
 
         // add prefix for meta
