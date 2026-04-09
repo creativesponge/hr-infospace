@@ -62,7 +62,8 @@ function alerts_page_callback()
     // Handle form submission
     if ((isset($_POST['send_alert']) || isset($_POST['send_alert_confirm'])) && wp_verify_nonce($_POST['send_alert_nonce'], 'send_alert_action')) {
         $sending_alert = isset($_POST['send_alert_confirm']);
-        $site_url = home_url('/');
+        //$site_url = home_url('/');
+        $site_url = 'https://www.infospace.org.uk/';
         $module_type = sanitize_text_field($_POST['module_type']);
         $subject = sanitize_text_field($_POST['alert_subject']);
         $content = wp_kses_post($_POST['alert_content']);
@@ -234,10 +235,10 @@ function alerts_page_callback()
                                             <tbody>
                                                 <tr>
                                                     <?php if ($module_type == "new_website"): ?>
-                                                        <td width="43" style="padding-left:2px"><a href="<?php echo esc_url($site_url); ?>/welcome-back/" target="_blank"><img src="<?php echo esc_url($site_url); ?>/static/images/emails/loginlogo.gif" width="43" height="38" alt="Login" /></a></td>
-                                                        <td width="237" style="color: #ea1d76; font-family: 'Poppins', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 400; line-height: 25px;"><a href="<?php echo esc_url($site_url); ?>/welcome-back/" style="color: #ea1d76; text-decoration:none;">LOGIN TO YOUR ACCOUNT</a></td>
+                                                        <td width="43" style="padding-left:2px"><a href="<?php echo esc_url($site_url); ?>welcome-back/" target="_blank"><img src="<?php echo esc_url($site_url); ?>/static/images/emails/loginlogo.gif" width="43" height="38" alt="Login" /></a></td>
+                                                        <td width="237" style="color: #ea1d76; font-family: 'Poppins', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 400; line-height: 25px;"><a href="<?php echo esc_url($site_url); ?>welcome-back/" style="color: #ea1d76; text-decoration:none;">LOGIN TO YOUR ACCOUNT</a></td>
                                                     <?php else : ?>
-                                                        <td width="43" style="padding-left:2px"><a href="<?php echo esc_url($site_url); ?>/" target="_blank"><img src="<?php echo esc_url($site_url); ?>/static/images/emails/loginlogo.gif" width="43" height="38" alt="Login" /></a></td>
+                                                        <td width="43" style="padding-left:2px"><a href="<?php echo esc_url($site_url); ?>" target="_blank"><img src="<?php echo esc_url($site_url); ?>/static/images/emails/loginlogo.gif" width="43" height="38" alt="Login" /></a></td>
                                                         <td width="237" style="color: #ea1d76; font-family: 'Poppins', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 400; line-height: 25px;"><a href="<?php echo esc_url($site_url); ?>" style="color: #ea1d76; text-decoration:none;">LOGIN TO YOUR ACCOUNT</a></td>
                                                     <?php endif; ?>
                                                 </tr>
