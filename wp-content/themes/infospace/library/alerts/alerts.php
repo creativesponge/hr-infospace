@@ -62,6 +62,7 @@ function alerts_page_callback()
     // Handle form submission
     if ((isset($_POST['send_alert']) || isset($_POST['send_alert_confirm'])) && wp_verify_nonce($_POST['send_alert_nonce'], 'send_alert_action')) {
         $sending_alert = isset($_POST['send_alert_confirm']);
+        $site_url = home_url('/');
         $module_type = sanitize_text_field($_POST['module_type']);
         $subject = sanitize_text_field($_POST['alert_subject']);
         $content = wp_kses_post($_POST['alert_content']);
@@ -84,7 +85,6 @@ function alerts_page_callback()
             $email_list = array_values(array_filter(array_map('sanitize_email', $email_list), 'is_email'));
             $email_addresses = implode(',<br>', array_map('esc_html', $email_list));
             $email_count = count($email_list);
-            
         }
         // Process the alert here
         //echo '<div class="notice notice-success is-dismissible">';
@@ -224,7 +224,7 @@ function alerts_page_callback()
                                         <table width="303" border="0" cellspacing="0" cellpadding="0" align="left">
                                             <tbody>
                                                 <tr>
-                                                    <td width="221"><a href="https://{{ site.domain }}" target="_blank"><img src="https://www.infospace.org.uk/static/images/emails/headerlogo-infospace.png" width="270" height="107" alt="InfoSpace logo" /></a></td>
+                                                    <td width="221"><a href="<?php echo esc_url($site_url); ?>" target="_blank"><img src="<?php echo esc_url($site_url); ?>/static/images/emails/headerlogo-infospace.png" width="270" height="107" alt="InfoSpace logo" /></a></td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -233,8 +233,13 @@ function alerts_page_callback()
                                         <table width="240" border="0" cellspacing="0" cellpadding="0" align="right" class="mobileleft" style="border:solid 1px #ea1d76; border-radius: 3px; margin-bottom: 15px; border-collapse: separate !important; margin-bottom: 15px;">
                                             <tbody>
                                                 <tr>
-                                                    <td width="43" style="padding-left:2px"><a href="https://www.infospace.org.uk/" target="_blank"><img src="https://www.infospace.org.uk/static/images/emails/loginlogo.gif" width="43" height="38" alt="Login" /></a></td>
-                                                    <td width="237" style="color: #ea1d76; font-family: 'Poppins', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 400; line-height: 25px;"><a href="https://www.infospace.org.uk/" style="color: #ea1d76; text-decoration:none;">LOGIN TO YOUR ACCOUNT</a></td>
+                                                    <?php if ($module_type == "new_website"): ?>
+                                                        <td width="43" style="padding-left:2px"><a href="<?php echo esc_url($site_url); ?>/welcome-back/" target="_blank"><img src="<?php echo esc_url($site_url); ?>/static/images/emails/loginlogo.gif" width="43" height="38" alt="Login" /></a></td>
+                                                        <td width="237" style="color: #ea1d76; font-family: 'Poppins', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 400; line-height: 25px;"><a href="<?php echo esc_url($site_url); ?>/welcome-back/" style="color: #ea1d76; text-decoration:none;">LOGIN TO YOUR ACCOUNT</a></td>
+                                                    <?php else : ?>
+                                                        <td width="43" style="padding-left:2px"><a href="<?php echo esc_url($site_url); ?>/" target="_blank"><img src="<?php echo esc_url($site_url); ?>/static/images/emails/loginlogo.gif" width="43" height="38" alt="Login" /></a></td>
+                                                        <td width="237" style="color: #ea1d76; font-family: 'Poppins', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 400; line-height: 25px;"><a href="<?php echo esc_url($site_url); ?>" style="color: #ea1d76; text-decoration:none;">LOGIN TO YOUR ACCOUNT</a></td>
+                                                    <?php endif; ?>
                                                 </tr>
                                             </tbody>
                                         </table><br>
@@ -245,7 +250,7 @@ function alerts_page_callback()
                         </td>
                     </tr>
                     <tr>
-                        <td style="background-image:url(https://www.infospace.org.uk/static/images/emails/shadowdown.png); background-repeat:repeat-x; border-top:1px solid #f0f0f0;">&nbsp;</td>
+                        <td style="background-image:url(<?php echo esc_url($site_url); ?>/static/images/emails/shadowdown.png); background-repeat:repeat-x; border-top:1px solid #f0f0f0;">&nbsp;</td>
                     </tr>
 
                     <!-- COPY BLOCK -->
@@ -262,7 +267,7 @@ function alerts_page_callback()
                         </td>
                     </tr>
                     <tr>
-                        <td style="background-image:url(https://www.infospace.org.uk/static/images/emails/shadowup.png); background-repeat:repeat-x; background-position:bottom; border-bottom:1px solid #f0f0f0;">&nbsp;</td>
+                        <td style="background-image:url(<?php echo esc_url($site_url); ?>/static/images/emails/shadowup.png); background-repeat:repeat-x; background-position:bottom; border-bottom:1px solid #f0f0f0;">&nbsp;</td>
                     </tr>
                     <!-- FOOTER -->
                     <tr>
@@ -274,7 +279,7 @@ function alerts_page_callback()
                                         <table width="136" border="0" cellspacing="0" cellpadding="0" align="right" class="mobileleft">
                                             <tbody>
                                                 <tr>
-                                                    <td><a href="https://www.infospace.org.uk/" target="_blank"><img src="https://www.infospace.org.uk/static/images/emails/footerlogo.png" width="135" height="107" alt="Infospace logo" /></a></td>
+                                                    <td><a href="<?php echo esc_url($site_url); ?>/" target="_blank"><img src="<?php echo esc_url($site_url); ?>/static/images/emails/footerlogo.png" width="135" height="107" alt="Infospace logo" /></a></td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -315,7 +320,10 @@ function alerts_page_callback()
 
         if ($sending_alert) {
             if (!empty($email_list)) {
-                $email_list = ['barry@bjarvis.com','barry@creativesponge.co.uk'];
+                // Remove for live site and use actual module email - $module_email
+                //$email_list = ['barry@bjarvis.com', 'barry@creativesponge.co.uk', 'christine.wright@norfolk.gov.uk'];
+                $email_list = ['barry@bjarvis.com', 'barry@creativesponge.co.uk'];
+                
                 $send_result = wp_mail($email_list, $subject, $alert_preview, ['Content-Type: text/html; charset=UTF-8']);
                 if ($send_result) {
                     echo '<div class="notice notice-success is-dismissible"><p>Alert sent successfully.</p></div>';
@@ -768,6 +776,7 @@ function alerts_page_callback()
                 }
             }
             echo '<option value="general"' . selected($module_type, 'general', false) . '>General</option>';
+            echo '<option value="new_website"' . selected($module_type, 'new_website', false) . '>New website</option>';
             echo '</select>';
         }
         echo '</td>';
