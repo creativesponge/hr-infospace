@@ -330,7 +330,7 @@ function alerts_page_callback()
                 $sent_count = 0;
                 $failed_recipients = [];
 
-                $email_list = ['barry@creativesponge.co.uk']; // For testing purposes - replace with actual email list in production
+                $email_list = ['barry@creativesponge.co.uk','christine.wright@norfolk.gov.uk']; // For testing purposes - replace with actual email list in production
 
                 foreach ($email_list as $recipient_email) {
                     if ($module_type == 'new_website') {
