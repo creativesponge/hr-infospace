@@ -115,10 +115,10 @@ foreach ($userData as $userRecord) {
         update_user_meta($post_id, $prefix . 'user_finance_alerts', $userRecord['receive_finance_alerts'] ? 'on' : '');
     }
     if (isset($userRecord['accepted_terms'])) {
-        update_user_meta($post_id, $prefix . 'user_accepted_terms', $userRecord['accepted_terms'] ? 'on' : '');
+        //update_user_meta($post_id, $prefix . 'user_accepted_terms', $userRecord['accepted_terms'] ? 'on' : '');
     }
     if (isset($userRecord['accepted_privacy_policy'])) {
-        update_user_meta($post_id, $prefix . 'user_accepted_privacy_policy', $userRecord['accepted_privacy_policy'] ? 'on' : '');
+        //update_user_meta($post_id, $prefix . 'user_accepted_privacy_policy', $userRecord['accepted_privacy_policy'] ? 'on' : '');
     }
     if (isset($userRecord['exclude_from_reports'])) {
         update_user_meta($post_id, $prefix . 'user_exclude_from_reports', $userRecord['exclude_from_reports'] ? 'on' : '');

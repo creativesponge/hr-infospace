@@ -511,3 +511,37 @@ function pure_js_trash_confirm() {
     ?>
     <?php
 }
+
+
+add_action('pre_user_query', function($query) {
+    global $wpdb;
+
+    // Only run in the admin user list search
+    if (!is_admin() || !isset($query->query_vars['search']) || empty($query->query_vars['search'])) {
+        return;
+    }
+
+    $search_term = trim($query->query_vars['search'], '*');
+    $wildcard_search = '%' . $wpdb->esc_like($search_term) . '%';
+
+    // Define the custom meta keys you want to search through
+    $custom_meta_keys = array('theme_fieldsuser_federation_trust', 'theme_fieldsuser_organisation'); // Change these to your keys
+    $meta_key_placeholders = implode("','", array_map('esc_sql', $custom_meta_keys));
+
+    // Create a subquery to find matching User IDs based on meta values
+    $meta_search_sql = $wpdb->prepare(
+        "ID IN (
+            SELECT user_id FROM {$wpdb->usermeta} 
+            WHERE meta_key IN ('$meta_key_placeholders') 
+            AND meta_value LIKE %s
+        )",
+        $wildcard_search
+    );
+
+    // Inject our meta search into the existing WHERE clause
+    $query->query_where = str_replace(
+        'WHERE 1=1 AND (', 
+        "WHERE 1=1 AND (" . $meta_search_sql . " OR ", 
+        $query->query_where
+    );
+});

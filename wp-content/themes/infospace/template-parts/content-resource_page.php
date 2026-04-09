@@ -78,8 +78,6 @@ if (check_if_is_module_landing($post_id, $moduleMeta["attached_resources"])) {
 						continue;
 					}
 
-
-
 					$filename = $docFile["theme_fieldsdoc_uploaded_file"];
 
 					$file_svg = get_file_svg_from_filename($filename);
