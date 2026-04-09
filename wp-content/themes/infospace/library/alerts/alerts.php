@@ -19,6 +19,225 @@ function add_alerts_admin_page()
 }
 add_action('admin_menu', 'add_alerts_admin_page');
 
+function infospace_render_alert_preview($content, $site_url, $login_url, $module_number, $module_email)
+{
+    ob_start();
+?>
+    <div style="max-width: 700px;">
+        <style type="text/css">
+            /* FONTS */
+            @media screen {
+                @font-face {
+                    font-family: '';
+                    font-style: normal;
+                    font-weight: 400;
+                    src: 'Poppins', 'Poppins-Regular';
+                }
+
+                @font-face {
+                    font-family: 'Poppins';
+                    font-style: normal;
+                    font-weight: 700;
+                    src: 'Poppins Bold', 'Poppins-Bold';
+                }
+            }
+
+            @font-face {
+                font-family: 'Poppins Light';
+                font-style: normal;
+                font-weight: 300;
+                src: 'Poppins Light', 'Poppins-Light';
+            }
+
+            /* CLIENT-SPECIFIC STYLES */
+            body,
+            table,
+            td,
+            a {
+                -webkit-text-size-adjust: 100%;
+                -ms-text-size-adjust: 100%;
+            }
+
+            table,
+            td {
+                mso-table-lspace: 0pt;
+                mso-table-rspace: 0pt;
+            }
+
+            img {
+                -ms-interpolation-mode: bicubic;
+            }
+
+            /* RESET STYLES */
+            img {
+                border: 0;
+                height: auto;
+                line-height: 100%;
+                outline: none;
+                text-decoration: none;
+            }
+
+            table {
+                border-collapse: collapse !important;
+            }
+
+            body {
+                height: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                width: 100% !important;
+            }
+
+            /* iOS BLUE LINKS */
+            a[x-apple-data-detectors] {
+                color: inherit !important;
+                text-decoration: none !important;
+                font-size: inherit !important;
+                font-family: inherit !important;
+                font-weight: inherit !important;
+                line-height: inherit !important;
+            }
+
+            /* MOBILE STYLES */
+            @media screen and (max-width:600px) {
+                h1 {
+                    font-size: 32px !important;
+                    line-height: 32px !important;
+                }
+
+                table[class="wrapper"] {
+                    width: 100% !important;
+                }
+
+                table[class="mobileleft"] {
+                    float: left !important;
+                }
+
+                td[class="removepadding"] {
+                    padding-top: 0px !important;
+                }
+            }
+
+            /* ANDROID CENTER FIX */
+            div[style*="margin: 16px 0;"] {
+                margin: 0 !important;
+            }
+        </style>
+
+        <div style="background-color: #ffffff; margin: 0 !important; padding: 0 !important;">
+            <table border="0" cellpadding="10" cellspacing="0" width="100%">
+                <!-- LOGO -->
+                <tr>
+                    <td bgcolor="#FFA73B" align="center">
+                        <table border="0" cellpadding="0" cellspacing="0" width="600" class="wrapper">
+                            <tr>
+                                <td align="center" valign="top">
+                                    <div style="height:20px;">&nbsp;</div>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <!-- HERO -->
+                <tr>
+                    <td align="center" style="padding: 0px 10px 0px 10px;">
+                        <table border="0" cellpadding="0" cellspacing="0" width="600" class="wrapper">
+                            <tr>
+                                <td bgcolor="#ffffff" align="center" valign="top" style="border-radius: 4px 4px 0px 0px;">
+                                    <table width="303" border="0" cellspacing="0" cellpadding="0" align="left">
+                                        <tbody>
+                                            <tr>
+                                                <td width="221"><a href="<?php echo esc_url($site_url); ?>" target="_blank"><img src="<?php echo esc_url($site_url); ?>/static/images/emails/headerlogo-infospace.png" width="270" height="107" alt="InfoSpace logo" /></a></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <br>
+                                    <br>
+                                    <table width="240" border="0" cellspacing="0" cellpadding="0" align="right" class="mobileleft" style="border:solid 1px #ea1d76; border-radius: 3px; margin-bottom: 15px; border-collapse: separate !important; margin-bottom: 15px;">
+                                        <tbody>
+                                            <tr>
+                                                <td width="43" style="padding-left:2px"><a href="<?php echo esc_url($login_url); ?>" target="_blank"><img src="<?php echo esc_url($site_url); ?>/static/images/emails/loginlogo.gif" width="43" height="38" alt="Login" /></a></td>
+                                                <td width="237" style="color: #ea1d76; font-family: 'Poppins', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 400; line-height: 25px;"><a href="<?php echo esc_url($login_url); ?>" style="color: #ea1d76; text-decoration:none;">LOGIN TO YOUR ACCOUNT</a></td>
+                                            </tr>
+                                        </tbody>
+                                    </table><br>
+                                    <br>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="background-image:url(<?php echo esc_url($site_url); ?>/static/images/emails/shadowdown.png); background-repeat:repeat-x; border-top:1px solid #f0f0f0;">&nbsp;</td>
+                </tr>
+
+                <!-- COPY BLOCK -->
+                <tr>
+                    <td align="center" style="padding: 0px 10px 0px 10px;">
+                        <table border="0" cellpadding="0" cellspacing="0" width="600" class="wrapper" align="center">
+                            <tr>
+                                <td style="color: #666666; font-family: 'Poppins', Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 18px;" align="left">
+                                    <!-- COPY -->
+                                    <?php echo wpautop($content); ?>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="background-image:url(<?php echo esc_url($site_url); ?>/static/images/emails/shadowup.png); background-repeat:repeat-x; background-position:bottom; border-bottom:1px solid #f0f0f0;">&nbsp;</td>
+                </tr>
+                <!-- FOOTER -->
+                <tr>
+                    <td bgcolor="#ffffff" align="center" style="padding: 0px 10px 0px 10px;">
+                        <table border="0" cellpadding="0" cellspacing="0" width="600" class="wrapper">
+                            <!-- Footnote -->
+                            <tr>
+                                <td bgcolor="#ffffff" align="center">
+                                    <table width="136" border="0" cellspacing="0" cellpadding="0" align="right" class="mobileleft">
+                                        <tbody>
+                                            <tr>
+                                                <td><a href="<?php echo esc_url($site_url); ?>/" target="_blank"><img src="<?php echo esc_url($site_url); ?>/static/images/emails/footerlogo.png" width="135" height="107" alt="Infospace logo" /></a></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <table width="420" border="0" cellspacing="0" cellpadding="0" align="left" class="wrapper">
+                                        <tbody>
+                                            <tr>
+                                                <td align="left" style="color: #666666; font-family: 'Poppins', Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 300; line-height: 26px; padding-top:30px;" class="removepadding">
+                                                    <p>
+                                                        Telephone <?php echo $module_number; ?> <br>
+                                                        Email <a href="mailto:<?php echo $module_email; ?>" style="color:#14a6e5; text-decoration:none;"><?php echo $module_email; ?></a><br>
+                                                        <br>
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td bgcolor="#FFA73B" align="center">
+                        <table border="0" cellpadding="0" cellspacing="0" width="600" class="wrapper">
+                            <tr>
+                                <td align="center" valign="top">
+                                    <div style="height:20px;"></div>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <?php
+
+    return ob_get_clean();
+}
+
 
 function alerts_page_callback()
 {
@@ -64,7 +283,12 @@ function alerts_page_callback()
         $sending_alert = isset($_POST['send_alert_confirm']);
         //$site_url = home_url('/');
         $site_url = 'https://www.infospace.org.uk/';
+        $login_url = home_url('/');
+
         $module_type = sanitize_text_field($_POST['module_type']);
+        if ($module_type == 'new_website') {
+            $login_url = home_url('/welcome-back/');
+        }
         $subject = sanitize_text_field($_POST['alert_subject']);
         $content = wp_kses_post($_POST['alert_content']);
         $module_email = 'EHRpolicy@norfolk.gov.uk'; // Default email address
@@ -96,238 +320,35 @@ function alerts_page_callback()
         echo '<h3><strong>Subject:</strong> ' . esc_html($subject) . '</h3>';
 
         echo '<button onclick="window.history.back();">Back</button><br><br>';
-?>
+    ?>
         <?php
-        $alert_preview = '';
-        ob_start();
-        ?>
-        <div style="max-width: 700px;">
-            <style type="text/css">
-                /* FONTS */
-                @media screen {
-                    @font-face {
-                        font-family: '';
-                        font-style: normal;
-                        font-weight: 400;
-                        src: 'Poppins', 'Poppins-Regular';
-                    }
-
-                    @font-face {
-                        font-family: 'Poppins';
-                        font-style: normal;
-                        font-weight: 700;
-                        src: 'Poppins Bold', 'Poppins-Bold';
-                    }
-                }
-
-                @font-face {
-                    font-family: 'Poppins Light';
-                    font-style: normal;
-                    font-weight: 300;
-                    src: 'Poppins Light', 'Poppins-Light';
-                }
-
-                /* CLIENT-SPECIFIC STYLES */
-                body,
-                table,
-                td,
-                a {
-                    -webkit-text-size-adjust: 100%;
-                    -ms-text-size-adjust: 100%;
-                }
-
-                table,
-                td {
-                    mso-table-lspace: 0pt;
-                    mso-table-rspace: 0pt;
-                }
-
-                img {
-                    -ms-interpolation-mode: bicubic;
-                }
-
-                /* RESET STYLES */
-                img {
-                    border: 0;
-                    height: auto;
-                    line-height: 100%;
-                    outline: none;
-                    text-decoration: none;
-                }
-
-                table {
-                    border-collapse: collapse !important;
-                }
-
-                body {
-                    height: 100% !important;
-                    margin: 0 !important;
-                    padding: 0 !important;
-                    width: 100% !important;
-                }
-
-                /* iOS BLUE LINKS */
-                a[x-apple-data-detectors] {
-                    color: inherit !important;
-                    text-decoration: none !important;
-                    font-size: inherit !important;
-                    font-family: inherit !important;
-                    font-weight: inherit !important;
-                    line-height: inherit !important;
-                }
-
-                /* MOBILE STYLES */
-                @media screen and (max-width:600px) {
-                    h1 {
-                        font-size: 32px !important;
-                        line-height: 32px !important;
-                    }
-
-                    table[class="wrapper"] {
-                        width: 100% !important;
-                    }
-
-                    table[class="mobileleft"] {
-                        float: left !important;
-                    }
-
-                    td[class="removepadding"] {
-                        padding-top: 0px !important;
-                    }
-                }
-
-                /* ANDROID CENTER FIX */
-                div[style*="margin: 16px 0;"] {
-                    margin: 0 !important;
-                }
-            </style>
-
-            <div style="background-color: #ffffff; margin: 0 !important; padding: 0 !important;">
-                <table border="0" cellpadding="10" cellspacing="0" width="100%">
-                    <!-- LOGO -->
-                    <tr>
-                        <td bgcolor="#FFA73B" align="center">
-                            <table border="0" cellpadding="0" cellspacing="0" width="600" class="wrapper">
-                                <tr>
-                                    <td align="center" valign="top">
-                                        <div style="height:20px;">&nbsp;</div>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <!-- HERO -->
-                    <tr>
-                        <td align="center" style="padding: 0px 10px 0px 10px;">
-                            <table border="0" cellpadding="0" cellspacing="0" width="600" class="wrapper">
-                                <tr>
-                                    <td bgcolor="#ffffff" align="center" valign="top" style="border-radius: 4px 4px 0px 0px;">
-                                        <table width="303" border="0" cellspacing="0" cellpadding="0" align="left">
-                                            <tbody>
-                                                <tr>
-                                                    <td width="221"><a href="<?php echo esc_url($site_url); ?>" target="_blank"><img src="<?php echo esc_url($site_url); ?>/static/images/emails/headerlogo-infospace.png" width="270" height="107" alt="InfoSpace logo" /></a></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                        <br>
-                                        <br>
-                                        <table width="240" border="0" cellspacing="0" cellpadding="0" align="right" class="mobileleft" style="border:solid 1px #ea1d76; border-radius: 3px; margin-bottom: 15px; border-collapse: separate !important; margin-bottom: 15px;">
-                                            <tbody>
-                                                <tr>
-                                                    <?php if ($module_type == "new_website"): ?>
-                                                        <td width="43" style="padding-left:2px"><a href="<?php echo esc_url($site_url); ?>welcome-back/" target="_blank"><img src="<?php echo esc_url($site_url); ?>/static/images/emails/loginlogo.gif" width="43" height="38" alt="Login" /></a></td>
-                                                        <td width="237" style="color: #ea1d76; font-family: 'Poppins', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 400; line-height: 25px;"><a href="<?php echo esc_url($site_url); ?>welcome-back/" style="color: #ea1d76; text-decoration:none;">LOGIN TO YOUR ACCOUNT</a></td>
-                                                    <?php else : ?>
-                                                        <td width="43" style="padding-left:2px"><a href="<?php echo esc_url($site_url); ?>" target="_blank"><img src="<?php echo esc_url($site_url); ?>/static/images/emails/loginlogo.gif" width="43" height="38" alt="Login" /></a></td>
-                                                        <td width="237" style="color: #ea1d76; font-family: 'Poppins', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 400; line-height: 25px;"><a href="<?php echo esc_url($site_url); ?>" style="color: #ea1d76; text-decoration:none;">LOGIN TO YOUR ACCOUNT</a></td>
-                                                    <?php endif; ?>
-                                                </tr>
-                                            </tbody>
-                                        </table><br>
-                                        <br>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="background-image:url(<?php echo esc_url($site_url); ?>/static/images/emails/shadowdown.png); background-repeat:repeat-x; border-top:1px solid #f0f0f0;">&nbsp;</td>
-                    </tr>
-
-                    <!-- COPY BLOCK -->
-                    <tr>
-                        <td align="center" style="padding: 0px 10px 0px 10px;">
-                            <table border="0" cellpadding="0" cellspacing="0" width="600" class="wrapper" align="center">
-                                <tr>
-                                    <td style="color: #666666; font-family: 'Poppins', Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 18px;" align="left">
-                                        <!-- COPY -->
-                                        <?php echo wpautop($content); ?>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="background-image:url(<?php echo esc_url($site_url); ?>/static/images/emails/shadowup.png); background-repeat:repeat-x; background-position:bottom; border-bottom:1px solid #f0f0f0;">&nbsp;</td>
-                    </tr>
-                    <!-- FOOTER -->
-                    <tr>
-                        <td bgcolor="#ffffff" align="center" style="padding: 0px 10px 0px 10px;">
-                            <table border="0" cellpadding="0" cellspacing="0" width="600" class="wrapper">
-                                <!-- Footnote -->
-                                <tr>
-                                    <td bgcolor="#ffffff" align="center">
-                                        <table width="136" border="0" cellspacing="0" cellpadding="0" align="right" class="mobileleft">
-                                            <tbody>
-                                                <tr>
-                                                    <td><a href="<?php echo esc_url($site_url); ?>/" target="_blank"><img src="<?php echo esc_url($site_url); ?>/static/images/emails/footerlogo.png" width="135" height="107" alt="Infospace logo" /></a></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                        <table width="420" border="0" cellspacing="0" cellpadding="0" align="left" class="wrapper">
-                                            <tbody>
-                                                <tr>
-                                                    <td align="left" style="color: #666666; font-family: 'Poppins', Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 300; line-height: 26px; padding-top:30px;" class="removepadding">
-                                                        <p>
-                                                            Telephone <?php echo $module_number; ?> <br>
-                                                            Email <a href="mailto:<?php echo $module_email; ?>" style="color:#14a6e5; text-decoration:none;"><?php echo $module_email; ?></a><br>
-                                                            <br>
-                                                        </p>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td bgcolor="#FFA73B" align="center">
-                            <table border="0" cellpadding="0" cellspacing="0" width="600" class="wrapper">
-                                <tr>
-                                    <td align="center" valign="top">
-                                        <div style="height:20px;"></div>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-        <?php
-        $alert_preview .= ob_get_clean();
+        $alert_preview = infospace_render_alert_preview($content, $site_url, $login_url, $module_number, $module_email);
 
         if ($sending_alert) {
             if (!empty($email_list)) {
-                // Remove for live site and use actual module email - $module_email
-                //$email_list = ['barry@bjarvis.com', 'barry@creativesponge.co.uk', 'christine.wright@norfolk.gov.uk'];
-                $email_list = ['barry@bjarvis.com', 'barry@creativesponge.co.uk'];
-                
-                $send_result = wp_mail($email_list, $subject, $alert_preview, ['Content-Type: text/html; charset=UTF-8']);
-                if ($send_result) {
-                    echo '<div class="notice notice-success is-dismissible"><p>Alert sent successfully.</p></div>';
+                $headers = ['Content-Type: text/html; charset=UTF-8'];
+                $sent_count = 0;
+                $failed_recipients = [];
+
+                $email_list = ['barry@creativesponge.co.uk']; // For testing purposes - replace with actual email list in production
+
+                foreach ($email_list as $recipient_email) {
+                    if ($module_type == 'new_website') {
+                        $login_url = home_url('/welcome-back/') . '?useremail=' . urlencode($recipient_email);
+                        $alert_preview = infospace_render_alert_preview($content, $site_url, $login_url, $module_number, $module_email);
+                    }
+                    $send_result = wp_mail($recipient_email, $subject, $alert_preview, $headers);
+                    if ($send_result) {
+                        $sent_count++;
+                    } else {
+                        $failed_recipients[] = $recipient_email;
+                    }
+                }
+
+                if ($sent_count === count($email_list)) {
+                    echo '<div class="notice notice-success is-dismissible"><p>Alert sent successfully to all recipients.</p></div>';
+                } elseif ($sent_count > 0) {
+                    echo '<div class="notice notice-warning is-dismissible"><p>Alert sent to ' . esc_html($sent_count) . ' of ' . esc_html(count($email_list)) . ' recipients. Failed: ' . esc_html(implode(', ', $failed_recipients)) . '.</p></div>';
                 } else {
                     echo '<div class="notice notice-error"><p>Alert could not be sent. Please try again.</p></div>';
                 }
