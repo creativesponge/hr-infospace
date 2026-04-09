@@ -335,6 +335,7 @@ function alerts_page_callback()
                 foreach ($email_list as $recipient_email) {
                     if ($module_type == 'new_website') {
                         $login_url = home_url('/welcome-back/') . '?useremail=' . urlencode($recipient_email);
+                        $content .= '<p><a href="' . esc_url($login_url) . '" style="color: #14a6e5; text-decoration:none;">Click here to log in to your account</a></p>';
                         $alert_preview = infospace_render_alert_preview($content, $site_url, $login_url, $module_number, $module_email);
                     }
                     $send_result = wp_mail($recipient_email, $subject, $alert_preview, $headers);
