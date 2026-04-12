@@ -142,8 +142,26 @@ $bannerClass = (isset($meta->white_banner) && $meta->white_banner == true) ? ' h
 			fill: <?php echo esc_html($moduleColour); ?>;
 			stroke: <?php echo esc_html($moduleColour); ?>;
 		}
+
 		.header__module-link a:hover:before {
 			background: <?php echo esc_html($moduleColour); ?>;
+		}
+
+		.module-menu__back {
+			color: <?php echo esc_html($moduleColour); ?>;
+		}
+
+		.module-menu__back:before {
+			background: <?php echo esc_html($moduleColour); ?>;
+		}
+
+		.module-menu__back:after {
+			content: "";
+			display: inline-block;
+			width: 0.6875rem;
+			height: 0.6875rem;
+			border-left-color: <?php echo esc_html($moduleColour); ?>;
+			border-bottom-color: <?php echo esc_html($moduleColour); ?>;
 		}
 	</style>
 </head>
@@ -165,7 +183,7 @@ $bannerClass = (isset($meta->white_banner) && $meta->white_banner == true) ? ' h
 					</a>
 					<?php if (is_user_logged_in() && $moduleLink !== '' && $moduleTitle !== '') : ?>
 						<div class="header__module-link">
-							<a href="<?php echo esc_url($moduleLink); ?>" ><?php echo esc_html($moduleTitle); ?></a>
+							<a href="<?php echo esc_url($moduleLink); ?>"><?php echo esc_html($moduleTitle); ?></a>
 						</div>
 					<?php endif; ?>
 				</div>
