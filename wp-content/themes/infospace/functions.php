@@ -18,7 +18,7 @@ $namespace = 'theme_name';
 $current_module_slug_global = '';
 $site_url = get_site_url();
 
-$resource_pages = array(1786, 1581, 1585, 1932);
+$resource_pages = array(1786, 1581, 1585, 1932,1611);
 
 $finance_module_id =1736;
 $hr_module_id =1577;

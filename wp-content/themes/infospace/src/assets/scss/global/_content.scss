@@ -56,3 +56,32 @@ body {
   margin-bottom: rem-calc(15);
   border-radius: rem-calc(4);
 }
+
+.sitemap-menu {
+  li {
+    border-left: none;
+    margin-bottom: 0.2em;
+  }
+  a {
+    text-decoration: none;
+    color:$body-font-color;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+}
+
+#menu-site-map {
+  li {
+    border-left: none;
+    margin-bottom: 0.2em;
+  }
+  a {
+    text-decoration: none;
+    color:$body-font-color;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

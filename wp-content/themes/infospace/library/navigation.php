@@ -12,7 +12,7 @@ register_nav_menus(
 		'mobile-nav' => esc_html__( 'Mobile', $namespace ),
 		'account-nav' => esc_html__( 'My Account Navigation', $namespace ),
 		'footer-nav'  => esc_html__( 'Footer Navigation', $namespace ),
-		'footer-nav' => esc_html__( 'Footer Navigation', $namespace ),
+		'sitemap-nav' => esc_html__( 'Sitemap Navigation', $namespace ),
 	)
 );
 
@@ -102,6 +102,27 @@ if ( ! function_exists( 'startertheme_footer_nav' ) ) {
 	}
 }
 
+/**
+ * Sitemap navigation - sitemap
+ *
+ * @link http://codex.wordpress.org/Function_Reference/wp_nav_menu
+ */
+if ( ! function_exists( 'startertheme_sitemap_nav' ) ) {
+	function startertheme_sitemap_nav() {
+		wp_nav_menu(
+			array(
+				'container'      => false,
+				'menu_class'     => 'sitemap-menu sitemap__menu',
+				'items_wrap'     => '<ul id="%1$s" class="%2$s">%3$s</ul>',
+				'theme_location' => 'sitemap-nav',
+				'depth'          => 3,
+				'fallback_cb'    => false,
+				'walker'         => new Startertheme_Top_Bar_Walker(),
+			)
+		);
+	}
+}
+
 
 /**
  * Add support for buttons in the top-bar menu:
@@ -127,3 +148,73 @@ add_filter('page_css_class', 'my_css_attributes_filter', 100, 1);
 function my_css_attributes_filter($var) {
   return is_array($var) ? array_intersect($var, array('current-menu-item')) : '';
 }
+
+function get_child_resources($parent_id, $attachedResource, $moduleMeta, $accessible_pages)
+	{
+		$args = array(
+			'post_type'      => 'resource_page',
+			'posts_per_page' => -1,
+			'post_status'    => 'publish',
+			'post_parent'    => $parent_id,
+			'orderby'        => 'menu_order',
+			'order'          => 'ASC',
+		);
+		// Lighten the module color by 50%
+		$originalColor = $moduleMeta['module_color'];
+		if (!empty($originalColor)) {
+			// Remove # if present
+			$hex = ltrim($originalColor, '#');
+			
+			// Convert hex to RGB
+			$r = hexdec(substr($hex, 0, 2));
+			$g = hexdec(substr($hex, 2, 2));
+			$b = hexdec(substr($hex, 4, 2));
+			
+			// Lighten by 50% (blend with white)
+			$r = $r + (255 - $r) * 0.5;
+			$g = $g + (255 - $g) * 0.5;
+			$b = $b + (255 - $b) * 0.5;
+			
+			// Convert back to hex
+			$lighterColor = '#' . str_pad(dechex(round($r)), 2, '0', STR_PAD_LEFT) . 
+								  str_pad(dechex(round($g)), 2, '0', STR_PAD_LEFT) . 
+								  str_pad(dechex(round($b)), 2, '0', STR_PAD_LEFT);
+			
+			$moduleMeta['module_color'] = $lighterColor;
+		}
+		$children = get_posts($args);
+		// Get accessible page IDs
+		
+		// Filter children to only include accessible pages
+		if (!empty($accessible_pages) && !current_user_can('administrator')) {
+			$children = array_filter($children, function($child) use ($accessible_pages) {
+				return in_array($child->ID, $accessible_pages);
+			});
+		}
+		$output = '';
+		if ($children) {
+
+			if ($parent_id == $attachedResource) {
+
+				$output .= '<ul class="module-menu__toplevel">';
+			} else {
+				$output .= '<ul class="module-menu__submenu">';
+			}
+			foreach ($children as $child) {
+				//if(!user_has_page_access(get_current_user_id(), $child->ID, 'resource_page')) {
+					//continue;
+				//}
+				$output .= '<li style="border-left-color: ' . esc_html($moduleMeta['module_color']) . ';">';
+
+				$output .= '<a href="' . get_permalink($child->ID) . '">' . esc_html(get_the_title($child->ID)) . '</a>';
+
+				// Recursive call for further children
+
+				$output .= get_child_resources($child->ID, $attachedResource, $moduleMeta, $accessible_pages);
+
+				$output .= '</li>';
+			}
+			$output .= '</ul>';
+		}
+		return $output;
+	}
