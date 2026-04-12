@@ -517,14 +517,7 @@ var utils = {
 
         expand[0].classList.toggle("expanded");
         if (!document.body.classList.contains("menu-expanded")) {
-          /*expand[0].setAttribute("aria-expanded", "false");
-          expand[0].classList.remove("menu-expanded");
-          document.body.classList.remove("menu-expanded");
-          document.documentElement.classList.remove("menu-expanded");
-          offCanvas[0].classList.remove("is-open");
-          offCanvas[0].setAttribute("aria-hidden", "true");
-          overlay.classList.remove("is-visible");
-        } else {*/
+         
           expand[0].classList.add("menu-expanded");
           expand[0].setAttribute("aria-expanded", "true");
           document.body.classList.add("menu-expanded");
