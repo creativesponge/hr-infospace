@@ -242,15 +242,17 @@ function user_has_module_access($post_id): bool
 
             // Check if the parent user has access
             $parent_profile_resources = get_user_profile_resources($created_by);
+            
             if (!empty($parent_profile_resources)) {
 
                 $parent_user_attached_pages = $parent_profile_resources;
                 //return $parent_user_attached_pages;
             } else {
                 $parent_user_attached_pages = get_user_meta($created_by, $prefix . 'user_attached_resource_pages', true);
+                
             }
 
-            if (check_module_is_parent_of_attached_page($parent_user_attached_pages, $post_id) || in_array($post_id, $user_attached_pages)) {
+            if (check_module_is_parent_of_attached_page($parent_user_attached_pages, $post_id) || in_array($post_id, $user_attached_pages) || in_array($post_id, $parent_user_attached_pages)) {
                 return true;
             }
         }
