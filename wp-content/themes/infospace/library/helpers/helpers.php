@@ -546,14 +546,44 @@ add_action('pre_user_query', function($query) {
     );
 });
 
-// When Solid security sends an 2fa email use the first name and last name of the user in the email instead of the username
-add_filter('itsec_2fa_email_message', 'custom_itsec_2fa_email_message', 10, 2);
-function custom_itsec_2fa_email_message($message, $user) {
-    $first_name = get_user_meta($user->ID, 'first_name', true);
-    $last_name = get_user_meta($user->ID, 'last_name', true);
-    $full_name = trim("$first_name $last_name");    
-    if (!empty($full_name)) {
-        $message = str_replace($user->user_login, $full_name, $message);
+// When Solid security sends a 2FA email use the first name and last name of the user in the email instead of the username
+add_filter('wp_mail', 'custom_itsec_2fa_email_message', 10, 1);
+
+function custom_itsec_2fa_email_message($args) {
+    // Check if this is a 2FA email from Solid Security
+    if (isset($args['subject']) && strpos($args['subject'], 'Login Authentication Code') !== false) {
+        
+        // Get the current user ID from the login session or POST data
+        $user_id = null;
+        
+        // Try to get user from the POST data
+        if (isset($_POST['itsec_interstitial_user'])) {
+            $user_id = (int) $_POST['itsec_interstitial_user'];
+        }
+        
+        // If we have a user ID, get their name and replace username in email
+        if ($user_id) {
+            $user = get_user_by('ID', $user_id);
+            if ($user) {
+                $first_name = get_user_meta($user->ID, 'first_name', true);
+                $last_name = get_user_meta($user->ID, 'last_name', true);
+                $full_name = trim("$first_name $last_name");
+                
+                // If we have a full name, use it; otherwise fall back to display_name
+                if (!empty($full_name)) {
+                    $display_name = $full_name;
+                } else {
+                    $display_name = !empty($user->display_name) ? $user->display_name : $user->user_login;
+                }
+                
+                // Replace username with display name in the message
+                if (!empty($display_name) && $display_name !== $user->user_login) {
+                    $args['message'] = str_replace($user->user_login, $display_name, $args['message']);
+                    error_log("2FA Email: Replaced '{$user->user_login}' with '{$display_name}' in email");
+                }
+            }
+        }
     }
-    return $message;
+    
+    return $args;
 }
