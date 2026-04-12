@@ -553,17 +553,34 @@ function custom_itsec_2fa_email_message($args) {
     // Check if this is a 2FA email from Solid Security
     if (isset($args['subject']) && strpos($args['subject'], 'Login Authentication Code') !== false) {
         
-        // Get the current user ID from the login session or POST data
+        // Get the current user ID from multiple possible sources
         $user_id = null;
         
-        // Try to get user from the POST data
+        // Method 1: Try to get user from the POST data (works for resend)
         if (isset($_POST['itsec_interstitial_user'])) {
             $user_id = (int) $_POST['itsec_interstitial_user'];
         }
         
-        // Try alternative methods to get user ID
+        // Method 2: Try to get from current user (might work during initial login)
         if (!$user_id && function_exists('wp_get_current_user')) {
             $current_user = wp_get_current_user();
+            if ($current_user && $current_user->ID) {
+                $user_id = $current_user->ID;
+            }
+        }
+        
+        // Method 3: Try to extract from email recipient (works for initial login)
+        if (!$user_id && isset($args['to'])) {
+            $email = is_array($args['to']) ? $args['to'][0] : $args['to'];
+            $user = get_user_by('email', $email);
+            if ($user) {
+                $user_id = $user->ID;
+            }
+        }
+        
+        // Method 4: Check for user in WordPress globals
+        if (!$user_id) {
+            global $current_user;
             if ($current_user && $current_user->ID) {
                 $user_id = $current_user->ID;
             }
