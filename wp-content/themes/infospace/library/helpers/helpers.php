@@ -547,8 +547,8 @@ add_action('pre_user_query', function($query) {
 });
 
 // When Solid security sends an 2fa email use the first name and last name of the user in the email instead of the username
-add_filter('itsec_2fa_email_message', 'custom_itsec_2fa_email_message', 10, 3);
-function custom_itsec_2fa_email_message($message, $user, $code) {
+add_filter('itsec_2fa_email_message', 'custom_itsec_2fa_email_message', 10, 2);
+function custom_itsec_2fa_email_message($message, $user) {
     $first_name = get_user_meta($user->ID, 'first_name', true);
     $last_name = get_user_meta($user->ID, 'last_name', true);
     $full_name = trim("$first_name $last_name");    
