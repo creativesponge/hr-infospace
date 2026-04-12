@@ -561,6 +561,14 @@ function custom_itsec_2fa_email_message($args) {
             $user_id = (int) $_POST['itsec_interstitial_user'];
         }
         
+        // Try alternative methods to get user ID
+        if (!$user_id && function_exists('wp_get_current_user')) {
+            $current_user = wp_get_current_user();
+            if ($current_user && $current_user->ID) {
+                $user_id = $current_user->ID;
+            }
+        }
+        
         // If we have a user ID, get their name and replace username in email
         if ($user_id) {
             $user = get_user_by('ID', $user_id);
@@ -576,10 +584,9 @@ function custom_itsec_2fa_email_message($args) {
                     $display_name = !empty($user->display_name) ? $user->display_name : $user->user_login;
                 }
                 
-                // Replace username with display name in the message
+                // Replace username with display name in the email message
                 if (!empty($display_name) && $display_name !== $user->user_login) {
                     $args['message'] = str_replace($user->user_login, $display_name, $args['message']);
-                    error_log("2FA Email: Replaced '{$user->user_login}' with '{$display_name}' in email");
                 }
             }
         }
