@@ -402,7 +402,7 @@ $attachmentIdMob = (is_array($block_attributes) && array_key_exists('attachmentI
                 }
                 echo '</div>';
             } else {
-                echo '<p>No posts found.</p>';
+                echo '<p>No posts found.</p><br/><br/>';
             }
             ?>
 

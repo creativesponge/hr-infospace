@@ -468,7 +468,7 @@ $resource_svg = ob_get_clean();
                 }
                 echo '</div>';
             } else {
-                echo '<p>No posts found.</p>';
+                echo '<p>No posts found.<br/><br/></p>';
             }
                 ?>
                 </div>
